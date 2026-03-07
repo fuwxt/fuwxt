@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en" x-data="portfolio()" :class="{ 'light-mode': lightMode }">
+<head>
+  <!--
+    ================================================================
+    Muhammad Azhar Shahbaz — Personal Portfolio
+    Freelance Graphic Designer & Web Developer | AI & Prompt Engineer
+    Islamabad, Pakistan  |  @n0xid
+    ================================================================
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Muhammad Azhar Shahbaz — Freelance Graphic Designer, Web Developer & AI Prompt Engineer based in Islamabad, Pakistan." />
+  <meta name="author" content="Muhammad Azhar Shahbaz" />
+  <meta property="og:title" content="Azhar Shahbaz — Designer & Developer" />
+  <meta property="og:description" content="Freelance Graphic Designer, Web Developer & AI Prompt Engineer — Islamabad, Pakistan." />
+  <meta property="og:type" content="website" />
+  <title>Azhar Shahbaz — Graphic Designer &amp; Web Developer</title>
+
+  <!-- Google Fonts: Syne (display) + DM Sans (body) + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            neon: { purple: '#a855f7', cyan: '#22d3ee', blue: '#3b82f6', pink: '#ec4899' },
+            surface: { 900: '#0a0a0f', 800: '#0d0d16', 700: '#12121e', 600: '#171728', 500: '#1e1e35', 400: '#282845' }
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body:    ['DM Sans', 'sans-serif'],
+            mono:    ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="font-body antialiased" id="top">
+
+  <!-- Custom Cursor -->
+  <div id="cursor-dot"  aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+  <!-- Scroll progress bar -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <header id="navbar" role="banner">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="#home" class="nav-logo" aria-label="Azhar Shahbaz — Home">
+        <span class="logo-mark" aria-hidden="true">A</span>
+        <span class="logo-text">Azhar.</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#home"      class="nav-link">Home</a></li>
+        <li><a href="#about"     class="nav-link">About</a></li>
+        <li><a href="#skills"    class="nav-link">Skills</a></li>
+        <li><a href="#work"      class="nav-link">Work</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#contact"   class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button @click="toggleTheme()" class="theme-toggle"
+          :aria-label="lightMode ? 'Switch to dark mode' : 'Switch to light mode'">
+          <i data-lucide="sun"  class="w-4 h-4 icon-sun"  aria-hidden="true"></i>
+          <i data-lucide="moon" class="w-4 h-4 icon-moon" aria-hidden="true"></i>
+        </button>
+        <a href="assets/AzharShahbaz-CV.pdf" download class="btn-cv hidden md:flex" aria-label="Download CV">
+          <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>
+          <span>Download CV</span>
+        </a>
+        <button @click="mobileMenu = !mobileMenu" class="hamburger md:hidden"
+          :aria-expanded="mobileMenu.toString()" aria-label="Toggle mobile menu" aria-controls="mobile-menu">
+          <i data-lucide="menu" class="w-5 h-5" x-show="!mobileMenu" aria-hidden="true"></i>
+          <i data-lucide="x"    class="w-5 h-5" x-show="mobileMenu"  aria-hidden="true"></i>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu" class="mobile-menu" :class="mobileMenu ? 'open' : ''" :aria-hidden="(!mobileMenu).toString()">
+      <ul role="list">
+        <li><a href="#home"      @click="mobileMenu=false" class="mob-link">Home</a></li>
+        <li><a href="#about"     @click="mobileMenu=false" class="mob-link">About</a></li>
+        <li><a href="#skills"    @click="mobileMenu=false" class="mob-link">Skills</a></li>
+        <li><a href="#work"      @click="mobileMenu=false" class="mob-link">Work</a></li>
+        <li><a href="#education" @click="mobileMenu=false" class="mob-link">Education</a></li>
+        <li><a href="#contact"   @click="mobileMenu=false" class="mob-link">Contact</a></li>
+      </ul>
+      <a href="assets/AzharShahbaz-CV.pdf" download class="mob-cv">
+        <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i> Download CV
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section id="home" class="hero-section" aria-labelledby="hero-name">
+      <canvas id="particle-canvas" aria-hidden="true"></canvas>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="orb orb-1" aria-hidden="true"></div>
+      <div class="orb orb-2" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="availability-badge reveal" data-delay="0">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Available for freelance</span>
+        </div>
+        <h1 id="hero-name" class="hero-name reveal" data-delay="100">
+          <span class="name-line-1">Muhammad</span>
+          <span class="name-line-2">Azhar Shahbaz</span>
+        </h1>
+        <div class="hero-typing reveal" data-delay="200" aria-live="polite">
+          <span class="typing-prefix">//</span>
+          <span id="typed-output" class="typed-text"></span>
+        </div>
+        <p class="hero-tagline reveal" data-delay="300">
+          <i data-lucide="map-pin" class="w-4 h-4 inline-block" aria-hidden="true"></i>
+          Islamabad, Pakistan &nbsp;&middot;&nbsp; Freelance since Jan 2024
+        </p>
+        <div class="hero-ctas reveal" data-delay="400">
+          <a href="#work" class="btn-primary">
+            <i data-lucide="zap" class="w-4 h-4" aria-hidden="true"></i>
+            <span>Explore My Work</span>
+          </a>
+          <a href="assets/AzharShahbaz-CV.pdf" download class="btn-outline">
+            <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>
+            <span>Download CV</span>
+          </a>
+        </div>
+        <div class="scroll-indicator reveal" data-delay="600" aria-hidden="true">
+          <span class="scroll-label">scroll</span>
+          <div class="scroll-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ABOUT
+    ============================================================ -->
+    <section id="about" class="section" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-visual reveal-left">
+            <div class="about-img-wrap">
+              <img src="https://picsum.photos/seed/azhar-portrait/480/560"
+                alt="Muhammad Azhar Shahbaz" class="about-img" loading="lazy" width="480" height="560" />
+              <div class="about-img-overlay" aria-hidden="true"></div>
+              <div class="float-badge float-badge-tl" aria-hidden="true">
+                <i data-lucide="briefcase" class="w-5 h-5"></i>
+                <div><strong>2+ Years</strong><span>Freelance</span></div>
+              </div>
+              <div class="float-badge float-badge-br" aria-hidden="true">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+                <div><strong>AI Engineer</strong><span>Prompt Craft</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="about-content reveal-right">
+            <p class="section-eyebrow">About Me</p>
+            <h2 id="about-heading" class="section-title">
+              Where <span class="gradient-text">Creativity</span><br />
+              Meets <span class="gradient-text-alt">Engineering</span>
+            </h2>
+            <div class="about-bio">
+              <p>I'm <strong>Muhammad Azhar Shahbaz</strong>, a freelance Graphic Designer, Web Developer, and AI Prompt Engineer based in Islamabad, Pakistan. I blend pixel-perfect design with clean, scalable code to create digital experiences that don't just look stunning — they perform, convert, and resonate.</p>
+              <p>Currently pursuing a dual degree at <strong>COMSATS University Islamabad</strong> — BS Computer Science alongside BS Animation &amp; Interactive Technology — I bring a rare intersection of technical depth and artistic sensibility to every project.</p>
+              <p>From brand identities that tell a startup's story, to AI-powered dashboards, 3D animation reels, and blazing-fast web apps — I deliver measurable results, not just deliverables.</p>
+            </div>
+            <div class="stats-grid" id="stats-grid" aria-label="Career statistics">
+              <div class="stat-card">
+                <span class="stat-number" data-target="2" data-suffix="+">0+</span>
+                <span class="stat-label">Years Freelance</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number" data-target="50" data-suffix="+">0+</span>
+                <span class="stat-label">Projects Done</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-number" data-target="30" data-suffix="+">0+</span>
+                <span class="stat-label">Happy Clients</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SKILLS
+    ============================================================ -->
+    <section id="skills" class="section section-alt" aria-labelledby="skills-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Expertise</p>
+          <h2 id="skills-heading" class="section-title">My <span class="gradient-text">Skill Arsenal</span></h2>
+          <p class="section-subtitle">A powerful blend of creative artistry and technical engineering — forged over 2+ years of real-world freelancing.</p>
+        </div>
+        <div class="skills-grid">
+          <!-- Creative Skills -->
+          <div class="skill-column reveal-left">
+            <div class="skill-column-header">
+              <div class="skill-col-icon">
+                <i data-lucide="brush" class="w-6 h-6" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h3 class="skill-col-title">Creative Skills</h3>
+                <p class="skill-col-sub">Design &middot; Animation &middot; Motion</p>
+              </div>
+            </div>
+            <ul class="skill-list" role="list" aria-label="Creative skills">
+              <li class="skill-item"><i data-lucide="film"        class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>2D Animation</span></li>
+              <li class="skill-item"><i data-lucide="box"         class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>3D Animation</span></li>
+              <li class="skill-item"><i data-lucide="user-round"  class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Character Animation</span></li>
+              <li class="skill-item"><i data-lucide="sparkles"    class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Motion Design</span></li>
+              <li class="skill-item"><i data-lucide="play-circle" class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Motion Graphics</span></li>
+              <li class="skill-item"><i data-lucide="video"       class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Video Editing</span></li>
+              <li class="skill-item"><i data-lucide="pen-tool"    class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Logo Design</span></li>
+              <li class="skill-item"><i data-lucide="layers"      class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Branding &amp; Identity</span></li>
+              <li class="skill-item"><i data-lucide="palette"     class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Graphic Design</span></li>
+              <li class="skill-item"><i data-lucide="image"       class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Adobe Photoshop</span></li>
+              <li class="skill-item"><i data-lucide="vector"      class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Adobe Illustrator</span></li>
+            </ul>
+            <div class="skill-bars" aria-label="Creative skill proficiency">
+              <div class="skill-bar-row"><span>Graphic Design</span><div class="skill-bar" role="progressbar" aria-valuenow="96" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill" data-width="96"></div></div><span class="skill-bar-pct">96%</span></div>
+              <div class="skill-bar-row"><span>Motion Graphics</span><div class="skill-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill" data-width="88"></div></div><span class="skill-bar-pct">88%</span></div>
+              <div class="skill-bar-row"><span>3D Animation</span><div class="skill-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill" data-width="80"></div></div><span class="skill-bar-pct">80%</span></div>
+            </div>
+          </div>
+          <!-- Technical Skills -->
+          <div class="skill-column skill-column-cyan reveal-right">
+            <div class="skill-column-header">
+              <div class="skill-col-icon skill-col-icon-cyan">
+                <i data-lucide="cpu" class="w-6 h-6" aria-hidden="true"></i>
+              </div>
+              <div>
+                <h3 class="skill-col-title skill-col-title-cyan">Technical Skills</h3>
+                <p class="skill-col-sub">Dev &middot; AI &middot; Engineering</p>
+              </div>
+            </div>
+            <ul class="skill-list" role="list" aria-label="Technical skills">
+              <li class="skill-item skill-item-cyan"><i data-lucide="brain"              class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Artificial Intelligence (AI)</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="network"            class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Machine Learning</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="terminal"           class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Prompt Engineering</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="globe"              class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Web Development</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="smartphone"         class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Responsive Web Design</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="layout-dashboard"   class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Web Applications</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="code-2"             class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>CSS / Tailwind CSS</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="bug"                class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Debugging</span></li>
+              <li class="skill-item skill-item-cyan"><i data-lucide="gamepad-2"          class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Game Design</span></li>
+            </ul>
+            <div class="skill-bars" aria-label="Technical skill proficiency">
+              <div class="skill-bar-row"><span>Web Development</span><div class="skill-bar skill-bar-cyan" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill skill-bar-fill-cyan" data-width="92"></div></div><span class="skill-bar-pct skill-bar-pct-cyan">92%</span></div>
+              <div class="skill-bar-row"><span>Prompt Engineering</span><div class="skill-bar skill-bar-cyan" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill skill-bar-fill-cyan" data-width="90"></div></div><span class="skill-bar-pct skill-bar-pct-cyan">90%</span></div>
+              <div class="skill-bar-row"><span>AI / Machine Learning</span><div class="skill-bar skill-bar-cyan" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill skill-bar-fill-cyan" data-width="82"></div></div><span class="skill-bar-pct skill-bar-pct-cyan">82%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         EXPERIENCE
+    ============================================================ -->
+    <section id="experience" class="section" aria-labelledby="experience-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Career</p>
+          <h2 id="experience-heading" class="section-title">Work <span class="gradient-text">Experience</span></h2>
+        </div>
+        <div class="timeline reveal">
+          <div class="timeline-track" aria-hidden="true"></div>
+          <article class="exp-card" aria-label="Freelance Graphic Designer and Web Developer">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="exp-card-inner">
+              <div class="exp-header">
+                <div class="exp-title-group">
+                  <h3 class="exp-role">Freelance Graphic Designer &amp; Web Developer</h3>
+                  <p class="exp-company">
+                    <i data-lucide="building-2" class="w-4 h-4 inline-block" aria-hidden="true"></i>
+                    Self-Employed &nbsp;&middot;&nbsp; Islamabad, Pakistan
+                  </p>
+                </div>
+                <div class="exp-badge">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                  <span>Jan 2024 &ndash; Present</span>
+                </div>
+              </div>
+              <ul class="exp-list" role="list">
+                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Designing comprehensive brand identities — logos, business cards, social media kits, and pitch decks — for startups and SMBs across Pakistan and internationally.</li>
+                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Building fully responsive websites and web applications using HTML5, CSS3 (Tailwind), JavaScript, and modern design systems — optimized for performance and accessibility.</li>
+                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Producing high-quality 2D/3D animations, motion graphics reels, and edited video content for social media clients and digital marketing agencies.</li>
+                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Leveraging AI tools and advanced prompt engineering techniques to accelerate design iterations, automate workflows, and deliver AI-assisted creative content at scale.</li>
+                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Managing end-to-end client relationships: scoping, delivery, revisions — maintaining a 98% satisfaction rate across 30+ clients.</li>
+              </ul>
+              <div class="exp-tags" role="list">
+                <span class="exp-tag" role="listitem">Adobe Suite</span>
+                <span class="exp-tag" role="listitem">Figma</span>
+                <span class="exp-tag" role="listitem">Blender</span>
+                <span class="exp-tag exp-tag-cyan" role="listitem">HTML / CSS / JS</span>
+                <span class="exp-tag exp-tag-cyan" role="listitem">Tailwind CSS</span>
+                <span class="exp-tag exp-tag-cyan" role="listitem">After Effects</span>
+                <span class="exp-tag exp-tag-cyan" role="listitem">AI Prompting</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FEATURED WORK
+    ============================================================ -->
+    <section id="work" class="section section-alt" aria-labelledby="work-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Portfolio</p>
+          <h2 id="work-heading" class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+          <p class="section-subtitle">A curated selection showcasing design thinking, technical execution, and measurable impact.</p>
+        </div>
+        <div class="projects-grid" role="list">
+
+          <article class="project-card reveal" data-delay="50" role="listitem" @click="openModal('nexus')" tabindex="0" @keydown.enter="openModal('nexus')" aria-label="Nexus Brand Identity">
+            <div class="project-img-wrap">
+              <img src="https://picsum.photos/seed/nexus-brand/600/380" alt="Nexus Brand Identity" class="project-img" loading="lazy" width="600" height="380" />
+              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span class="ptag">Branding</span><span class="ptag">Logo</span><span class="ptag">Figma</span></div>
+              <h3 class="project-title">Nexus Brand Identity</h3>
+              <p class="project-desc">Complete branding &amp; logo suite for a fintech startup. Logo system, business cards, pitch deck, social media kit.</p>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="100" role="listitem" @click="openModal('aura')" tabindex="0" @keydown.enter="openModal('aura')" aria-label="Aura E-commerce Website">
+            <div class="project-img-wrap">
+              <img src="https://picsum.photos/seed/aura-ecomm/600/380" alt="Aura E-commerce Website" class="project-img" loading="lazy" width="600" height="380" />
+              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span class="ptag ptag-cyan">Web Dev</span><span class="ptag ptag-cyan">Tailwind</span><span class="ptag ptag-cyan">JS</span></div>
+              <h3 class="project-title">Aura E-commerce Website</h3>
+              <p class="project-desc">Fully responsive online store with cart &amp; checkout. 3&times; faster loading. Mobile-first design.</p>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="150" role="listitem" @click="openModal('neon')" tabindex="0" @keydown.enter="openModal('neon')" aria-label="Neon Motion Reel 2024">
+            <div class="project-img-wrap">
+              <img src="https://picsum.photos/seed/neon-reel/600/380" alt="Neon Motion Reel 2024" class="project-img" loading="lazy" width="600" height="380" />
+              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span class="ptag ptag-pink">Animation</span><span class="ptag ptag-pink">Blender</span><span class="ptag ptag-pink">AE</span></div>
+              <h3 class="project-title">Neon Motion Reel 2024</h3>
+              <p class="project-desc">2D/3D character animation showcase for social media clients. After Effects + Blender pipeline.</p>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="200" role="listitem" @click="openModal('aiprompt')" tabindex="0" @keydown.enter="openModal('aiprompt')" aria-label="AI Prompt Studio Dashboard">
+            <div class="project-img-wrap">
+              <img src="https://picsum.photos/seed/ai-prompt/600/380" alt="AI Prompt Studio Dashboard" class="project-img" loading="lazy" width="600" height="380" />
+              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span class="ptag ptag-cyan">AI</span><span class="ptag ptag-cyan">Web App</span><span class="ptag ptag-cyan">JS</span></div>
+              <h3 class="project-title">AI Prompt Studio Dashboard</h3>
+              <p class="project-desc">Interactive prompt engineering tool with live AI simulation, prompt templates, and history tracking.</p>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="250" role="listitem" @click="openModal('pulse')" tabindex="0" @keydown.enter="openModal('pulse')" aria-label="Pulse Social Media Graphics Pack">
+            <div class="project-img-wrap">
+              <img src="https://picsum.photos/seed/pulse-social/600/380" alt="Pulse Social Media Graphics Pack" class="project-img" loading="lazy" width="600" height="380" />
+              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span class="ptag">Graphics</span><span class="ptag">Motion</span><span class="ptag">Social</span></div>
+              <h3 class="project-title">Pulse Social Media Graphics Pack</h3>
+              <p class="project-desc">50+ motion graphics &amp; static posts for Pakistani brands. Photoshop + Illustrator + AE.</p>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-delay="300" role="listitem" @click="openModal('vortex')" tabindex="0" @keydown.enter="openModal('vortex')" aria-label="Vortex Game UI/UX">
+            <div class="project-img-wrap">
+              <img src="https://picsum.photos/seed/vortex-game/600/380" alt="Vortex Game UI/UX" class="project-img" loading="lazy" width="600" height="380" />
+              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
+            </div>
+            <div class="project-body">
+              <div class="project-tags"><span class="ptag ptag-blue">Game</span><span class="ptag ptag-blue">UI/UX</span><span class="ptag ptag-blue">Figma</span></div>
+              <h3 class="project-title">Vortex Game UI/UX</h3>
+              <p class="project-desc">Game UI assets + responsive landing page for an indie studio. Character animations included.</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODALS
+    ============================================================ -->
+    <div class="modal-backdrop" :class="activeModal ? 'open' : ''" @click="closeModal()" aria-hidden="true"></div>
+
+    <!-- Nexus Modal -->
+    <div id="modal-nexus" class="modal" :class="activeModal==='nexus'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-nexus">
+      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/nexus-m/800/360" alt="" loading="lazy" /></div>
+      <div class="modal-body">
+        <p class="modal-eyebrow">Case Study #01</p>
+        <h3 id="mt-nexus" class="modal-title">Nexus Brand Identity</h3>
+        <p class="modal-desc">Nexus approached me to build their entire brand identity from the ground up. As a fintech startup entering a competitive market, they needed a brand communicating trust, innovation, and forward-thinking energy. I delivered: primary logo + variants, colour palette + typography system, business card suite, letterhead, email signature, and a 30-page social media kit with Figma source files.</p>
+        <div class="modal-results">
+          <div class="result-card"><strong>300%</strong><span>Brand Recognition Increase</span></div>
+          <div class="result-card"><strong>4 wks</strong><span>Delivery Timeline</span></div>
+        </div>
+        <div class="modal-stack">
+          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
+          <div class="stack-tags"><span class="stack-tag">Adobe Illustrator</span><span class="stack-tag">Figma</span><span class="stack-tag">Adobe Photoshop</span><span class="stack-tag">Adobe InDesign</span></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
+          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aura Modal -->
+    <div id="modal-aura" class="modal" :class="activeModal==='aura'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-aura">
+      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/aura-m/800/360" alt="" loading="lazy" /></div>
+      <div class="modal-body">
+        <p class="modal-eyebrow">Case Study #02</p>
+        <h3 id="mt-aura" class="modal-title">Aura E-commerce Website</h3>
+        <p class="modal-desc">Built a production-ready e-commerce experience for a fashion brand targeting millennial consumers in Pakistan. Features: fully functional cart, dynamic product filtering, smooth checkout UX, mobile-first layout. Performance optimisation brought loading times down by 3&times; versus the previous Shopify theme — without sacrificing visual quality.</p>
+        <div class="modal-results">
+          <div class="result-card result-card-cyan"><strong>3&times;</strong><span>Faster Load Speed</span></div>
+          <div class="result-card result-card-cyan"><strong>220%</strong><span>Sales Conversion Uplift</span></div>
+        </div>
+        <div class="modal-stack">
+          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
+          <div class="stack-tags"><span class="stack-tag stack-tag-cyan">HTML5</span><span class="stack-tag stack-tag-cyan">CSS3</span><span class="stack-tag stack-tag-cyan">JavaScript ES6+</span><span class="stack-tag stack-tag-cyan">Tailwind CSS</span><span class="stack-tag stack-tag-cyan">Figma</span></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
+          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Neon Modal -->
+    <div id="modal-neon" class="modal" :class="activeModal==='neon'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-neon">
+      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/neon-m/800/360" alt="" loading="lazy" /></div>
+      <div class="modal-body">
+        <p class="modal-eyebrow">Case Study #03</p>
+        <h3 id="mt-neon" class="modal-title">Neon Motion Reel 2024</h3>
+        <p class="modal-desc">A 90-second 2D/3D character animation demo reel crafted for digital marketing clients across Instagram, TikTok, and YouTube. Each segment was hand-crafted in After Effects (2D motion) and Blender (3D character rigging + rendering), then composited into a punchy showreel that garnered 500K+ organic views in its first week.</p>
+        <div class="modal-results">
+          <div class="result-card"><strong>500K+</strong><span>Organic Views (Week 1)</span></div>
+          <div class="result-card"><strong>90s</strong><span>Final Reel Duration</span></div>
+        </div>
+        <div class="modal-stack">
+          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
+          <div class="stack-tags"><span class="stack-tag">After Effects</span><span class="stack-tag">Blender 3D</span><span class="stack-tag">Premiere Pro</span><span class="stack-tag">Adobe Illustrator</span></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary"><i data-lucide="play-circle" class="w-4 h-4"></i><span>Watch Reel</span></a>
+          <a href="#" class="btn-outline"><i data-lucide="external-link" class="w-4 h-4"></i><span>Behance</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Prompt Modal -->
+    <div id="modal-aiprompt" class="modal" :class="activeModal==='aiprompt'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-aiprompt">
+      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/aiprompt-m/800/360" alt="" loading="lazy" /></div>
+      <div class="modal-body">
+        <p class="modal-eyebrow">Case Study #04</p>
+        <h3 id="mt-aiprompt" class="modal-title">AI Prompt Studio Dashboard</h3>
+        <p class="modal-desc">A bespoke interactive web app for AI prompt engineers. Features: live prompt editor with syntax highlighting, local AI simulation engine for instant previewing, prompt history with tagging, and a template library with 200+ curated prompts across ChatGPT, Midjourney, Stable Diffusion, and Gemini. Zero backend — 100% client-side.</p>
+        <div class="modal-results">
+          <div class="result-card result-card-cyan"><strong>200+</strong><span>Curated Prompt Templates</span></div>
+          <div class="result-card result-card-cyan"><strong>100%</strong><span>Client-Side (No Backend)</span></div>
+        </div>
+        <div class="modal-stack">
+          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
+          <div class="stack-tags"><span class="stack-tag stack-tag-cyan">HTML5</span><span class="stack-tag stack-tag-cyan">CSS3</span><span class="stack-tag stack-tag-cyan">JavaScript ES6+</span><span class="stack-tag stack-tag-cyan">LocalStorage API</span><span class="stack-tag stack-tag-cyan">AI Simulation</span></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
+          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pulse Modal -->
+    <div id="modal-pulse" class="modal" :class="activeModal==='pulse'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-pulse">
+      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/pulse-m/800/360" alt="" loading="lazy" /></div>
+      <div class="modal-body">
+        <p class="modal-eyebrow">Case Study #05</p>
+        <h3 id="mt-pulse" class="modal-title">Pulse Social Media Graphics Pack</h3>
+        <p class="modal-desc">A complete 50+ piece graphics library for multiple Pakistani brands — animated reels, static feed posts, stories, and carousel templates. Each piece designed with strict brand guidelines, optimised for each platform, and delivered with fully editable source files. Clients reported a 300% increase in social media engagement within 30 days.</p>
+        <div class="modal-results">
+          <div class="result-card"><strong>50+</strong><span>Graphics Delivered</span></div>
+          <div class="result-card"><strong>300%</strong><span>Engagement Uplift (30 days)</span></div>
+        </div>
+        <div class="modal-stack">
+          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
+          <div class="stack-tags"><span class="stack-tag">Adobe Photoshop</span><span class="stack-tag">Adobe Illustrator</span><span class="stack-tag">After Effects</span></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>View Pack</span></a>
+          <a href="#" class="btn-outline"><i data-lucide="external-link" class="w-4 h-4"></i><span>Behance</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vortex Modal -->
+    <div id="modal-vortex" class="modal" :class="activeModal==='vortex'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-vortex">
+      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/vortex-m/800/360" alt="" loading="lazy" /></div>
+      <div class="modal-body">
+        <p class="modal-eyebrow">Case Study #06</p>
+        <h3 id="mt-vortex" class="modal-title">Vortex Game UI/UX</h3>
+        <p class="modal-desc">Partnered with an indie game studio to create immersive game UI assets, a full character animation set, and a responsive marketing landing page. The game's visual identity — HUD elements, menus, inventory screens, world map — was designed in Figma and exported to the dev team. The landing page achieved a 40% Steam wishlist conversion rate in the first month.</p>
+        <div class="modal-results">
+          <div class="result-card result-card-cyan"><strong>40%</strong><span>Steam Wishlist Conversion</span></div>
+          <div class="result-card result-card-cyan"><strong>60+</strong><span>UI Assets Delivered</span></div>
+        </div>
+        <div class="modal-stack">
+          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
+          <div class="stack-tags"><span class="stack-tag">Figma</span><span class="stack-tag">Blender 3D</span><span class="stack-tag stack-tag-cyan">HTML / CSS / JS</span><span class="stack-tag stack-tag-cyan">Tailwind CSS</span><span class="stack-tag">After Effects</span></div>
+        </div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
+          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         EDUCATION
+    ============================================================ -->
+    <section id="education" class="section" aria-labelledby="education-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Academia</p>
+          <h2 id="education-heading" class="section-title">My <span class="gradient-text">Education</span></h2>
+        </div>
+        <div class="edu-grid">
+          <article class="edu-card reveal-left">
+            <div class="edu-accent" aria-hidden="true"></div>
+            <div class="edu-inner">
+              <div class="edu-icon"><i data-lucide="monitor" class="w-7 h-7" aria-hidden="true"></i></div>
+              <div class="edu-content">
+                <div class="edu-badge"><i data-lucide="calendar" class="w-3 h-3" aria-hidden="true"></i> 2025 &ndash; Present</div>
+                <h3 class="edu-degree gradient-text">BS Computer Science</h3>
+                <p class="edu-university"><i data-lucide="graduation-cap" class="w-4 h-4 inline-block" aria-hidden="true"></i> COMSATS University Islamabad</p>
+                <p class="edu-desc">Exploring algorithms, data structures, software engineering, and artificial intelligence. Building technical foundations to ship production-grade software and AI-driven applications.</p>
+                <div class="edu-tags"><span class="edu-tag">Algorithms</span><span class="edu-tag edu-tag-cyan">AI / ML</span><span class="edu-tag edu-tag-cyan">Software Eng</span><span class="edu-tag">Databases</span></div>
+              </div>
+            </div>
+          </article>
+          <article class="edu-card edu-card-cyan reveal-right">
+            <div class="edu-accent edu-accent-cyan" aria-hidden="true"></div>
+            <div class="edu-inner">
+              <div class="edu-icon edu-icon-cyan"><i data-lucide="clapperboard" class="w-7 h-7" aria-hidden="true"></i></div>
+              <div class="edu-content">
+                <div class="edu-badge"><i data-lucide="calendar" class="w-3 h-3" aria-hidden="true"></i> 2025 &ndash; Present</div>
+                <h3 class="edu-degree gradient-text-alt">BS Animation, Interactive Technology, Video Graphics &amp; Special Effects</h3>
+                <p class="edu-university"><i data-lucide="graduation-cap" class="w-4 h-4 inline-block" aria-hidden="true"></i> COMSATS University Islamabad</p>
+                <p class="edu-desc">Mastering the full spectrum of animation arts — character rigging, motion capture, VFX compositing, interactive media design, and immersive storytelling for film, games, and digital platforms.</p>
+                <div class="edu-tags"><span class="edu-tag">3D Animation</span><span class="edu-tag">VFX</span><span class="edu-tag edu-tag-cyan">Interactive Media</span><span class="edu-tag edu-tag-cyan">Game Design</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TESTIMONIALS
+    ============================================================ -->
+    <section id="testimonials" class="section section-alt" aria-labelledby="testimonials-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Testimonials</p>
+          <h2 id="testimonials-heading" class="section-title">What <span class="gradient-text">Clients Say</span></h2>
+        </div>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial-card reveal" data-delay="50">
+            <div class="testimonial-stars" aria-label="5 stars">
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+            </div>
+            <p class="testimonial-text">Azhar completely transformed our brand from a generic startup into a polished tech company. The logo suite and social kit were beyond what we imagined. Multiple investors complimented our branding at the pitch presentation. Absolute pro.</p>
+            <footer class="testimonial-author">
+              <img src="https://picsum.photos/seed/sarah-k/80/80" alt="Sarah Khan" class="testimonial-avatar" loading="lazy" width="80" height="80" />
+              <div><cite class="testimonial-name">Sarah Khan</cite><span class="testimonial-role">Co-Founder, Nexus Fintech</span></div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card reveal" data-delay="100">
+            <div class="testimonial-stars" aria-label="5 stars">
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+            </div>
+            <p class="testimonial-text">We hired Azhar to build our e-commerce site and the results were phenomenal. The site loaded under 1.5s, looked stunning on every device, and our conversion rate tripled within the first month. He hit every deadline. Highly recommend.</p>
+            <footer class="testimonial-author">
+              <img src="https://picsum.photos/seed/usman-m/80/80" alt="Usman Malik" class="testimonial-avatar" loading="lazy" width="80" height="80" />
+              <div><cite class="testimonial-name">Usman Malik</cite><span class="testimonial-role">CEO, Aura Lifestyle</span></div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card reveal" data-delay="150">
+            <div class="testimonial-stars" aria-label="5 stars">
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
+            </div>
+            <p class="testimonial-text">The motion graphics Azhar created outperformed every previous social batch by 3&ndash;4&times;. Fluid animations, on-brand, delivered ahead of schedule. He genuinely understands aesthetics and performance. We are locked in long-term.</p>
+            <footer class="testimonial-author">
+              <img src="https://picsum.photos/seed/zara-a/80/80" alt="Zara Ahmed" class="testimonial-avatar" loading="lazy" width="80" height="80" />
+              <div><cite class="testimonial-name">Zara Ahmed</cite><span class="testimonial-role">Marketing Director, Pulse Agency</span></div>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTACT
+    ============================================================ -->
+    <section id="contact" class="section" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-eyebrow">Get In Touch</p>
+          <h2 id="contact-heading" class="section-title">Let's <span class="gradient-text">Work Together</span></h2>
+          <p class="section-subtitle">Have a project in mind? Let's talk. Available for freelance, collaborations, and full-time opportunities.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info reveal-left">
+            <div class="contact-detail-list">
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><i data-lucide="map-pin" class="w-5 h-5" aria-hidden="true"></i></div>
+                <div><span class="contact-detail-label">Location</span><span class="contact-detail-value">Islamabad, Pakistan</span></div>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon"><i data-lucide="mail" class="w-5 h-5" aria-hidden="true"></i></div>
+                <div><span class="contact-detail-label">Email</span><a href="mailto:azhar@n0xid.dev" class="contact-detail-value contact-link">azhar@n0xid.dev</a></div>
+              </div>
+              <div class="contact-detail">
+                <div class="contact-detail-icon contact-detail-icon-green"><i data-lucide="zap" class="w-5 h-5" aria-hidden="true"></i></div>
+                <div>
+                  <span class="contact-detail-label">Status</span>
+                  <span class="contact-detail-value contact-available"><span class="status-dot" aria-hidden="true"></span>Open to Projects</span>
+                </div>
+              </div>
+            </div>
+            <div class="social-links" aria-label="Social media links">
+              <a href="#" class="social-btn social-linkedin" aria-label="LinkedIn" title="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5" aria-hidden="true"></i></a>
+              <a href="#" class="social-btn social-behance" aria-label="Behance" title="Behance">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.8 5.7c.6 0 1.1.05 1.6.16.5.1.9.28 1.24.51.34.23.61.54.8.93.18.38.27.85.27 1.39 0 .6-.14 1.1-.4 1.48-.27.39-.65.71-1.14.96.69.2 1.2.57 1.55 1.09.35.53.52 1.17.52 1.91 0 .61-.12 1.13-.35 1.57-.23.44-.55.8-.96 1.08-.41.28-.89.49-1.42.62-.54.13-1.1.19-1.68.19H0V5.7h7.8zm-.37 5.06c.44 0 .8-.11 1.08-.33.28-.22.42-.56.42-1.03 0-.27-.05-.49-.14-.66-.1-.17-.23-.3-.4-.4-.17-.1-.36-.17-.59-.2-.22-.04-.45-.06-.69-.06H3.16v2.68h4.27zm.17 5.28c.27 0 .52-.03.75-.07.23-.05.43-.13.6-.25.17-.12.31-.27.41-.46.1-.19.15-.44.15-.73 0-.58-.17-1-.5-1.25-.33-.26-.77-.39-1.33-.39H3.16v3.15h4.44zm10.3-8.51h6.1v1.49h-6.1V7.53zm7.55 6.7c-.24.75-.61 1.38-1.1 1.88s-1.1.88-1.83 1.13c-.73.25-1.54.38-2.44.38-.96 0-1.8-.15-2.53-.45-.73-.3-1.34-.72-1.83-1.26-.5-.54-.87-1.19-1.13-1.95-.26-.76-.39-1.6-.39-2.52 0-.89.13-1.72.39-2.48.26-.77.64-1.43 1.13-1.98.5-.56 1.11-.99 1.83-1.3.73-.3 1.56-.46 2.49-.46.95 0 1.79.17 2.51.5.72.34 1.31.79 1.77 1.37.46.58.8 1.26 1.02 2.03.22.77.31 1.6.28 2.49h-8.01c.05.93.35 1.63.89 2.08.54.46 1.23.68 2.06.68.54 0 1.01-.12 1.4-.37.39-.24.68-.6.87-1.06h2.63zm-2.64-3.45c-.03-.81-.3-1.46-.79-1.94-.49-.49-1.14-.73-1.95-.73-.55 0-1.01.1-1.39.31-.38.21-.69.47-.93.79-.24.32-.41.67-.52 1.05-.1.38-.16.75-.17 1.11h5.75z"/></svg>
+              </a>
+              <a href="#" class="social-btn social-instagram" aria-label="Instagram" title="Instagram"><i data-lucide="instagram" class="w-5 h-5" aria-hidden="true"></i></a>
+              <a href="#" class="social-btn social-x" aria-label="X / Twitter" title="X / Twitter">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+              <a href="#" class="social-btn social-github" aria-label="GitHub" title="GitHub"><i data-lucide="github" class="w-5 h-5" aria-hidden="true"></i></a>
+            </div>
+          </div>
+          <div class="contact-form-wrap reveal-right">
+            <form id="contact-form" class="contact-form" novalidate @submit.prevent="submitForm($event)" aria-label="Contact form">
+              <h3 class="form-title">Send a Message</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="cf-name" class="form-label">Your Name</label>
+                  <input type="text" id="cf-name" name="name" class="form-input" placeholder="e.g. Ahmed Ali" required autocomplete="name" aria-required="true" />
+                </div>
+                <div class="form-group">
+                  <label for="cf-email" class="form-label">Email Address</label>
+                  <input type="email" id="cf-email" name="email" class="form-input" placeholder="you@example.com" required autocomplete="email" aria-required="true" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cf-subject" class="form-label">Project Type</label>
+                <select id="cf-subject" name="subject" class="form-input form-select">
+                  <option value="">Select project type...</option>
+                  <option>Brand Identity / Logo Design</option>
+                  <option>Web Development</option>
+                  <option>Motion Graphics / Animation</option>
+                  <option>AI / Prompt Engineering</option>
+                  <option>Social Media Graphics</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="cf-message" class="form-label">Message</label>
+                <textarea id="cf-message" name="message" class="form-input form-textarea" rows="5" placeholder="Tell me about your project, goals, and timeline..." required aria-required="true"></textarea>
+              </div>
+              <button type="submit" class="btn-primary form-submit" id="form-submit-btn">
+                <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i><span>Send Message</span>
+              </button>
+              <div id="form-success" class="form-success" role="alert" aria-live="polite" hidden>
+                <i data-lucide="check-circle" class="w-5 h-5" aria-hidden="true"></i>
+                Message sent! I will get back to you within 24 hours.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-mark" aria-hidden="true">A</span>
+          <span class="logo-text">Azhar.</span>
+        </div>
+        <p class="footer-copy">
+          &copy; 2026 Muhammad Azhar Shahbaz &nbsp;&bull;&nbsp; Islamabad, Pakistan
+        </p>
+        <p class="footer-handle">
+          <i data-lucide="at-sign" class="w-3.5 h-3.5 inline-block" aria-hidden="true"></i> n0xid
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/particles.js"></script>
+
+</body>
+</html>
