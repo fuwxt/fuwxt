@@ -6,7 +6,7 @@
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=700&size=24&duration=2800&pause=1200&color=A855F7&center=true&vCenter=true&multiline=false&width=680&lines=⚡+Crafting+Digital+Experiences+that+Hit+Different;🎨+Where+Creativity+Meets+Code;🤖+AI+Engineer+%26+Prompt+Architect;🎬+Motion+Graphics+%26+Brand+Identity;🌐+Full-Stack+Visual+Developer)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=700&size=24&duration=2800&pause=1200&color=A855F7&center=true&vCenter=true&multiline=false&width=680&lines=Crafting+Digital+Experiences+that+Hit+Different;Where+Creativity+Meets+Code;AI+Engineer+%26+Prompt+Architect;Motion+Graphics+%26+Brand+Identity;Full-Stack+Visual+Developer)](https://git.io/typing-svg)
 
 </div>
 
@@ -14,11 +14,11 @@
 
 <div align="center">
 
-![Profile Views](https://komarev.com/ghpvc/?username=fuwxt&style=for-the-badge&color=a855f7&labelColor=0a0a12&label=👁️+PROFILE+VIEWS)
+![Profile Views](https://komarev.com/ghpvc/?username=fuwxt&style=for-the-badge&color=a855f7&labelColor=0a0a12&label=PROFILE+VIEWS)
 &nbsp;
-![GitHub followers](https://img.shields.io/github/followers/fuwxt?style=for-the-badge&color=22d3ee&labelColor=0a0a12&label=⚡+FOLLOWERS)
+![GitHub followers](https://img.shields.io/github/followers/fuwxt?style=for-the-badge&color=22d3ee&labelColor=0a0a12&label=FOLLOWERS)
 &nbsp;
-![GitHub Stars](https://img.shields.io/github/stars/fuwxt?style=for-the-badge&color=f59e0b&labelColor=0a0a12&label=⭐+TOTAL+STARS)
+![GitHub Stars](https://img.shields.io/github/stars/fuwxt?style=for-the-badge&color=f59e0b&labelColor=0a0a12&label=TOTAL+STARS)
 
 </div>
 
@@ -32,13 +32,13 @@
 <tr>
 <td width="55%" valign="top">
 
-### 〔 01 〕 Who Am I?
+### [ 01 ] Who Am I?
 
 ```typescript
 const azhar = {
   name    : "Muhammad Azhar Shahbaz",
   alias   : ["fuwxt", "Azhar."],
-  base    : "Islamabad, Pakistan 🇵🇰",
+  base    : "Islamabad, Pakistan",
 
   roles   : [
     "Freelance Graphic Designer",
@@ -50,11 +50,10 @@ const azhar = {
 
   education : {
     degree1 : "BS Computer Science @ COMSATS",
-    degree2 : "BS Animation & IT @ COMSATS",
   },
 
   currentFocus : "Building premium digital experiences",
-  status       : "✅ Open for freelance — let's build.",
+  status       : "Open for freelance — let's build.",
 
   philosophy   : "Design is thinking made visual.",
 };
@@ -65,13 +64,13 @@ const azhar = {
 
 <br/>
 
-<img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="320" alt="coding gif" style="border-radius: 12px;"/>
+<img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="320" alt="coding gif"/>
 
 <br/><br/>
 
-[![LinkedIn](https://img.shields.io/badge/—_Let's_Connect_on_LinkedIn_—-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/fuwxt)
+[![LinkedIn](https://img.shields.io/badge/Connect_on_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/fuwxt)
 
-[![Portfolio](https://img.shields.io/badge/🌐_View_My_Portfolio-a855f7?style=for-the-badge)](https://fuwxt.github.io)
+[![Portfolio](https://img.shields.io/badge/View_My_Portfolio-a855f7?style=for-the-badge)](https://fuwxt.github.io)
 
 </td>
 </tr>
@@ -81,13 +80,13 @@ const azhar = {
 
 ---
 
-## 〔 02 〕 What I Build
+## [ 02 ] What I Build
 
 <br/>
 
 <div align="center">
 
-| 🎨 Creative Universe | 💻 Technical Stack | 🤖 AI & Emerging |
+| Creative Universe | Technical Stack | AI & Emerging |
 |:---:|:---:|:---:|
 | Logo & Brand Identity | HTML / CSS / JavaScript | Prompt Engineering |
 | Motion Graphics & VFX | Tailwind CSS & GSAP | ChatGPT & Claude |
@@ -102,13 +101,13 @@ const azhar = {
 
 ---
 
-## 〔 03 〕 Tech Arsenal
+## [ 03 ] Tech Arsenal
 
 <br/>
 
 <div align="center">
 
-### ▸ Design & Creative Tools
+### Design & Creative Tools
 
 [![Photoshop](https://img.shields.io/badge/Photoshop-001d26?style=for-the-badge&logo=adobe-photoshop&logoColor=31A8FF)](https://adobe.com)
 [![Illustrator](https://img.shields.io/badge/Illustrator-1a0a00?style=for-the-badge&logo=adobe-illustrator&logoColor=FF9A00)](https://adobe.com)
@@ -119,7 +118,7 @@ const azhar = {
 
 <br/>
 
-### ▸ Development Stack
+### Development Stack
 
 [![HTML5](https://img.shields.io/badge/HTML5-1a0800?style=for-the-badge&logo=html5&logoColor=E34F26)](https://developer.mozilla.org)
 [![CSS3](https://img.shields.io/badge/CSS3-000d1a?style=for-the-badge&logo=css3&logoColor=1572B6)](https://developer.mozilla.org)
@@ -132,7 +131,7 @@ const azhar = {
 
 <br/>
 
-### ▸ AI Ecosystem
+### AI Ecosystem
 
 [![ChatGPT](https://img.shields.io/badge/ChatGPT-0a1a16?style=for-the-badge&logo=openai&logoColor=74aa9c)](https://openai.com)
 [![Claude](https://img.shields.io/badge/Claude_AI-1a0d26?style=for-the-badge&logo=anthropic&logoColor=a855f7)](https://claude.ai)
@@ -144,7 +143,7 @@ const azhar = {
 
 ---
 
-## 〔 04 〕 GitHub Analytics
+## [ 04 ] GitHub Analytics
 
 <br/>
 
@@ -167,7 +166,7 @@ const azhar = {
 
 ---
 
-## 〔 05 〕 Contribution Graph
+## [ 05 ] Contribution Graph
 
 <br/>
 
@@ -181,7 +180,7 @@ const azhar = {
 
 ---
 
-## 〔 06 〕 Trophy Cabinet
+## [ 06 ] Trophy Cabinet
 
 <br/>
 
@@ -195,7 +194,7 @@ const azhar = {
 
 ---
 
-## 〔 07 〕 Featured Work
+## [ 07 ] Featured Work
 
 <br/>
 
@@ -209,7 +208,7 @@ const azhar = {
 
 <div align="center">
 
-> 🔥 **More premium projects incoming** — currently deep in the build phase.
+> **More premium projects incoming** — currently deep in the build phase.
 >
 > *Watch this space.*
 
@@ -219,7 +218,7 @@ const azhar = {
 
 ---
 
-## 〔 08 〕 Daily Inspiration
+## [ 08 ] Daily Inspiration
 
 <br/>
 
@@ -233,17 +232,17 @@ const azhar = {
 
 ---
 
-## 〔 09 〕 Let's Build Something
+## [ 09 ] Let's Build Something
 
 <br/>
 
 <div align="center">
 
-*Available for freelance • Open to collabs • Always learning*
+*Available for freelance &nbsp;&middot;&nbsp; Open to collabs &nbsp;&middot;&nbsp; Always learning*
 
 <br/>
 
-[![Portfolio](https://img.shields.io/badge/🌐%20Portfolio-050510?style=for-the-badge&logo=vercel&logoColor=a855f7&color=050510)](https://fuwxt.github.io)
+[![Portfolio](https://img.shields.io/badge/Portfolio-050510?style=for-the-badge&logo=vercel&logoColor=a855f7)](https://fuwxt.github.io)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-050510?style=for-the-badge&logo=linkedin&logoColor=0077B5)](https://linkedin.com/in/fuwxt)
 [![Instagram](https://img.shields.io/badge/Instagram-050510?style=for-the-badge&logo=instagram&logoColor=E4405F)](https://instagram.com/fuwxt)
 [![Behance](https://img.shields.io/badge/Behance-050510?style=for-the-badge&logo=behance&logoColor=1769FF)](https://behance.net/fuwxt)
@@ -255,7 +254,7 @@ const azhar = {
 ╔══════════════════════════════════════════════════════╗
 ║                                                      ║
 ║    Got a vision? I'll turn it into reality.          ║
-║    Design • Develop • Deliver.                       ║
+║    Design  ·  Develop  ·  Deliver.                   ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 ```
@@ -268,6 +267,6 @@ const azhar = {
 
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer&animation=twinkling&desc=⚡+Muhammad+Azhar+Shahbaz+—+Islamabad%2C+Pakistan+🇵🇰&descAlignY=65&descSize=14&fontColor=ffffff" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer&animation=twinkling&desc=Muhammad+Azhar+Shahbaz+—+Islamabad%2C+Pakistan&descAlignY=65&descSize=14&fontColor=ffffff" width="100%"/>
 
 </div>
