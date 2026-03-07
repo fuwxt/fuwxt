@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" x-data="portfolioApp()" :class="{ 'light-mode': lightMode, 'dark-mode': !lightMode }">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Azhar. ” AI & Animation Specialist | Full-Stack Designer</title>
+  <title>Azhar. â€” AI & Animation Specialist | Full-Stack Designer</title>
 
   <!-- ============================================================
        DEVTOOLS BLOCKER + SYSTEM THEME INIT (runs before paint)
@@ -66,8 +66,239 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Alpine.js v3 -->
+  <!-- Alpine.js v3 + Intersect Plugin (must load before Alpine) -->
+  <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Alpine component functions â€” MUST be defined before Alpine boots -->
+  <script>
+    document.addEventListener('alpine:init', () => {
+      // Register components globally so x-data can find them
+    });
+
+    function portfolioApp() {
+      return {
+        lightMode: false,
+        _manualOverride: false,
+        scrolled: false,
+        mobileMenu: false,
+        modalOpen: false,
+        activeProject: null,
+
+        creativeSkills: [
+          '2D Animation', '3D Animation', 'Character Animation',
+          'Motion Design', 'Motion Graphics', 'Video Editing',
+          'Logo Design', 'Branding & Identity', 'Graphic Design',
+          'Adobe Photoshop', 'Adobe Illustrator'
+        ],
+        technicalSkills: [
+          'Artificial Intelligence (AI)', 'Machine Learning',
+          'Prompt Engineering', 'Web Development',
+          'Responsive Web Design', 'Web Applications',
+          'CSS', 'Debugging', 'Game Design'
+        ],
+
+        projects: [
+          {
+            id: 1,
+            title: 'Nexus Brand Identity',
+            category: 'Branding',
+            icon: 'hexagon',
+            thumbClass: 'thumb-1',
+            shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup â€” from logo to full design language.',
+            longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
+            tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
+            highlights: [
+              'Full logo suite including primary, secondary and icon variants',
+              '40-page brand guidelines document',
+              'Complete stationery system and business collateral',
+              'Social media template kit with 20+ designs'
+            ]
+          },
+          {
+            id: 2,
+            title: 'Aura E-commerce Website',
+            category: 'Web Dev',
+            icon: 'shopping-bag',
+            thumbClass: 'thumb-2',
+            shortDesc: 'A luxury e-commerce platform with seamless UX, lightning-fast performance, and a beautifully minimal aesthetic.',
+            longDesc: 'Aura is a premium fashion e-commerce website built from the ground up with performance and elegance as dual priorities. The site features smooth page transitions, a custom cart system, product filtering, and full mobile responsiveness. The design language prioritizes white space, editorial imagery, and intuitive navigation.',
+            tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'UX Design', 'Performance'],
+            highlights: [
+              'Sub-2s load time with optimized asset pipeline',
+              'Custom cart & checkout flow with validation',
+              'Infinite scroll product listings with filters',
+              'Mobile-first responsive layout across all breakpoints'
+            ]
+          },
+          {
+            id: 3,
+            title: 'Neon Motion Reel 2024',
+            category: 'Motion',
+            icon: 'play-circle',
+            thumbClass: 'thumb-3',
+            shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
+            longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities â€” from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
+            tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
+            highlights: [
+              '90-second reel spanning 8 distinct animation styles',
+              'Original sound design and audio-reactive elements',
+              'Custom character rig with 40+ control points',
+              'Delivered in 4K ProRes for broadcast standard'
+            ]
+          },
+          {
+            id: 4,
+            title: 'AI Prompt Studio Dashboard',
+            category: 'AI / Dev',
+            icon: 'brain-circuit',
+            thumbClass: 'thumb-4',
+            shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
+            longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
+            tags: ['Web Development', 'AI', 'Prompt Engineering', 'CSS', 'JavaScript', 'API Integration'],
+            highlights: [
+              'Real-time prompt testing with model API integration',
+              'Version control system with diff viewer',
+              'Team workspace with role-based permissions',
+              'Bulk export to JSON, CSV, and YAML formats'
+            ]
+          },
+          {
+            id: 5,
+            title: 'Pulse Social Media Pack',
+            category: 'Graphic Design',
+            icon: 'image',
+            thumbClass: 'thumb-5',
+            shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand â€” Instagram, Stories, Reels covers & more.',
+            longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics â€” all built on a vibrant, energetic design system optimized for engagement.',
+            tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
+            highlights: [
+              '60 fully editable template files across 6 formats',
+              'Consistent design system with 3 sub-brand variants',
+              'Optimized for Instagram, TikTok, YouTube and Facebook',
+              'Client training guide for in-house editing'
+            ]
+          },
+          {
+            id: 6,
+            title: 'Vortex Game UI/UX',
+            category: 'Game Design',
+            icon: 'gamepad-2',
+            thumbClass: 'thumb-6',
+            shortDesc: 'A complete UI/UX design system for a sci-fi action game â€” HUD, menus, inventory, and character screens.',
+            longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
+            tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
+            highlights: [
+              'Full UI kit with 80+ screen-ready components',
+              'Animated HUD prototype with hover/active states',
+              'Accessibility-compliant color contrast ratios',
+              'Delivered with Figma source files and dev specs'
+            ]
+          }
+        ],
+
+        openModal(project) {
+          this.activeProject = project;
+          this.modalOpen = true;
+          document.body.style.overflow = 'hidden';
+          this.$nextTick(() => lucide.createIcons());
+        },
+        closeModal() {
+          this.modalOpen = false;
+          document.body.style.overflow = '';
+          setTimeout(() => { this.activeProject = null; }, 300);
+        },
+
+        init() {
+          this.lightMode = window.__systemLight || false;
+
+          const mq = window.matchMedia('(prefers-color-scheme: light)');
+          mq.addEventListener('change', (e) => {
+            if (!this._manualOverride) this.lightMode = e.matches;
+          });
+
+          this.$watch('lightMode', (val) => {
+            document.documentElement.classList.toggle('light-mode', val);
+            document.documentElement.classList.toggle('dark-mode', !val);
+          });
+
+          window.addEventListener('scroll', () => {
+            this.scrolled = window.scrollY > 40;
+          });
+
+          this.$nextTick(() => {
+            this.initReveal();
+            this.initTyping();
+            lucide.createIcons();
+          });
+        },
+
+        initReveal() {
+          const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+          els.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              el.classList.add('visible');
+            } else {
+              observer.observe(el);
+            }
+          });
+        },
+
+        initTyping() {
+          const phrases = [
+            'Freelance Graphic Designer',
+            'Web Developer',
+            'AI & Prompt Engineer',
+            'Motion Graphics Artist',
+            'Brand Identity Specialist'
+          ];
+          let phraseIndex = 0, charIndex = 0, deleting = false;
+          const el = document.getElementById('typed-text');
+          if (!el) return;
+          function type() {
+            const current = phrases[phraseIndex];
+            if (!deleting) {
+              el.textContent = current.slice(0, charIndex + 1);
+              charIndex++;
+              if (charIndex === current.length) { deleting = true; setTimeout(type, 2200); return; }
+            } else {
+              el.textContent = current.slice(0, charIndex - 1);
+              charIndex--;
+              if (charIndex === 0) { deleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; }
+            }
+            setTimeout(type, deleting ? 55 : 80);
+          }
+          setTimeout(type, 800);
+        }
+      };
+    }
+
+    function counterAnim(target, suffix = '') {
+      return {
+        display: 0, target, suffix, started: false,
+        start() {
+          if (this.started) return;
+          this.started = true;
+          const step = 16;
+          const increment = target / (1800 / step);
+          const timer = setInterval(() => {
+            this.display = Math.min(Math.round(this.display + increment), target);
+            if (this.display >= target) { this.display = target; clearInterval(timer); }
+          }, step);
+        }
+      };
+    }
+  </script>
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -757,42 +988,41 @@
     /* ============================================================
        SCROLL REVEAL ANIMATIONS
     ============================================================ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-30px);
-      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
-    }
-    .reveal-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    .reveal-right {
-      opacity: 0;
-      transform: translateX(30px);
-      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
-    }
-    .reveal-right.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    .reveal,
+    .reveal-left,
+    .reveal-right,
     .reveal-scale {
       opacity: 0;
-      transform: scale(0.94);
-      transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1);
+      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
     }
+    /* Fallback: if Alpine hasn't loaded after 3s, show everything */
+    .reveal          { transform: translateY(30px); }
+    .reveal-left     { transform: translateX(-30px); }
+    .reveal-right    { transform: translateX(30px); }
+    .reveal-scale    { transform: scale(0.94); }
+
+    .reveal.visible,
+    .reveal-left.visible,
+    .reveal-right.visible,
     .reveal-scale.visible {
-      opacity: 1;
-      transform: scale(1);
+      opacity: 1 !important;
+      transform: none !important;
     }
+
+    /* Safety net: show hero content always after a delay */
+    @keyframes forceShow {
+      to { opacity: 1; transform: none; }
+    }
+    #hero .reveal, #hero .reveal-left, #hero .reveal-right {
+      animation: forceShow 0.8s ease forwards;
+      animation-delay: inherit;
+    }
+    #hero .delay-1 { animation-delay: 0.1s; }
+    #hero .delay-2 { animation-delay: 0.2s; }
+    #hero .delay-3 { animation-delay: 0.35s; }
+    #hero .delay-4 { animation-delay: 0.5s; }
+    #hero .delay-5 { animation-delay: 0.65s; }
+    #hero .delay-6 { animation-delay: 0.85s; }
 
     /* Stagger delays */
     .delay-1 { transition-delay: 0.1s; }
@@ -1062,13 +1292,281 @@
       .hero-brand { font-size: 4.5rem; }
       .orb-1 { width: 250px; height: 250px; }
     }
+
+    /* ============================================================
+       PARTICLE CANVAS BACKGROUND
+    ============================================================ */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       COLOR BURST RIPPLE
+    ============================================================ */
+    .burst-ripple {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+      animation: burst-expand 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      z-index: 9998;
+      mix-blend-mode: screen;
+    }
+    @keyframes burst-expand {
+      0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.8; }
+      60%  { opacity: 0.35; }
+      100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+    }
+
+    /* ============================================================
+       MAGNETIC CURSOR
+    ============================================================ */
+    .cursor-glow {
+      position: fixed;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(197,157,217,0.8) 0%, rgba(122,63,145,0.4) 50%, transparent 70%);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(197,157,217,0.35);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+      mix-blend-mode: screen;
+    }
+    @media (pointer: coarse) {
+      .cursor-glow, .cursor-ring { display: none; }
+    }
+
+    /* ============================================================
+       SPLIT TEXT ANIMATION
+    ============================================================ */
+    .split-word {
+      display: inline-block;
+      overflow: hidden;
+    }
+    .split-word span {
+      display: inline-block;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease;
+    }
+    .split-word.in-view span {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ============================================================
+       GLITCH EFFECT ON HERO BRAND
+    ============================================================ */
+    .hero-brand {
+      position: relative;
+    }
+    .hero-brand::before,
+    .hero-brand::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      background: inherit;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-brand::before {
+      animation: glitch-1 6s infinite;
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      transform: translate(-2px, 0);
+      filter: drop-shadow(0 0 8px rgba(197,157,217,0.6));
+    }
+    .hero-brand::after {
+      animation: glitch-2 6s infinite;
+      clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+      transform: translate(2px, 0);
+      filter: drop-shadow(0 0 8px rgba(122,63,145,0.6));
+    }
+    @keyframes glitch-1 {
+      0%, 90%, 100% { transform: translate(0); opacity: 0; }
+      92% { transform: translate(-3px, 1px); opacity: 0.6; }
+      94% { transform: translate(2px, -1px); opacity: 0.4; }
+      96% { transform: translate(-1px, 2px); opacity: 0.6; }
+      98% { transform: translate(0); opacity: 0; }
+    }
+    @keyframes glitch-2 {
+      0%, 88%, 100% { transform: translate(0); opacity: 0; }
+      90% { transform: translate(3px, -1px); opacity: 0.5; }
+      93% { transform: translate(-2px, 1px); opacity: 0.3; }
+      95% { transform: translate(1px, 0); opacity: 0.5; }
+      97% { transform: translate(0); opacity: 0; }
+    }
+
+    /* ============================================================
+       COUNTER CARDS â€” UPGRADED
+    ============================================================ */
+    .counter-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .counter-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(197,157,217,0.08) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .counter-card:hover::before { opacity: 1; }
+    .counter-card .counter-number {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .counter-card:hover .counter-number {
+      transform: scale(1.08);
+    }
+
+    /* ============================================================
+       SECTION HEADING UNDERLINE DRAW
+    ============================================================ */
+    .heading-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .heading-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst));
+      transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+      border-radius: 2px;
+    }
+    .heading-underline.in-view::after { width: 100%; }
+
+    /* ============================================================
+       AURORA SHIMMER ON GLASS CARDS
+    ============================================================ */
+    .glass-aurora {
+      position: relative;
+      overflow: hidden;
+    }
+    .glass-aurora::after {
+      content: '';
+      position: absolute;
+      inset: -100%;
+      background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent 0deg,
+        rgba(197,157,217,0.06) 60deg,
+        rgba(122,63,145,0.10) 120deg,
+        transparent 180deg,
+        rgba(197,157,217,0.06) 240deg,
+        transparent 360deg
+      );
+      animation: aurora-spin 8s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes aurora-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ============================================================
+       FLOATING PARTICLES IN HERO (CSS-only extras)
+    ============================================================ */
+    .hero-particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: hero-float linear infinite;
+      opacity: 0;
+    }
+    @keyframes hero-float {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-20px) scale(1); opacity: 0; }
+    }
+
+    /* ============================================================
+       SKILL PILL â€” STAGGER ENTRANCE
+    ============================================================ */
+    .skill-pill {
+      animation: pill-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes pill-pop {
+      from { transform: scale(0.7) translateY(10px); opacity: 0; }
+      to   { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    /* ============================================================
+       TESTIMONIAL CARD QUOTE MARK ANIMATE
+    ============================================================ */
+    .testimonial-card:hover::before {
+      animation: quote-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes quote-bounce {
+      from { transform: scale(1) translateY(0); }
+      50%  { transform: scale(1.2) translateY(-4px); }
+      to   { transform: scale(1) translateY(0); }
+    }
+
+    /* ============================================================
+       NAV LINK â€” LETTER SPACING HOVER
+    ============================================================ */
+    .nav-link {
+      transition: color 0.3s ease, letter-spacing 0.3s ease;
+    }
+    .nav-link:hover {
+      letter-spacing: 0.14em;
+    }
+
+    /* ============================================================
+       PROGRESS BAR GLOW
+    ============================================================ */
+    .stat-bar {
+      position: relative;
+      overflow: visible;
+    }
+    .stat-bar::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 50%;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--c-amethyst);
+      transform: translate(50%, -50%);
+      box-shadow: 0 0 8px rgba(197,157,217,0.8), 0 0 16px rgba(122,63,145,0.5);
+      opacity: 0;
+      transition: opacity 0.3s ease 1.2s;
+    }
+    .stat-bar[style*="width:9"],
+    .stat-bar[style*="width:10"] { }
+    .visible ~ .stat-bar-wrap .stat-bar::after { opacity: 1; }
   </style>
 </head>
 
 <!-- ============================================================
      ALPINE.JS APP INIT
 ============================================================ -->
-<body class="bg-breathe relative" x-data="portfolioApp()">
+<body class="bg-breathe relative" x-data="portfolioApp()" @keydown.escape.window="modalOpen && closeModal()">
+
+<!-- Particle Canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Custom Cursor (desktop only) -->
+<div class="cursor-glow" id="cursor-glow"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 
 <!-- ============================================================
      STICKY NAVBAR
@@ -1179,7 +1677,7 @@
     </div>
 
     <!-- Brand Name -->
-    <h1 class="hero-brand reveal delay-1 mb-4">Azhar.</h1>
+    <h1 class="hero-brand reveal delay-1 mb-4" data-text="Azhar.">Azhar.</h1>
 
     <!-- Full Name -->
     <p class="reveal delay-2 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
@@ -1265,10 +1763,10 @@
           <em class="gradient-text">art and technology.</em>
         </h3>
         <p class="text-lilac/60 leading-relaxed text-sm md:text-base mb-4">
-          I'm Muhammad Azhar Shahbaz â€” an AI & Animation Specialist, Full-Stack Designer, and Game Developer based in Islamabad, Pakistan. With a rare dual-degree background in Computer Science and Animation at COMSATS University, I merge engineering precision with cinematic creativity to build digital products that genuinely move people.
+          I'm Muhammad Azhar Shahbaz â€” a creative technologist, AI specialist, and full-stack designer based in Islamabad, Pakistan. Pursuing a dual degree in Computer Science and Animation at COMSATS University, I sit at the rare intersection of engineering and artistry â€” building digital products that don't just look exceptional, they perform exceptionally.
         </p>
         <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
-          Since 2024 I've served premium US-based clients, generating <span class="text-amethyst font-medium">$15K+</span> across 25+ high-value projects â€” brand identities, web applications, animated explainers, and AI-powered workflows â€” with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
+          Over 3 years of freelancing for premium US-based clients, I've delivered 25+ high-value projects â€” brand identities, web applications, animated explainers, and AI-powered workflows â€” generating <span class="text-amethyst font-medium">$7K+</span> in revenue, with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
         </p>
 
         <!-- Quick stat bars -->
@@ -1308,7 +1806,7 @@
 
     <!-- Animated Counters -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-20">
-      <div class="glass counter-card reveal delay-1" x-data="counterAnim(2, '+')" x-intersect.once="start()">
+      <div class="glass counter-card reveal delay-1" x-data="counterAnim(3, '+')" x-intersect.once="start()">
         <div class="counter-number" x-text="display + suffix"></div>
         <div class="counter-label">Years Experience</div>
       </div>
@@ -1320,7 +1818,7 @@
         <div class="counter-number" x-text="display + suffix"></div>
         <div class="counter-label">Happy Clients</div>
       </div>
-      <div class="glass counter-card reveal delay-4" x-data="counterAnim(15, 'K+')" x-intersect.once="start()">
+      <div class="glass counter-card reveal delay-4" x-data="counterAnim(7, 'K+')" x-intersect.once="start()">
         <div class="counter-number" x-text="'$' + display + suffix"></div>
         <div class="counter-label">Revenue Generated</div>
       </div>
@@ -1433,7 +1931,7 @@
           <div class="flex flex-wrap items-center gap-4 text-xs text-lilac/40 mb-6">
             <span class="flex items-center gap-1.5">
               <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              January 2024 â€” Present
+              January 2022 â€” Present
             </span>
             <span class="flex items-center gap-1.5">
               <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
@@ -1446,14 +1944,14 @@
           </div>
 
           <p class="text-lilac/60 text-sm leading-relaxed mb-6">
-            Generated <span class="text-amethyst font-medium">$15K+</span> in revenue through 25+ premium projects for US-based startups â€” spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
+            Generated <span class="text-amethyst font-medium">$7K+</span> in revenue through 25+ premium projects for US-based startups â€” spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
           </p>
 
           <!-- Highlights -->
           <div class="grid sm:grid-cols-2 gap-3">
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              $15K+ revenue Â· 25+ premium projects
+              $7K+ revenue Â· 25+ premium projects
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
@@ -1790,6 +2288,107 @@
 </section>
 
 
+
+
+<!-- ============================================================
+     SECTION 7.5: WHY WORK WITH ME
+============================================================ -->
+<section class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(122,63,145,0.08) 0%, transparent 70%);">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">The Azhar Difference</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Why Clients Choose Me</h2>
+      <p class="mt-4 text-lilac/50 text-sm max-w-lg mx-auto">Three years. 25+ projects. Zero missed deadlines. Here's what sets my work apart.</p>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <div class="glass p-7 reveal delay-1 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="zap" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Fast Turnaround</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">AI-augmented workflows let me deliver in 25% less time than the industry average â€” without cutting corners on quality.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glass p-7 reveal delay-2 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">5-Star, Every Time</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">30+ platform reviews. A 98% retention rate. Clients don't just come back â€” they refer me to their network.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass p-7 reveal delay-3 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="layers" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Full-Stack Creative</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">Design, dev, animation, AI â€” all under one roof. No handoffs. No miscommunication. One person who owns the entire vision.</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="glass p-7 reveal delay-1 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="message-circle" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Clear Communication</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">Daily updates, transparent timelines, and a 24-hour response guarantee. You'll always know exactly where your project stands.</p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="glass p-7 reveal delay-2 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="trending-up" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Results-Driven</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">My designs have improved client ROI by 35â€“60% on average. Beautiful work that actually converts â€” that's the goal, every time.</p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="glass p-7 reveal delay-3 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="shield-check" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Satisfaction Guarantee</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">Unlimited revisions until you love it. I don't close a project until the client is genuinely happy â€” not just satisfied.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA Strip -->
+    <div class="mt-14 glass p-8 reveal flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <h3 class="font-display text-2xl md:text-3xl font-light text-lilac mb-1">Ready to build something remarkable?</h3>
+        <p class="text-lilac/45 text-sm">Let's turn your idea into a product clients love and competitors envy.</p>
+      </div>
+      <a href="#contact" class="btn-primary flex-shrink-0">
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        Start a Project
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
 <!-- ============================================================
      SECTION 8: CONTACT
 ============================================================ -->
@@ -2023,260 +2622,347 @@
     </div>
   </div>
 </div>
-
-
 <!-- ============================================================
-     JAVASCRIPT
+     ANIMATION ENGINE â€” Particles, Bursts, Cursor, Text FX
 ============================================================ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  /* ----------------------------------------------------------
-     MAIN ALPINE APP
-  ---------------------------------------------------------- */
-  function portfolioApp() {
-    return {
-      lightMode: false,
-      _manualOverride: false,
-      scrolled: false,
-      mobileMenu: false,
-      modalOpen: false,
-      activeProject: null,
+<script>
+(function() {
+  /* â”€â”€ PALETTE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  const COLORS = {
+    lilac:    'rgba(242,234,247,',
+    amethyst: 'rgba(197,157,217,',
+    regal:    'rgba(122,63,145,',
+    velvet:   'rgba(43,13,62,'
+  };
+  const BURST_COLORS = [
+    [242,234,247], [197,157,217], [122,63,145],
+    [170,100,200], [220,180,240], [80,30,120]
+  ];
 
-      /* ---------- SKILLS ---------- */
-      creativeSkills: [
-        '2D Animation', '3D Animation', 'Character Animation',
-        'Motion Design', 'Motion Graphics', 'Video Editing',
-        'Logo Design', 'Branding & Identity', 'Graphic Design',
-        'Adobe Photoshop', 'Adobe Illustrator'
-      ],
-      technicalSkills: [
-        'Artificial Intelligence (AI)', 'Machine Learning',
-        'Prompt Engineering', 'Web Development',
-        'Responsive Web Design', 'Web Applications',
-        'CSS', 'Debugging', 'Game Design'
-      ],
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     1. PARTICLE CANVAS BACKGROUND
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], mouse = { x: -9999, y: -9999 };
 
-      /* ---------- PROJECTS ---------- */
-      projects: [
-        {
-          id: 1,
-          title: 'Nexus Brand Identity',
-          category: 'Branding',
-          icon: 'hexagon',
-          thumbClass: 'thumb-1',
-          shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup â€” from logo to full design language.',
-          longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
-          tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
-          highlights: [
-            'Full logo suite including primary, secondary and icon variants',
-            '40-page brand guidelines document',
-            'Complete stationery system and business collateral',
-            'Social media template kit with 20+ designs'
-          ]
-        },
-        {
-          id: 2,
-          title: 'Aura E-commerce Website',
-          category: 'Web Dev',
-          icon: 'shopping-bag',
-          thumbClass: 'thumb-2',
-          shortDesc: 'A luxury e-commerce platform with seamless UX, lightning-fast performance, and a beautifully minimal aesthetic.',
-          longDesc: 'Aura is a premium fashion e-commerce website built from the ground up with performance and elegance as dual priorities. The site features smooth page transitions, a custom cart system, product filtering, and full mobile responsiveness. The design language prioritizes white space, editorial imagery, and intuitive navigation.',
-          tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'UX Design', 'Performance'],
-          highlights: [
-            'Sub-2s load time with optimized asset pipeline',
-            'Custom cart & checkout flow with validation',
-            'Infinite scroll product listings with filters',
-            'Mobile-first responsive layout across all breakpoints'
-          ]
-        },
-        {
-          id: 3,
-          title: 'Neon Motion Reel 2024',
-          category: 'Motion',
-          icon: 'play-circle',
-          thumbClass: 'thumb-3',
-          shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
-          longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities â€” from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
-          tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
-          highlights: [
-            '90-second reel spanning 8 distinct animation styles',
-            'Original sound design and audio-reactive elements',
-            'Custom character rig with 40+ control points',
-            'Delivered in 4K ProRes for broadcast standard'
-          ]
-        },
-        {
-          id: 4,
-          title: 'AI Prompt Studio Dashboard',
-          category: 'AI / Dev',
-          icon: 'brain-circuit',
-          thumbClass: 'thumb-4',
-          shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
-          longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
-          tags: ['Web Development', 'AI', 'Prompt Engineering', 'CSS', 'JavaScript', 'API Integration'],
-          highlights: [
-            'Real-time prompt testing with model API integration',
-            'Version control system with diff viewer',
-            'Team workspace with role-based permissions',
-            'Bulk export to JSON, CSV, and YAML formats'
-          ]
-        },
-        {
-          id: 5,
-          title: 'Pulse Social Media Pack',
-          category: 'Graphic Design',
-          icon: 'image',
-          thumbClass: 'thumb-5',
-          shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand â€” Instagram, Stories, Reels covers & more.',
-          longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics â€” all built on a vibrant, energetic design system optimized for engagement.',
-          tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
-          highlights: [
-            '60 fully editable template files across 6 formats',
-            'Consistent design system with 3 sub-brand variants',
-            'Optimized for Instagram, TikTok, YouTube and Facebook',
-            'Client training guide for in-house editing'
-          ]
-        },
-        {
-          id: 6,
-          title: 'Vortex Game UI/UX',
-          category: 'Game Design',
-          icon: 'gamepad-2',
-          thumbClass: 'thumb-6',
-          shortDesc: 'A complete UI/UX design system for a sci-fi action game â€” HUD, menus, inventory, and character screens.',
-          longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
-          tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
-          highlights: [
-            'Full UI kit with 80+ screen-ready components',
-            'Animated HUD prototype with hover/active states',
-            'Accessibility-compliant color contrast ratios',
-            'Delivered with Figma source files and dev specs'
-          ]
-        }
-      ],
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-      /* ---------- MODAL METHODS ---------- */
-      openModal(project) {
-        this.activeProject = project;
-        this.modalOpen = true;
-        document.body.style.overflow = 'hidden';
-        this.$nextTick(() => lucide.createIcons());
-      },
-      closeModal() {
-        this.modalOpen = false;
-        document.body.style.overflow = '';
-        setTimeout(() => { this.activeProject = null; }, 300);
-      },
-
-      /* ---------- INIT ---------- */
-      init() {
-        // â”€â”€ System theme detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        // Read the value set by the blocking script
-        this.lightMode = window.__systemLight || false;
-
-        // Listen for system theme changes in real time
-        const mq = window.matchMedia('(prefers-color-scheme: light)');
-        mq.addEventListener('change', (e) => {
-          // Only auto-switch if user hasn't manually toggled
-          if (!this._manualOverride) {
-            this.lightMode = e.matches;
-          }
-        });
-
-        // Watch lightMode changes â†’ update <html> class immediately
-        this.$watch('lightMode', (val) => {
-          document.documentElement.classList.toggle('light-mode', val);
-          document.documentElement.classList.toggle('dark-mode', !val);
-        });
-
-        // Scroll detection for navbar
-        window.addEventListener('scroll', () => {
-          this.scrolled = window.scrollY > 40;
-        });
-
-        // Scroll reveal
-        this.$nextTick(() => {
-          this.initReveal();
-          this.initTyping();
-          lucide.createIcons();
-        });
-      },
-
-      /* ---------- SCROLL REVEAL ---------- */
-      initReveal() {
-        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-        revealEls.forEach(el => observer.observe(el));
-      },
-
-      /* ---------- TYPING ANIMATION ---------- */
-      initTyping() {
-        const phrases = [
-          'Freelance Graphic Designer',
-          'Web Developer',
-          'AI & Prompt Engineer',
-          'Motion Graphics Artist',
-          'Brand Identity Specialist'
-        ];
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let deleting = false;
-        const el = document.getElementById('typed-text');
-        if (!el) return;
-
-        function type() {
-          const current = phrases[phraseIndex];
-          if (!deleting) {
-            el.textContent = current.slice(0, charIndex + 1);
-            charIndex++;
-            if (charIndex === current.length) {
-              deleting = true;
-              setTimeout(type, 2200);
-              return;
-            }
-          } else {
-            el.textContent = current.slice(0, charIndex - 1);
-            charIndex--;
-            if (charIndex === 0) {
-              deleting = false;
-              phraseIndex = (phraseIndex + 1) % phrases.length;
-            }
-          }
-          setTimeout(type, deleting ? 55 : 80);
-        }
-        setTimeout(type, 800);
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : H + 10;
+      this.r  = Math.random() * 1.8 + 0.3;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = -(Math.random() * 0.4 + 0.15);
+      this.life = 0;
+      this.maxLife = Math.random() * 300 + 150;
+      const c = [COLORS.amethyst, COLORS.regal, COLORS.lilac];
+      this.color = c[Math.floor(Math.random() * c.length)];
+      this.twinkleSpeed = Math.random() * 0.04 + 0.01;
+      this.twinkleOffset = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.life++;
+      this.x += this.vx;
+      this.y += this.vy;
+      // Mouse repel
+      const dx = this.x - mouse.x, dy = this.y - mouse.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
+        const force = (100 - dist) / 100 * 0.5;
+        this.x += (dx / dist) * force;
+        this.y += (dy / dist) * force;
       }
-    };
+      if (this.life > this.maxLife || this.y < -10) this.reset(false);
+    }
+    draw() {
+      const progress = this.life / this.maxLife;
+      const alpha = progress < 0.1 ? progress * 10 :
+                    progress > 0.8 ? (1 - progress) * 5 : 1;
+      const twinkle = 0.5 + 0.5 * Math.sin(this.life * this.twinkleSpeed + this.twinkleOffset);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color + (alpha * twinkle * 0.7) + ')';
+      ctx.fill();
+    }
   }
 
-  /* ----------------------------------------------------------
-     COUNTER ANIMATION (Alpine component)
-  ---------------------------------------------------------- */
-  function counterAnim(target, suffix = '') {
-    return {
-      display: 0,
-      target,
-      suffix,
-      started: false,
-      start() {
-        if (this.started) return;
-        this.started = true;
-        const duration = 1800;
-        const step = 16;
-        const increment = target / (duration / step);
-        const timer = setInterval(() => {
-          this.display = Math.min(Math.round(this.display + increment), target);
-          if (this.display >= target) {
-            this.display = target;
-            clearInterval(timer);
-          }
-        }, step);
+  // Create particles
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  // Connection lines between nearby particles
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < 90) {
+          const alpha = (1 - d/90) * 0.12;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = COLORS.regal + alpha + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
       }
-    };
-  
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, W, H);
+    drawConnections();
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('touchmove', e => {
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  }, { passive: true });
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     2. COLOR BURST ON CLICK / TOUCH
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  function spawnBurst(x, y) {
+    const count = 6 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < count; i++) {
+      const [r,g,b] = BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)];
+      const size = 80 + Math.random() * 180;
+      const el = document.createElement('div');
+      el.className = 'burst-ripple';
+      el.style.cssText = `
+        left:${x}px; top:${y}px;
+        width:${size}px; height:${size}px;
+        background: radial-gradient(circle, rgba(${r},${g},${b},0.55) 0%, rgba(${r},${g},${b},0.15) 50%, transparent 70%);
+        animation-delay: ${i * 60}ms;
+        animation-duration: ${0.7 + Math.random() * 0.4}s;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1400);
+    }
+
+    // Also spawn extra particles at click point
+    for (let i = 0; i < 8; i++) {
+      const p = new Particle();
+      p.x = x; p.y = y;
+      p.vx = (Math.random() - 0.5) * 3;
+      p.vy = (Math.random() - 0.5) * 3 - 1;
+      p.r  = Math.random() * 3 + 1;
+      p.maxLife = 60 + Math.random() * 40;
+      particles.push(p);
+      if (particles.length > 160) particles.shift();
+    }
+  }
+
+  document.addEventListener('click', e => spawnBurst(e.clientX, e.clientY));
+  document.addEventListener('touchstart', e => {
+    Array.from(e.touches).forEach(t => spawnBurst(t.clientX, t.clientY));
+  }, { passive: true });
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     3. CUSTOM MAGNETIC CURSOR (desktop only)
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  const glowEl  = document.getElementById('cursor-glow');
+  const ringEl  = document.getElementById('cursor-ring');
+  let cx = 0, cy = 0, rx = 0, ry = 0;
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', e => {
+      cx = e.clientX; cy = e.clientY;
+      glowEl.style.left = cx + 'px';
+      glowEl.style.top  = cy + 'px';
+    });
+
+    // Ring follows with lerp
+    (function lerpRing() {
+      rx += (cx - rx) * 0.12;
+      ry += (cy - ry) * 0.12;
+      ringEl.style.left = rx + 'px';
+      ringEl.style.top  = ry + 'px';
+      requestAnimationFrame(lerpRing);
+    })();
+
+    // Enlarge on hover over interactive elements
+    const interactives = 'a, button, .glass, .project-card, .skill-pill, .social-link, .btn-primary, .btn-outline, .btn-download';
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(interactives)) {
+        ringEl.style.width  = '64px';
+        ringEl.style.height = '64px';
+        ringEl.style.borderColor = 'rgba(197,157,217,0.7)';
+        glowEl.style.width  = '32px';
+        glowEl.style.height = '32px';
+      }
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(interactives)) {
+        ringEl.style.width  = '44px';
+        ringEl.style.height = '44px';
+        ringEl.style.borderColor = 'rgba(197,157,217,0.35)';
+        glowEl.style.width  = '20px';
+        glowEl.style.height = '20px';
+      }
+    });
+  }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     4. SPLIT TEXT REVEAL ANIMATION
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  function initSplitText() {
+    // Target section h2 headings
+    document.querySelectorAll('h2.gradient-text').forEach((el, idx) => {
+      const words = el.textContent.trim().split(' ');
+      el.innerHTML = words.map((w, i) =>
+        `<span class="split-word" style="margin-right:0.25em"><span style="transition-delay:${i * 80}ms">${w}</span></span>`
+      ).join('');
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.split-word').forEach(sw => sw.classList.add('in-view'));
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(el);
+    });
+  }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     5. HEADING UNDERLINE DRAW-IN
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  function initUnderlines() {
+    document.querySelectorAll('.section-label').forEach(label => {
+      const next = label.nextElementSibling;
+      if (next && next.tagName.match(/H[1-6]/)) {
+        next.classList.add('heading-underline');
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+        observer.observe(next);
+      }
+    });
+  }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     6. AURORA SHIMMER â€” add to all glass cards dynamically
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  function initAurora() {
+    document.querySelectorAll('.glass, .testimonial-card').forEach(el => {
+      el.classList.add('glass-aurora');
+    });
+  }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     7. SKILL PILLS STAGGER
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  function initPillStagger() {
+    const container = document.querySelector('[x-for]');
+    // Observe skill sections and stagger pills when visible
+    document.querySelectorAll('.skill-pill').forEach((pill, i) => {
+      pill.style.animationDelay = (i * 45) + 'ms';
+      pill.style.animationPlayState = 'paused';
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-pill').forEach(pill => {
+            pill.style.animationPlayState = 'running';
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('#skills .glass').forEach(el => observer.observe(el));
+  }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     8. HERO CSS PARTICLES (extra floating dots in hero)
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  function initHeroParticles() {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    const colors = ['#F2EAF7', '#C59DD9', '#7A3F91', '#a060c0', '#e0c0f0'];
+    for (let i = 0; i < 18; i++) {
+      const dot = document.createElement('div');
+      const size = Math.random() * 4 + 2;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const duration = Math.random() * 12 + 8;
+      const delay    = Math.random() * 8;
+      const x        = Math.random() * 100;
+      dot.className  = 'hero-particle';
+      dot.style.cssText = `
+        left:${x}%;
+        width:${size}px; height:${size}px;
+        background:${color};
+        box-shadow: 0 0 ${size*3}px ${color};
+        animation-duration:${duration}s;
+        animation-delay:${delay}s;
+      `;
+      hero.appendChild(dot);
+    }
+  }
+
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     9. SMOOTH COUNTER NUMBER FORMATTING
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  // Upgrade: make counters ease-out with easing
+  // (already handled by counterAnim, but add visual flourish)
+  function initCounterGlow() {
+    document.querySelectorAll('.counter-card').forEach(card => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            card.style.transition = 'all 0.4s ease';
+            card.style.boxShadow  = '0 0 40px rgba(122,63,145,0.25), inset 0 1px 0 rgba(197,157,217,0.1)';
+            observer.unobserve(card);
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(card);
+    });
+  }
+
+  /* â”€â”€ INIT ALL on DOM ready â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  function init() {
+    // Slight delay so Alpine renders dynamic content (skills, counters) first
+    setTimeout(() => {
+      initSplitText();
+      initUnderlines();
+      initAurora();
+      initHeroParticles();
+      initCounterGlow();
+    }, 600);
+
+    // Pill stagger after Alpine renders skills
+    setTimeout(initPillStagger, 1200);
+  }
+
+})();
+</script>
+
+</body>
+</html>
