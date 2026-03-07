@@ -1,769 +1,2282 @@
 <!DOCTYPE html>
-<html lang="en" x-data="portfolio()" :class="{ 'light-mode': lightMode }">
+<html lang="en" x-data="portfolioApp()" :class="{ 'light-mode': lightMode, 'dark-mode': !lightMode }">
 <head>
-  <!--
-    ================================================================
-    Muhammad Azhar Shahbaz — Personal Portfolio
-    Freelance Graphic Designer & Web Developer | AI & Prompt Engineer
-    Islamabad, Pakistan  |  @n0xid
-    ================================================================
-  -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Muhammad Azhar Shahbaz — Freelance Graphic Designer, Web Developer & AI Prompt Engineer based in Islamabad, Pakistan." />
-  <meta name="author" content="Muhammad Azhar Shahbaz" />
-  <meta property="og:title" content="Azhar Shahbaz — Designer & Developer" />
-  <meta property="og:description" content="Freelance Graphic Designer, Web Developer & AI Prompt Engineer — Islamabad, Pakistan." />
-  <meta property="og:type" content="website" />
-  <title>Azhar Shahbaz — Graphic Designer &amp; Web Developer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Azhar. ” AI & Animation Specialist | Full-Stack Designer</title>
 
-  <!-- Google Fonts: Syne (display) + DM Sans (body) + JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- ============================================================
+       DEVTOOLS BLOCKER + SYSTEM THEME INIT (runs before paint)
+  ============================================================ -->
+  <script>
+    /* â”€â”€ 1. SYSTEM THEME DETECTION (instant, no flash) â”€â”€â”€â”€â”€â”€â”€â”€ */
+    (function() {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      // Store system preference; Alpine will pick it up
+      window.__systemLight = mq.matches;
+      // Apply class immediately to <html> so no darkâ†’light flash
+      if (mq.matches) {
+        document.documentElement.classList.add('light-mode');
+        document.documentElement.classList.remove('dark-mode');
+      } else {
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.remove('light-mode');
+      }
+    })();
 
-  <!-- Tailwind CSS CDN -->
+    /* â”€â”€ 2. DEVTOOLS BLOCKER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    (function() {
+      // Block right-click context menu
+      document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+
+      // Block F12, Ctrl+Shift+I/J/C/U, Cmd+Opt+I/J/C, Ctrl+U
+      document.addEventListener('keydown', function(e) {
+        var blocked =
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) ||
+          (e.metaKey && e.altKey  && ['I','J','C'].includes(e.key.toUpperCase())) ||
+          (e.ctrlKey && e.key.toUpperCase() === 'U');
+        if (blocked) { e.preventDefault(); e.stopPropagation(); return false; }
+      }, true);
+
+      // Devtools size-change detection
+      var threshold = 160;
+      function detectDevTools() {
+        var widthDiff  = window.outerWidth  - window.innerWidth  > threshold;
+        var heightDiff = window.outerHeight - window.innerHeight > threshold;
+        if (widthDiff || heightDiff) {
+          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a0827;color:#C59DD9;font-family:\'DM Sans\',sans-serif;font-size:1.1rem;letter-spacing:0.05em;">ðŸ”’ Access Restricted</div>';
+        }
+      }
+      setInterval(detectDevTools, 1000);
+
+      // Debugger trap (slows down devtools console)
+      setInterval(function() { (function(){}).constructor('debugger')(); }, 50);
+
+      // Disable text selection (optional â€” comment out if you want it)
+      // document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+    })();
+  </script>
+
+  <!-- Google Fonts: Cormorant Garamond + DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Alpine.js CDN -->
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine.js v3 -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Tailwind Config -->
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            neon: { purple: '#a855f7', cyan: '#22d3ee', blue: '#3b82f6', pink: '#ec4899' },
-            surface: { 900: '#0a0a0f', 800: '#0d0d16', 700: '#12121e', 600: '#171728', 500: '#1e1e35', 400: '#282845' }
+            lilac:    '#F2EAF7',
+            amethyst: '#C59DD9',
+            regal:    '#7A3F91',
+            velvet:   '#2B0D3E',
           },
           fontFamily: {
-            display: ['Syne', 'sans-serif'],
-            body:    ['DM Sans', 'sans-serif'],
-            mono:    ['JetBrains Mono', 'monospace'],
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans:  ['DM Sans', 'sans-serif'],
           },
-        },
-      },
-    };
+        }
+      }
+    }
   </script>
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES & ROOT
+    ============================================================ */
+    :root {
+      --c-lilac:    #F2EAF7;
+      --c-amethyst: #C59DD9;
+      --c-regal:    #7A3F91;
+      --c-velvet:   #2B0D3E;
+      --c-velvet2:  #1a0827;
+      --glow-sm:    0 0 20px rgba(197,157,217,0.25);
+      --glow-md:    0 0 40px rgba(122,63,145,0.35);
+      --glow-lg:    0 0 70px rgba(122,63,145,0.45);
+    }
+
+    /* ============================================================
+       BASE RESET & SCROLLBAR
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--c-velvet2);
+      color: var(--c-lilac);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--c-velvet2); }
+    ::-webkit-scrollbar-thumb { background: var(--c-regal); border-radius: 2px; }
+
+    /* ============================================================
+       LIGHT MODE â€” Apple UI Style, same purple/lilac palette
+    ============================================================ */
+
+    /* CSS vars for light mode */
+    html.light-mode {
+      --c-bg:        #f5f0fb;
+      --c-bg2:       #ede5f7;
+      --c-surface:   rgba(255,255,255,0.72);
+      --c-surface2:  rgba(242,234,247,0.85);
+      --c-border:    rgba(122,63,145,0.18);
+      --c-text:      #1d0a2e;
+      --c-text2:     rgba(43,13,62,0.70);
+      --c-text3:     rgba(43,13,62,0.45);
+      --c-accent:    #7A3F91;
+      --c-lilac:     #F2EAF7;
+    }
+
+    html.light-mode body {
+      background-color: #f5f0fb;
+      color: #1d0a2e;
+    }
+
+    /* Scrollbar */
+    html.light-mode ::-webkit-scrollbar-track { background: #ede5f7; }
+    html.light-mode ::-webkit-scrollbar-thumb { background: var(--c-regal); }
+
+    /* Background breathing orbs â€” lighter tint */
+    html.light-mode .bg-breathe {
+      background: #f5f0fb;
+    }
+    html.light-mode .bg-breathe::before {
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(242,234,247,0.6) 0%, transparent 70%);
+    }
+
+    /* Navbar */
+    html.light-mode .nav-glass {
+      background: rgba(245,240,251,0.82) !important;
+      border-bottom-color: rgba(122,63,145,0.14) !important;
+      box-shadow: 0 1px 0 rgba(122,63,145,0.08);
+    }
+    html.light-mode .nav-glass.scrolled {
+      background: rgba(245,240,251,0.95) !important;
+      box-shadow: 0 4px 24px rgba(122,63,145,0.12) !important;
+    }
+    html.light-mode .nav-link { color: rgba(43,13,62,0.60); }
+    html.light-mode .nav-link:hover { color: var(--c-regal); }
+
+    /* Mobile menu */
+    html.light-mode .mobile-menu {
+      background: rgba(245,240,251,0.97);
+      border-bottom-color: rgba(122,63,145,0.14);
+    }
+
+    /* Hero section */
+    html.light-mode .hero-bg {
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(197,157,217,0.28) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(122,63,145,0.12) 0%, transparent 55%),
+        linear-gradient(180deg, #ede5f7 0%, #e8daf5 50%, #f5f0fb 100%);
+    }
+    html.light-mode .hero-brand {
+      background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 40%, var(--c-amethyst) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 16px rgba(122,63,145,0.18));
+    }
+    html.light-mode .orb {
+      opacity: 0.12;
+    }
+
+    /* Glass cards */
+    html.light-mode .glass {
+      background: rgba(255,255,255,0.68);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(122,63,145,0.14);
+      box-shadow: 0 2px 20px rgba(122,63,145,0.07), 0 1px 0 rgba(255,255,255,0.9) inset;
+    }
+    html.light-mode .glass:hover {
+      border-color: rgba(122,63,145,0.28);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.14), 0 1px 0 rgba(255,255,255,0.9) inset;
+    }
+    html.light-mode .glass-strong {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(122,63,145,0.16);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.12);
+    }
+
+    /* Typography color overrides */
+    html.light-mode .text-lilac { color: #1d0a2e !important; }
+    html.light-mode .text-lilac\/60, html.light-mode .text-lilac\/65,
+    html.light-mode .text-lilac\/55, html.light-mode .text-lilac\/50 { color: rgba(43,13,62,0.65) !important; }
+    html.light-mode .text-lilac\/40, html.light-mode .text-lilac\/45 { color: rgba(43,13,62,0.45) !important; }
+    html.light-mode .text-lilac\/35, html.light-mode .text-lilac\/25 { color: rgba(43,13,62,0.38) !important; }
+    html.light-mode .text-amethyst { color: var(--c-regal) !important; }
+    html.light-mode .text-amethyst\/50, html.light-mode .text-amethyst\/70 { color: rgba(122,63,145,0.65) !important; }
+    html.light-mode .text-amethyst\/60 { color: rgba(122,63,145,0.55) !important; }
+
+    /* Section labels */
+    html.light-mode .section-label { color: var(--c-regal); opacity: 0.75; }
+
+    /* Gradient text stays â€” just tweak start color for better contrast on white */
+    html.light-mode .gradient-text {
+      background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 50%, var(--c-amethyst) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    html.light-mode .gradient-text-warm {
+      background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-amethyst) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Skill pills */
+    html.light-mode .skill-pill {
+      background: rgba(122,63,145,0.08);
+      border-color: rgba(122,63,145,0.20);
+      color: #1d0a2e;
+    }
+    html.light-mode .skill-pill:hover {
+      background: rgba(122,63,145,0.18);
+      border-color: rgba(122,63,145,0.40);
+      color: var(--c-velvet);
+    }
+
+    /* Project cards */
+    html.light-mode .project-card {
+      background: rgba(255,255,255,0.72);
+      border-color: rgba(122,63,145,0.14);
+    }
+    html.light-mode .project-card:hover {
+      border-color: rgba(122,63,145,0.30);
+      box-shadow: 0 12px 50px rgba(122,63,145,0.16);
+    }
+    html.light-mode .project-card h3 { color: #1d0a2e; }
+    html.light-mode .project-card .text-lilac\/50 { color: rgba(43,13,62,0.55) !important; }
+
+    /* Testimonials */
+    html.light-mode .testimonial-card {
+      background: rgba(255,255,255,0.72);
+      border-color: rgba(122,63,145,0.14);
+    }
+    html.light-mode .testimonial-card::before { color: var(--c-amethyst); opacity: 0.3; }
+    html.light-mode .testimonial-card:hover {
+      border-color: rgba(122,63,145,0.28);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.10);
+    }
+
+    /* Achievement badges */
+    html.light-mode .achievement-badge {
+      background: rgba(255,255,255,0.65);
+      border-color: rgba(122,63,145,0.14);
+    }
+    html.light-mode .achievement-badge:hover {
+      background: rgba(255,255,255,0.88);
+      border-color: rgba(122,63,145,0.28);
+    }
+
+    /* Form inputs */
+    html.light-mode .form-input {
+      background: rgba(255,255,255,0.75);
+      border-color: rgba(122,63,145,0.20);
+      color: #1d0a2e;
+    }
+    html.light-mode .form-input::placeholder { color: rgba(43,13,62,0.30); }
+    html.light-mode .form-input:focus {
+      border-color: rgba(122,63,145,0.50);
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 0 20px rgba(122,63,145,0.10);
+    }
+
+    /* Social links */
+    html.light-mode .social-link {
+      background: rgba(122,63,145,0.08);
+      border-color: rgba(122,63,145,0.20);
+      color: var(--c-regal);
+    }
+    html.light-mode .social-link:hover {
+      background: rgba(122,63,145,0.18);
+      border-color: var(--c-regal);
+      color: var(--c-velvet);
+    }
+
+    /* Buttons */
+    html.light-mode .btn-outline {
+      color: var(--c-regal);
+      border-color: rgba(122,63,145,0.35);
+    }
+    html.light-mode .btn-outline:hover {
+      background: rgba(122,63,145,0.10);
+      border-color: var(--c-regal);
+      color: var(--c-velvet);
+    }
+    html.light-mode .btn-download {
+      background: linear-gradient(135deg, rgba(122,63,145,0.10) 0%, rgba(197,157,217,0.20) 100%);
+      color: var(--c-regal);
+      border-color: rgba(122,63,145,0.30);
+    }
+    html.light-mode .btn-download:hover {
+      background: linear-gradient(135deg, rgba(122,63,145,0.18) 0%, rgba(197,157,217,0.32) 100%);
+      color: var(--c-velvet);
+      border-color: var(--c-regal);
+    }
+
+    /* Counter cards */
+    html.light-mode .counter-label { color: rgba(43,13,62,0.45); }
+
+    /* Footer */
+    html.light-mode footer {
+      border-top-color: rgba(122,63,145,0.12);
+      background: #ede5f7;
+    }
+    html.light-mode .footer-gradient {
+      background: linear-gradient(0deg, #e8daf5 0%, transparent 100%);
+    }
+
+    /* Modal backdrop */
+    html.light-mode .modal-backdrop {
+      background: rgba(242,234,247,0.85);
+    }
+
+    /* Stat bars */
+    html.light-mode .stat-bar-wrap { background: rgba(122,63,145,0.10); }
+
+    /* Tag chips */
+    html.light-mode .tag-chip {
+      background: rgba(122,63,145,0.10);
+      border-color: rgba(122,63,145,0.20);
+      color: var(--c-regal);
+    }
+
+    /* Availability badge */
+    html.light-mode .border-amethyst\/25 { border-color: rgba(122,63,145,0.25) !important; }
+    html.light-mode .bg-regal\/15 { background: rgba(122,63,145,0.10) !important; }
+    html.light-mode .text-amethyst\/80 { color: rgba(122,63,145,0.75) !important; }
+
+    /* Counter numbers keep gradient */
+    html.light-mode .counter-number {
+      background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-amethyst) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Section radial bg overlays */
+    html.light-mode section[style*="radial-gradient"] {
+      background: transparent !important;
+    }
+
+    /* ============================================================
+       BREATHING GRADIENT BACKGROUND
+    ============================================================ */
+    .bg-breathe {
+      background: var(--c-velvet2);
+      position: relative;
+    }
+    .bg-breathe::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(43,13,62,0.5) 0%, transparent 70%);
+      animation: breathe 12s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes breathe {
+      0%   { opacity: 0.6; transform: scale(1); }
+      50%  { opacity: 1;   transform: scale(1.04); }
+      100% { opacity: 0.7; transform: scale(1.01); }
+    }
+
+    /* Noise texture overlay for depth */
+    .bg-breathe::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================================================
+       GLASS CARD SYSTEM
+    ============================================================ */
+    .glass {
+      background: rgba(43, 13, 62, 0.55);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(197,157,217,0.18);
+      border-radius: 16px;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .glass:hover {
+      border-color: rgba(197,157,217,0.38);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.30), 0 0 0 1px rgba(197,157,217,0.12);
+      transform: translateY(-4px);
+    }
+    .glass-strong {
+      background: rgba(43, 13, 62, 0.75);
+      backdrop-filter: blur(30px) saturate(160%);
+      -webkit-backdrop-filter: blur(30px) saturate(160%);
+      border: 1px solid rgba(197,157,217,0.22);
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--c-amethyst);
+      opacity: 0.8;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--c-lilac) 0%, var(--c-amethyst) 50%, var(--c-regal) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-warm {
+      background: linear-gradient(135deg, var(--c-amethyst) 0%, var(--c-lilac) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    .nav-glass {
+      background: rgba(26, 8, 39, 0.75);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(197,157,217,0.12);
+      transition: all 0.3s ease;
+    }
+    .nav-glass.scrolled {
+      background: rgba(26, 8, 39, 0.92);
+      border-bottom-color: rgba(197,157,217,0.22);
+      box-shadow: 0 4px 30px rgba(43,13,62,0.6);
+    }
+
+    .nav-link {
+      position: relative;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: rgba(242,234,247,0.65);
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: linear-gradient(90deg, var(--c-amethyst), var(--c-regal));
+      transition: width 0.3s cubic-bezier(0.23,1,0.32,1);
+    }
+    .nav-link:hover { color: var(--c-amethyst); }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    .hero-bg {
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(122,63,145,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(197,157,217,0.12) 0%, transparent 55%),
+        linear-gradient(180deg, var(--c-velvet2) 0%, #200a30 50%, var(--c-velvet2) 100%);
+    }
+
+    /* Floating orb decorations */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.25;
+      animation: float 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    .orb-1 { width: 400px; height: 400px; background: var(--c-regal); top: -100px; right: -100px; animation-delay: 0s; }
+    .orb-2 { width: 250px; height: 250px; background: var(--c-amethyst); bottom: 10%; left: -80px; animation-delay: 3s; }
+    .orb-3 { width: 180px; height: 180px; background: var(--c-regal); top: 40%; left: 30%; animation-delay: 5s; opacity: 0.12; }
+
+    @keyframes float {
+      0%   { transform: translateY(0px) translateX(0px); }
+      50%  { transform: translateY(-30px) translateX(15px); }
+      100% { transform: translateY(10px) translateX(-10px); }
+    }
+
+    /* Typing cursor */
+    .typing-cursor::after {
+      content: '|';
+      color: var(--c-amethyst);
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+
+    /* Hero logo / brand */
+    .hero-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(5rem, 15vw, 12rem);
+      font-weight: 300;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 0%, var(--c-lilac) 30%, var(--c-amethyst) 70%, var(--c-regal) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 40px rgba(197,157,217,0.3));
+    }
+
+    /* ============================================================
+       CTA BUTTONS
+    ============================================================ */
+    .btn-primary {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, var(--c-regal) 0%, #5c2e72 100%);
+      color: var(--c-lilac);
+      border: 1px solid rgba(197,157,217,0.3);
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      text-decoration: none;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(197,157,217,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 30px rgba(122,63,145,0.55), 0 0 60px rgba(122,63,145,0.25);
+      transform: translateY(-2px);
+      border-color: rgba(197,157,217,0.5);
+    }
+    .btn-primary:hover::before { opacity: 1; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 32px;
+      background: transparent;
+      color: var(--c-amethyst);
+      border: 1px solid rgba(197,157,217,0.35);
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+    }
+    .btn-outline:hover {
+      background: rgba(197,157,217,0.10);
+      border-color: var(--c-amethyst);
+      box-shadow: 0 0 25px rgba(197,157,217,0.20);
+      transform: translateY(-2px);
+      color: var(--c-lilac);
+    }
+
+    /* ============================================================
+       SECTION DIVIDER LINES
+    ============================================================ */
+    .divider-line {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--c-regal), transparent);
+      margin: 0 auto;
+    }
+    .divider-line-left {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst), transparent);
+    }
+
+    /* ============================================================
+       SKILL PILL
+    ============================================================ */
+    .skill-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: rgba(122,63,145,0.12);
+      border: 1px solid rgba(197,157,217,0.16);
+      border-radius: 50px;
+      font-size: 0.78rem;
+      color: var(--c-lilac);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .skill-pill:hover {
+      background: rgba(122,63,145,0.28);
+      border-color: rgba(197,157,217,0.4);
+      box-shadow: 0 0 20px rgba(122,63,145,0.25);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+    .skill-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--c-amethyst);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       COUNTER ANIMATION
+    ============================================================ */
+    .counter-card {
+      text-align: center;
+      padding: 36px 24px;
+    }
+    .counter-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 600;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--c-lilac) 0%, var(--c-amethyst) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .counter-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(242,234,247,0.5);
+      margin-top: 8px;
+    }
+
+    /* ============================================================
+       PROJECT CARDS
+    ============================================================ */
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: rgba(43, 13, 62, 0.5);
+      border: 1px solid rgba(197,157,217,0.14);
+      border-radius: 16px;
+      transition: all 0.45s cubic-bezier(0.23,1,0.32,1);
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(122,63,145,0.15) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 1;
+    }
+    .project-card:hover {
+      border-color: rgba(197,157,217,0.35);
+      box-shadow: 0 12px 50px rgba(122,63,145,0.35), 0 0 0 1px rgba(197,157,217,0.1);
+      transform: translateY(-8px) scale(1.01);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-thumb {
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      background: rgba(43,13,62,0.7);
+      backdrop-filter: blur(4px);
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(26, 8, 39, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .modal-enter {
+      animation: modalIn 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+    .modal-leave {
+      animation: modalOut 0.3s ease forwards;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes modalOut {
+      from { opacity: 1; transform: scale(1) translateY(0); }
+      to   { opacity: 0; transform: scale(0.94) translateY(12px); }
+    }
+
+    /* ============================================================
+       SCROLL REVEAL ANIMATIONS
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.94);
+      transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1);
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Stagger delays */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+    .delay-6 { transition-delay: 0.6s; }
+
+    /* ============================================================
+       FORM INPUTS
+    ============================================================ */
+    .form-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(43,13,62,0.5);
+      border: 1px solid rgba(197,157,217,0.18);
+      border-radius: 10px;
+      color: var(--c-lilac);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    .form-input::placeholder { color: rgba(242,234,247,0.30); }
+    .form-input:focus {
+      border-color: rgba(197,157,217,0.5);
+      box-shadow: 0 0 20px rgba(122,63,145,0.20);
+      background: rgba(43,13,62,0.7);
+    }
+
+    /* ============================================================
+       SOCIAL ICON LINKS
+    ============================================================ */
+    .social-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+      background: rgba(122,63,145,0.15);
+      border: 1px solid rgba(197,157,217,0.20);
+      border-radius: 12px;
+      color: var(--c-amethyst);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .social-link:hover {
+      background: rgba(122,63,145,0.35);
+      border-color: var(--c-amethyst);
+      color: var(--c-lilac);
+      box-shadow: 0 0 20px rgba(122,63,145,0.35);
+      transform: translateY(-3px);
+    }
+
+    /* ============================================================
+       TESTIMONIAL CARDS
+    ============================================================ */
+    .testimonial-card {
+      position: relative;
+      padding: 32px;
+      background: rgba(43,13,62,0.55);
+      border: 1px solid rgba(197,157,217,0.14);
+      border-radius: 16px;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 16px; left: 24px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--c-regal);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .testimonial-card:hover {
+      border-color: rgba(197,157,217,0.30);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.25);
+      transform: translateY(-5px);
+    }
+
+    /* ============================================================
+       EXPERIENCE TIMELINE
+    ============================================================ */
+    .timeline-dot {
+      width: 12px; height: 12px;
+      background: var(--c-regal);
+      border: 2px solid var(--c-amethyst);
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .timeline-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--c-regal);
+      opacity: 0.25;
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { transform: scale(1); opacity: 0.25; }
+      50% { transform: scale(1.8); opacity: 0; }
+    }
+
+    /* ============================================================
+       SECTION HEADER DECORATION
+    ============================================================ */
+    .section-header-line {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .section-header-line::before,
+    .section-header-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(197,157,217,0.3), transparent);
+    }
+
+    /* ============================================================
+       EDUCATION CARD ACCENT
+    ============================================================ */
+    .edu-card-accent {
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: linear-gradient(180deg, var(--c-amethyst), var(--c-regal));
+      border-radius: 4px 0 0 4px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer-gradient {
+      background: linear-gradient(0deg, #0f0318 0%, transparent 100%);
+    }
+
+    /* ============================================================
+       MOBILE MENU
+    ============================================================ */
+    .mobile-menu {
+      background: rgba(26, 8, 39, 0.97);
+      backdrop-filter: blur(30px);
+      border-bottom: 1px solid rgba(197,157,217,0.15);
+    }
+
+    /* ============================================================
+       PROJECT GRADIENT THUMBS
+    ============================================================ */
+    .thumb-1 { background: linear-gradient(135deg, #3d1659 0%, #7A3F91 50%, #c59dd9 100%); }
+    .thumb-2 { background: linear-gradient(135deg, #1a0a2e 0%, #4a2070 50%, #8a55a8 100%); }
+    .thumb-3 { background: linear-gradient(135deg, #2b0d3e 0%, #7A3F91 40%, #f2eaf7 100%); }
+    .thumb-4 { background: linear-gradient(135deg, #0d0d1a 0%, #2b0d3e 40%, #7A3F91 100%); }
+    .thumb-5 { background: linear-gradient(135deg, #4a1060 0%, #c59dd9 60%, #f2eaf7 100%); }
+    .thumb-6 { background: linear-gradient(135deg, #1e0535 0%, #5c2080 50%, #c59dd9 100%); }
+
+    /* ============================================================
+       THUMB GEOMETRIC PATTERNS
+    ============================================================ */
+    .thumb-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.25;
+    }
+
+    /* ============================================================
+       AVATAR PLACEHOLDER
+    ============================================================ */
+    .avatar-ring {
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--c-regal), var(--c-amethyst));
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--c-velvet2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 600;
+      color: var(--c-amethyst);
+    }
+
+    /* ============================================================
+       TAG CHIPS FOR MODAL
+    ============================================================ */
+    .tag-chip {
+      display: inline-flex; align-items: center;
+      padding: 4px 12px;
+      background: rgba(122,63,145,0.20);
+      border: 1px solid rgba(197,157,217,0.22);
+      border-radius: 50px;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--c-amethyst);
+    }
+
+    /* ============================================================
+       STAR RATING
+    ============================================================ */
+    .star { color: var(--c-amethyst); font-size: 1rem; }
+
+    /* ============================================================
+       ACHIEVEMENT BADGE
+    ============================================================ */
+    .achievement-badge {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 18px;
+      background: rgba(122,63,145,0.10);
+      border: 1px solid rgba(197,157,217,0.14);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    .achievement-badge:hover {
+      background: rgba(122,63,145,0.22);
+      border-color: rgba(197,157,217,0.30);
+      transform: translateX(4px);
+    }
+
+    /* Download resume pulse ring */
+    .btn-download {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px;
+      background: linear-gradient(135deg, rgba(197,157,217,0.15) 0%, rgba(122,63,145,0.20) 100%);
+      color: var(--c-amethyst);
+      border: 1px solid rgba(197,157,217,0.40);
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      backdrop-filter: blur(10px);
+    }
+    .btn-download:hover {
+      background: linear-gradient(135deg, rgba(197,157,217,0.28) 0%, rgba(122,63,145,0.35) 100%);
+      border-color: var(--c-amethyst);
+      color: #fff;
+      box-shadow: 0 0 30px rgba(197,157,217,0.25);
+      transform: translateY(-2px);
+    }
+    .btn-download::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50px;
+      border: 1px solid rgba(197,157,217,0.15);
+      animation: ring-pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes ring-pulse {
+      0%,100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0; transform: scale(1.06); }
+    }
+
+    /* Stat bar */
+    .stat-bar-wrap { background: rgba(197,157,217,0.10); border-radius: 4px; height: 4px; overflow: hidden; }
+    .stat-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst)); transition: width 1.4s cubic-bezier(0.23,1,0.32,1); }
+
+    /* Responsive tweaks */
+    @media (max-width: 640px) {
+      .hero-brand { font-size: 4.5rem; }
+      .orb-1 { width: 250px; height: 250px; }
+    }
+  </style>
 </head>
 
-<body class="font-body antialiased" id="top">
+<!-- ============================================================
+     ALPINE.JS APP INIT
+============================================================ -->
+<body class="bg-breathe relative" x-data="portfolioApp()">
 
-  <!-- Custom Cursor -->
-  <div id="cursor-dot"  aria-hidden="true"></div>
-  <div id="cursor-ring" aria-hidden="true"></div>
-  <!-- Scroll progress bar -->
-  <div id="scroll-progress" aria-hidden="true"></div>
+<!-- ============================================================
+     STICKY NAVBAR
+============================================================ -->
+<nav
+  class="nav-glass fixed top-0 left-0 right-0 z-50"
+  :class="{ 'scrolled': scrolled }"
+  id="navbar"
+>
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-  <!-- ============================================================
-       NAVBAR
-  ============================================================ -->
-  <header id="navbar" role="banner">
-    <nav class="nav-inner" aria-label="Main navigation">
-      <a href="#home" class="nav-logo" aria-label="Azhar Shahbaz — Home">
-        <span class="logo-mark" aria-hidden="true">A</span>
-        <span class="logo-text">Azhar.</span>
+    <!-- Logo -->
+    <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm tracking-tight z-10">
+      Azhar.
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about"        class="nav-link">About</a>
+      <a href="#skills"       class="nav-link">Skills</a>
+      <a href="#experience"   class="nav-link">Experience</a>
+      <a href="#work"         class="nav-link">Work</a>
+      <a href="#education"    class="nav-link">Education</a>
+      <a href="#testimonials" class="nav-link">Testimonials</a>
+      <a href="#contact"      class="nav-link">Contact</a>
+      <!-- Resume Download -->
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download ml-2">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        Resume
       </a>
-      <ul class="nav-links" role="list">
-        <li><a href="#home"      class="nav-link">Home</a></li>
-        <li><a href="#about"     class="nav-link">About</a></li>
-        <li><a href="#skills"    class="nav-link">Skills</a></li>
-        <li><a href="#work"      class="nav-link">Work</a></li>
-        <li><a href="#education" class="nav-link">Education</a></li>
-        <li><a href="#contact"   class="nav-link">Contact</a></li>
-      </ul>
-      <div class="nav-controls">
-        <button @click="toggleTheme()" class="theme-toggle"
-          :aria-label="lightMode ? 'Switch to dark mode' : 'Switch to light mode'">
-          <i data-lucide="sun"  class="w-4 h-4 icon-sun"  aria-hidden="true"></i>
-          <i data-lucide="moon" class="w-4 h-4 icon-moon" aria-hidden="true"></i>
-        </button>
-        <a href="assets/AzharShahbaz-CV.pdf" download class="btn-cv hidden md:flex" aria-label="Download CV">
-          <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>
-          <span>Download CV</span>
+    </div>
+
+    <!-- Right: Dark/Light Toggle + Mobile Menu Btn -->
+    <div class="flex items-center gap-4 z-10">
+
+      <!-- Theme Toggle -->
+      <button
+        @click="_manualOverride = true; lightMode = !lightMode"
+        class="flex items-center justify-center w-9 h-9 rounded-full border border-opacity-20 transition-all duration-300 hover:border-amethyst"
+        :class="lightMode ? 'bg-amethyst/20 border-amethyst' : 'bg-regal/20 border-amethyst/20'"
+        :title="lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
+      >
+        <i x-show="!lightMode" data-lucide="sun"  class="w-4 h-4 text-amethyst"></i>
+        <i x-show="lightMode"  data-lucide="moon" class="w-4 h-4 text-regal"></i>
+      </button>
+
+      <!-- Mobile menu toggle -->
+      <button
+        class="md:hidden flex items-center justify-center w-9 h-9"
+        @click="mobileMenu = !mobileMenu"
+      >
+        <i x-show="!mobileMenu" data-lucide="menu"  class="w-5 h-5 text-amethyst"></i>
+        <i x-show="mobileMenu"  data-lucide="x"     class="w-5 h-5 text-amethyst"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Dropdown -->
+  <div
+    class="mobile-menu md:hidden overflow-hidden transition-all duration-300"
+    x-show="mobileMenu"
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 -translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+  >
+    <div class="px-6 py-4 flex flex-col gap-4">
+      <a href="#about"        class="nav-link py-2" @click="mobileMenu=false">About</a>
+      <a href="#skills"       class="nav-link py-2" @click="mobileMenu=false">Skills</a>
+      <a href="#experience"   class="nav-link py-2" @click="mobileMenu=false">Experience</a>
+      <a href="#work"         class="nav-link py-2" @click="mobileMenu=false">Work</a>
+      <a href="#education"    class="nav-link py-2" @click="mobileMenu=false">Education</a>
+      <a href="#achievements" class="nav-link py-2" @click="mobileMenu=false">Achievements</a>
+      <a href="#testimonials" class="nav-link py-2" @click="mobileMenu=false">Testimonials</a>
+      <a href="#contact"      class="nav-link py-2" @click="mobileMenu=false">Contact</a>
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download py-2.5 text-xs justify-center mt-2">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        Download Resume
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     SECTION 1: HERO
+============================================================ -->
+<section id="hero" class="hero-bg relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+
+  <!-- Floating orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Decorative grid lines -->
+  <div class="absolute inset-0 pointer-events-none opacity-5"
+    style="background-image: linear-gradient(rgba(197,157,217,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(197,157,217,0.4) 1px, transparent 1px); background-size: 60px 60px;">
+  </div>
+
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+
+    <!-- Availability badge -->
+    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amethyst/25 bg-regal/15 backdrop-blur-sm mb-8 text-xs tracking-widest text-amethyst/80 uppercase" style="letter-spacing:0.18em;">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>
+      Available for freelance work
+    </div>
+
+    <!-- Brand Name -->
+    <h1 class="hero-brand reveal delay-1 mb-4">Azhar.</h1>
+
+    <!-- Full Name -->
+    <p class="reveal delay-2 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
+      Muhammad Azhar Shahbaz
+    </p>
+
+    <!-- Tagline with typing animation -->
+    <div class="reveal delay-3 mb-10">
+      <p class="font-display text-xl md:text-3xl font-light text-lilac/80 leading-relaxed">
+        <span id="typed-text" class="typing-cursor"></span>
+      </p>
+    </div>
+
+    <!-- Location -->
+    <div class="reveal delay-4 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
+      <i data-lucide="map-pin" class="w-4 h-4"></i>
+      <span>Islamabad, Pakistan</span>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="reveal delay-5 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#work" class="btn-primary">
+        <i data-lucide="layers" class="w-4 h-4"></i>
+        View My Work
+      </a>
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download">
+        <i data-lucide="download" class="w-4 h-4"></i>
+        Download Resume
+      </a>
+      <a href="#contact" class="btn-outline">
+        <i data-lucide="send" class="w-4 h-4"></i>
+        Let's Collaborate
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="reveal delay-6 mt-20 flex flex-col items-center gap-2 opacity-40">
+      <span class="text-xs tracking-[0.2em] uppercase text-amethyst/60">Scroll to explore</span>
+      <div class="w-px h-12 bg-gradient-to-b from-amethyst/60 to-transparent animate-pulse"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 2: ABOUT ME
+============================================================ -->
+<section id="about" class="relative z-10 py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Section Header -->
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Who I Am</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">About Me</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <!-- About Grid -->
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+
+      <!-- Avatar + decoration -->
+      <div class="reveal-left flex flex-col items-center md:items-start gap-8">
+        <div class="relative">
+          <div class="avatar-ring">
+            <div class="avatar-inner">MA</div>
+          </div>
+          <!-- Decorative ring -->
+          <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin" style="animation-duration:20s;"></div>
+          <div class="absolute -inset-6 rounded-full border border-regal/10 animate-spin" style="animation-duration:30s; animation-direction: reverse;"></div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-3 -right-3 glass px-3 py-2 rounded-full text-xs text-amethyst border border-amethyst/25 flex items-center gap-2">
+            <i data-lucide="zap" class="w-3 h-3"></i>
+            <span>Open to Work</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio Text -->
+      <div class="reveal-right">
+        <div class="divider-line-left mb-6"></div>
+        <h3 class="font-display text-3xl md:text-4xl font-light text-lilac mb-6 leading-snug">
+          Crafting digital experiences at the intersection of
+          <em class="gradient-text">art and technology.</em>
+        </h3>
+        <p class="text-lilac/60 leading-relaxed text-sm md:text-base mb-4">
+          I'm Muhammad Azhar Shahbaz â€” an AI & Animation Specialist, Full-Stack Designer, and Game Developer based in Islamabad, Pakistan. With a rare dual-degree background in Computer Science and Animation at COMSATS University, I merge engineering precision with cinematic creativity to build digital products that genuinely move people.
+        </p>
+        <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
+          Since 2024 I've served premium US-based clients, generating <span class="text-amethyst font-medium">$15K+</span> across 25+ high-value projects â€” brand identities, web applications, animated explainers, and AI-powered workflows â€” with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
+        </p>
+
+        <!-- Quick stat bars -->
+        <div class="flex flex-col gap-3 mb-8">
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 98, 400)">
+            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
+              <span>Client Retention</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 100, 600)">
+            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
+              <span>On-Time Delivery</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 92, 800)">
+            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
+              <span>Client ROI Improvement (avg)</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="#contact" class="btn-primary inline-flex">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            Start a Project
+          </a>
+          <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download inline-flex">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Download CV
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Counters -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-20">
+      <div class="glass counter-card reveal delay-1" x-data="counterAnim(2, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Years Experience</div>
+      </div>
+      <div class="glass counter-card reveal delay-2" x-data="counterAnim(25, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Premium Projects</div>
+      </div>
+      <div class="glass counter-card reveal delay-3" x-data="counterAnim(30, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Happy Clients</div>
+      </div>
+      <div class="glass counter-card reveal delay-4" x-data="counterAnim(15, 'K+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="'$' + display + suffix"></div>
+        <div class="counter-label">Revenue Generated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 3: SKILLS
+============================================================ -->
+<section id="skills" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(122,63,145,0.08) 0%, transparent 70%);">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">My Expertise</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Skills</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Creative Skills -->
+      <div class="glass p-8 reveal-left">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+            <i data-lucide="palette" class="w-5 h-5 text-amethyst"></i>
+          </div>
+          <div>
+            <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design & Motion</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <template x-for="skill in creativeSkills" :key="skill">
+            <span class="skill-pill">
+              <span class="skill-dot"></span>
+              <span x-text="skill"></span>
+            </span>
+          </template>
+        </div>
+      </div>
+
+      <!-- Technical Skills -->
+      <div class="glass p-8 reveal-right">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+            <i data-lucide="code-2" class="w-5 h-5 text-amethyst"></i>
+          </div>
+          <div>
+            <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Dev & AI</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <template x-for="skill in technicalSkills" :key="skill">
+            <span class="skill-pill">
+              <span class="skill-dot" style="background: #7A3F91;"></span>
+              <span x-text="skill"></span>
+            </span>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 4: EXPERIENCE
+============================================================ -->
+<section id="experience" class="relative z-10 py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Professional Journey</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Experience</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <!-- Experience Card -->
+    <div class="glass p-8 md:p-10 reveal relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5 pointer-events-none"
+        style="background: radial-gradient(circle, var(--c-amethyst), transparent); transform: translate(30%, -30%);"></div>
+
+      <div class="flex flex-col md:flex-row md:items-start gap-6">
+
+        <!-- Company Icon -->
+        <div class="flex-shrink-0">
+          <div class="w-14 h-14 rounded-2xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+            <i data-lucide="briefcase" class="w-6 h-6 text-amethyst"></i>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="flex-1">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-3">
+            <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac">
+              Freelance Graphic Designer & Web Developer
+            </h3>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-green-500/30 bg-green-500/10 text-green-400 self-start md:self-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+              Active
+            </span>
+          </div>
+
+          <p class="font-sans text-amethyst/70 text-sm font-medium mb-1">Self-Employed Â· Premium US-Based Clients</p>
+
+          <div class="flex flex-wrap items-center gap-4 text-xs text-lilac/40 mb-6">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+              January 2024 â€” Present
+            </span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+              Islamabad, Pakistan
+            </span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              Remote / International
+            </span>
+          </div>
+
+          <p class="text-lilac/60 text-sm leading-relaxed mb-6">
+            Generated <span class="text-amethyst font-medium">$15K+</span> in revenue through 25+ premium projects for US-based startups â€” spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
+          </p>
+
+          <!-- Highlights -->
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              $15K+ revenue Â· 25+ premium projects
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              Increased client ROI by 35â€“60%
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              25% faster delivery via AI workflows
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              98% client retention Â· zero late deliveries
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              Top 3% freelancer on Upwork & Fiverr
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              5-star rating across 30+ platform reviews
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 5: FEATURED WORK
+============================================================ -->
+<section id="work" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(122,63,145,0.10) 0%, transparent 70%);">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Portfolio</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Featured Work</h2>
+      <p class="mt-4 text-lilac/50 text-sm max-w-md mx-auto">A curated selection of projects spanning branding, development, motion & AI.</p>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <!-- Project Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <template x-for="(project, index) in projects" :key="project.id">
+        <div
+          class="project-card reveal"
+          :class="'delay-' + ((index % 3) + 1)"
+          @click="openModal(project)"
+        >
+          <!-- Thumbnail -->
+          <div class="project-thumb" :class="project.thumbClass">
+            <!-- SVG Pattern Decoration -->
+            <svg class="thumb-pattern absolute inset-0 w-full h-full" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <circle cx="150" cy="90" r="60" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <circle cx="150" cy="90" r="100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <line x1="150" y1="0" x2="150" y2="180" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            </svg>
+
+            <!-- Project number -->
+            <div class="absolute top-4 left-4 font-display text-5xl font-light opacity-25 text-white z-0" x-text="'0' + (index+1)"></div>
+
+            <!-- Category badge -->
+            <div class="absolute top-4 right-4 z-10">
+              <span class="text-xs px-2.5 py-1 rounded-full border border-white/20 bg-black/30 backdrop-blur-sm text-white/80 tracking-wide"
+                x-text="project.category"></span>
+            </div>
+
+            <!-- Hover overlay -->
+            <div class="project-overlay">
+              <div class="flex items-center gap-2 text-sm text-white font-medium">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                View Details
+              </div>
+            </div>
+
+            <!-- Icon at center -->
+            <div class="absolute inset-0 flex items-end justify-start p-4 z-10">
+              <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <i :data-lucide="project.icon" class="w-5 h-5 text-white"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-6 relative z-10">
+            <h3 class="font-display text-xl font-semibold text-lilac mb-1.5" x-text="project.title"></h3>
+            <p class="text-lilac/50 text-xs leading-relaxed line-clamp-2 mb-4" x-text="project.shortDesc"></p>
+            <div class="flex flex-wrap gap-1.5">
+              <template x-for="tag in project.tags.slice(0,3)" :key="tag">
+                <span class="tag-chip" x-text="tag"></span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 6: EDUCATION
+============================================================ -->
+<section id="education" class="relative z-10 py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Academic Background</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Education</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+
+      <!-- BS Computer Science -->
+      <div class="glass p-8 reveal-left relative overflow-hidden">
+        <div class="edu-card-accent"></div>
+        <div class="pl-4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+                  <i data-lucide="cpu" class="w-4 h-4 text-amethyst"></i>
+                </div>
+                <span class="section-label">Bachelor of Science</span>
+              </div>
+              <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac leading-snug">
+                Computer Science
+              </h3>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
+              <i data-lucide="calendar" class="w-3 h-3"></i>
+              2025 â€” Present
+            </span>
+          </div>
+          <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">
+            Rigorous study of algorithms, data structures, software engineering, machine learning, and artificial intelligence â€” laying the theoretical and practical foundation for cutting-edge digital solutions.
+          </p>
+        </div>
+      </div>
+
+      <!-- BS Animation -->
+      <div class="glass p-8 reveal-right relative overflow-hidden">
+        <div class="edu-card-accent" style="background: linear-gradient(180deg, #C59DD9, #7A3F91);"></div>
+        <div class="pl-4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+                  <i data-lucide="film" class="w-4 h-4 text-amethyst"></i>
+                </div>
+                <span class="section-label">Bachelor of Science</span>
+              </div>
+              <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac leading-snug">
+                Animation, Interactive Technology,<br/>Video Graphics & Special Effects
+              </h3>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
+              <i data-lucide="calendar" class="w-3 h-3"></i>
+              2025 â€” Present
+            </span>
+          </div>
+          <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">
+            Comprehensive training in 2D/3D animation pipelines, motion graphics, visual effects, interactive media design, and cinematic storytelling â€” bridging technical craft with creative artistry.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 6.5: ACHIEVEMENTS
+============================================================ -->
+<section id="achievements" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 70% 40% at 50% 50%, rgba(122,63,145,0.09) 0%, transparent 70%);">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Recognition & Certifications</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Achievements</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+
+      <!-- Top Freelancer -->
+      <div class="achievement-badge reveal delay-1">
+        <div class="w-10 h-10 rounded-xl bg-yellow-500/15 border border-yellow-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="trophy" class="w-5 h-5 text-yellow-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Top 3% Freelancer</p>
+          <p class="text-lilac/45 text-xs mt-0.5">5-star rating across 30+ projects Â· Upwork & Fiverr</p>
+        </div>
+      </div>
+
+      <!-- Google UX -->
+      <div class="achievement-badge reveal delay-2">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="award" class="w-5 h-5 text-blue-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Google UX Design Certificate</p>
+          <p class="text-lilac/45 text-xs mt-0.5">Coursera Â· 2024</p>
+        </div>
+      </div>
+
+      <!-- AI For Everyone -->
+      <div class="achievement-badge reveal delay-3">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="brain-circuit" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">AI For Everyone</p>
+          <p class="text-lilac/45 text-xs mt-0.5">DeepLearning.AI Â· 2024</p>
+        </div>
+      </div>
+
+      <!-- Game Design -->
+      <div class="achievement-badge reveal delay-4">
+        <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="gamepad-2" class="w-5 h-5 text-green-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Game Design Fundamentals</p>
+          <p class="text-lilac/45 text-xs mt-0.5">Michigan State University Â· 2024</p>
+        </div>
+      </div>
+
+      <!-- Hackathon -->
+      <div class="achievement-badge reveal delay-1">
+        <div class="w-10 h-10 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="zap" class="w-5 h-5 text-orange-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Hackathon Winner â€” 2nd Place</p>
+          <p class="text-lilac/45 text-xs mt-0.5">COMSATS Web Dev Competition Â· 2024</p>
+        </div>
+      </div>
+
+      <!-- Open Source -->
+      <div class="achievement-badge reveal delay-2">
+        <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="github" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Open Source Contributor</p>
+          <p class="text-lilac/45 text-xs mt-0.5">3 projects Â· 1K+ total downloads</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 7: TESTIMONIALS
+============================================================ -->
+<section id="testimonials" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(122,63,145,0.10) 0%, transparent 70%);">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Client Words</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Testimonials</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card reveal delay-1">
+        <div class="pt-10">
+          <div class="flex gap-1 mb-4">
+            <span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span>
+          </div>
+          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
+            "Azhar delivered our brand identity beyond what we imagined. His creative vision and attention to detail transformed our startup's visual presence completely. Absolutely world-class work."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">S</div>
+            <div>
+              <p class="text-lilac text-sm font-medium">Sarah Malik</p>
+              <p class="text-amethyst/50 text-xs">CEO, NexaVentures</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card reveal delay-2">
+        <div class="pt-10">
+          <div class="flex gap-1 mb-4">
+            <span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span>
+          </div>
+          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
+            "The e-commerce website Azhar built for us is stunning â€” fast, responsive, and beautifully designed. Our conversion rate improved significantly within the first month of launch. Highly recommended."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">K</div>
+            <div>
+              <p class="text-lilac text-sm font-medium">Kamran Baig</p>
+              <p class="text-amethyst/50 text-xs">Founder, Aura Commerce</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card reveal delay-3">
+        <div class="pt-10">
+          <div class="flex gap-1 mb-4">
+            <span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span>
+          </div>
+          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
+            "Working with Azhar on our motion reel was a remarkable experience. His animation quality rivals top studios. He has a rare instinct for storytelling through motion. A truly gifted creative professional."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">L</div>
+            <div>
+              <p class="text-lilac text-sm font-medium">Lara Chen</p>
+              <p class="text-amethyst/50 text-xs">Creative Director, PulseMedia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 8: CONTACT
+============================================================ -->
+<section id="contact" class="relative z-10 py-28 px-6">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Get In Touch</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Let's Work Together</h2>
+      <p class="mt-4 text-lilac/50 text-sm max-w-md mx-auto">Have a project in mind? I'd love to hear about it. Drop me a message and I'll get back within 24 hours.</p>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-8 items-start">
+
+      <!-- Contact Info -->
+      <div class="md:col-span-2 flex flex-col gap-6 reveal-left">
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="mail" class="w-4 h-4 text-amethyst"></i>
+            </div>
+            <div>
+              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Email</p>
+              <a href="/cdn-cgi/l/email-protection#8beaf9e3eae6e1feffffbdbfb3bab8b8becbece6eae2e7a5e8e4e6" class="text-lilac text-sm hover:text-amethyst transition-colors"><span class="__cf_email__" data-cfemail="a4c5d6ccc5c9ced1d0d092909c95979791e4c3c9c5cdc88ac7cbc9">[email&#160;protected]</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="phone" class="w-4 h-4 text-amethyst"></i>
+            </div>
+            <div>
+              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Phone</p>
+              <a href="tel:+923170626356" class="text-lilac text-sm hover:text-amethyst transition-colors">0317-0626356</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="map-pin" class="w-4 h-4 text-amethyst"></i>
+            </div>
+            <div>
+              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Location</p>
+              <p class="text-lilac text-sm">Islamabad, Pakistan</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="glass p-6">
+          <p class="text-xs text-amethyst/50 tracking-wider uppercase mb-4">Follow Me</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" class="social-link" title="LinkedIn">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+            <a href="https://behance.net" target="_blank" class="social-link" title="Behance">
+              <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="https://x.com" target="_blank" class="social-link" title="X / Twitter">
+              <i data-lucide="twitter" class="w-4 h-4"></i>
+            </a>
+            <a href="https://github.com/azhar-dev" target="_blank" class="social-link" title="GitHub">
+              <i data-lucide="github" class="w-4 h-4"></i>
+            </a>
+            <a href="https://azhar.dev" target="_blank" class="social-link" title="Portfolio Website">
+              <i data-lucide="globe" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="md:col-span-3 glass p-8 reveal-right">
+        <h3 class="font-display text-2xl font-light text-lilac mb-6">Send a Message</h3>
+        <div class="flex flex-col gap-4">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
+              <input type="text" placeholder="Your name" class="form-input"/>
+            </div>
+            <div>
+              <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Email Address</label>
+              <input type="email" placeholder="your@email.com" class="form-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Subject</label>
+            <input type="text" placeholder="Project inquiry, collaboration..." class="form-input"/>
+          </div>
+          <div>
+            <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Message</label>
+            <textarea rows="5" placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
+          </div>
+          <button class="btn-primary self-start mt-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="relative z-10 border-t border-amethyst/10 py-12 px-6">
+  <div class="footer-gradient absolute inset-0 pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto relative">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm">Azhar.</a>
+        <p class="text-lilac/35 text-xs mt-1.5 tracking-wide">Graphic Designer & Web Developer</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 text-xs text-lilac/35 tracking-wider">
+        <a href="#about"        class="hover:text-amethyst transition-colors">About</a>
+        <a href="#skills"       class="hover:text-amethyst transition-colors">Skills</a>
+        <a href="#work"         class="hover:text-amethyst transition-colors">Work</a>
+        <a href="#education"    class="hover:text-amethyst transition-colors">Education</a>
+        <a href="#achievements" class="hover:text-amethyst transition-colors">Achievements</a>
+        <a href="#contact"      class="hover:text-amethyst transition-colors">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download text-xs py-2 px-4">
+          <i data-lucide="download" class="w-3 h-3"></i>
+          Download Resume
         </a>
-        <button @click="mobileMenu = !mobileMenu" class="hamburger md:hidden"
-          :aria-expanded="mobileMenu.toString()" aria-label="Toggle mobile menu" aria-controls="mobile-menu">
-          <i data-lucide="menu" class="w-5 h-5" x-show="!mobileMenu" aria-hidden="true"></i>
-          <i data-lucide="x"    class="w-5 h-5" x-show="mobileMenu"  aria-hidden="true"></i>
+        <p class="text-lilac/25 text-xs">
+          &copy; 2025 Muhammad Azhar Shahbaz.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     PROJECT MODAL
+============================================================ -->
+<div
+  class="modal-backdrop"
+  x-show="modalOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
+  @click.self="closeModal()"
+  style="display:none;"
+>
+  <div
+    class="glass-strong rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto modal-enter relative"
+    x-show="modalOpen"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+  >
+    <!-- Modal Header Thumb -->
+    <div class="h-48 relative" :class="activeProject?.thumbClass" x-show="activeProject">
+      <!-- Pattern -->
+      <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice">
+        <circle cx="300" cy="100" r="80" fill="none" stroke="white" stroke-width="1"/>
+        <circle cx="300" cy="100" r="140" fill="none" stroke="white" stroke-width="0.5"/>
+        <circle cx="300" cy="100" r="200" fill="none" stroke="white" stroke-width="0.3"/>
+      </svg>
+      <!-- Project title overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+        <div>
+          <span class="text-xs text-white/60 tracking-widest uppercase" x-text="activeProject?.category"></span>
+          <h3 class="font-display text-3xl text-white font-semibold" x-text="activeProject?.title"></h3>
+        </div>
+      </div>
+      <!-- Close Button -->
+      <button
+        @click="closeModal()"
+        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white/80 hover:bg-black/60 transition-all"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-8" x-show="activeProject">
+      <p class="text-lilac/65 text-sm leading-relaxed mb-6" x-text="activeProject?.longDesc"></p>
+
+      <!-- Tech Stack -->
+      <div class="mb-6">
+        <p class="section-label mb-3">Tech Stack</p>
+        <div class="flex flex-wrap gap-2">
+          <template x-for="tag in activeProject?.tags" :key="tag">
+            <span class="tag-chip" x-text="tag"></span>
+          </template>
+        </div>
+      </div>
+
+      <!-- Highlights -->
+      <div class="mb-8">
+        <p class="section-label mb-3">Highlights</p>
+        <div class="flex flex-col gap-2">
+          <template x-for="h in activeProject?.highlights" :key="h">
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="chevron-right" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <span x-text="h"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3">
+        <button class="btn-primary">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          Live Preview
+        </button>
+        <button class="btn-outline" @click="closeModal()">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          Back
         </button>
       </div>
-    </nav>
-    <div id="mobile-menu" class="mobile-menu" :class="mobileMenu ? 'open' : ''" :aria-hidden="(!mobileMenu).toString()">
-      <ul role="list">
-        <li><a href="#home"      @click="mobileMenu=false" class="mob-link">Home</a></li>
-        <li><a href="#about"     @click="mobileMenu=false" class="mob-link">About</a></li>
-        <li><a href="#skills"    @click="mobileMenu=false" class="mob-link">Skills</a></li>
-        <li><a href="#work"      @click="mobileMenu=false" class="mob-link">Work</a></li>
-        <li><a href="#education" @click="mobileMenu=false" class="mob-link">Education</a></li>
-        <li><a href="#contact"   @click="mobileMenu=false" class="mob-link">Contact</a></li>
-      </ul>
-      <a href="assets/AzharShahbaz-CV.pdf" download class="mob-cv">
-        <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i> Download CV
-      </a>
     </div>
-  </header>
+  </div>
+</div>
 
-  <main id="main-content">
 
-    <!-- ============================================================
-         HERO
-    ============================================================ -->
-    <section id="home" class="hero-section" aria-labelledby="hero-name">
-      <canvas id="particle-canvas" aria-hidden="true"></canvas>
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="orb orb-1" aria-hidden="true"></div>
-      <div class="orb orb-2" aria-hidden="true"></div>
-      <div class="hero-content">
-        <div class="availability-badge reveal" data-delay="0">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>Available for freelance</span>
-        </div>
-        <h1 id="hero-name" class="hero-name reveal" data-delay="100">
-          <span class="name-line-1">Muhammad</span>
-          <span class="name-line-2">Azhar Shahbaz</span>
-        </h1>
-        <div class="hero-typing reveal" data-delay="200" aria-live="polite">
-          <span class="typing-prefix">//</span>
-          <span id="typed-output" class="typed-text"></span>
-        </div>
-        <p class="hero-tagline reveal" data-delay="300">
-          <i data-lucide="map-pin" class="w-4 h-4 inline-block" aria-hidden="true"></i>
-          Islamabad, Pakistan &nbsp;&middot;&nbsp; Freelance since Jan 2024
-        </p>
-        <div class="hero-ctas reveal" data-delay="400">
-          <a href="#work" class="btn-primary">
-            <i data-lucide="zap" class="w-4 h-4" aria-hidden="true"></i>
-            <span>Explore My Work</span>
-          </a>
-          <a href="assets/AzharShahbaz-CV.pdf" download class="btn-outline">
-            <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>
-            <span>Download CV</span>
-          </a>
-        </div>
-        <div class="scroll-indicator reveal" data-delay="600" aria-hidden="true">
-          <span class="scroll-label">scroll</span>
-          <div class="scroll-line"></div>
-        </div>
-      </div>
-    </section>
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* ----------------------------------------------------------
+     MAIN ALPINE APP
+  ---------------------------------------------------------- */
+  function portfolioApp() {
+    return {
+      lightMode: false,
+      _manualOverride: false,
+      scrolled: false,
+      mobileMenu: false,
+      modalOpen: false,
+      activeProject: null,
 
-    <!-- ============================================================
-         ABOUT
-    ============================================================ -->
-    <section id="about" class="section" aria-labelledby="about-heading">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-visual reveal-left">
-            <div class="about-img-wrap">
-              <img src="https://picsum.photos/seed/azhar-portrait/480/560"
-                alt="Muhammad Azhar Shahbaz" class="about-img" loading="lazy" width="480" height="560" />
-              <div class="about-img-overlay" aria-hidden="true"></div>
-              <div class="float-badge float-badge-tl" aria-hidden="true">
-                <i data-lucide="briefcase" class="w-5 h-5"></i>
-                <div><strong>2+ Years</strong><span>Freelance</span></div>
-              </div>
-              <div class="float-badge float-badge-br" aria-hidden="true">
-                <i data-lucide="cpu" class="w-5 h-5"></i>
-                <div><strong>AI Engineer</strong><span>Prompt Craft</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="about-content reveal-right">
-            <p class="section-eyebrow">About Me</p>
-            <h2 id="about-heading" class="section-title">
-              Where <span class="gradient-text">Creativity</span><br />
-              Meets <span class="gradient-text-alt">Engineering</span>
-            </h2>
-            <div class="about-bio">
-              <p>I'm <strong>Muhammad Azhar Shahbaz</strong>, a freelance Graphic Designer, Web Developer, and AI Prompt Engineer based in Islamabad, Pakistan. I blend pixel-perfect design with clean, scalable code to create digital experiences that don't just look stunning — they perform, convert, and resonate.</p>
-              <p>Currently pursuing a dual degree at <strong>COMSATS University Islamabad</strong> — BS Computer Science alongside BS Animation &amp; Interactive Technology — I bring a rare intersection of technical depth and artistic sensibility to every project.</p>
-              <p>From brand identities that tell a startup's story, to AI-powered dashboards, 3D animation reels, and blazing-fast web apps — I deliver measurable results, not just deliverables.</p>
-            </div>
-            <div class="stats-grid" id="stats-grid" aria-label="Career statistics">
-              <div class="stat-card">
-                <span class="stat-number" data-target="2" data-suffix="+">0+</span>
-                <span class="stat-label">Years Freelance</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-number" data-target="50" data-suffix="+">0+</span>
-                <span class="stat-label">Projects Done</span>
-              </div>
-              <div class="stat-card">
-                <span class="stat-number" data-target="30" data-suffix="+">0+</span>
-                <span class="stat-label">Happy Clients</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      /* ---------- SKILLS ---------- */
+      creativeSkills: [
+        '2D Animation', '3D Animation', 'Character Animation',
+        'Motion Design', 'Motion Graphics', 'Video Editing',
+        'Logo Design', 'Branding & Identity', 'Graphic Design',
+        'Adobe Photoshop', 'Adobe Illustrator'
+      ],
+      technicalSkills: [
+        'Artificial Intelligence (AI)', 'Machine Learning',
+        'Prompt Engineering', 'Web Development',
+        'Responsive Web Design', 'Web Applications',
+        'CSS', 'Debugging', 'Game Design'
+      ],
 
-    <!-- ============================================================
-         SKILLS
-    ============================================================ -->
-    <section id="skills" class="section section-alt" aria-labelledby="skills-heading">
-      <div class="container">
-        <div class="section-header reveal">
-          <p class="section-eyebrow">Expertise</p>
-          <h2 id="skills-heading" class="section-title">My <span class="gradient-text">Skill Arsenal</span></h2>
-          <p class="section-subtitle">A powerful blend of creative artistry and technical engineering — forged over 2+ years of real-world freelancing.</p>
-        </div>
-        <div class="skills-grid">
-          <!-- Creative Skills -->
-          <div class="skill-column reveal-left">
-            <div class="skill-column-header">
-              <div class="skill-col-icon">
-                <i data-lucide="brush" class="w-6 h-6" aria-hidden="true"></i>
-              </div>
-              <div>
-                <h3 class="skill-col-title">Creative Skills</h3>
-                <p class="skill-col-sub">Design &middot; Animation &middot; Motion</p>
-              </div>
-            </div>
-            <ul class="skill-list" role="list" aria-label="Creative skills">
-              <li class="skill-item"><i data-lucide="film"        class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>2D Animation</span></li>
-              <li class="skill-item"><i data-lucide="box"         class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>3D Animation</span></li>
-              <li class="skill-item"><i data-lucide="user-round"  class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Character Animation</span></li>
-              <li class="skill-item"><i data-lucide="sparkles"    class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Motion Design</span></li>
-              <li class="skill-item"><i data-lucide="play-circle" class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Motion Graphics</span></li>
-              <li class="skill-item"><i data-lucide="video"       class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Video Editing</span></li>
-              <li class="skill-item"><i data-lucide="pen-tool"    class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Logo Design</span></li>
-              <li class="skill-item"><i data-lucide="layers"      class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Branding &amp; Identity</span></li>
-              <li class="skill-item"><i data-lucide="palette"     class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Graphic Design</span></li>
-              <li class="skill-item"><i data-lucide="image"       class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Adobe Photoshop</span></li>
-              <li class="skill-item"><i data-lucide="vector"      class="w-4 h-4 skill-icon" aria-hidden="true"></i><span>Adobe Illustrator</span></li>
-            </ul>
-            <div class="skill-bars" aria-label="Creative skill proficiency">
-              <div class="skill-bar-row"><span>Graphic Design</span><div class="skill-bar" role="progressbar" aria-valuenow="96" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill" data-width="96"></div></div><span class="skill-bar-pct">96%</span></div>
-              <div class="skill-bar-row"><span>Motion Graphics</span><div class="skill-bar" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill" data-width="88"></div></div><span class="skill-bar-pct">88%</span></div>
-              <div class="skill-bar-row"><span>3D Animation</span><div class="skill-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill" data-width="80"></div></div><span class="skill-bar-pct">80%</span></div>
-            </div>
-          </div>
-          <!-- Technical Skills -->
-          <div class="skill-column skill-column-cyan reveal-right">
-            <div class="skill-column-header">
-              <div class="skill-col-icon skill-col-icon-cyan">
-                <i data-lucide="cpu" class="w-6 h-6" aria-hidden="true"></i>
-              </div>
-              <div>
-                <h3 class="skill-col-title skill-col-title-cyan">Technical Skills</h3>
-                <p class="skill-col-sub">Dev &middot; AI &middot; Engineering</p>
-              </div>
-            </div>
-            <ul class="skill-list" role="list" aria-label="Technical skills">
-              <li class="skill-item skill-item-cyan"><i data-lucide="brain"              class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Artificial Intelligence (AI)</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="network"            class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Machine Learning</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="terminal"           class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Prompt Engineering</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="globe"              class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Web Development</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="smartphone"         class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Responsive Web Design</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="layout-dashboard"   class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Web Applications</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="code-2"             class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>CSS / Tailwind CSS</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="bug"                class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Debugging</span></li>
-              <li class="skill-item skill-item-cyan"><i data-lucide="gamepad-2"          class="w-4 h-4 skill-icon-cyan" aria-hidden="true"></i><span>Game Design</span></li>
-            </ul>
-            <div class="skill-bars" aria-label="Technical skill proficiency">
-              <div class="skill-bar-row"><span>Web Development</span><div class="skill-bar skill-bar-cyan" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill skill-bar-fill-cyan" data-width="92"></div></div><span class="skill-bar-pct skill-bar-pct-cyan">92%</span></div>
-              <div class="skill-bar-row"><span>Prompt Engineering</span><div class="skill-bar skill-bar-cyan" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill skill-bar-fill-cyan" data-width="90"></div></div><span class="skill-bar-pct skill-bar-pct-cyan">90%</span></div>
-              <div class="skill-bar-row"><span>AI / Machine Learning</span><div class="skill-bar skill-bar-cyan" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"><div class="skill-bar-fill skill-bar-fill-cyan" data-width="82"></div></div><span class="skill-bar-pct skill-bar-pct-cyan">82%</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      /* ---------- PROJECTS ---------- */
+      projects: [
+        {
+          id: 1,
+          title: 'Nexus Brand Identity',
+          category: 'Branding',
+          icon: 'hexagon',
+          thumbClass: 'thumb-1',
+          shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup â€” from logo to full design language.',
+          longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
+          tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
+          highlights: [
+            'Full logo suite including primary, secondary and icon variants',
+            '40-page brand guidelines document',
+            'Complete stationery system and business collateral',
+            'Social media template kit with 20+ designs'
+          ]
+        },
+        {
+          id: 2,
+          title: 'Aura E-commerce Website',
+          category: 'Web Dev',
+          icon: 'shopping-bag',
+          thumbClass: 'thumb-2',
+          shortDesc: 'A luxury e-commerce platform with seamless UX, lightning-fast performance, and a beautifully minimal aesthetic.',
+          longDesc: 'Aura is a premium fashion e-commerce website built from the ground up with performance and elegance as dual priorities. The site features smooth page transitions, a custom cart system, product filtering, and full mobile responsiveness. The design language prioritizes white space, editorial imagery, and intuitive navigation.',
+          tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'UX Design', 'Performance'],
+          highlights: [
+            'Sub-2s load time with optimized asset pipeline',
+            'Custom cart & checkout flow with validation',
+            'Infinite scroll product listings with filters',
+            'Mobile-first responsive layout across all breakpoints'
+          ]
+        },
+        {
+          id: 3,
+          title: 'Neon Motion Reel 2024',
+          category: 'Motion',
+          icon: 'play-circle',
+          thumbClass: 'thumb-3',
+          shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
+          longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities â€” from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
+          tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
+          highlights: [
+            '90-second reel spanning 8 distinct animation styles',
+            'Original sound design and audio-reactive elements',
+            'Custom character rig with 40+ control points',
+            'Delivered in 4K ProRes for broadcast standard'
+          ]
+        },
+        {
+          id: 4,
+          title: 'AI Prompt Studio Dashboard',
+          category: 'AI / Dev',
+          icon: 'brain-circuit',
+          thumbClass: 'thumb-4',
+          shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
+          longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
+          tags: ['Web Development', 'AI', 'Prompt Engineering', 'CSS', 'JavaScript', 'API Integration'],
+          highlights: [
+            'Real-time prompt testing with model API integration',
+            'Version control system with diff viewer',
+            'Team workspace with role-based permissions',
+            'Bulk export to JSON, CSV, and YAML formats'
+          ]
+        },
+        {
+          id: 5,
+          title: 'Pulse Social Media Pack',
+          category: 'Graphic Design',
+          icon: 'image',
+          thumbClass: 'thumb-5',
+          shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand â€” Instagram, Stories, Reels covers & more.',
+          longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics â€” all built on a vibrant, energetic design system optimized for engagement.',
+          tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
+          highlights: [
+            '60 fully editable template files across 6 formats',
+            'Consistent design system with 3 sub-brand variants',
+            'Optimized for Instagram, TikTok, YouTube and Facebook',
+            'Client training guide for in-house editing'
+          ]
+        },
+        {
+          id: 6,
+          title: 'Vortex Game UI/UX',
+          category: 'Game Design',
+          icon: 'gamepad-2',
+          thumbClass: 'thumb-6',
+          shortDesc: 'A complete UI/UX design system for a sci-fi action game â€” HUD, menus, inventory, and character screens.',
+          longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
+          tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
+          highlights: [
+            'Full UI kit with 80+ screen-ready components',
+            'Animated HUD prototype with hover/active states',
+            'Accessibility-compliant color contrast ratios',
+            'Delivered with Figma source files and dev specs'
+          ]
+        }
+      ],
 
-    <!-- ============================================================
-         EXPERIENCE
-    ============================================================ -->
-    <section id="experience" class="section" aria-labelledby="experience-heading">
-      <div class="container">
-        <div class="section-header reveal">
-          <p class="section-eyebrow">Career</p>
-          <h2 id="experience-heading" class="section-title">Work <span class="gradient-text">Experience</span></h2>
-        </div>
-        <div class="timeline reveal">
-          <div class="timeline-track" aria-hidden="true"></div>
-          <article class="exp-card" aria-label="Freelance Graphic Designer and Web Developer">
-            <div class="timeline-dot" aria-hidden="true"></div>
-            <div class="exp-card-inner">
-              <div class="exp-header">
-                <div class="exp-title-group">
-                  <h3 class="exp-role">Freelance Graphic Designer &amp; Web Developer</h3>
-                  <p class="exp-company">
-                    <i data-lucide="building-2" class="w-4 h-4 inline-block" aria-hidden="true"></i>
-                    Self-Employed &nbsp;&middot;&nbsp; Islamabad, Pakistan
-                  </p>
-                </div>
-                <div class="exp-badge">
-                  <i data-lucide="calendar" class="w-3.5 h-3.5" aria-hidden="true"></i>
-                  <span>Jan 2024 &ndash; Present</span>
-                </div>
-              </div>
-              <ul class="exp-list" role="list">
-                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Designing comprehensive brand identities — logos, business cards, social media kits, and pitch decks — for startups and SMBs across Pakistan and internationally.</li>
-                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Building fully responsive websites and web applications using HTML5, CSS3 (Tailwind), JavaScript, and modern design systems — optimized for performance and accessibility.</li>
-                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Producing high-quality 2D/3D animations, motion graphics reels, and edited video content for social media clients and digital marketing agencies.</li>
-                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Leveraging AI tools and advanced prompt engineering techniques to accelerate design iterations, automate workflows, and deliver AI-assisted creative content at scale.</li>
-                <li><i data-lucide="chevron-right" class="w-4 h-4 exp-bullet" aria-hidden="true"></i>Managing end-to-end client relationships: scoping, delivery, revisions — maintaining a 98% satisfaction rate across 30+ clients.</li>
-              </ul>
-              <div class="exp-tags" role="list">
-                <span class="exp-tag" role="listitem">Adobe Suite</span>
-                <span class="exp-tag" role="listitem">Figma</span>
-                <span class="exp-tag" role="listitem">Blender</span>
-                <span class="exp-tag exp-tag-cyan" role="listitem">HTML / CSS / JS</span>
-                <span class="exp-tag exp-tag-cyan" role="listitem">Tailwind CSS</span>
-                <span class="exp-tag exp-tag-cyan" role="listitem">After Effects</span>
-                <span class="exp-tag exp-tag-cyan" role="listitem">AI Prompting</span>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+      /* ---------- MODAL METHODS ---------- */
+      openModal(project) {
+        this.activeProject = project;
+        this.modalOpen = true;
+        document.body.style.overflow = 'hidden';
+        this.$nextTick(() => lucide.createIcons());
+      },
+      closeModal() {
+        this.modalOpen = false;
+        document.body.style.overflow = '';
+        setTimeout(() => { this.activeProject = null; }, 300);
+      },
 
-    <!-- ============================================================
-         FEATURED WORK
-    ============================================================ -->
-    <section id="work" class="section section-alt" aria-labelledby="work-heading">
-      <div class="container">
-        <div class="section-header reveal">
-          <p class="section-eyebrow">Portfolio</p>
-          <h2 id="work-heading" class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-          <p class="section-subtitle">A curated selection showcasing design thinking, technical execution, and measurable impact.</p>
-        </div>
-        <div class="projects-grid" role="list">
+      /* ---------- INIT ---------- */
+      init() {
+        // â”€â”€ System theme detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // Read the value set by the blocking script
+        this.lightMode = window.__systemLight || false;
 
-          <article class="project-card reveal" data-delay="50" role="listitem" @click="openModal('nexus')" tabindex="0" @keydown.enter="openModal('nexus')" aria-label="Nexus Brand Identity">
-            <div class="project-img-wrap">
-              <img src="https://picsum.photos/seed/nexus-brand/600/380" alt="Nexus Brand Identity" class="project-img" loading="lazy" width="600" height="380" />
-              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
-            </div>
-            <div class="project-body">
-              <div class="project-tags"><span class="ptag">Branding</span><span class="ptag">Logo</span><span class="ptag">Figma</span></div>
-              <h3 class="project-title">Nexus Brand Identity</h3>
-              <p class="project-desc">Complete branding &amp; logo suite for a fintech startup. Logo system, business cards, pitch deck, social media kit.</p>
-            </div>
-          </article>
+        // Listen for system theme changes in real time
+        const mq = window.matchMedia('(prefers-color-scheme: light)');
+        mq.addEventListener('change', (e) => {
+          // Only auto-switch if user hasn't manually toggled
+          if (!this._manualOverride) {
+            this.lightMode = e.matches;
+          }
+        });
 
-          <article class="project-card reveal" data-delay="100" role="listitem" @click="openModal('aura')" tabindex="0" @keydown.enter="openModal('aura')" aria-label="Aura E-commerce Website">
-            <div class="project-img-wrap">
-              <img src="https://picsum.photos/seed/aura-ecomm/600/380" alt="Aura E-commerce Website" class="project-img" loading="lazy" width="600" height="380" />
-              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
-            </div>
-            <div class="project-body">
-              <div class="project-tags"><span class="ptag ptag-cyan">Web Dev</span><span class="ptag ptag-cyan">Tailwind</span><span class="ptag ptag-cyan">JS</span></div>
-              <h3 class="project-title">Aura E-commerce Website</h3>
-              <p class="project-desc">Fully responsive online store with cart &amp; checkout. 3&times; faster loading. Mobile-first design.</p>
-            </div>
-          </article>
+        // Watch lightMode changes â†’ update <html> class immediately
+        this.$watch('lightMode', (val) => {
+          document.documentElement.classList.toggle('light-mode', val);
+          document.documentElement.classList.toggle('dark-mode', !val);
+        });
 
-          <article class="project-card reveal" data-delay="150" role="listitem" @click="openModal('neon')" tabindex="0" @keydown.enter="openModal('neon')" aria-label="Neon Motion Reel 2024">
-            <div class="project-img-wrap">
-              <img src="https://picsum.photos/seed/neon-reel/600/380" alt="Neon Motion Reel 2024" class="project-img" loading="lazy" width="600" height="380" />
-              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
-            </div>
-            <div class="project-body">
-              <div class="project-tags"><span class="ptag ptag-pink">Animation</span><span class="ptag ptag-pink">Blender</span><span class="ptag ptag-pink">AE</span></div>
-              <h3 class="project-title">Neon Motion Reel 2024</h3>
-              <p class="project-desc">2D/3D character animation showcase for social media clients. After Effects + Blender pipeline.</p>
-            </div>
-          </article>
+        // Scroll detection for navbar
+        window.addEventListener('scroll', () => {
+          this.scrolled = window.scrollY > 40;
+        });
 
-          <article class="project-card reveal" data-delay="200" role="listitem" @click="openModal('aiprompt')" tabindex="0" @keydown.enter="openModal('aiprompt')" aria-label="AI Prompt Studio Dashboard">
-            <div class="project-img-wrap">
-              <img src="https://picsum.photos/seed/ai-prompt/600/380" alt="AI Prompt Studio Dashboard" class="project-img" loading="lazy" width="600" height="380" />
-              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
-            </div>
-            <div class="project-body">
-              <div class="project-tags"><span class="ptag ptag-cyan">AI</span><span class="ptag ptag-cyan">Web App</span><span class="ptag ptag-cyan">JS</span></div>
-              <h3 class="project-title">AI Prompt Studio Dashboard</h3>
-              <p class="project-desc">Interactive prompt engineering tool with live AI simulation, prompt templates, and history tracking.</p>
-            </div>
-          </article>
+        // Scroll reveal
+        this.$nextTick(() => {
+          this.initReveal();
+          this.initTyping();
+          lucide.createIcons();
+        });
+      },
 
-          <article class="project-card reveal" data-delay="250" role="listitem" @click="openModal('pulse')" tabindex="0" @keydown.enter="openModal('pulse')" aria-label="Pulse Social Media Graphics Pack">
-            <div class="project-img-wrap">
-              <img src="https://picsum.photos/seed/pulse-social/600/380" alt="Pulse Social Media Graphics Pack" class="project-img" loading="lazy" width="600" height="380" />
-              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
-            </div>
-            <div class="project-body">
-              <div class="project-tags"><span class="ptag">Graphics</span><span class="ptag">Motion</span><span class="ptag">Social</span></div>
-              <h3 class="project-title">Pulse Social Media Graphics Pack</h3>
-              <p class="project-desc">50+ motion graphics &amp; static posts for Pakistani brands. Photoshop + Illustrator + AE.</p>
-            </div>
-          </article>
+      /* ---------- SCROLL REVEAL ---------- */
+      initReveal() {
+        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealEls.forEach(el => observer.observe(el));
+      },
 
-          <article class="project-card reveal" data-delay="300" role="listitem" @click="openModal('vortex')" tabindex="0" @keydown.enter="openModal('vortex')" aria-label="Vortex Game UI/UX">
-            <div class="project-img-wrap">
-              <img src="https://picsum.photos/seed/vortex-game/600/380" alt="Vortex Game UI/UX" class="project-img" loading="lazy" width="600" height="380" />
-              <div class="project-overlay" aria-hidden="true"><span class="project-cta"><i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i> View Case Study</span></div>
-            </div>
-            <div class="project-body">
-              <div class="project-tags"><span class="ptag ptag-blue">Game</span><span class="ptag ptag-blue">UI/UX</span><span class="ptag ptag-blue">Figma</span></div>
-              <h3 class="project-title">Vortex Game UI/UX</h3>
-              <p class="project-desc">Game UI assets + responsive landing page for an indie studio. Character animations included.</p>
-            </div>
-          </article>
+      /* ---------- TYPING ANIMATION ---------- */
+      initTyping() {
+        const phrases = [
+          'Freelance Graphic Designer',
+          'Web Developer',
+          'AI & Prompt Engineer',
+          'Motion Graphics Artist',
+          'Brand Identity Specialist'
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+        const el = document.getElementById('typed-text');
+        if (!el) return;
 
-        </div>
-      </div>
-    </section>
+        function type() {
+          const current = phrases[phraseIndex];
+          if (!deleting) {
+            el.textContent = current.slice(0, charIndex + 1);
+            charIndex++;
+            if (charIndex === current.length) {
+              deleting = true;
+              setTimeout(type, 2200);
+              return;
+            }
+          } else {
+            el.textContent = current.slice(0, charIndex - 1);
+            charIndex--;
+            if (charIndex === 0) {
+              deleting = false;
+              phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+          }
+          setTimeout(type, deleting ? 55 : 80);
+        }
+        setTimeout(type, 800);
+      }
+    };
+  }
 
-    <!-- ============================================================
-         MODALS
-    ============================================================ -->
-    <div class="modal-backdrop" :class="activeModal ? 'open' : ''" @click="closeModal()" aria-hidden="true"></div>
-
-    <!-- Nexus Modal -->
-    <div id="modal-nexus" class="modal" :class="activeModal==='nexus'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-nexus">
-      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/nexus-m/800/360" alt="" loading="lazy" /></div>
-      <div class="modal-body">
-        <p class="modal-eyebrow">Case Study #01</p>
-        <h3 id="mt-nexus" class="modal-title">Nexus Brand Identity</h3>
-        <p class="modal-desc">Nexus approached me to build their entire brand identity from the ground up. As a fintech startup entering a competitive market, they needed a brand communicating trust, innovation, and forward-thinking energy. I delivered: primary logo + variants, colour palette + typography system, business card suite, letterhead, email signature, and a 30-page social media kit with Figma source files.</p>
-        <div class="modal-results">
-          <div class="result-card"><strong>300%</strong><span>Brand Recognition Increase</span></div>
-          <div class="result-card"><strong>4 wks</strong><span>Delivery Timeline</span></div>
-        </div>
-        <div class="modal-stack">
-          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
-          <div class="stack-tags"><span class="stack-tag">Adobe Illustrator</span><span class="stack-tag">Figma</span><span class="stack-tag">Adobe Photoshop</span><span class="stack-tag">Adobe InDesign</span></div>
-        </div>
-        <div class="modal-actions">
-          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
-          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Aura Modal -->
-    <div id="modal-aura" class="modal" :class="activeModal==='aura'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-aura">
-      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/aura-m/800/360" alt="" loading="lazy" /></div>
-      <div class="modal-body">
-        <p class="modal-eyebrow">Case Study #02</p>
-        <h3 id="mt-aura" class="modal-title">Aura E-commerce Website</h3>
-        <p class="modal-desc">Built a production-ready e-commerce experience for a fashion brand targeting millennial consumers in Pakistan. Features: fully functional cart, dynamic product filtering, smooth checkout UX, mobile-first layout. Performance optimisation brought loading times down by 3&times; versus the previous Shopify theme — without sacrificing visual quality.</p>
-        <div class="modal-results">
-          <div class="result-card result-card-cyan"><strong>3&times;</strong><span>Faster Load Speed</span></div>
-          <div class="result-card result-card-cyan"><strong>220%</strong><span>Sales Conversion Uplift</span></div>
-        </div>
-        <div class="modal-stack">
-          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
-          <div class="stack-tags"><span class="stack-tag stack-tag-cyan">HTML5</span><span class="stack-tag stack-tag-cyan">CSS3</span><span class="stack-tag stack-tag-cyan">JavaScript ES6+</span><span class="stack-tag stack-tag-cyan">Tailwind CSS</span><span class="stack-tag stack-tag-cyan">Figma</span></div>
-        </div>
-        <div class="modal-actions">
-          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
-          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Neon Modal -->
-    <div id="modal-neon" class="modal" :class="activeModal==='neon'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-neon">
-      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/neon-m/800/360" alt="" loading="lazy" /></div>
-      <div class="modal-body">
-        <p class="modal-eyebrow">Case Study #03</p>
-        <h3 id="mt-neon" class="modal-title">Neon Motion Reel 2024</h3>
-        <p class="modal-desc">A 90-second 2D/3D character animation demo reel crafted for digital marketing clients across Instagram, TikTok, and YouTube. Each segment was hand-crafted in After Effects (2D motion) and Blender (3D character rigging + rendering), then composited into a punchy showreel that garnered 500K+ organic views in its first week.</p>
-        <div class="modal-results">
-          <div class="result-card"><strong>500K+</strong><span>Organic Views (Week 1)</span></div>
-          <div class="result-card"><strong>90s</strong><span>Final Reel Duration</span></div>
-        </div>
-        <div class="modal-stack">
-          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
-          <div class="stack-tags"><span class="stack-tag">After Effects</span><span class="stack-tag">Blender 3D</span><span class="stack-tag">Premiere Pro</span><span class="stack-tag">Adobe Illustrator</span></div>
-        </div>
-        <div class="modal-actions">
-          <a href="#" class="btn-primary"><i data-lucide="play-circle" class="w-4 h-4"></i><span>Watch Reel</span></a>
-          <a href="#" class="btn-outline"><i data-lucide="external-link" class="w-4 h-4"></i><span>Behance</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- AI Prompt Modal -->
-    <div id="modal-aiprompt" class="modal" :class="activeModal==='aiprompt'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-aiprompt">
-      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/aiprompt-m/800/360" alt="" loading="lazy" /></div>
-      <div class="modal-body">
-        <p class="modal-eyebrow">Case Study #04</p>
-        <h3 id="mt-aiprompt" class="modal-title">AI Prompt Studio Dashboard</h3>
-        <p class="modal-desc">A bespoke interactive web app for AI prompt engineers. Features: live prompt editor with syntax highlighting, local AI simulation engine for instant previewing, prompt history with tagging, and a template library with 200+ curated prompts across ChatGPT, Midjourney, Stable Diffusion, and Gemini. Zero backend — 100% client-side.</p>
-        <div class="modal-results">
-          <div class="result-card result-card-cyan"><strong>200+</strong><span>Curated Prompt Templates</span></div>
-          <div class="result-card result-card-cyan"><strong>100%</strong><span>Client-Side (No Backend)</span></div>
-        </div>
-        <div class="modal-stack">
-          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
-          <div class="stack-tags"><span class="stack-tag stack-tag-cyan">HTML5</span><span class="stack-tag stack-tag-cyan">CSS3</span><span class="stack-tag stack-tag-cyan">JavaScript ES6+</span><span class="stack-tag stack-tag-cyan">LocalStorage API</span><span class="stack-tag stack-tag-cyan">AI Simulation</span></div>
-        </div>
-        <div class="modal-actions">
-          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
-          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pulse Modal -->
-    <div id="modal-pulse" class="modal" :class="activeModal==='pulse'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-pulse">
-      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/pulse-m/800/360" alt="" loading="lazy" /></div>
-      <div class="modal-body">
-        <p class="modal-eyebrow">Case Study #05</p>
-        <h3 id="mt-pulse" class="modal-title">Pulse Social Media Graphics Pack</h3>
-        <p class="modal-desc">A complete 50+ piece graphics library for multiple Pakistani brands — animated reels, static feed posts, stories, and carousel templates. Each piece designed with strict brand guidelines, optimised for each platform, and delivered with fully editable source files. Clients reported a 300% increase in social media engagement within 30 days.</p>
-        <div class="modal-results">
-          <div class="result-card"><strong>50+</strong><span>Graphics Delivered</span></div>
-          <div class="result-card"><strong>300%</strong><span>Engagement Uplift (30 days)</span></div>
-        </div>
-        <div class="modal-stack">
-          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
-          <div class="stack-tags"><span class="stack-tag">Adobe Photoshop</span><span class="stack-tag">Adobe Illustrator</span><span class="stack-tag">After Effects</span></div>
-        </div>
-        <div class="modal-actions">
-          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>View Pack</span></a>
-          <a href="#" class="btn-outline"><i data-lucide="external-link" class="w-4 h-4"></i><span>Behance</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Vortex Modal -->
-    <div id="modal-vortex" class="modal" :class="activeModal==='vortex'?'open':''" role="dialog" aria-modal="true" aria-labelledby="mt-vortex">
-      <button class="modal-close" @click="closeModal()" aria-label="Close"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="modal-img-wrap"><img src="https://picsum.photos/seed/vortex-m/800/360" alt="" loading="lazy" /></div>
-      <div class="modal-body">
-        <p class="modal-eyebrow">Case Study #06</p>
-        <h3 id="mt-vortex" class="modal-title">Vortex Game UI/UX</h3>
-        <p class="modal-desc">Partnered with an indie game studio to create immersive game UI assets, a full character animation set, and a responsive marketing landing page. The game's visual identity — HUD elements, menus, inventory screens, world map — was designed in Figma and exported to the dev team. The landing page achieved a 40% Steam wishlist conversion rate in the first month.</p>
-        <div class="modal-results">
-          <div class="result-card result-card-cyan"><strong>40%</strong><span>Steam Wishlist Conversion</span></div>
-          <div class="result-card result-card-cyan"><strong>60+</strong><span>UI Assets Delivered</span></div>
-        </div>
-        <div class="modal-stack">
-          <h4 class="modal-stack-title"><i data-lucide="layers" class="w-4 h-4"></i> Tech Stack</h4>
-          <div class="stack-tags"><span class="stack-tag">Figma</span><span class="stack-tag">Blender 3D</span><span class="stack-tag stack-tag-cyan">HTML / CSS / JS</span><span class="stack-tag stack-tag-cyan">Tailwind CSS</span><span class="stack-tag">After Effects</span></div>
-        </div>
-        <div class="modal-actions">
-          <a href="#" class="btn-primary"><i data-lucide="external-link" class="w-4 h-4"></i><span>Live Preview</span></a>
-          <a href="#" class="btn-outline"><i data-lucide="github" class="w-4 h-4"></i><span>GitHub</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- ============================================================
-         EDUCATION
-    ============================================================ -->
-    <section id="education" class="section" aria-labelledby="education-heading">
-      <div class="container">
-        <div class="section-header reveal">
-          <p class="section-eyebrow">Academia</p>
-          <h2 id="education-heading" class="section-title">My <span class="gradient-text">Education</span></h2>
-        </div>
-        <div class="edu-grid">
-          <article class="edu-card reveal-left">
-            <div class="edu-accent" aria-hidden="true"></div>
-            <div class="edu-inner">
-              <div class="edu-icon"><i data-lucide="monitor" class="w-7 h-7" aria-hidden="true"></i></div>
-              <div class="edu-content">
-                <div class="edu-badge"><i data-lucide="calendar" class="w-3 h-3" aria-hidden="true"></i> 2025 &ndash; Present</div>
-                <h3 class="edu-degree gradient-text">BS Computer Science</h3>
-                <p class="edu-university"><i data-lucide="graduation-cap" class="w-4 h-4 inline-block" aria-hidden="true"></i> COMSATS University Islamabad</p>
-                <p class="edu-desc">Exploring algorithms, data structures, software engineering, and artificial intelligence. Building technical foundations to ship production-grade software and AI-driven applications.</p>
-                <div class="edu-tags"><span class="edu-tag">Algorithms</span><span class="edu-tag edu-tag-cyan">AI / ML</span><span class="edu-tag edu-tag-cyan">Software Eng</span><span class="edu-tag">Databases</span></div>
-              </div>
-            </div>
-          </article>
-          <article class="edu-card edu-card-cyan reveal-right">
-            <div class="edu-accent edu-accent-cyan" aria-hidden="true"></div>
-            <div class="edu-inner">
-              <div class="edu-icon edu-icon-cyan"><i data-lucide="clapperboard" class="w-7 h-7" aria-hidden="true"></i></div>
-              <div class="edu-content">
-                <div class="edu-badge"><i data-lucide="calendar" class="w-3 h-3" aria-hidden="true"></i> 2025 &ndash; Present</div>
-                <h3 class="edu-degree gradient-text-alt">BS Animation, Interactive Technology, Video Graphics &amp; Special Effects</h3>
-                <p class="edu-university"><i data-lucide="graduation-cap" class="w-4 h-4 inline-block" aria-hidden="true"></i> COMSATS University Islamabad</p>
-                <p class="edu-desc">Mastering the full spectrum of animation arts — character rigging, motion capture, VFX compositing, interactive media design, and immersive storytelling for film, games, and digital platforms.</p>
-                <div class="edu-tags"><span class="edu-tag">3D Animation</span><span class="edu-tag">VFX</span><span class="edu-tag edu-tag-cyan">Interactive Media</span><span class="edu-tag edu-tag-cyan">Game Design</span></div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         TESTIMONIALS
-    ============================================================ -->
-    <section id="testimonials" class="section section-alt" aria-labelledby="testimonials-heading">
-      <div class="container">
-        <div class="section-header reveal">
-          <p class="section-eyebrow">Testimonials</p>
-          <h2 id="testimonials-heading" class="section-title">What <span class="gradient-text">Clients Say</span></h2>
-        </div>
-        <div class="testimonials-grid">
-          <blockquote class="testimonial-card reveal" data-delay="50">
-            <div class="testimonial-stars" aria-label="5 stars">
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-            </div>
-            <p class="testimonial-text">Azhar completely transformed our brand from a generic startup into a polished tech company. The logo suite and social kit were beyond what we imagined. Multiple investors complimented our branding at the pitch presentation. Absolute pro.</p>
-            <footer class="testimonial-author">
-              <img src="https://picsum.photos/seed/sarah-k/80/80" alt="Sarah Khan" class="testimonial-avatar" loading="lazy" width="80" height="80" />
-              <div><cite class="testimonial-name">Sarah Khan</cite><span class="testimonial-role">Co-Founder, Nexus Fintech</span></div>
-            </footer>
-          </blockquote>
-          <blockquote class="testimonial-card reveal" data-delay="100">
-            <div class="testimonial-stars" aria-label="5 stars">
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-            </div>
-            <p class="testimonial-text">We hired Azhar to build our e-commerce site and the results were phenomenal. The site loaded under 1.5s, looked stunning on every device, and our conversion rate tripled within the first month. He hit every deadline. Highly recommend.</p>
-            <footer class="testimonial-author">
-              <img src="https://picsum.photos/seed/usman-m/80/80" alt="Usman Malik" class="testimonial-avatar" loading="lazy" width="80" height="80" />
-              <div><cite class="testimonial-name">Usman Malik</cite><span class="testimonial-role">CEO, Aura Lifestyle</span></div>
-            </footer>
-          </blockquote>
-          <blockquote class="testimonial-card reveal" data-delay="150">
-            <div class="testimonial-stars" aria-label="5 stars">
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-              <i data-lucide="star" class="w-4 h-4 star-filled" aria-hidden="true"></i>
-            </div>
-            <p class="testimonial-text">The motion graphics Azhar created outperformed every previous social batch by 3&ndash;4&times;. Fluid animations, on-brand, delivered ahead of schedule. He genuinely understands aesthetics and performance. We are locked in long-term.</p>
-            <footer class="testimonial-author">
-              <img src="https://picsum.photos/seed/zara-a/80/80" alt="Zara Ahmed" class="testimonial-avatar" loading="lazy" width="80" height="80" />
-              <div><cite class="testimonial-name">Zara Ahmed</cite><span class="testimonial-role">Marketing Director, Pulse Agency</span></div>
-            </footer>
-          </blockquote>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         CONTACT
-    ============================================================ -->
-    <section id="contact" class="section" aria-labelledby="contact-heading">
-      <div class="container">
-        <div class="section-header reveal">
-          <p class="section-eyebrow">Get In Touch</p>
-          <h2 id="contact-heading" class="section-title">Let's <span class="gradient-text">Work Together</span></h2>
-          <p class="section-subtitle">Have a project in mind? Let's talk. Available for freelance, collaborations, and full-time opportunities.</p>
-        </div>
-        <div class="contact-grid">
-          <div class="contact-info reveal-left">
-            <div class="contact-detail-list">
-              <div class="contact-detail">
-                <div class="contact-detail-icon"><i data-lucide="map-pin" class="w-5 h-5" aria-hidden="true"></i></div>
-                <div><span class="contact-detail-label">Location</span><span class="contact-detail-value">Islamabad, Pakistan</span></div>
-              </div>
-              <div class="contact-detail">
-                <div class="contact-detail-icon"><i data-lucide="mail" class="w-5 h-5" aria-hidden="true"></i></div>
-                <div><span class="contact-detail-label">Email</span><a href="mailto:azhar@n0xid.dev" class="contact-detail-value contact-link">azhar@n0xid.dev</a></div>
-              </div>
-              <div class="contact-detail">
-                <div class="contact-detail-icon contact-detail-icon-green"><i data-lucide="zap" class="w-5 h-5" aria-hidden="true"></i></div>
-                <div>
-                  <span class="contact-detail-label">Status</span>
-                  <span class="contact-detail-value contact-available"><span class="status-dot" aria-hidden="true"></span>Open to Projects</span>
-                </div>
-              </div>
-            </div>
-            <div class="social-links" aria-label="Social media links">
-              <a href="#" class="social-btn social-linkedin" aria-label="LinkedIn" title="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5" aria-hidden="true"></i></a>
-              <a href="#" class="social-btn social-behance" aria-label="Behance" title="Behance">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.8 5.7c.6 0 1.1.05 1.6.16.5.1.9.28 1.24.51.34.23.61.54.8.93.18.38.27.85.27 1.39 0 .6-.14 1.1-.4 1.48-.27.39-.65.71-1.14.96.69.2 1.2.57 1.55 1.09.35.53.52 1.17.52 1.91 0 .61-.12 1.13-.35 1.57-.23.44-.55.8-.96 1.08-.41.28-.89.49-1.42.62-.54.13-1.1.19-1.68.19H0V5.7h7.8zm-.37 5.06c.44 0 .8-.11 1.08-.33.28-.22.42-.56.42-1.03 0-.27-.05-.49-.14-.66-.1-.17-.23-.3-.4-.4-.17-.1-.36-.17-.59-.2-.22-.04-.45-.06-.69-.06H3.16v2.68h4.27zm.17 5.28c.27 0 .52-.03.75-.07.23-.05.43-.13.6-.25.17-.12.31-.27.41-.46.1-.19.15-.44.15-.73 0-.58-.17-1-.5-1.25-.33-.26-.77-.39-1.33-.39H3.16v3.15h4.44zm10.3-8.51h6.1v1.49h-6.1V7.53zm7.55 6.7c-.24.75-.61 1.38-1.1 1.88s-1.1.88-1.83 1.13c-.73.25-1.54.38-2.44.38-.96 0-1.8-.15-2.53-.45-.73-.3-1.34-.72-1.83-1.26-.5-.54-.87-1.19-1.13-1.95-.26-.76-.39-1.6-.39-2.52 0-.89.13-1.72.39-2.48.26-.77.64-1.43 1.13-1.98.5-.56 1.11-.99 1.83-1.3.73-.3 1.56-.46 2.49-.46.95 0 1.79.17 2.51.5.72.34 1.31.79 1.77 1.37.46.58.8 1.26 1.02 2.03.22.77.31 1.6.28 2.49h-8.01c.05.93.35 1.63.89 2.08.54.46 1.23.68 2.06.68.54 0 1.01-.12 1.4-.37.39-.24.68-.6.87-1.06h2.63zm-2.64-3.45c-.03-.81-.3-1.46-.79-1.94-.49-.49-1.14-.73-1.95-.73-.55 0-1.01.1-1.39.31-.38.21-.69.47-.93.79-.24.32-.41.67-.52 1.05-.1.38-.16.75-.17 1.11h5.75z"/></svg>
-              </a>
-              <a href="#" class="social-btn social-instagram" aria-label="Instagram" title="Instagram"><i data-lucide="instagram" class="w-5 h-5" aria-hidden="true"></i></a>
-              <a href="#" class="social-btn social-x" aria-label="X / Twitter" title="X / Twitter">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              </a>
-              <a href="#" class="social-btn social-github" aria-label="GitHub" title="GitHub"><i data-lucide="github" class="w-5 h-5" aria-hidden="true"></i></a>
-            </div>
-          </div>
-          <div class="contact-form-wrap reveal-right">
-            <form id="contact-form" class="contact-form" novalidate @submit.prevent="submitForm($event)" aria-label="Contact form">
-              <h3 class="form-title">Send a Message</h3>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="cf-name" class="form-label">Your Name</label>
-                  <input type="text" id="cf-name" name="name" class="form-input" placeholder="e.g. Ahmed Ali" required autocomplete="name" aria-required="true" />
-                </div>
-                <div class="form-group">
-                  <label for="cf-email" class="form-label">Email Address</label>
-                  <input type="email" id="cf-email" name="email" class="form-input" placeholder="you@example.com" required autocomplete="email" aria-required="true" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cf-subject" class="form-label">Project Type</label>
-                <select id="cf-subject" name="subject" class="form-input form-select">
-                  <option value="">Select project type...</option>
-                  <option>Brand Identity / Logo Design</option>
-                  <option>Web Development</option>
-                  <option>Motion Graphics / Animation</option>
-                  <option>AI / Prompt Engineering</option>
-                  <option>Social Media Graphics</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="cf-message" class="form-label">Message</label>
-                <textarea id="cf-message" name="message" class="form-input form-textarea" rows="5" placeholder="Tell me about your project, goals, and timeline..." required aria-required="true"></textarea>
-              </div>
-              <button type="submit" class="btn-primary form-submit" id="form-submit-btn">
-                <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i><span>Send Message</span>
-              </button>
-              <div id="form-success" class="form-success" role="alert" aria-live="polite" hidden>
-                <i data-lucide="check-circle" class="w-5 h-5" aria-hidden="true"></i>
-                Message sent! I will get back to you within 24 hours.
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="logo-mark" aria-hidden="true">A</span>
-          <span class="logo-text">Azhar.</span>
-        </div>
-        <p class="footer-copy">
-          &copy; 2026 Muhammad Azhar Shahbaz &nbsp;&bull;&nbsp; Islamabad, Pakistan
-        </p>
-        <p class="footer-handle">
-          <i data-lucide="at-sign" class="w-3.5 h-3.5 inline-block" aria-hidden="true"></i> n0xid
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script src="js/main.js"></script>
-  <script src="js/particles.js"></script>
-
-</body>
-</html>
+  /* ----------------------------------------------------------
+     COUNTER ANIMATION (Alpine component)
+  ---------------------------------------------------------- */
+  function counterAnim(target, suffix = '') {
+    return {
+      display: 0,
+      target,
+      suffix,
+      started: false,
+      start() {
+        if (this.started) return;
+        this.started = true;
+        const duration = 1800;
+        const step = 16;
+        const increment = target / (duration / step);
+        const timer = setInterval(() => {
+          this.display = Math.min(Math.round(this.display + increment), target);
+          if (this.display >= target) {
+            this.display = target;
+            clearInterval(timer);
+          }
+        }, step);
+      }
+    };
+  
