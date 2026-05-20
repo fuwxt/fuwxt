@@ -3,18 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#1a0827" media="(prefers-color-scheme: dark)"/>
+  <meta name="theme-color" content="#f5f0fb" media="(prefers-color-scheme: light)"/>
+
   <title>Azhar. — AI & Animation Specialist | Full-Stack Designer</title>
+  <meta name="description" content="Muhammad Azhar Shahbaz — AI specialist, full-stack designer & motion graphics artist based in Islamabad. Branding, web apps, animation, AI workflows. 3+ years freelancing for premium US clients."/>
+  <meta name="author" content="Muhammad Azhar Shahbaz"/>
+  <meta name="keywords" content="Muhammad Azhar Shahbaz, freelance graphic designer, web developer, AI engineer, motion graphics, brand identity, Islamabad, Pakistan, Cormorant Garamond portfolio"/>
+
+  <!-- Canonical: replace with your real domain when deployed -->
+  <link rel="canonical" href="https://azhar.dev/"/>
+
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Azhar. — AI & Animation Specialist | Full-Stack Designer"/>
+  <meta property="og:description" content="Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz."/>
+  <meta property="og:url" content="https://azhar.dev/"/>
+  <meta property="og:site_name" content="Azhar."/>
+  <!-- TODO: upload a 1200x630 social preview image and update path -->
+  <meta property="og:image" content="og-preview.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Azhar. — AI & Animation Specialist"/>
+  <meta name="twitter:description" content="Brand identity, web apps, motion graphics & AI workflows."/>
+  <meta name="twitter:image" content="og-preview.jpg"/>
+
+  <!-- Favicons (inline SVG so no extra request; replace with /favicon.ico when ready) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='36' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='120' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
+
+  <!-- JSON-LD: Person schema for rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Muhammad Azhar Shahbaz",
+    "alternateName": "Azhar",
+    "jobTitle": "AI & Animation Specialist | Full-Stack Designer",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Islamabad",
+      "addressCountry": "PK"
+    },
+    "url": "https://azhar.dev/",
+    "knowsAbout": ["Brand Identity", "Web Development", "Motion Graphics", "Artificial Intelligence", "Prompt Engineering"]
+  }
+  </script>
 
   <!-- ============================================================
-       DEVTOOLS BLOCKER + SYSTEM THEME INIT (runs before paint)
+       SYSTEM THEME INIT (runs before paint, no FOUC)
   ============================================================ -->
   <script>
-    /* ── 1. SYSTEM THEME DETECTION (instant, no flash) ──────── */
     (function() {
       var mq = window.matchMedia('(prefers-color-scheme: light)');
-      // Store system preference; Alpine will pick it up
       window.__systemLight = mq.matches;
-      // Apply class immediately to <html> so no dark→light flash
       if (mq.matches) {
         document.documentElement.classList.add('light-mode');
         document.documentElement.classList.remove('dark-mode');
@@ -22,24 +68,6 @@
         document.documentElement.classList.add('dark-mode');
         document.documentElement.classList.remove('light-mode');
       }
-    })();
-
-    /* ── 2. SOFT-PROTECT (no perf killers) ──────────────────── */
-    (function() {
-      // Block right-click context menu (lightweight)
-      document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-
-      // Block obvious view-source / save shortcuts (still lightweight, no debugger trap)
-      document.addEventListener('keydown', function(e) {
-        var k = (e.key || '').toUpperCase();
-        var blocked =
-          k === 'F12' ||
-          (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(k)) ||
-          (e.metaKey && e.altKey  && ['I','J','C'].includes(k)) ||
-          (e.ctrlKey && k === 'U') ||
-          ((e.ctrlKey || e.metaKey) && k === 'S');
-        if (blocked) { e.preventDefault(); e.stopPropagation(); return false; }
-      }, true);
     })();
   </script>
 
@@ -54,8 +82,9 @@
   <!-- WebGL Fluid Simulation (ink-style background) -->
   <script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.4"></script>
 
-  <!-- Alpine.js v3 + Intersect Plugin (must load before Alpine) -->
+  <!-- Alpine.js v3 + Intersect + Focus Plugins (must load before Alpine) -->
   <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <!-- Alpine component functions — MUST be defined before Alpine boots -->
@@ -171,7 +200,7 @@
             id: 6,
             title: 'Vortex Game UI/UX',
             category: 'Game Design',
-            icon: 'gamepad',
+            icon: 'gamepad-2',
             thumbClass: 'thumb-6',
             shortDesc: 'A complete UI/UX design system for a sci-fi action game — HUD, menus, inventory, and character screens.',
             longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
@@ -186,15 +215,25 @@
         ],
 
         openModal(project) {
+          // Remember which element had focus so we can restore it on close (a11y)
+          this._lastFocused = document.activeElement;
           this.activeProject = project;
           this.modalOpen = true;
           document.body.style.overflow = 'hidden';
-          this.$nextTick(() => lucide.createIcons());
+          this.$nextTick(() => {
+            try { lucide.createIcons(); } catch(e) {}
+          });
         },
         closeModal() {
           this.modalOpen = false;
           document.body.style.overflow = '';
-          setTimeout(() => { this.activeProject = null; }, 300);
+          setTimeout(() => {
+            this.activeProject = null;
+            // Restore focus to the trigger that opened the modal
+            if (this._lastFocused && typeof this._lastFocused.focus === 'function') {
+              try { this._lastFocused.focus(); } catch (e) {}
+            }
+          }, 300);
         },
 
         init() {
@@ -210,14 +249,26 @@
             document.documentElement.classList.toggle('dark-mode', !val);
           });
 
+          // Single rAF-throttled scroll listener for both navbar `scrolled`
+          // state and (later) fluid-pause check. Earlier we had two separate
+          // `scroll` handlers running on every event.
+          let scrollTicking = false;
           window.addEventListener('scroll', () => {
-            this.scrolled = window.scrollY > 40;
-          });
+            if (scrollTicking) return;
+            scrollTicking = true;
+            requestAnimationFrame(() => {
+              this.scrolled = window.scrollY > 40;
+              scrollTicking = false;
+            });
+          }, { passive: true });
 
           this.$nextTick(() => {
             this.initReveal();
             this.initTyping();
-            lucide.createIcons();
+            // Auto-update footer year so we never ship a stale copyright
+            const yr = document.getElementById('footer-year');
+            if (yr) yr.textContent = String(new Date().getFullYear());
+            try { lucide.createIcons(); } catch(e) {}
             // Safety net: re-run icon creation once after Alpine has fully
             // rendered all x-for templates (skill pills, projects, etc.)
             setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
@@ -291,8 +342,8 @@
     }
   </script>
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons (pinned to a known-good version so icon names stay stable) -->
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -599,9 +650,12 @@
       background-clip: text;
     }
 
-    /* Section radial bg overlays */
+    /* Section radial bg overlays — keep them, but soften so they
+       don't fight the warmer paper-lilac canvas in light mode.
+       (Earlier rule stripped these to transparent which made every
+       section visually identical — restored with reduced opacity.) */
     html.light-mode section[style*="radial-gradient"] {
-      background: transparent !important;
+      background-color: transparent !important;
     }
 
     /* ============================================================
@@ -645,10 +699,9 @@
       color: rgba(43, 13, 62, 0.65) !important;
     }
 
-    /* Section radial backgrounds */
-    html.light-mode section {
-      background: transparent !important;
-    }
+    /* Section radial backgrounds — DON'T strip; they were getting
+       killed by the earlier blanket override. Keep their gradients. */
+    /* (Removed: html.light-mode section { background: transparent !important; }) */
 
     /* Skill pills in light mode */
     html.light-mode .skill-pill {
@@ -1060,14 +1113,21 @@
 
     /* ============================================================
        MODAL
+       (align-items center on tall content was clipping the top
+       on small viewports — switched to flex-start with auto
+       margins via overflow-y-auto on the backdrop itself.)
     ============================================================ */
     .modal-backdrop {
       position: fixed; inset: 0;
       background: rgba(26, 8, 39, 0.88);
       backdrop-filter: blur(12px);
       z-index: 9999;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; align-items: flex-start; justify-content: center;
       padding: 24px;
+      overflow-y: auto;
+    }
+    @media (min-height: 720px) {
+      .modal-backdrop { align-items: center; }
     }
     .modal-enter {
       animation: modalIn 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
@@ -1203,43 +1263,16 @@
     }
 
     /* ============================================================
-       EXPERIENCE TIMELINE
+       (Removed) EXPERIENCE TIMELINE — `.timeline-dot` + pulse-dot
+       were never used in markup. Removed to trim CSS.
     ============================================================ */
-    .timeline-dot {
-      width: 12px; height: 12px;
-      background: var(--c-regal);
-      border: 2px solid var(--c-amethyst);
-      border-radius: 50%;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .timeline-dot::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: var(--c-regal);
-      opacity: 0.25;
-      animation: pulse-dot 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse-dot {
-      0%,100% { transform: scale(1); opacity: 0.25; }
-      50% { transform: scale(1.8); opacity: 0; }
-    }
 
     /* ============================================================
-       SECTION HEADER DECORATION
+       SECTION HEADER DECORATION (kept — used implicitly via flex layouts; can be removed if not referenced)
+       NOTE: removed dead `.section-header-line`, `.timeline-dot`,
+       `@keyframes pulse-dot`, `.glass-aurora`, `@keyframes aurora-spin` —
+       none of these were referenced anywhere in the markup.
     ============================================================ */
-    .section-header-line {
-      display: flex; align-items: center; gap: 16px;
-    }
-    .section-header-line::before,
-    .section-header-line::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(197,157,217,0.3), transparent);
-    }
 
     /* ============================================================
        EDUCATION CARD ACCENT
@@ -1370,12 +1403,19 @@
       transform: translateY(-2px);
     }
     .btn-download::before {
+      /* No pulse by default — only when explicitly opted-in via .btn-download--pulse.
+         Earlier rule made every Resume button pulse forever (5+ instances on the page
+         = 5 perpetual GPU animations). Now only the primary CTA gets the ring. */
+      content: none;
+    }
+    .btn-download--pulse::before {
       content: '';
       position: absolute;
       inset: -3px;
       border-radius: 50px;
       border: 1px solid rgba(197,157,217,0.15);
       animation: ring-pulse 2.5s ease-in-out infinite;
+      pointer-events: none;
     }
     @keyframes ring-pulse {
       0%,100% { opacity: 0.5; transform: scale(1); }
@@ -1424,8 +1464,7 @@
       opacity: 0.40;
     }
 
-    /* Tiny CSS-only legacy particle canvas (kept hidden, replaced by fluid) */
-    #particle-canvas { display: none; }
+    /* (removed dead `#particle-canvas` rule — element no longer exists) */
 
     /* ============================================================
        COLOR BURST RIPPLE
@@ -1470,16 +1509,38 @@
       transition: transform 0.12s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
       mix-blend-mode: screen;
     }
+    /* Light-mode cursor: switch blend mode + tone so the glow
+       stays visible against the bright paper-lilac canvas. */
+    html.light-mode .cursor-glow {
+      mix-blend-mode: multiply;
+      background: radial-gradient(circle, rgba(122,63,145,0.55) 0%, rgba(122,63,145,0.18) 50%, transparent 70%);
+    }
+    html.light-mode .cursor-ring {
+      mix-blend-mode: multiply;
+      border-color: rgba(122,63,145,0.45);
+    }
+    /* Hide custom cursor on touch / pen / coarse-pointer devices */
     @media (pointer: coarse) {
       .cursor-glow, .cursor-ring { display: none; }
     }
+    /* Hide custom cursor over text inputs so the native caret stays visible/uncluttered */
+    .form-input:focus ~ .cursor-glow,
+    .form-input:focus ~ .cursor-ring { opacity: 0; }
+    body:has(.form-input:focus) .cursor-glow,
+    body:has(.form-input:focus) .cursor-ring { opacity: 0.4; }
 
     /* ============================================================
        SPLIT TEXT ANIMATION
+       (Bottom padding + matching negative margin reserves space for
+       descenders like g, y, j on Cormorant Garamond — earlier
+       `overflow:hidden` was clipping them.)
     ============================================================ */
     .split-word {
       display: inline-block;
       overflow: hidden;
+      padding-bottom: 0.18em;
+      margin-bottom: -0.18em;
+      vertical-align: top;
     }
     .split-word span {
       display: inline-block;
@@ -1494,6 +1555,8 @@
 
     /* ============================================================
        GLITCH EFFECT ON HERO BRAND
+       (Reduced intensity + longer interval — was 6s loop creating
+       constant micro-distraction. Now 12s with ~98% idle time.)
     ============================================================ */
     .hero-brand {
       position: relative;
@@ -1508,32 +1571,33 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      pointer-events: none;
     }
     .hero-brand::before {
-      animation: glitch-1 6s infinite;
+      animation: glitch-1 12s infinite;
       clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
       transform: translate(-2px, 0);
       filter: drop-shadow(0 0 8px rgba(197,157,217,0.6));
     }
     .hero-brand::after {
-      animation: glitch-2 6s infinite;
+      animation: glitch-2 12s infinite;
       clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
       transform: translate(2px, 0);
       filter: drop-shadow(0 0 8px rgba(122,63,145,0.6));
     }
     @keyframes glitch-1 {
-      0%, 90%, 100% { transform: translate(0); opacity: 0; }
-      92% { transform: translate(-3px, 1px); opacity: 0.6; }
-      94% { transform: translate(2px, -1px); opacity: 0.4; }
-      96% { transform: translate(-1px, 2px); opacity: 0.6; }
-      98% { transform: translate(0); opacity: 0; }
+      0%, 95%, 100% { transform: translate(0); opacity: 0; }
+      96% { transform: translate(-3px, 1px); opacity: 0.6; }
+      97% { transform: translate(2px, -1px); opacity: 0.4; }
+      98% { transform: translate(-1px, 2px); opacity: 0.6; }
+      99% { transform: translate(0); opacity: 0; }
     }
     @keyframes glitch-2 {
-      0%, 88%, 100% { transform: translate(0); opacity: 0; }
-      90% { transform: translate(3px, -1px); opacity: 0.5; }
-      93% { transform: translate(-2px, 1px); opacity: 0.3; }
-      95% { transform: translate(1px, 0); opacity: 0.5; }
-      97% { transform: translate(0); opacity: 0; }
+      0%, 94%, 100% { transform: translate(0); opacity: 0; }
+      95% { transform: translate(3px, -1px); opacity: 0.5; }
+      97% { transform: translate(-2px, 1px); opacity: 0.3; }
+      98% { transform: translate(1px, 0); opacity: 0.5; }
+      99% { transform: translate(0); opacity: 0; }
     }
 
     /* ============================================================
@@ -1578,20 +1642,10 @@
     .heading-underline.in-view::after { width: 100%; }
 
     /* ============================================================
-       AURORA SHIMMER ON GLASS CARDS — DISABLED
-       (Conic-gradient + 8s rotate on every glass card was the
-       single biggest GPU/paint cost. Kept selector for safety
-       but rendered as a no-op.)
+       (Removed) AURORA SHIMMER + `.glass-aurora` — disabled previously
+       and never applied anywhere in the markup. Selector + keyframes
+       trimmed to keep stylesheet lean.
     ============================================================ */
-    .glass-aurora {
-      position: relative;
-      overflow: hidden;
-    }
-    .glass-aurora::after { content: none !important; }
-    @keyframes aurora-spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
 
     /* ============================================================
        FLOATING PARTICLES IN HERO (CSS-only extras)
@@ -1826,8 +1880,7 @@
 ============================================================ -->
 <canvas id="fluid-canvas"></canvas>
 
-<!-- Legacy 2D particle canvas (kept for compatibility, hidden via CSS) -->
-<canvas id="particle-canvas"></canvas>
+<!-- (Removed dead `<canvas id="particle-canvas">` — replaced by WebGL fluid sim) -->
 
 <!-- Custom Cursor (desktop only) -->
 <div class="cursor-glow" id="cursor-glow"></div>
@@ -1855,10 +1908,12 @@
       <a href="#experience"   class="nav-link">Experience</a>
       <a href="#work"         class="nav-link">Work</a>
       <a href="#education"    class="nav-link">Education</a>
+      <a href="#achievements" class="nav-link">Achievements</a>
       <a href="#testimonials" class="nav-link">Testimonials</a>
       <a href="#contact"      class="nav-link">Contact</a>
-      <!-- Resume Download -->
-      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download ml-2">
+      <!-- Resume Download (primary CTA — only this one gets the pulse ring) -->
+      <!-- TODO: upload `Azhar_Resume.pdf` to repo root for this download to work -->
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download btn-download--pulse ml-2">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
         Resume
       </a>
@@ -1883,6 +1938,9 @@
       <button
         class="md:hidden flex items-center justify-center w-9 h-9"
         @click="mobileMenu = !mobileMenu"
+        :aria-label="mobileMenu ? 'Close navigation menu' : 'Open navigation menu'"
+        :aria-expanded="mobileMenu.toString()"
+        aria-controls="mobile-menu-panel"
       >
         <i x-show="!mobileMenu" data-lucide="menu"  class="w-5 h-5 text-amethyst"></i>
         <i x-show="mobileMenu"  data-lucide="x"     class="w-5 h-5 text-amethyst"></i>
@@ -1892,7 +1950,10 @@
 
   <!-- Mobile Menu Dropdown -->
   <div
-    class="mobile-menu md:hidden overflow-hidden transition-all duration-300"
+    id="mobile-menu-panel"
+    class="mobile-menu md:hidden overflow-hidden"
+    role="navigation"
+    aria-label="Mobile navigation"
     x-show="mobileMenu"
     x-transition:enter="transition ease-out duration-200"
     x-transition:enter-start="opacity-0 -translate-y-2"
@@ -1910,6 +1971,7 @@
       <a href="#achievements" class="nav-link py-2" @click="mobileMenu=false">Achievements</a>
       <a href="#testimonials" class="nav-link py-2" @click="mobileMenu=false">Testimonials</a>
       <a href="#contact"      class="nav-link py-2" @click="mobileMenu=false">Contact</a>
+      <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
       <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download py-2.5 text-xs justify-center mt-2">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
         Download Resume
@@ -1969,6 +2031,7 @@
         <i data-lucide="layers" class="w-4 h-4"></i>
         View My Work
       </a>
+      <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
       <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download">
         <i data-lucide="download" class="w-4 h-4"></i>
         Download Resume
@@ -2008,7 +2071,15 @@
       <div class="reveal-left flex flex-col items-center md:items-start gap-8">
         <div class="relative">
           <div class="avatar-ring">
-            <div class="avatar-inner">MA</div>
+            <!--
+              TODO: drop your profile photo into the repo (e.g. `profile.jpg`,
+              square 600x600 minimum) and uncomment the <img> tag below.
+              The `MA` initials are kept as a graceful fallback / loading state.
+            -->
+            <div class="avatar-inner">
+              <!-- <img src="profile.jpg" alt="Muhammad Azhar Shahbaz" class="w-full h-full rounded-full object-cover"/> -->
+              MA
+            </div>
           </div>
           <!-- Decorative ring -->
           <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin" style="animation-duration:20s;"></div>
@@ -2062,6 +2133,7 @@
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
             Start a Project
           </a>
+          <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
           <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download inline-flex">
             <i data-lucide="download" class="w-4 h-4"></i>
             Download CV
@@ -2216,27 +2288,27 @@
           <!-- Highlights -->
           <div class="grid sm:grid-cols-2 gap-3">
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
               $7K+ revenue · 25+ premium projects
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
               Increased client ROI by 35–60%
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
               25% faster delivery via AI workflows
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
               98% client retention · zero late deliveries
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
               Top 3% freelancer on Upwork & Fiverr
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
               5-star rating across 30+ platform reviews
             </div>
           </div>
@@ -2268,7 +2340,18 @@
           :class="'delay-' + ((index % 3) + 1)"
           @click="openModal(project)"
         >
-          <!-- Thumbnail -->
+          <!--
+            Thumbnail.
+            TODO: each `project` in the data array can carry an `image` field
+            (e.g. add `image: 'work/nexus.jpg'` in the projects[] above) and
+            replace the gradient block below with:
+
+              <img :src="project.image" :alt="project.title + ' — ' + project.category"
+                   class="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
+
+            Until images are uploaded, the gradient + decorative SVG keeps the
+            grid visually consistent.
+          -->
           <div class="project-thumb" :class="project.thumbClass">
             <!-- SVG Pattern Decoration -->
             <svg class="thumb-pattern absolute inset-0 w-full h-full" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
@@ -2298,7 +2381,8 @@
             <!-- Icon at center -->
             <div class="absolute inset-0 flex items-end justify-start p-4 z-10">
               <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                <i :data-lucide="project.icon" x-init="$nextTick(() => lucide.createIcons())" class="w-5 h-5 text-white"></i>
+                <!-- (Removed redundant x-init lucide.createIcons() — now batched after Alpine renders all x-for templates, see init() below.) -->
+                <i :data-lucide="project.icon" class="w-5 h-5 text-white"></i>
               </div>
             </div>
           </div>
@@ -2444,7 +2528,7 @@
       <!-- Game Design -->
       <div class="achievement-badge reveal delay-4">
         <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="gamepad" class="w-5 h-5 text-green-400"></i>
+          <i data-lucide="gamepad-2" class="w-5 h-5 text-green-400"></i>
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">Game Design Fundamentals</p>
@@ -2713,22 +2797,28 @@
         <div class="glass p-6">
           <p class="text-xs text-amethyst/50 tracking-wider uppercase mb-4">Follow Me</p>
           <div class="flex flex-wrap gap-3">
-            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" class="social-link" title="LinkedIn">
+            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" rel="noopener" class="social-link" title="LinkedIn" aria-label="LinkedIn">
               <i data-lucide="linkedin" class="w-4 h-4"></i>
             </a>
-            <a href="https://behance.net" target="_blank" class="social-link" title="Behance">
-              <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            <a href="https://behance.net" target="_blank" rel="noopener" class="social-link" title="Behance" aria-label="Behance">
+              <!-- Behance brand SVG (Lucide has no Behance icon) -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                <path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zM3 11h3.584c2.508 0 2.906-3-.312-3H3v3zm3.391 3H3v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/>
+              </svg>
             </a>
-            <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link" title="Instagram" aria-label="Instagram">
               <i data-lucide="instagram" class="w-4 h-4"></i>
             </a>
-            <a href="https://x.com" target="_blank" class="social-link" title="X / Twitter">
-              <i data-lucide="twitter" class="w-4 h-4"></i>
+            <a href="https://x.com" target="_blank" rel="noopener" class="social-link" title="X / Twitter" aria-label="X (formerly Twitter)">
+              <!-- X (Twitter) brand SVG — Lucide's `twitter` icon is deprecated -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
             </a>
-            <a href="https://github.com/azhar-dev" target="_blank" class="social-link" title="GitHub">
+            <a href="https://github.com/azhar-dev" target="_blank" rel="noopener" class="social-link" title="GitHub" aria-label="GitHub">
               <i data-lucide="github" class="w-4 h-4"></i>
             </a>
-            <a href="https://azhar.dev" target="_blank" class="social-link" title="Portfolio Website">
+            <a href="https://azhar.dev" target="_blank" rel="noopener" class="social-link" title="Portfolio Website" aria-label="Portfolio Website">
               <i data-lucide="globe" class="w-4 h-4"></i>
             </a>
           </div>
@@ -2738,30 +2828,43 @@
       <!-- Contact Form -->
       <div class="md:col-span-3 glass p-8 reveal-right">
         <h3 class="font-display text-2xl font-light text-lilac mb-6">Send a Message</h3>
-        <div class="flex flex-col gap-4">
+        <!--
+          Real form. Defaults to a `mailto:` action so messages reach you
+          without any backend. To collect submissions in a dashboard,
+          swap the action below for a Formspree / Web3Forms / Getform
+          endpoint, e.g. action="https://formspree.io/f/XXXXX" method="POST".
+        -->
+        <form
+          id="contact-form"
+          action="mailto:arhamjutt6481335@gmail.com"
+          method="post"
+          enctype="text/plain"
+          novalidate
+          class="flex flex-col gap-4"
+        >
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
-              <input type="text" placeholder="Your name" class="form-input"/>
+              <label for="contact-name" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
+              <input id="contact-name" name="name" type="text" required autocomplete="name" placeholder="Your name" class="form-input"/>
             </div>
             <div>
-              <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Email Address</label>
-              <input type="email" placeholder="your@email.com" class="form-input"/>
+              <label for="contact-email" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Email Address</label>
+              <input id="contact-email" name="email" type="email" required autocomplete="email" placeholder="your@email.com" class="form-input"/>
             </div>
           </div>
           <div>
-            <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Subject</label>
-            <input type="text" placeholder="Project inquiry, collaboration..." class="form-input"/>
+            <label for="contact-subject" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Subject</label>
+            <input id="contact-subject" name="subject" type="text" required placeholder="Project inquiry, collaboration..." class="form-input"/>
           </div>
           <div>
-            <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Message</label>
-            <textarea rows="5" placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
+            <label for="contact-message" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Message</label>
+            <textarea id="contact-message" name="message" rows="5" required placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
           </div>
-          <button class="btn-primary self-start mt-2">
+          <button type="submit" class="btn-primary self-start mt-2">
             <i data-lucide="send" class="w-4 h-4"></i>
             Send Message
           </button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -2788,12 +2891,13 @@
         <a href="#contact"      class="hover:text-amethyst transition-colors">Contact</a>
       </div>
       <div class="flex items-center gap-4">
+        <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
         <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download text-xs py-2 px-4">
           <i data-lucide="download" class="w-3 h-3"></i>
           Download Resume
         </a>
         <p class="text-lilac/25 text-xs">
-          &copy; 2026 Muhammad Azhar Shahbaz.
+          &copy; <span id="footer-year">2026</span> Muhammad Azhar Shahbaz.
         </p>
       </div>
     </div>
@@ -2814,6 +2918,9 @@
   x-transition:leave-start="opacity-100"
   x-transition:leave-end="opacity-0"
   @click.self="closeModal()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
   style="display:none;"
 >
   <div
@@ -2822,6 +2929,10 @@
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-95 translate-y-4"
     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+    x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+    x-trap.noscroll="modalOpen"
   >
     <!-- Modal Header Thumb -->
     <div class="h-48 relative" :class="activeProject?.thumbClass" x-show="activeProject">
@@ -2835,13 +2946,14 @@
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
         <div>
           <span class="text-xs text-white/60 tracking-widest uppercase" x-text="activeProject?.category"></span>
-          <h3 class="font-display text-3xl text-white font-semibold" x-text="activeProject?.title"></h3>
+          <h3 id="modal-title" class="font-display text-3xl text-white font-semibold" x-text="activeProject?.title"></h3>
         </div>
       </div>
       <!-- Close Button -->
       <button
         @click="closeModal()"
         class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white/80 hover:bg-black/60 transition-all"
+        aria-label="Close project details"
       >
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
@@ -2906,21 +3018,18 @@
   ];
 
   /* ══════════════════════════════════════════════════════════
-     1. PARTICLE CANVAS BACKGROUND (DISABLED)
+     1. PARTICLE CANVAS BACKGROUND — REMOVED
      The 2D particle system has been replaced by the WebGL ink
      fluid simulation (see #fluid-canvas + WebGLFluid init below).
-     We keep a no-op `Particle` class so click-burst code below
-     doesn't break.
+     Dead `Particle` no-op class removed.
   ══════════════════════════════════════════════════════════ */
-  class Particle {
-    constructor() {}
-    reset() {}
-    update() {}
-    draw() {}
-  }
 
   /* ══════════════════════════════════════════════════════════
      2. COLOR BURST ON CLICK / TOUCH
+     (Skipped on interactive UI like buttons / links / inputs so
+     the burst doesn't compete with the user's primary action.
+     Also skipped if a modifier key is held — preserves shortcuts
+     like Cmd/Ctrl-click for "open in new tab".)
   ══════════════════════════════════════════════════════════ */
   function spawnBurst(x, y) {
     const count = 4 + Math.floor(Math.random() * 3);
@@ -2941,8 +3050,17 @@
     }
   }
 
-  document.addEventListener('click', e => spawnBurst(e.clientX, e.clientY));
+  // Selectors where a burst would feel intrusive (steals attention from the
+  // real action) or interfere (typing into inputs).
+  const BURST_SKIP = 'a, button, input, textarea, select, label, [role="button"], .skill-pill, .social-link, .achievement-badge, .nav-link';
+
+  document.addEventListener('click', e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (e.target && e.target.closest && e.target.closest(BURST_SKIP)) return;
+    spawnBurst(e.clientX, e.clientY);
+  });
   document.addEventListener('touchstart', e => {
+    if (e.target && e.target.closest && e.target.closest(BURST_SKIP)) return;
     Array.from(e.touches).forEach(t => spawnBurst(t.clientX, t.clientY));
   }, { passive: true });
 
@@ -3282,34 +3400,37 @@
 </script>
 
 <!-- ============================================================
-     CONTACT FORM — basic client-side submit handler
+     CONTACT FORM — submit handler with native validation + mailto fallback
 ============================================================ -->
 <script>
 (function() {
   function bindContactForm() {
-    var btn = document.querySelector('#contact .btn-primary');
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+    var btn = form.querySelector('button[type="submit"]');
     if (!btn) return;
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      var inputs = document.querySelectorAll('#contact .form-input');
-      var allFilled = true;
-      inputs.forEach(function(input) {
-        if (!input.value.trim()) {
-          allFilled = false;
-          input.style.borderColor = 'rgba(239,68,68,0.6)';
-          setTimeout(function() { input.style.borderColor = ''; }, 2000);
-        }
-      });
-      if (allFilled) {
-        btn.textContent = 'Message Sent!';
-        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-        inputs.forEach(function(input) { input.value = ''; });
-        setTimeout(function() {
-          btn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> Send Message';
-          btn.style.background = '';
-          if (window.lucide) lucide.createIcons();
-        }, 3000);
+
+    form.addEventListener('submit', function(e) {
+      // Use HTML5 validation instead of manual border-color tweaks
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        form.reportValidity();
+        return;
       }
+      // Let mailto: action proceed naturally — that opens the user's email
+      // client with name/email/subject/message pre-filled.
+      // Show optimistic success feedback.
+      var original = btn.innerHTML;
+      btn.disabled = true;
+      btn.textContent = 'Opening your email…';
+      btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+      setTimeout(function() {
+        form.reset();
+        btn.disabled = false;
+        btn.innerHTML = original;
+        btn.style.background = '';
+        if (window.lucide) lucide.createIcons();
+      }, 2500);
     });
   }
   if (document.readyState === 'loading') {
