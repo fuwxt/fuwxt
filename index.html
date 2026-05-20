@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-mode">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Azhar. — AI & Animation Specialist | Full-Stack Designer</title>
+  <title>Muhammad Azhar Shahbaz — Graphic Designer & Web Developer</title>
+  <meta name="description" content="Muhammad Azhar Shahbaz is a freelance graphic designer, web developer, and motion artist based in Islamabad, Pakistan. Specializing in brand identity, web design, and animation."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://fuwxt.github.io/fuwxt/"/>
 
-  <!-- ============================================================
-       DEVTOOLS BLOCKER + SYSTEM THEME INIT (runs before paint)
-  ============================================================ -->
+  <!-- Open Graph -->
+  <meta property="og:title" content="Muhammad Azhar Shahbaz — Designer & Developer"/>
+  <meta property="og:description" content="Freelance graphic designer and web developer creating brand identities, websites, and motion graphics."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://fuwxt.github.io/fuwxt/"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Muhammad Azhar Shahbaz — Designer & Developer"/>
+  <meta name="twitter:description" content="Freelance graphic designer and web developer based in Islamabad."/>
+
+  <!-- System Theme Detection (instant, no flash) -->
   <script>
-    /* ── 1. SYSTEM THEME DETECTION (instant, no flash) ──────── */
     (function() {
       var mq = window.matchMedia('(prefers-color-scheme: light)');
-      // Store system preference; Alpine will pick it up
       window.__systemLight = mq.matches;
-      // Apply class immediately to <html> so no dark→light flash
       if (mq.matches) {
         document.documentElement.classList.add('light-mode');
         document.documentElement.classList.remove('dark-mode');
@@ -23,47 +32,26 @@
         document.documentElement.classList.remove('light-mode');
       }
     })();
-
-    /* ── 2. SOFT-PROTECT (no perf killers) ──────────────────── */
-    (function() {
-      // Block right-click context menu (lightweight)
-      document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-
-      // Block obvious view-source / save shortcuts (still lightweight, no debugger trap)
-      document.addEventListener('keydown', function(e) {
-        var k = (e.key || '').toUpperCase();
-        var blocked =
-          k === 'F12' ||
-          (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(k)) ||
-          (e.metaKey && e.altKey  && ['I','J','C'].includes(k)) ||
-          (e.ctrlKey && k === 'U') ||
-          ((e.ctrlKey || e.metaKey) && k === 'S');
-        if (blocked) { e.preventDefault(); e.stopPropagation(); return false; }
-      }, true);
-    })();
   </script>
 
-  <!-- Google Fonts: Cormorant Garamond + DM Sans -->
+  <!-- Google Fonts: Cormorant Garamond (2 weights) + DM Sans (2 weights) -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS (production build recommended) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- WebGL Fluid Simulation (ink-style background) -->
-  <script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.4"></script>
-
-  <!-- Alpine.js v3 + Intersect Plugin (must load before Alpine) -->
+  <!-- Alpine.js v3 + Intersect Plugin -->
   <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <!-- Alpine component functions — MUST be defined before Alpine boots -->
-  <script>
-    document.addEventListener('alpine:init', () => {
-      // Register components globally so x-data can find them
-    });
 
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Alpine component -->
+  <script>
     function portfolioApp() {
       return {
         lightMode: false,
@@ -72,19 +60,7 @@
         mobileMenu: false,
         modalOpen: false,
         activeProject: null,
-
-        creativeSkills: [
-          '2D Animation', '3D Animation', 'Character Animation',
-          'Motion Design', 'Motion Graphics', 'Video Editing',
-          'Logo Design', 'Branding & Identity', 'Graphic Design',
-          'Adobe Photoshop', 'Adobe Illustrator'
-        ],
-        technicalSkills: [
-          'Artificial Intelligence (AI)', 'Machine Learning',
-          'Prompt Engineering', 'Web Development',
-          'Responsive Web Design', 'Web Applications',
-          'CSS', 'Debugging', 'Game Design'
-        ],
+        formStatus: '',
 
         projects: [
           {
@@ -92,63 +68,63 @@
             title: 'Nexus Brand Identity',
             category: 'Branding',
             icon: 'hexagon',
-            thumbClass: 'thumb-1',
-            shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup — from logo to full design language.',
-            longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
-            tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
+            image: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&h=400&fit=crop',
+            shortDesc: 'Complete brand identity system for a tech startup — logo, guidelines, and collateral.',
+            longDesc: 'Nexus required a brand identity that communicated innovation and precision. The result was a geometric logomark built on hexagonal grids, paired with a clean typographic system. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
+            tags: ['Adobe Illustrator', 'Photoshop', 'Branding'],
             highlights: [
-              'Full logo suite including primary, secondary and icon variants',
+              'Full logo suite with primary, secondary, and icon variants',
               '40-page brand guidelines document',
-              'Complete stationery system and business collateral',
-              'Social media template kit with 20+ designs'
+              'Complete stationery system',
+              'Social media template kit'
             ]
           },
           {
             id: 2,
             title: 'Aura E-commerce Website',
-            category: 'Web Dev',
+            category: 'Web Design',
             icon: 'shopping-bag',
-            thumbClass: 'thumb-2',
-            shortDesc: 'A luxury e-commerce platform with seamless UX, lightning-fast performance, and a beautifully minimal aesthetic.',
-            longDesc: 'Aura is a premium fashion e-commerce website built from the ground up with performance and elegance as dual priorities. The site features smooth page transitions, a custom cart system, product filtering, and full mobile responsiveness. The design language prioritizes white space, editorial imagery, and intuitive navigation.',
-            tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'UX Design', 'Performance'],
+            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop',
+            shortDesc: 'Luxury e-commerce platform with seamless UX and mobile-first responsive design.',
+            longDesc: 'Aura is a fashion e-commerce website built with performance and elegance as priorities. Features smooth transitions, custom cart system, product filtering, and full mobile responsiveness.',
+            tags: ['HTML/CSS', 'JavaScript', 'UX Design'],
             highlights: [
-              'Sub-2s load time with optimized asset pipeline',
-              'Custom cart & checkout flow with validation',
+              'Custom cart and checkout flow',
               'Infinite scroll product listings with filters',
-              'Mobile-first responsive layout across all breakpoints'
+              'Mobile-first responsive layout',
+              'Optimized for fast load times'
             ]
           },
           {
             id: 3,
-            title: 'Neon Motion Reel 2024',
-            category: 'Motion',
+            title: 'Neon Motion Reel',
+            category: 'Motion Graphics',
             icon: 'play-circle',
-            thumbClass: 'thumb-3',
-            shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
-            longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
-            tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
+            image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&h=400&fit=crop',
+            shortDesc: '90-second showreel blending 2D/3D animation and kinetic typography.',
+            longDesc: 'A personal creative showcase demonstrating animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle effects.',
+            tags: ['After Effects', 'Cinema 4D', 'Premiere Pro'],
             highlights: [
-              '90-second reel spanning 8 distinct animation styles',
-              'Original sound design and audio-reactive elements',
-              'Custom character rig with 40+ control points',
-              'Delivered in 4K ProRes for broadcast standard'
+              '8 distinct animation styles in 90 seconds',
+              'Original sound design',
+              'Custom character rig',
+              'Delivered in 4K'
             ]
           },
           {
             id: 4,
-            title: 'AI Prompt Studio Dashboard',
-            category: 'AI / Dev',
-            icon: 'brain-circuit',
-            thumbClass: 'thumb-4',
-            shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
-            longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
-            tags: ['Web Development', 'AI', 'Prompt Engineering', 'CSS', 'JavaScript', 'API Integration'],
+            title: 'AI Prompt Studio',
+            category: 'Web App',
+            icon: 'cpu',
+            image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop',
+            shortDesc: 'AI prompt management dashboard for teams to organize, test, and deploy prompts.',
+            longDesc: 'A web application for AI practitioners to manage prompt libraries. Features include version history, tag-based filtering, live model testing, and team collaboration.',
+            tags: ['JavaScript', 'AI/ML', 'API Integration'],
             highlights: [
-              'Real-time prompt testing with model API integration',
-              'Version control system with diff viewer',
-              'Team workspace with role-based permissions',
-              'Bulk export to JSON, CSV, and YAML formats'
+              'Real-time prompt testing with API integration',
+              'Version control with diff viewer',
+              'Team workspace with permissions',
+              'Export to JSON, CSV, YAML'
             ]
           },
           {
@@ -156,31 +132,31 @@
             title: 'Pulse Social Media Pack',
             category: 'Graphic Design',
             icon: 'image',
-            thumbClass: 'thumb-5',
-            shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand — Instagram, Stories, Reels covers & more.',
-            longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics — all built on a vibrant, energetic design system optimized for engagement.',
-            tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
+            image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop',
+            shortDesc: '60-piece social media graphics pack for a music and lifestyle brand.',
+            longDesc: 'A comprehensive social media toolkit covering Instagram, TikTok, and YouTube. Includes post templates, story frames, reel covers, and event graphics.',
+            tags: ['Photoshop', 'Illustrator', 'Social Media'],
             highlights: [
-              '60 fully editable template files across 6 formats',
-              'Consistent design system with 3 sub-brand variants',
-              'Optimized for Instagram, TikTok, YouTube and Facebook',
-              'Client training guide for in-house editing'
+              '60 editable templates across 6 formats',
+              'Consistent design system',
+              'Optimized for all major platforms',
+              'Client training guide included'
             ]
           },
           {
             id: 6,
-            title: 'Vortex Game UI/UX',
-            category: 'Game Design',
+            title: 'Vortex Game UI',
+            category: 'UI/UX Design',
             icon: 'gamepad-2',
-            thumbClass: 'thumb-6',
-            shortDesc: 'A complete UI/UX design system for a sci-fi action game — HUD, menus, inventory, and character screens.',
-            longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
-            tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
+            image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600&h=400&fit=crop',
+            shortDesc: 'Complete UI/UX system for a sci-fi game — HUD, menus, inventory, and character screens.',
+            longDesc: 'A futuristic UI designed for a dark-sci-fi world. Covers the full player experience: main menu, HUD overlays, inventory, skill tree, and settings.',
+            tags: ['UI/UX', 'Figma', 'Motion Design'],
             highlights: [
-              'Full UI kit with 80+ screen-ready components',
-              'Animated HUD prototype with hover/active states',
-              'Accessibility-compliant color contrast ratios',
-              'Delivered with Figma source files and dev specs'
+              '80+ screen-ready components',
+              'Animated HUD prototype',
+              'Accessibility-compliant contrast',
+              'Figma source files with dev specs'
             ]
           }
         ],
@@ -197,36 +173,50 @@
           setTimeout(() => { this.activeProject = null; }, 300);
         },
 
+        async submitForm(e) {
+          const form = e.target;
+          const data = new FormData(form);
+          this.formStatus = 'sending';
+          try {
+            const res = await fetch('https://formspree.io/f/xpwdjqkl', {
+              method: 'POST',
+              body: data,
+              headers: { 'Accept': 'application/json' }
+            });
+            if (res.ok) {
+              this.formStatus = 'success';
+              form.reset();
+            } else {
+              this.formStatus = 'error';
+            }
+          } catch {
+            this.formStatus = 'error';
+          }
+          setTimeout(() => { this.formStatus = ''; }, 5000);
+        },
+
         init() {
           this.lightMode = window.__systemLight || false;
-
           const mq = window.matchMedia('(prefers-color-scheme: light)');
           mq.addEventListener('change', (e) => {
             if (!this._manualOverride) this.lightMode = e.matches;
           });
-
           this.$watch('lightMode', (val) => {
             document.documentElement.classList.toggle('light-mode', val);
             document.documentElement.classList.toggle('dark-mode', !val);
           });
-
           window.addEventListener('scroll', () => {
             this.scrolled = window.scrollY > 40;
           });
-
           this.$nextTick(() => {
             this.initReveal();
             this.initTyping();
             lucide.createIcons();
-            // Safety net: re-run icon creation after Alpine has fully
-            // rendered all x-for templates (skill pills, projects, etc.)
-            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 250);
-            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
           });
         },
 
         initReveal() {
-          const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+          const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
           const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
@@ -234,8 +224,7 @@
                 observer.unobserve(entry.target);
               }
             });
-          }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-
+          }, { threshold: 0.08 });
           els.forEach(el => {
             const rect = el.getBoundingClientRect();
             if (rect.top < window.innerHeight && rect.bottom > 0) {
@@ -248,11 +237,9 @@
 
         initTyping() {
           const phrases = [
-            'Freelance Graphic Designer',
+            'Graphic Designer',
             'Web Developer',
-            'AI & Prompt Engineer',
-            'Motion Graphics Artist',
-            'Brand Identity Specialist'
+            'Motion Graphics Artist'
           ];
           let phraseIndex = 0, charIndex = 0, deleting = false;
           const el = document.getElementById('typed-text');
@@ -292,8 +279,6 @@
     }
   </script>
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     tailwind.config = {
@@ -315,9 +300,10 @@
     }
   </script>
 
+
   <style>
     /* ============================================================
-       CSS CUSTOM PROPERTIES & ROOT
+       ROOT & CUSTOM PROPERTIES
     ============================================================ */
     :root {
       --c-lilac:    #F2EAF7;
@@ -325,16 +311,9 @@
       --c-regal:    #7A3F91;
       --c-velvet:   #2B0D3E;
       --c-velvet2:  #1a0827;
-      --glow-sm:    0 0 20px rgba(197,157,217,0.25);
-      --glow-md:    0 0 40px rgba(122,63,145,0.35);
-      --glow-lg:    0 0 70px rgba(122,63,145,0.45);
     }
 
-    /* ============================================================
-       BASE RESET & SCROLLBAR
-    ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -349,138 +328,76 @@
     ::-webkit-scrollbar-thumb { background: var(--c-regal); border-radius: 2px; }
 
     /* ============================================================
-       LIGHT MODE — Apple UI Style, same purple/lilac palette
+       REDUCED MOTION
     ============================================================ */
-
-    /* CSS vars for light mode */
-    html.light-mode {
-      --c-bg:        #f5f0fb;
-      --c-bg2:       #ede5f7;
-      --c-surface:   rgba(255,255,255,0.72);
-      --c-surface2:  rgba(242,234,247,0.85);
-      --c-border:    rgba(122,63,145,0.18);
-      --c-text:      #1d0a2e;
-      --c-text2:     rgba(43,13,62,0.70);
-      --c-text3:     rgba(43,13,62,0.45);
-      --c-accent:    #7A3F91;
-      --c-lilac:     #F2EAF7;
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
     }
 
+    /* ============================================================
+       LIGHT MODE
+    ============================================================ */
     html.light-mode body {
       background-color: #f5f0fb;
       color: #1d0a2e;
     }
-
-    /* Scrollbar */
     html.light-mode ::-webkit-scrollbar-track { background: #ede5f7; }
-    html.light-mode ::-webkit-scrollbar-thumb { background: var(--c-regal); }
 
-    /* Background breathing orbs — lighter tint */
-    html.light-mode .bg-breathe {
-      background: #f5f0fb;
-    }
-    html.light-mode .bg-breathe::before {
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(242,234,247,0.6) 0%, transparent 70%);
-    }
-
-    /* Navbar */
     html.light-mode .nav-glass {
-      background: rgba(245,240,251,0.82) !important;
+      background: rgba(245,240,251,0.90) !important;
       border-bottom-color: rgba(122,63,145,0.14) !important;
-      box-shadow: 0 1px 0 rgba(122,63,145,0.08);
     }
     html.light-mode .nav-glass.scrolled {
-      background: rgba(245,240,251,0.95) !important;
+      background: rgba(245,240,251,0.97) !important;
       box-shadow: 0 4px 24px rgba(122,63,145,0.12) !important;
     }
     html.light-mode .nav-link { color: rgba(43,13,62,0.60); }
     html.light-mode .nav-link:hover { color: var(--c-regal); }
 
-    /* Mobile menu */
-    html.light-mode .mobile-menu {
-      background: rgba(245,240,251,0.97);
-      border-bottom-color: rgba(122,63,145,0.14);
-    }
-
-    /* Hero section */
     html.light-mode .hero-bg {
-      background:
-        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(197,157,217,0.28) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(122,63,145,0.12) 0%, transparent 55%),
-        linear-gradient(180deg, #ede5f7 0%, #e8daf5 50%, #f5f0fb 100%);
+      background: linear-gradient(180deg, #ede5f7 0%, #e8daf5 50%, #f5f0fb 100%);
     }
     html.light-mode .hero-brand {
       background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 40%, var(--c-amethyst) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 2px 16px rgba(122,63,145,0.18));
-    }
-    html.light-mode .orb {
-      opacity: 0.12;
     }
 
-    /* Glass cards */
     html.light-mode .glass {
-      background: rgba(255,255,255,0.68);
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
-      border: 1px solid rgba(122,63,145,0.14);
-      box-shadow: 0 2px 20px rgba(122,63,145,0.07), 0 1px 0 rgba(255,255,255,0.9) inset;
+      background: rgba(255,255,255,0.72);
+      border-color: rgba(122,63,145,0.14);
+      box-shadow: 0 2px 20px rgba(122,63,145,0.07);
     }
     html.light-mode .glass:hover {
       border-color: rgba(122,63,145,0.28);
-      box-shadow: 0 8px 40px rgba(122,63,145,0.14), 0 1px 0 rgba(255,255,255,0.9) inset;
-    }
-    html.light-mode .glass-strong {
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(122,63,145,0.16);
-      box-shadow: 0 8px 40px rgba(122,63,145,0.12);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.14);
     }
 
-    /* Typography color overrides */
     html.light-mode .text-lilac { color: #1d0a2e !important; }
-    html.light-mode .text-lilac\/60, html.light-mode .text-lilac\/65,
-    html.light-mode .text-lilac\/55, html.light-mode .text-lilac\/50 { color: rgba(43,13,62,0.65) !important; }
-    html.light-mode .text-lilac\/40, html.light-mode .text-lilac\/45 { color: rgba(43,13,62,0.45) !important; }
-    html.light-mode .text-lilac\/35, html.light-mode .text-lilac\/25 { color: rgba(43,13,62,0.38) !important; }
+    html.light-mode .text-lilac\/70 { color: rgba(43,13,62,0.70) !important; }
+    html.light-mode .text-lilac\/60 { color: rgba(43,13,62,0.65) !important; }
+    html.light-mode .text-lilac\/50 { color: rgba(43,13,62,0.55) !important; }
     html.light-mode .text-amethyst { color: var(--c-regal) !important; }
-    html.light-mode .text-amethyst\/50, html.light-mode .text-amethyst\/70 { color: rgba(122,63,145,0.65) !important; }
-    html.light-mode .text-amethyst\/60 { color: rgba(122,63,145,0.55) !important; }
 
-    /* Section labels */
-    html.light-mode .section-label { color: var(--c-regal); opacity: 0.75; }
-
-    /* Gradient text stays — just tweak start color for better contrast on white */
     html.light-mode .gradient-text {
       background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 50%, var(--c-amethyst) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    html.light-mode .gradient-text-warm {
-      background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-amethyst) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
 
-    /* Skill pills */
     html.light-mode .skill-pill {
       background: rgba(122,63,145,0.08);
       border-color: rgba(122,63,145,0.20);
       color: #1d0a2e;
     }
-    html.light-mode .skill-pill:hover {
-      background: rgba(122,63,145,0.18);
-      border-color: rgba(122,63,145,0.40);
-      color: var(--c-velvet);
-    }
 
-    /* Project cards */
     html.light-mode .project-card {
       background: rgba(255,255,255,0.72);
       border-color: rgba(122,63,145,0.14);
@@ -489,44 +406,17 @@
       border-color: rgba(122,63,145,0.30);
       box-shadow: 0 12px 50px rgba(122,63,145,0.16);
     }
-    html.light-mode .project-card h3 { color: #1d0a2e; }
-    html.light-mode .project-card .text-lilac\/50 { color: rgba(43,13,62,0.55) !important; }
 
-    /* Testimonials */
-    html.light-mode .testimonial-card {
-      background: rgba(255,255,255,0.72);
-      border-color: rgba(122,63,145,0.14);
-    }
-    html.light-mode .testimonial-card::before { color: var(--c-amethyst); opacity: 0.3; }
-    html.light-mode .testimonial-card:hover {
-      border-color: rgba(122,63,145,0.28);
-      box-shadow: 0 8px 40px rgba(122,63,145,0.10);
-    }
-
-    /* Achievement badges */
-    html.light-mode .achievement-badge {
-      background: rgba(255,255,255,0.65);
-      border-color: rgba(122,63,145,0.14);
-    }
-    html.light-mode .achievement-badge:hover {
-      background: rgba(255,255,255,0.88);
-      border-color: rgba(122,63,145,0.28);
-    }
-
-    /* Form inputs */
     html.light-mode .form-input {
       background: rgba(255,255,255,0.75);
       border-color: rgba(122,63,145,0.20);
       color: #1d0a2e;
     }
-    html.light-mode .form-input::placeholder { color: rgba(43,13,62,0.30); }
     html.light-mode .form-input:focus {
       border-color: rgba(122,63,145,0.50);
       background: rgba(255,255,255,0.95);
-      box-shadow: 0 0 20px rgba(122,63,145,0.10);
     }
 
-    /* Social links */
     html.light-mode .social-link {
       background: rgba(122,63,145,0.08);
       border-color: rgba(122,63,145,0.20);
@@ -534,81 +424,37 @@
     }
     html.light-mode .social-link:hover {
       background: rgba(122,63,145,0.18);
-      border-color: var(--c-regal);
       color: var(--c-velvet);
     }
 
-    /* Buttons */
-    html.light-mode .btn-outline {
-      color: var(--c-regal);
-      border-color: rgba(122,63,145,0.35);
-    }
-    html.light-mode .btn-outline:hover {
-      background: rgba(122,63,145,0.10);
-      border-color: var(--c-regal);
-      color: var(--c-velvet);
-    }
-    html.light-mode .btn-download {
-      background: linear-gradient(135deg, rgba(122,63,145,0.10) 0%, rgba(197,157,217,0.20) 100%);
-      color: var(--c-regal);
-      border-color: rgba(122,63,145,0.30);
-    }
-    html.light-mode .btn-download:hover {
-      background: linear-gradient(135deg, rgba(122,63,145,0.18) 0%, rgba(197,157,217,0.32) 100%);
-      color: var(--c-velvet);
-      border-color: var(--c-regal);
-    }
-
-    /* Counter cards */
-    html.light-mode .counter-label { color: rgba(43,13,62,0.45); }
-
-    /* Footer */
     html.light-mode footer {
-      border-top-color: rgba(122,63,145,0.12);
       background: #ede5f7;
-    }
-    html.light-mode .footer-gradient {
-      background: linear-gradient(0deg, #e8daf5 0%, transparent 100%);
+      border-top-color: rgba(122,63,145,0.12);
     }
 
-    /* Modal backdrop */
-    html.light-mode .modal-backdrop {
-      background: rgba(242,234,247,0.85);
-    }
-
-    /* Stat bars */
-    html.light-mode .stat-bar-wrap { background: rgba(122,63,145,0.10); }
-
-    /* Tag chips */
-    html.light-mode .tag-chip {
-      background: rgba(122,63,145,0.10);
-      border-color: rgba(122,63,145,0.20);
-      color: var(--c-regal);
-    }
-
-    /* Availability badge */
-    html.light-mode .border-amethyst\/25 { border-color: rgba(122,63,145,0.25) !important; }
-    html.light-mode .bg-regal\/15 { background: rgba(122,63,145,0.10) !important; }
-    html.light-mode .text-amethyst\/80 { color: rgba(122,63,145,0.75) !important; }
-
-    /* Counter numbers keep gradient */
+    html.light-mode .section-label { color: var(--c-regal); }
     html.light-mode .counter-number {
       background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-amethyst) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
-    /* Section radial bg overlays */
-    html.light-mode section[style*="radial-gradient"] {
-      background: transparent !important;
+    html.light-mode .testimonial-card {
+      background: rgba(255,255,255,0.72);
+      border-color: rgba(122,63,145,0.14);
+    }
+    html.light-mode .btn-primary {
+      background: linear-gradient(135deg, var(--c-regal) 0%, #5c2e72 100%);
+    }
+    html.light-mode .btn-outline {
+      color: var(--c-regal);
+      border-color: rgba(122,63,145,0.35);
     }
 
     /* ============================================================
-       BREATHING GRADIENT BACKGROUND
+       BACKGROUND
     ============================================================ */
     .bg-breathe {
-      background: var(--c-velvet2);
       position: relative;
     }
     .bg-breathe::before {
@@ -616,32 +462,20 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.18) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.10) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(43,13,62,0.5) 0%, transparent 70%);
-      animation: breathe 12s ease-in-out infinite alternate;
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.08) 0%, transparent 55%);
       pointer-events: none;
       z-index: 0;
     }
-    @keyframes breathe {
-      0%   { opacity: 0.6; transform: scale(1); }
-      50%  { opacity: 1;   transform: scale(1.04); }
-      100% { opacity: 0.7; transform: scale(1.01); }
+    html.light-mode .bg-breathe::before {
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.12) 0%, transparent 55%);
     }
 
-    /* Noise texture overlay for depth */
-    .bg-breathe::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      opacity: 0.4;
-      pointer-events: none;
-      z-index: 0;
-    }
 
     /* ============================================================
-       GLASS CARD SYSTEM
+       GLASS CARD
     ============================================================ */
     .glass {
       background: rgba(43, 13, 62, 0.55);
@@ -652,31 +486,22 @@
       transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
     .glass:hover {
-      border-color: rgba(197,157,217,0.38);
-      box-shadow: 0 8px 40px rgba(122,63,145,0.30), 0 0 0 1px rgba(197,157,217,0.12);
+      border-color: rgba(197,157,217,0.35);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.25);
       transform: translateY(-4px);
-    }
-    .glass-strong {
-      background: rgba(43, 13, 62, 0.75);
-      backdrop-filter: blur(30px) saturate(160%);
-      -webkit-backdrop-filter: blur(30px) saturate(160%);
-      border: 1px solid rgba(197,157,217,0.22);
     }
 
     /* ============================================================
        TYPOGRAPHY
     ============================================================ */
-    .font-display { font-family: 'Cormorant Garamond', serif; }
-
     h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
 
     .section-label {
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.25em;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--c-amethyst);
-      opacity: 0.8;
     }
 
     .gradient-text {
@@ -686,25 +511,18 @@
       background-clip: text;
     }
 
-    .gradient-text-warm {
-      background: linear-gradient(135deg, var(--c-amethyst) 0%, var(--c-lilac) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
     /* ============================================================
        NAVBAR
     ============================================================ */
     .nav-glass {
-      background: rgba(26, 8, 39, 0.75);
+      background: rgba(26, 8, 39, 0.80);
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       border-bottom: 1px solid rgba(197,157,217,0.12);
       transition: all 0.3s ease;
     }
     .nav-glass.scrolled {
-      background: rgba(26, 8, 39, 0.92);
+      background: rgba(26, 8, 39, 0.94);
       border-bottom-color: rgba(197,157,217,0.22);
       box-shadow: 0 4px 30px rgba(43,13,62,0.6);
     }
@@ -713,7 +531,7 @@
       position: relative;
       font-size: 0.8rem;
       letter-spacing: 0.08em;
-      color: rgba(242,234,247,0.65);
+      color: rgba(242,234,247,0.70);
       transition: color 0.3s ease;
       text-decoration: none;
     }
@@ -723,38 +541,28 @@
       bottom: -4px; left: 0;
       width: 0; height: 1px;
       background: linear-gradient(90deg, var(--c-amethyst), var(--c-regal));
-      transition: width 0.3s cubic-bezier(0.23,1,0.32,1);
+      transition: width 0.3s ease;
     }
     .nav-link:hover { color: var(--c-amethyst); }
     .nav-link:hover::after { width: 100%; }
 
     /* ============================================================
-       HERO SECTION
+       HERO
     ============================================================ */
     .hero-bg {
       background:
-        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(122,63,145,0.25) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(197,157,217,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 70% at 50% 0%, rgba(122,63,145,0.20) 0%, transparent 60%),
         linear-gradient(180deg, var(--c-velvet2) 0%, #200a30 50%, var(--c-velvet2) 100%);
     }
-
-    /* Floating orb decorations */
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.25;
-      animation: float 8s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
-    .orb-1 { width: 400px; height: 400px; background: var(--c-regal); top: -100px; right: -100px; animation-delay: 0s; }
-    .orb-2 { width: 250px; height: 250px; background: var(--c-amethyst); bottom: 10%; left: -80px; animation-delay: 3s; }
-    .orb-3 { width: 180px; height: 180px; background: var(--c-regal); top: 40%; left: 30%; animation-delay: 5s; opacity: 0.12; }
-
-    @keyframes float {
-      0%   { transform: translateY(0px) translateX(0px); }
-      50%  { transform: translateY(-30px) translateX(15px); }
-      100% { transform: translateY(10px) translateX(-10px); }
+    .hero-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 400;
+      line-height: 0.9;
+      background: linear-gradient(135deg, #fff 0%, var(--c-lilac) 30%, var(--c-amethyst) 70%, var(--c-regal) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     /* Typing cursor */
@@ -765,25 +573,10 @@
     }
     @keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
 
-    /* Hero logo / brand */
-    .hero-brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(5rem, 15vw, 12rem);
-      font-weight: 300;
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #fff 0%, var(--c-lilac) 30%, var(--c-amethyst) 70%, var(--c-regal) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 40px rgba(197,157,217,0.3));
-    }
-
     /* ============================================================
-       CTA BUTTONS
+       BUTTONS
     ============================================================ */
     .btn-primary {
-      position: relative;
       display: inline-flex; align-items: center; gap: 8px;
       padding: 14px 32px;
       background: linear-gradient(135deg, var(--c-regal) 0%, #5c2e72 100%);
@@ -795,24 +588,14 @@
       font-weight: 500;
       letter-spacing: 0.06em;
       cursor: pointer;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      transition: all 0.3s ease;
       text-decoration: none;
     }
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(197,157,217,0.3), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
     .btn-primary:hover {
-      box-shadow: 0 0 30px rgba(122,63,145,0.55), 0 0 60px rgba(122,63,145,0.25);
+      box-shadow: 0 0 30px rgba(122,63,145,0.5);
       transform: translateY(-2px);
       border-color: rgba(197,157,217,0.5);
     }
-    .btn-primary:hover::before { opacity: 1; }
 
     .btn-outline {
       display: inline-flex; align-items: center; gap: 8px;
@@ -826,30 +609,15 @@
       font-weight: 500;
       letter-spacing: 0.06em;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+      transition: all 0.3s ease;
       text-decoration: none;
-      backdrop-filter: blur(10px);
     }
     .btn-outline:hover {
       background: rgba(197,157,217,0.10);
       border-color: var(--c-amethyst);
-      box-shadow: 0 0 25px rgba(197,157,217,0.20);
       transform: translateY(-2px);
-      color: var(--c-lilac);
     }
 
-    /* ============================================================
-       SECTION DIVIDER LINES
-    ============================================================ */
-    .divider-line {
-      width: 60px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--c-regal), transparent);
-      margin: 0 auto;
-    }
-    .divider-line-left {
-      width: 60px; height: 1px;
-      background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst), transparent);
-    }
 
     /* ============================================================
        SKILL PILL
@@ -863,45 +631,16 @@
       font-size: 0.78rem;
       color: var(--c-lilac);
       transition: all 0.3s ease;
-      cursor: default;
     }
     .skill-pill:hover {
-      background: rgba(122,63,145,0.28);
+      background: rgba(122,63,145,0.25);
       border-color: rgba(197,157,217,0.4);
-      box-shadow: 0 0 20px rgba(122,63,145,0.25);
       transform: translateY(-2px);
-      color: #fff;
     }
     .skill-dot {
       width: 5px; height: 5px;
       border-radius: 50%;
       background: var(--c-amethyst);
-      flex-shrink: 0;
-    }
-
-    /* ============================================================
-       COUNTER ANIMATION
-    ============================================================ */
-    .counter-card {
-      text-align: center;
-      padding: 36px 24px;
-    }
-    .counter-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.5rem;
-      font-weight: 600;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--c-lilac) 0%, var(--c-amethyst) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .counter-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(242,234,247,0.5);
-      margin-top: 8px;
     }
 
     /* ============================================================
@@ -914,28 +653,25 @@
       background: rgba(43, 13, 62, 0.5);
       border: 1px solid rgba(197,157,217,0.14);
       border-radius: 16px;
-      transition: all 0.45s cubic-bezier(0.23,1,0.32,1);
-    }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(122,63,145,0.15) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      z-index: 1;
+      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
     }
     .project-card:hover {
       border-color: rgba(197,157,217,0.35);
-      box-shadow: 0 12px 50px rgba(122,63,145,0.35), 0 0 0 1px rgba(197,157,217,0.1);
-      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 12px 50px rgba(122,63,145,0.3);
+      transform: translateY(-6px);
     }
-    .project-card:hover::before { opacity: 1; }
-
     .project-thumb {
-      height: 180px;
+      height: 200px;
       position: relative;
       overflow: hidden;
+    }
+    .project-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover .project-thumb img {
+      transform: scale(1.05);
     }
     .project-overlay {
       position: absolute;
@@ -944,7 +680,7 @@
       align-items: center;
       justify-content: center;
       opacity: 0;
-      background: rgba(43,13,62,0.7);
+      background: rgba(43,13,62,0.75);
       backdrop-filter: blur(4px);
       transition: opacity 0.3s ease;
       z-index: 2;
@@ -952,80 +688,29 @@
     .project-card:hover .project-overlay { opacity: 1; }
 
     /* ============================================================
-       MODAL
+       COUNTER
     ============================================================ */
-    .modal-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(26, 8, 39, 0.88);
-      backdrop-filter: blur(12px);
-      z-index: 9999;
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
+    .counter-card { text-align: center; padding: 32px 20px; }
+    .counter-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 600;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--c-lilac) 0%, var(--c-amethyst) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .modal-enter {
-      animation: modalIn 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
-    }
-    .modal-leave {
-      animation: modalOut 0.3s ease forwards;
-    }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.92) translateY(20px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    @keyframes modalOut {
-      from { opacity: 1; transform: scale(1) translateY(0); }
-      to   { opacity: 0; transform: scale(0.94) translateY(12px); }
+    .counter-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(242,234,247,0.55);
+      margin-top: 8px;
     }
 
     /* ============================================================
-       SCROLL REVEAL ANIMATIONS
-    ============================================================ */
-    .reveal,
-    .reveal-left,
-    .reveal-right,
-    .reveal-scale {
-      opacity: 0;
-      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
-    }
-    /* Fallback: if Alpine hasn't loaded after 3s, show everything */
-    .reveal          { transform: translateY(30px); }
-    .reveal-left     { transform: translateX(-30px); }
-    .reveal-right    { transform: translateX(30px); }
-    .reveal-scale    { transform: scale(0.94); }
-
-    .reveal.visible,
-    .reveal-left.visible,
-    .reveal-right.visible,
-    .reveal-scale.visible {
-      opacity: 1 !important;
-      transform: none !important;
-    }
-
-    /* Safety net: show hero content always after a delay */
-    @keyframes forceShow {
-      to { opacity: 1; transform: none; }
-    }
-    #hero .reveal, #hero .reveal-left, #hero .reveal-right {
-      animation: forceShow 0.8s ease forwards;
-      animation-delay: inherit;
-    }
-    #hero .delay-1 { animation-delay: 0.1s; }
-    #hero .delay-2 { animation-delay: 0.2s; }
-    #hero .delay-3 { animation-delay: 0.35s; }
-    #hero .delay-4 { animation-delay: 0.5s; }
-    #hero .delay-5 { animation-delay: 0.65s; }
-    #hero .delay-6 { animation-delay: 0.85s; }
-
-    /* Stagger delays */
-    .delay-1 { transition-delay: 0.1s; }
-    .delay-2 { transition-delay: 0.2s; }
-    .delay-3 { transition-delay: 0.3s; }
-    .delay-4 { transition-delay: 0.4s; }
-    .delay-5 { transition-delay: 0.5s; }
-    .delay-6 { transition-delay: 0.6s; }
-
-    /* ============================================================
-       FORM INPUTS
+       FORM
     ============================================================ */
     .form-input {
       width: 100%;
@@ -1039,15 +724,15 @@
       outline: none;
       transition: all 0.3s ease;
     }
-    .form-input::placeholder { color: rgba(242,234,247,0.30); }
+    .form-input::placeholder { color: rgba(242,234,247,0.35); }
     .form-input:focus {
       border-color: rgba(197,157,217,0.5);
-      box-shadow: 0 0 20px rgba(122,63,145,0.20);
+      box-shadow: 0 0 20px rgba(122,63,145,0.15);
       background: rgba(43,13,62,0.7);
     }
 
     /* ============================================================
-       SOCIAL ICON LINKS
+       SOCIAL LINKS
     ============================================================ */
     .social-link {
       display: flex; align-items: center; justify-content: center;
@@ -1063,12 +748,11 @@
       background: rgba(122,63,145,0.35);
       border-color: var(--c-amethyst);
       color: var(--c-lilac);
-      box-shadow: 0 0 20px rgba(122,63,145,0.35);
       transform: translateY(-3px);
     }
 
     /* ============================================================
-       TESTIMONIAL CARDS
+       TESTIMONIALS
     ============================================================ */
     .testimonial-card {
       position: relative;
@@ -1076,80 +760,91 @@
       background: rgba(43,13,62,0.55);
       border: 1px solid rgba(197,157,217,0.14);
       border-radius: 16px;
-      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
-    }
-    .testimonial-card::before {
-      content: '"';
-      position: absolute;
-      top: 16px; left: 24px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 5rem;
-      line-height: 1;
-      color: var(--c-regal);
-      opacity: 0.4;
-      pointer-events: none;
+      transition: all 0.4s ease;
     }
     .testimonial-card:hover {
       border-color: rgba(197,157,217,0.30);
-      box-shadow: 0 8px 40px rgba(122,63,145,0.25);
-      transform: translateY(-5px);
+      box-shadow: 0 8px 40px rgba(122,63,145,0.2);
+      transform: translateY(-4px);
     }
+    .star { color: var(--c-amethyst); font-size: 1rem; }
 
     /* ============================================================
-       EXPERIENCE TIMELINE
+       MODAL
     ============================================================ */
-    .timeline-dot {
-      width: 12px; height: 12px;
-      background: var(--c-regal);
-      border: 2px solid var(--c-amethyst);
-      border-radius: 50%;
-      flex-shrink: 0;
-      position: relative;
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(26, 8, 39, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
     }
-    .timeline-dot::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: var(--c-regal);
-      opacity: 0.25;
-      animation: pulse-dot 2.5s ease-in-out infinite;
+    .glass-strong {
+      background: rgba(43, 13, 62, 0.85);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(197,157,217,0.22);
+      border-radius: 16px;
     }
-    @keyframes pulse-dot {
-      0%,100% { transform: scale(1); opacity: 0.25; }
-      50% { transform: scale(1.8); opacity: 0; }
+    html.light-mode .glass-strong {
+      background: rgba(255,255,255,0.92);
+      border-color: rgba(122,63,145,0.16);
+    }
+    .tag-chip {
+      display: inline-flex; align-items: center;
+      padding: 4px 12px;
+      background: rgba(122,63,145,0.20);
+      border: 1px solid rgba(197,157,217,0.22);
+      border-radius: 50px;
+      font-size: 0.72rem;
+      color: var(--c-amethyst);
     }
 
-    /* ============================================================
-       SECTION HEADER DECORATION
-    ============================================================ */
-    .section-header-line {
-      display: flex; align-items: center; gap: 16px;
-    }
-    .section-header-line::before,
-    .section-header-line::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(197,157,217,0.3), transparent);
-    }
 
     /* ============================================================
-       EDUCATION CARD ACCENT
+       SCROLL REVEAL
     ============================================================ */
-    .edu-card-accent {
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: linear-gradient(180deg, var(--c-amethyst), var(--c-regal));
-      border-radius: 4px 0 0 4px;
+    .reveal, .reveal-left, .reveal-right {
+      opacity: 0;
+      transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+    }
+    .reveal       { transform: translateY(24px); }
+    .reveal-left  { transform: translateX(-24px); }
+    .reveal-right { transform: translateX(24px); }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible {
+      opacity: 1 !important;
+      transform: none !important;
     }
 
+    /* Safety: show hero always */
+    @keyframes forceShow { to { opacity: 1; transform: none; } }
+    #hero .reveal, #hero .reveal-left, #hero .reveal-right {
+      animation: forceShow 0.8s ease forwards;
+      animation-delay: inherit;
+    }
+    #hero .delay-1 { animation-delay: 0.1s; }
+    #hero .delay-2 { animation-delay: 0.2s; }
+    #hero .delay-3 { animation-delay: 0.3s; }
+    #hero .delay-4 { animation-delay: 0.4s; }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
     /* ============================================================
-       FOOTER
+       STAT BAR
     ============================================================ */
-    .footer-gradient {
-      background: linear-gradient(0deg, #0f0318 0%, transparent 100%);
+    .stat-bar-wrap { background: rgba(197,157,217,0.10); border-radius: 4px; height: 4px; overflow: hidden; }
+    .stat-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst)); transition: width 1.4s cubic-bezier(0.23,1,0.32,1); }
+
+    /* ============================================================
+       DIVIDERS
+    ============================================================ */
+    .divider-line {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--c-regal), transparent);
+      margin: 0 auto;
     }
 
     /* ============================================================
@@ -1160,507 +855,86 @@
       backdrop-filter: blur(30px);
       border-bottom: 1px solid rgba(197,157,217,0.15);
     }
+    html.light-mode .mobile-menu {
+      background: rgba(245,240,251,0.97);
+      border-bottom-color: rgba(122,63,145,0.14);
+    }
 
     /* ============================================================
-       PROJECT GRADIENT THUMBS
+       SKIP LINK (accessibility)
     ============================================================ */
-    .thumb-1 { background: linear-gradient(135deg, #3d1659 0%, #7A3F91 50%, #c59dd9 100%); }
-    .thumb-2 { background: linear-gradient(135deg, #1a0a2e 0%, #4a2070 50%, #8a55a8 100%); }
-    .thumb-3 { background: linear-gradient(135deg, #2b0d3e 0%, #7A3F91 40%, #f2eaf7 100%); }
-    .thumb-4 { background: linear-gradient(135deg, #0d0d1a 0%, #2b0d3e 40%, #7A3F91 100%); }
-    .thumb-5 { background: linear-gradient(135deg, #4a1060 0%, #c59dd9 60%, #f2eaf7 100%); }
-    .thumb-6 { background: linear-gradient(135deg, #1e0535 0%, #5c2080 50%, #c59dd9 100%); }
-
-    /* ============================================================
-       THUMB GEOMETRIC PATTERNS
-    ============================================================ */
-    .thumb-pattern {
+    .skip-link {
       position: absolute;
-      inset: 0;
-      opacity: 0.25;
-    }
-
-    /* ============================================================
-       AVATAR PLACEHOLDER
-    ============================================================ */
-    .avatar-ring {
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--c-regal), var(--c-amethyst));
-      padding: 2px;
-      flex-shrink: 0;
-    }
-    .avatar-inner {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      background: var(--c-velvet2);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.5rem;
-      font-weight: 600;
-      color: var(--c-amethyst);
-    }
-
-    /* ============================================================
-       TAG CHIPS FOR MODAL
-    ============================================================ */
-    .tag-chip {
-      display: inline-flex; align-items: center;
-      padding: 4px 12px;
-      background: rgba(122,63,145,0.20);
-      border: 1px solid rgba(197,157,217,0.22);
-      border-radius: 50px;
-      font-size: 0.72rem;
-      letter-spacing: 0.04em;
-      color: var(--c-amethyst);
-    }
-
-    /* ============================================================
-       STAR RATING
-    ============================================================ */
-    .star { color: var(--c-amethyst); font-size: 1rem; }
-
-    /* ============================================================
-       ACHIEVEMENT BADGE
-    ============================================================ */
-    .achievement-badge {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 14px 18px;
-      background: rgba(122,63,145,0.10);
-      border: 1px solid rgba(197,157,217,0.14);
-      border-radius: 12px;
-      transition: all 0.3s ease;
-    }
-    .achievement-badge:hover {
-      background: rgba(122,63,145,0.22);
-      border-color: rgba(197,157,217,0.30);
-      transform: translateX(4px);
-    }
-
-    /* Download resume pulse ring */
-    .btn-download {
-      position: relative;
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 28px;
-      background: linear-gradient(135deg, rgba(197,157,217,0.15) 0%, rgba(122,63,145,0.20) 100%);
-      color: var(--c-amethyst);
-      border: 1px solid rgba(197,157,217,0.40);
-      border-radius: 50px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
-      backdrop-filter: blur(10px);
-    }
-    .btn-download:hover {
-      background: linear-gradient(135deg, rgba(197,157,217,0.28) 0%, rgba(122,63,145,0.35) 100%);
-      border-color: var(--c-amethyst);
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--c-regal);
       color: #fff;
-      box-shadow: 0 0 30px rgba(197,157,217,0.25);
-      transform: translateY(-2px);
+      padding: 12px 24px;
+      border-radius: 0 0 8px 8px;
+      z-index: 10000;
+      font-size: 0.85rem;
+      transition: top 0.2s ease;
     }
-    .btn-download::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50px;
-      border: 1px solid rgba(197,157,217,0.15);
-      animation: ring-pulse 2.5s ease-in-out infinite;
-    }
-    @keyframes ring-pulse {
-      0%,100% { opacity: 0.5; transform: scale(1); }
-      50% { opacity: 0; transform: scale(1.06); }
-    }
+    .skip-link:focus { top: 0; }
 
-    /* Stat bar */
-    .stat-bar-wrap { background: rgba(197,157,217,0.10); border-radius: 4px; height: 4px; overflow: hidden; }
-    .stat-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst)); transition: width 1.4s cubic-bezier(0.23,1,0.32,1); }
-
-    /* Responsive tweaks */
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
     @media (max-width: 640px) {
-      .hero-brand { font-size: 4.5rem; }
-      .orb-1 { width: 250px; height: 250px; }
+      .hero-brand { font-size: 4rem; }
     }
-
-    /* ============================================================
-       INK FLUID WEBGL BACKGROUND CANVAS
-       (sits behind everything but above body bg)
-    ============================================================ */
-    #fluid-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: auto;     /* fluid responds to hover/touch */
-      mix-blend-mode: screen;   /* blends ink onto deep velvet bg */
-      opacity: 0.85;
-      touch-action: none;       /* prevent scroll while dragging fluid on mobile */
-    }
-    html.light-mode #fluid-canvas {
-      mix-blend-mode: multiply; /* darker ink reads better on light bg */
-      opacity: 0.55;
-    }
-
-    /* Tiny CSS-only legacy particle canvas (kept hidden, replaced by fluid) */
-    #particle-canvas { display: none; }
-
-    /* ============================================================
-       COLOR BURST RIPPLE
-    ============================================================ */
-    .burst-ripple {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%) scale(0);
-      animation: burst-expand 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      z-index: 9998;
-      mix-blend-mode: screen;
-    }
-    @keyframes burst-expand {
-      0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.8; }
-      60%  { opacity: 0.35; }
-      100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
-    }
-
-    /* ============================================================
-       MAGNETIC CURSOR
-    ============================================================ */
-    .cursor-glow {
-      position: fixed;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(197,157,217,0.8) 0%, rgba(122,63,145,0.4) 50%, transparent 70%);
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-      mix-blend-mode: screen;
-    }
-    .cursor-ring {
-      position: fixed;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      border: 1px solid rgba(197,157,217,0.35);
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.12s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
-      mix-blend-mode: screen;
-    }
-    @media (pointer: coarse) {
-      .cursor-glow, .cursor-ring { display: none; }
-    }
-
-    /* ============================================================
-       SPLIT TEXT ANIMATION
-    ============================================================ */
-    .split-word {
-      display: inline-block;
-      overflow: hidden;
-    }
-    .split-word span {
-      display: inline-block;
-      transform: translateY(110%);
-      opacity: 0;
-      transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease;
-    }
-    .split-word.in-view span {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* ============================================================
-       GLITCH EFFECT ON HERO BRAND
-    ============================================================ */
-    .hero-brand {
-      position: relative;
-    }
-    .hero-brand::before,
-    .hero-brand::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      background: inherit;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-brand::before {
-      animation: glitch-1 6s infinite;
-      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
-      transform: translate(-2px, 0);
-      filter: drop-shadow(0 0 8px rgba(197,157,217,0.6));
-    }
-    .hero-brand::after {
-      animation: glitch-2 6s infinite;
-      clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
-      transform: translate(2px, 0);
-      filter: drop-shadow(0 0 8px rgba(122,63,145,0.6));
-    }
-    @keyframes glitch-1 {
-      0%, 90%, 100% { transform: translate(0); opacity: 0; }
-      92% { transform: translate(-3px, 1px); opacity: 0.6; }
-      94% { transform: translate(2px, -1px); opacity: 0.4; }
-      96% { transform: translate(-1px, 2px); opacity: 0.6; }
-      98% { transform: translate(0); opacity: 0; }
-    }
-    @keyframes glitch-2 {
-      0%, 88%, 100% { transform: translate(0); opacity: 0; }
-      90% { transform: translate(3px, -1px); opacity: 0.5; }
-      93% { transform: translate(-2px, 1px); opacity: 0.3; }
-      95% { transform: translate(1px, 0); opacity: 0.5; }
-      97% { transform: translate(0); opacity: 0; }
-    }
-
-    /* ============================================================
-       COUNTER CARDS — UPGRADED
-    ============================================================ */
-    .counter-card {
-      position: relative;
-      overflow: hidden;
-    }
-    .counter-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(197,157,217,0.08) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    .counter-card:hover::before { opacity: 1; }
-    .counter-card .counter-number {
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .counter-card:hover .counter-number {
-      transform: scale(1.08);
-    }
-
-    /* ============================================================
-       SECTION HEADING UNDERLINE DRAW
-    ============================================================ */
-    .heading-underline {
-      position: relative;
-      display: inline-block;
-    }
-    .heading-underline::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst));
-      transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-      border-radius: 2px;
-    }
-    .heading-underline.in-view::after { width: 100%; }
-
-    /* ============================================================
-       AURORA SHIMMER ON GLASS CARDS
-    ============================================================ */
-    .glass-aurora {
-      position: relative;
-      overflow: hidden;
-    }
-    .glass-aurora::after {
-      content: '';
-      position: absolute;
-      inset: -100%;
-      background: conic-gradient(
-        from 0deg at 50% 50%,
-        transparent 0deg,
-        rgba(197,157,217,0.06) 60deg,
-        rgba(122,63,145,0.10) 120deg,
-        transparent 180deg,
-        rgba(197,157,217,0.06) 240deg,
-        transparent 360deg
-      );
-      animation: aurora-spin 8s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes aurora-spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* ============================================================
-       FLOATING PARTICLES IN HERO (CSS-only extras)
-    ============================================================ */
-    .hero-particle {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: hero-float linear infinite;
-      opacity: 0;
-    }
-    @keyframes hero-float {
-      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-      10%  { opacity: 0.6; }
-      90%  { opacity: 0.3; }
-      100% { transform: translateY(-20px) scale(1); opacity: 0; }
-    }
-
-    /* ============================================================
-       SKILL PILL — STAGGER ENTRANCE
-    ============================================================ */
-    .skill-pill {
-      animation: pill-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    }
-    @keyframes pill-pop {
-      from { transform: scale(0.7) translateY(10px); opacity: 0; }
-      to   { transform: scale(1) translateY(0); opacity: 1; }
-    }
-
-    /* ============================================================
-       TESTIMONIAL CARD QUOTE MARK ANIMATE
-    ============================================================ */
-    .testimonial-card:hover::before {
-      animation: quote-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    @keyframes quote-bounce {
-      from { transform: scale(1) translateY(0); }
-      50%  { transform: scale(1.2) translateY(-4px); }
-      to   { transform: scale(1) translateY(0); }
-    }
-
-    /* ============================================================
-       NAV LINK — LETTER SPACING HOVER
-    ============================================================ */
-    .nav-link {
-      transition: color 0.3s ease, letter-spacing 0.3s ease;
-    }
-    .nav-link:hover {
-      letter-spacing: 0.14em;
-    }
-
-    /* ============================================================
-       PROGRESS BAR GLOW
-    ============================================================ */
-    .stat-bar {
-      position: relative;
-      overflow: visible;
-    }
-    .stat-bar::after {
-      content: '';
-      position: absolute;
-      right: 0; top: 50%;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--c-amethyst);
-      transform: translate(50%, -50%);
-      box-shadow: 0 0 8px rgba(197,157,217,0.8), 0 0 16px rgba(122,63,145,0.5);
-      opacity: 0;
-      transition: opacity 0.3s ease 1.2s;
-    }
-    .stat-bar[style*="width:9"],
-    .stat-bar[style*="width:10"] { }
-    .visible ~ .stat-bar-wrap .stat-bar::after { opacity: 1; }
   </style>
 </head>
 
-<!-- ============================================================
-     ALPINE.JS APP INIT
-============================================================ -->
+
 <body class="bg-breathe relative" x-data="portfolioApp()" @keydown.escape.window="modalOpen && closeModal()">
 
-<!-- ============================================================
-     INK FLUID WEBGL BACKGROUND
-     A real fluid simulation by PavelDoGreat (via webgl-fluid CDN).
-     Sits behind all content. Responds to hover (desktop) and touch (mobile).
-============================================================ -->
-<canvas id="fluid-canvas"></canvas>
-
-<!-- Legacy 2D particle canvas (kept for compatibility, hidden via CSS) -->
-<canvas id="particle-canvas"></canvas>
-
-<!-- Custom Cursor (desktop only) -->
-<div class="cursor-glow" id="cursor-glow"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+<!-- Skip to content (accessibility) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- ============================================================
-     STICKY NAVBAR
+     NAVBAR
 ============================================================ -->
-<nav
-  class="nav-glass fixed top-0 left-0 right-0 z-50"
-  :class="{ 'scrolled': scrolled }"
-  id="navbar"
->
+<nav class="nav-glass fixed top-0 left-0 right-0 z-50" :class="{ 'scrolled': scrolled }" aria-label="Main navigation">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="font-serif text-2xl font-semibold gradient-text tracking-tight">Azhar.</a>
 
-    <!-- Logo -->
-    <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm tracking-tight z-10">
-      Azhar.
-    </a>
-
-    <!-- Desktop Nav Links -->
+    <!-- Desktop Nav -->
     <div class="hidden md:flex items-center gap-8">
-      <a href="#about"        class="nav-link">About</a>
-      <a href="#skills"       class="nav-link">Skills</a>
-      <a href="#experience"   class="nav-link">Experience</a>
-      <a href="#work"         class="nav-link">Work</a>
-      <a href="#education"    class="nav-link">Education</a>
+      <a href="#work" class="nav-link">Work</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#experience" class="nav-link">Experience</a>
       <a href="#testimonials" class="nav-link">Testimonials</a>
-      <a href="#contact"      class="nav-link">Contact</a>
-      <!-- Resume Download -->
-      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download ml-2">
-        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        Resume
-      </a>
+      <a href="#contact" class="nav-link">Contact</a>
     </div>
 
-    <!-- Right: Dark/Light Toggle + Mobile Menu Btn -->
-    <div class="flex items-center gap-4 z-10">
-
-      <!-- Theme Toggle -->
+    <!-- Theme Toggle + Mobile Menu -->
+    <div class="flex items-center gap-3">
       <button
-        @click="_manualOverride = true; lightMode = !lightMode"
-        class="flex items-center justify-center w-9 h-9 rounded-full border border-opacity-20 transition-all duration-300 hover:border-amethyst"
-        :class="lightMode ? 'bg-amethyst/20 border-amethyst' : 'bg-regal/20 border-amethyst/20'"
-        :title="lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
+        @click="lightMode = !lightMode; _manualOverride = true"
+        class="w-9 h-9 rounded-full border border-amethyst/25 flex items-center justify-center text-amethyst hover:bg-regal/20 transition-colors"
+        :aria-label="lightMode ? 'Switch to dark mode' : 'Switch to light mode'"
       >
-        <i x-show="!lightMode" data-lucide="sun"  class="w-4 h-4 text-amethyst"></i>
-        <i x-show="lightMode"  data-lucide="moon" class="w-4 h-4 text-regal"></i>
+        <i :data-lucide="lightMode ? 'moon' : 'sun'" class="w-4 h-4"></i>
       </button>
-
-      <!-- Mobile menu toggle -->
       <button
-        class="md:hidden flex items-center justify-center w-9 h-9"
+        class="md:hidden w-9 h-9 rounded-full border border-amethyst/25 flex items-center justify-center text-amethyst"
         @click="mobileMenu = !mobileMenu"
+        aria-label="Toggle mobile menu"
+        :aria-expanded="mobileMenu"
       >
-        <i x-show="!mobileMenu" data-lucide="menu"  class="w-5 h-5 text-amethyst"></i>
-        <i x-show="mobileMenu"  data-lucide="x"     class="w-5 h-5 text-amethyst"></i>
+        <i data-lucide="menu" class="w-4 h-4"></i>
       </button>
     </div>
   </div>
 
-  <!-- Mobile Menu Dropdown -->
-  <div
-    class="mobile-menu md:hidden overflow-hidden transition-all duration-300"
-    x-show="mobileMenu"
-    x-transition:enter="transition ease-out duration-200"
-    x-transition:enter-start="opacity-0 -translate-y-2"
-    x-transition:enter-end="opacity-100 translate-y-0"
-    x-transition:leave="transition ease-in duration-150"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-  >
-    <div class="px-6 py-4 flex flex-col gap-4">
-      <a href="#about"        class="nav-link py-2" @click="mobileMenu=false">About</a>
-      <a href="#skills"       class="nav-link py-2" @click="mobileMenu=false">Skills</a>
-      <a href="#experience"   class="nav-link py-2" @click="mobileMenu=false">Experience</a>
-      <a href="#work"         class="nav-link py-2" @click="mobileMenu=false">Work</a>
-      <a href="#education"    class="nav-link py-2" @click="mobileMenu=false">Education</a>
-      <a href="#achievements" class="nav-link py-2" @click="mobileMenu=false">Achievements</a>
-      <a href="#testimonials" class="nav-link py-2" @click="mobileMenu=false">Testimonials</a>
-      <a href="#contact"      class="nav-link py-2" @click="mobileMenu=false">Contact</a>
-      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download py-2.5 text-xs justify-center mt-2">
-        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        Download Resume
-      </a>
-    </div>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu md:hidden px-6 py-6 flex flex-col gap-4" x-show="mobileMenu" x-transition>
+    <a href="#work" class="nav-link text-base" @click="mobileMenu = false">Work</a>
+    <a href="#about" class="nav-link text-base" @click="mobileMenu = false">About</a>
+    <a href="#experience" class="nav-link text-base" @click="mobileMenu = false">Experience</a>
+    <a href="#testimonials" class="nav-link text-base" @click="mobileMenu = false">Testimonials</a>
+    <a href="#contact" class="nav-link text-base" @click="mobileMenu = false">Contact</a>
   </div>
 </nav>
 
@@ -1669,340 +943,65 @@
      SECTION 1: HERO
 ============================================================ -->
 <section id="hero" class="hero-bg relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto" id="main-content">
 
-  <!-- Floating orbs -->
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+    <!-- Role first -->
+    <p class="reveal delay-1 font-sans text-sm md:text-base tracking-widest uppercase text-amethyst mb-6" style="letter-spacing:0.2em;">
+      Graphic Designer &amp; Web Developer
+    </p>
 
-  <!-- Decorative grid lines -->
-  <div class="absolute inset-0 pointer-events-none opacity-5"
-    style="background-image: linear-gradient(rgba(197,157,217,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(197,157,217,0.4) 1px, transparent 1px); background-size: 60px 60px;">
-  </div>
-
-  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
-
-    <!-- Availability badge -->
-    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amethyst/25 bg-regal/15 backdrop-blur-sm mb-8 text-xs tracking-widest text-amethyst/80 uppercase" style="letter-spacing:0.18em;">
-      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>
-      Available for freelance work
-    </div>
-
-    <!-- Brand Name -->
-    <h1 class="hero-brand reveal delay-1 mb-4" data-text="Azhar.">Azhar.</h1>
+    <!-- Name -->
+    <h1 class="hero-brand reveal delay-2 mb-4">Azhar.</h1>
 
     <!-- Full Name -->
-    <p class="reveal delay-2 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
+    <p class="reveal delay-2 font-sans text-sm tracking-wider uppercase text-lilac/60 mb-6">
       Muhammad Azhar Shahbaz
     </p>
 
-    <!-- Tagline with typing animation -->
+    <!-- Typing tagline -->
     <div class="reveal delay-3 mb-10">
-      <p class="font-display text-xl md:text-3xl font-light text-lilac/80 leading-relaxed">
+      <p class="font-serif text-xl md:text-3xl font-normal text-lilac/80 leading-relaxed">
         <span id="typed-text" class="typing-cursor"></span>
       </p>
     </div>
 
     <!-- Location -->
-    <div class="reveal delay-4 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
-      <i data-lucide="map-pin" class="w-4 h-4"></i>
+    <div class="reveal delay-3 flex items-center justify-center gap-2 text-sm text-amethyst/60 mb-10">
+      <i data-lucide="map-pin" class="w-4 h-4" aria-hidden="true"></i>
       <span>Islamabad, Pakistan</span>
     </div>
 
-    <!-- CTA Buttons -->
-    <div class="reveal delay-5 flex flex-col sm:flex-row items-center justify-center gap-4">
+    <!-- CTA -->
+    <div class="reveal delay-4 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="#work" class="btn-primary">
-        <i data-lucide="layers" class="w-4 h-4"></i>
+        <i data-lucide="layers" class="w-4 h-4" aria-hidden="true"></i>
         View My Work
       </a>
-      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download">
-        <i data-lucide="download" class="w-4 h-4"></i>
-        Download Resume
-      </a>
       <a href="#contact" class="btn-outline">
-        <i data-lucide="send" class="w-4 h-4"></i>
-        Let's Collaborate
+        <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i>
+        Get In Touch
       </a>
     </div>
 
     <!-- Scroll indicator -->
-    <div class="reveal delay-6 mt-20 flex flex-col items-center gap-2 opacity-40">
-      <span class="text-xs tracking-[0.2em] uppercase text-amethyst/60">Scroll to explore</span>
-      <div class="w-px h-12 bg-gradient-to-b from-amethyst/60 to-transparent animate-pulse"></div>
+    <div class="reveal delay-4 mt-16 flex flex-col items-center gap-2 opacity-50">
+      <span class="text-xs tracking-widest uppercase text-amethyst/60">Scroll</span>
+      <div class="w-px h-10 bg-gradient-to-b from-amethyst/50 to-transparent"></div>
     </div>
   </div>
 </section>
 
 
 <!-- ============================================================
-     SECTION 2: ABOUT ME
+     SECTION 2: FEATURED WORK (moved up — most important for a designer)
 ============================================================ -->
-<section id="about" class="relative z-10 py-28 px-6">
-  <div class="max-w-6xl mx-auto">
-
-    <!-- Section Header -->
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">Who I Am</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">About Me</h2>
-      <div class="divider-line mt-6"></div>
-    </div>
-
-    <!-- About Grid -->
-    <div class="grid md:grid-cols-2 gap-16 items-center">
-
-      <!-- Avatar + decoration -->
-      <div class="reveal-left flex flex-col items-center md:items-start gap-8">
-        <div class="relative">
-          <div class="avatar-ring">
-            <div class="avatar-inner">MA</div>
-          </div>
-          <!-- Decorative ring -->
-          <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin" style="animation-duration:20s;"></div>
-          <div class="absolute -inset-6 rounded-full border border-regal/10 animate-spin" style="animation-duration:30s; animation-direction: reverse;"></div>
-          <!-- Floating badge -->
-          <div class="absolute -bottom-3 -right-3 glass px-3 py-2 rounded-full text-xs text-amethyst border border-amethyst/25 flex items-center gap-2">
-            <i data-lucide="zap" class="w-3 h-3"></i>
-            <span>Open to Work</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bio Text -->
-      <div class="reveal-right">
-        <div class="divider-line-left mb-6"></div>
-        <h3 class="font-display text-3xl md:text-4xl font-light text-lilac mb-6 leading-snug">
-          Crafting digital experiences at the intersection of
-          <em class="gradient-text">art and technology.</em>
-        </h3>
-        <p class="text-lilac/60 leading-relaxed text-sm md:text-base mb-4">
-          I'm Muhammad Azhar Shahbaz — a creative technologist, AI specialist, and full-stack designer based in Islamabad, Pakistan. Pursuing a dual degree in Computer Science and Animation at COMSATS University, I sit at the rare intersection of engineering and artistry — building digital products that don't just look exceptional, they perform exceptionally.
-        </p>
-        <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
-          Over 3 years of freelancing for premium US-based clients, I've delivered 25+ high-value projects — brand identities, web applications, animated explainers, and AI-powered workflows — generating <span class="text-amethyst font-medium">$7K+</span> in revenue, with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
-        </p>
-
-        <!-- Quick stat bars -->
-        <div class="flex flex-col gap-3 mb-8">
-          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 98, 400)">
-            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
-              <span>Client Retention</span><span class="text-amethyst" x-text="w + '%'"></span>
-            </div>
-            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
-          </div>
-          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 100, 600)">
-            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
-              <span>On-Time Delivery</span><span class="text-amethyst" x-text="w + '%'"></span>
-            </div>
-            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
-          </div>
-          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 92, 800)">
-            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
-              <span>Client ROI Improvement (avg)</span><span class="text-amethyst" x-text="w + '%'"></span>
-            </div>
-            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap gap-3">
-          <a href="#contact" class="btn-primary inline-flex">
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            Start a Project
-          </a>
-          <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download inline-flex">
-            <i data-lucide="download" class="w-4 h-4"></i>
-            Download CV
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Animated Counters -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-20">
-      <div class="glass counter-card reveal delay-1" x-data="counterAnim(3, '+')" x-intersect.once="start()">
-        <div class="counter-number" x-text="display + suffix"></div>
-        <div class="counter-label">Years Experience</div>
-      </div>
-      <div class="glass counter-card reveal delay-2" x-data="counterAnim(25, '+')" x-intersect.once="start()">
-        <div class="counter-number" x-text="display + suffix"></div>
-        <div class="counter-label">Premium Projects</div>
-      </div>
-      <div class="glass counter-card reveal delay-3" x-data="counterAnim(30, '+')" x-intersect.once="start()">
-        <div class="counter-number" x-text="display + suffix"></div>
-        <div class="counter-label">Happy Clients</div>
-      </div>
-      <div class="glass counter-card reveal delay-4" x-data="counterAnim(7, 'K+')" x-intersect.once="start()">
-        <div class="counter-number" x-text="'$' + display + suffix"></div>
-        <div class="counter-label">Revenue Generated</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECTION 3: SKILLS
-============================================================ -->
-<section id="skills" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(122,63,145,0.08) 0%, transparent 70%);">
-  <div class="max-w-6xl mx-auto">
-
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">My Expertise</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Skills</h2>
-      <div class="divider-line mt-6"></div>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-8">
-
-      <!-- Creative Skills -->
-      <div class="glass p-8 reveal-left">
-        <div class="flex items-center gap-3 mb-8">
-          <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-            <i data-lucide="palette" class="w-5 h-5 text-amethyst"></i>
-          </div>
-          <div>
-            <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
-            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design & Motion</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <template x-for="skill in creativeSkills" :key="skill">
-            <span class="skill-pill">
-              <span class="skill-dot"></span>
-              <span x-text="skill"></span>
-            </span>
-          </template>
-        </div>
-      </div>
-
-      <!-- Technical Skills -->
-      <div class="glass p-8 reveal-right">
-        <div class="flex items-center gap-3 mb-8">
-          <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-            <i data-lucide="code-2" class="w-5 h-5 text-amethyst"></i>
-          </div>
-          <div>
-            <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
-            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Dev & AI</p>
-          </div>
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <template x-for="skill in technicalSkills" :key="skill">
-            <span class="skill-pill">
-              <span class="skill-dot" style="background: #7A3F91;"></span>
-              <span x-text="skill"></span>
-            </span>
-          </template>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECTION 4: EXPERIENCE
-============================================================ -->
-<section id="experience" class="relative z-10 py-28 px-6">
-  <div class="max-w-4xl mx-auto">
-
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">Professional Journey</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Experience</h2>
-      <div class="divider-line mt-6"></div>
-    </div>
-
-    <!-- Experience Card -->
-    <div class="glass p-8 md:p-10 reveal relative overflow-hidden">
-      <!-- Background decoration -->
-      <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5 pointer-events-none"
-        style="background: radial-gradient(circle, var(--c-amethyst), transparent); transform: translate(30%, -30%);"></div>
-
-      <div class="flex flex-col md:flex-row md:items-start gap-6">
-
-        <!-- Company Icon -->
-        <div class="flex-shrink-0">
-          <div class="w-14 h-14 rounded-2xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-            <i data-lucide="briefcase" class="w-6 h-6 text-amethyst"></i>
-          </div>
-        </div>
-
-        <!-- Details -->
-        <div class="flex-1">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-3">
-            <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac">
-              Freelance Graphic Designer & Web Developer
-            </h3>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-green-500/30 bg-green-500/10 text-green-400 self-start md:self-center">
-              <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-              Active
-            </span>
-          </div>
-
-          <p class="font-sans text-amethyst/70 text-sm font-medium mb-1">Self-Employed · Premium US-Based Clients</p>
-
-          <div class="flex flex-wrap items-center gap-4 text-xs text-lilac/40 mb-6">
-            <span class="flex items-center gap-1.5">
-              <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              January 2022 — Present
-            </span>
-            <span class="flex items-center gap-1.5">
-              <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
-              Islamabad, Pakistan
-            </span>
-            <span class="flex items-center gap-1.5">
-              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
-              Remote / International
-            </span>
-          </div>
-
-          <p class="text-lilac/60 text-sm leading-relaxed mb-6">
-            Generated <span class="text-amethyst font-medium">$7K+</span> in revenue through 25+ premium projects for US-based startups — spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
-          </p>
-
-          <!-- Highlights -->
-          <div class="grid sm:grid-cols-2 gap-3">
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              $7K+ revenue · 25+ premium projects
-            </div>
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              Increased client ROI by 35–60%
-            </div>
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              25% faster delivery via AI workflows
-            </div>
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              98% client retention · zero late deliveries
-            </div>
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              Top 3% freelancer on Upwork & Fiverr
-            </div>
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              5-star rating across 30+ platform reviews
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECTION 5: FEATURED WORK
-============================================================ -->
-<section id="work" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(122,63,145,0.10) 0%, transparent 70%);">
+<section id="work" class="relative z-10 py-24 px-6">
   <div class="max-w-7xl mx-auto">
 
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-14 reveal">
       <p class="section-label mb-3">Portfolio</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Featured Work</h2>
-      <p class="mt-4 text-lilac/50 text-sm max-w-md mx-auto">A curated selection of projects spanning branding, development, motion & AI.</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-normal gradient-text">Featured Work</h2>
+      <p class="mt-4 text-lilac/60 text-sm max-w-md mx-auto">A curated selection spanning branding, web design, motion graphics, and UI/UX.</p>
       <div class="divider-line mt-6"></div>
     </div>
 
@@ -2013,48 +1012,34 @@
           class="project-card reveal"
           :class="'delay-' + ((index % 3) + 1)"
           @click="openModal(project)"
+          role="button"
+          :aria-label="'View details for ' + project.title"
+          tabindex="0"
+          @keydown.enter="openModal(project)"
         >
-          <!-- Thumbnail -->
-          <div class="project-thumb" :class="project.thumbClass">
-            <!-- SVG Pattern Decoration -->
-            <svg class="thumb-pattern absolute inset-0 w-full h-full" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
-              <circle cx="150" cy="90" r="60" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-              <circle cx="150" cy="90" r="100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-              <line x1="0" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-              <line x1="150" y1="0" x2="150" y2="180" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-            </svg>
-
-            <!-- Project number -->
-            <div class="absolute top-4 left-4 font-display text-5xl font-light opacity-25 text-white z-0" x-text="'0' + (index+1)"></div>
-
+          <!-- Thumbnail with real image -->
+          <div class="project-thumb">
+            <img :src="project.image" :alt="project.title + ' — ' + project.category" loading="lazy"/>
             <!-- Category badge -->
-            <div class="absolute top-4 right-4 z-10">
-              <span class="text-xs px-2.5 py-1 rounded-full border border-white/20 bg-black/30 backdrop-blur-sm text-white/80 tracking-wide"
+            <div class="absolute top-3 right-3 z-10">
+              <span class="text-xs px-2.5 py-1 rounded-full border border-white/20 bg-black/40 backdrop-blur-sm text-white/90 tracking-wide"
                 x-text="project.category"></span>
             </div>
-
             <!-- Hover overlay -->
             <div class="project-overlay">
               <div class="flex items-center gap-2 text-sm text-white font-medium">
-                <i data-lucide="eye" class="w-4 h-4"></i>
+                <i data-lucide="eye" class="w-4 h-4" aria-hidden="true"></i>
                 View Details
-              </div>
-            </div>
-
-            <!-- Icon at center -->
-            <div class="absolute inset-0 flex items-end justify-start p-4 z-10">
-              <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                <i :data-lucide="project.icon" class="w-5 h-5 text-white"></i>
               </div>
             </div>
           </div>
 
           <!-- Card Body -->
-          <div class="p-6 relative z-10">
-            <h3 class="font-display text-xl font-semibold text-lilac mb-1.5" x-text="project.title"></h3>
-            <p class="text-lilac/50 text-xs leading-relaxed line-clamp-2 mb-4" x-text="project.shortDesc"></p>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-semibold text-lilac mb-1" x-text="project.title"></h3>
+            <p class="text-lilac/60 text-xs leading-relaxed mb-3 line-clamp-2" x-text="project.shortDesc"></p>
             <div class="flex flex-wrap gap-1.5">
-              <template x-for="tag in project.tags.slice(0,3)" :key="tag">
+              <template x-for="tag in project.tags" :key="tag">
                 <span class="tag-chip" x-text="tag"></span>
               </template>
             </div>
@@ -2067,72 +1052,219 @@
 
 
 <!-- ============================================================
-     SECTION 6: EDUCATION
+     SECTION 3: ABOUT ME
 ============================================================ -->
-<section id="education" class="relative z-10 py-28 px-6">
+<section id="about" class="relative z-10 py-24 px-6">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-14 reveal">
+      <p class="section-label mb-3">Who I Am</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-normal gradient-text">About Me</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Left: Bio -->
+      <div class="reveal-left">
+        <h3 class="font-serif text-2xl md:text-3xl font-normal text-lilac mb-5 leading-snug">
+          Crafting digital experiences at the intersection of design and code.
+        </h3>
+        <p class="text-lilac/70 leading-relaxed text-sm mb-4">
+          I'm Muhammad Azhar Shahbaz — a freelance graphic designer, web developer, and motion artist based in Islamabad, Pakistan. Currently pursuing Computer Science and Animation at COMSATS University, I bring both technical rigor and creative instinct to every project.
+        </p>
+        <p class="text-lilac/60 leading-relaxed text-sm mb-6">
+          Over 3 years of freelancing, I've delivered 25+ projects — brand identities, responsive websites, animated explainers, and social media systems — for clients across the US and Pakistan.
+        </p>
+
+        <!-- Stat bars -->
+        <div class="flex flex-col gap-3 mb-6">
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 98, 400)">
+            <div class="flex justify-between text-xs text-lilac/50 mb-1.5">
+              <span>Client Satisfaction</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 100, 600)">
+            <div class="flex justify-between text-xs text-lilac/50 mb-1.5">
+              <span>On-Time Delivery</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary inline-flex">
+          <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i>
+          Start a Project
+        </a>
+      </div>
+
+      <!-- Right: Skills -->
+      <div class="reveal-right">
+        <div class="glass p-6 mb-5">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="palette" class="w-4 h-4 text-amethyst" aria-hidden="true"></i>
+            </div>
+            <h4 class="font-sans text-sm font-medium text-lilac">Creative Skills</h4>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill"><span class="skill-dot"></span>Logo Design</span>
+            <span class="skill-pill"><span class="skill-dot"></span>Branding</span>
+            <span class="skill-pill"><span class="skill-dot"></span>Motion Graphics</span>
+            <span class="skill-pill"><span class="skill-dot"></span>2D/3D Animation</span>
+            <span class="skill-pill"><span class="skill-dot"></span>Video Editing</span>
+            <span class="skill-pill"><span class="skill-dot"></span>Photoshop</span>
+            <span class="skill-pill"><span class="skill-dot"></span>Illustrator</span>
+          </div>
+        </div>
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="code-2" class="w-4 h-4 text-amethyst" aria-hidden="true"></i>
+            </div>
+            <h4 class="font-sans text-sm font-medium text-lilac">Technical Skills</h4>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="skill-pill"><span class="skill-dot" style="background:#7A3F91;"></span>HTML/CSS</span>
+            <span class="skill-pill"><span class="skill-dot" style="background:#7A3F91;"></span>JavaScript</span>
+            <span class="skill-pill"><span class="skill-dot" style="background:#7A3F91;"></span>Responsive Design</span>
+            <span class="skill-pill"><span class="skill-dot" style="background:#7A3F91;"></span>Figma</span>
+            <span class="skill-pill"><span class="skill-dot" style="background:#7A3F91;"></span>AI Tools</span>
+            <span class="skill-pill"><span class="skill-dot" style="background:#7A3F91;"></span>Game Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Counters -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 mt-16">
+      <div class="glass counter-card reveal delay-1" x-data="counterAnim(3, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Years Experience</div>
+      </div>
+      <div class="glass counter-card reveal delay-2" x-data="counterAnim(25, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Projects Delivered</div>
+      </div>
+      <div class="glass counter-card reveal delay-3" x-data="counterAnim(20, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Happy Clients</div>
+      </div>
+      <div class="glass counter-card reveal delay-4" x-data="counterAnim(5, '.0')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Avg. Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 4: EXPERIENCE & EDUCATION (combined)
+============================================================ -->
+<section id="experience" class="relative z-10 py-24 px-6">
   <div class="max-w-4xl mx-auto">
 
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">Academic Background</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Education</h2>
+    <div class="text-center mb-14 reveal">
+      <p class="section-label mb-3">Background</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-normal gradient-text">Experience & Education</h2>
       <div class="divider-line mt-6"></div>
     </div>
 
     <div class="flex flex-col gap-6">
 
-      <!-- BS Computer Science -->
-      <div class="glass p-8 reveal-left relative overflow-hidden">
-        <div class="edu-card-accent"></div>
-        <div class="pl-4">
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
-            <div>
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-8 h-8 rounded-lg bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-                  <i data-lucide="cpu" class="w-4 h-4 text-amethyst"></i>
-                </div>
-                <span class="section-label">Bachelor of Science</span>
-              </div>
-              <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac leading-snug">
-                Computer Science
-              </h3>
-            </div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
-              <i data-lucide="calendar" class="w-3 h-3"></i>
-              2025 — Present
-            </span>
+      <!-- Experience -->
+      <div class="glass p-7 md:p-9 reveal">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-11 h-11 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="briefcase" class="w-5 h-5 text-amethyst" aria-hidden="true"></i>
           </div>
-          <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
-          <p class="text-lilac/55 text-sm leading-relaxed">
-            Rigorous study of algorithms, data structures, software engineering, machine learning, and artificial intelligence — laying the theoretical and practical foundation for cutting-edge digital solutions.
-          </p>
+          <div class="flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-1">
+              <h3 class="font-serif text-xl md:text-2xl font-semibold text-lilac">
+                Freelance Designer & Developer
+              </h3>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border border-green-500/30 bg-green-500/10 text-green-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-400" aria-hidden="true"></span>
+                Active
+              </span>
+            </div>
+            <p class="text-amethyst/70 text-sm mb-1">Self-Employed</p>
+            <p class="text-lilac/50 text-xs mb-4">Jan 2022 — Present &middot; Islamabad, Pakistan &middot; Remote</p>
+            <p class="text-lilac/60 text-sm leading-relaxed mb-4">
+              Delivered 25+ projects for clients across the US and Pakistan — brand identities, responsive websites, motion graphics packages, and social media systems. Maintained a 5-star rating with zero missed deadlines.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-2 text-sm text-lilac/60">
+              <div class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+                <span>25+ projects delivered on time</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+                <span>5-star rating on all platforms</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+                <span>Zero missed deadlines</span>
+              </div>
+              <div class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+                <span>Repeat clients &amp; referrals</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- BS Animation -->
-      <div class="glass p-8 reveal-right relative overflow-hidden">
-        <div class="edu-card-accent" style="background: linear-gradient(180deg, #C59DD9, #7A3F91);"></div>
-        <div class="pl-4">
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
-            <div>
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-8 h-8 rounded-lg bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-                  <i data-lucide="film" class="w-4 h-4 text-amethyst"></i>
-                </div>
-                <span class="section-label">Bachelor of Science</span>
-              </div>
-              <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac leading-snug">
-                Animation, Interactive Technology,<br/>Video Graphics & Special Effects
-              </h3>
-            </div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
-              <i data-lucide="calendar" class="w-3 h-3"></i>
-              2025 — Present
-            </span>
+      <!-- Education: CS -->
+      <div class="glass p-7 reveal-left">
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-amethyst" aria-hidden="true"></i>
           </div>
-          <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
-          <p class="text-lilac/55 text-sm leading-relaxed">
-            Comprehensive training in 2D/3D animation pipelines, motion graphics, visual effects, interactive media design, and cinematic storytelling — bridging technical craft with creative artistry.
-          </p>
+          <div>
+            <h3 class="font-serif text-xl font-semibold text-lilac mb-1">BS Computer Science</h3>
+            <p class="text-amethyst/70 text-sm mb-1">COMSATS University Islamabad</p>
+            <p class="text-lilac/50 text-xs">2025 — Present</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education: Animation -->
+      <div class="glass p-7 reveal-right">
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="film" class="w-5 h-5 text-amethyst" aria-hidden="true"></i>
+          </div>
+          <div>
+            <h3 class="font-serif text-xl font-semibold text-lilac mb-1">BS Animation & VFX</h3>
+            <p class="text-amethyst/70 text-sm mb-1">COMSATS University Islamabad</p>
+            <p class="text-lilac/50 text-xs">2025 — Present</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certifications row -->
+      <div class="grid sm:grid-cols-2 gap-4 mt-2">
+        <div class="glass p-5 reveal delay-1 flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="award" class="w-4 h-4 text-blue-400" aria-hidden="true"></i>
+          </div>
+          <div>
+            <p class="text-lilac text-sm font-medium">Google UX Design Certificate</p>
+            <p class="text-lilac/50 text-xs">Coursera &middot; 2024</p>
+          </div>
+        </div>
+        <div class="glass p-5 reveal delay-2 flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-orange-500/15 border border-orange-500/25 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="trophy" class="w-4 h-4 text-orange-400" aria-hidden="true"></i>
+          </div>
+          <div>
+            <p class="text-lilac text-sm font-medium">Hackathon — 2nd Place</p>
+            <p class="text-lilac/50 text-xs">COMSATS Web Dev Competition &middot; 2024</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2141,99 +1273,14 @@
 
 
 <!-- ============================================================
-     SECTION 6.5: ACHIEVEMENTS
+     SECTION 5: TESTIMONIALS
 ============================================================ -->
-<section id="achievements" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 70% 40% at 50% 50%, rgba(122,63,145,0.09) 0%, transparent 70%);">
+<section id="testimonials" class="relative z-10 py-24 px-6">
   <div class="max-w-5xl mx-auto">
 
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">Recognition & Certifications</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Achievements</h2>
-      <div class="divider-line mt-6"></div>
-    </div>
-
-    <div class="grid sm:grid-cols-2 gap-4">
-
-      <!-- Top Freelancer -->
-      <div class="achievement-badge reveal delay-1">
-        <div class="w-10 h-10 rounded-xl bg-yellow-500/15 border border-yellow-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="trophy" class="w-5 h-5 text-yellow-400"></i>
-        </div>
-        <div>
-          <p class="text-lilac text-sm font-medium">Top 3% Freelancer</p>
-          <p class="text-lilac/45 text-xs mt-0.5">5-star rating across 30+ projects · Upwork & Fiverr</p>
-        </div>
-      </div>
-
-      <!-- Google UX -->
-      <div class="achievement-badge reveal delay-2">
-        <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="award" class="w-5 h-5 text-blue-400"></i>
-        </div>
-        <div>
-          <p class="text-lilac text-sm font-medium">Google UX Design Certificate</p>
-          <p class="text-lilac/45 text-xs mt-0.5">Coursera · 2024</p>
-        </div>
-      </div>
-
-      <!-- AI For Everyone -->
-      <div class="achievement-badge reveal delay-3">
-        <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="brain-circuit" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <p class="text-lilac text-sm font-medium">AI For Everyone</p>
-          <p class="text-lilac/45 text-xs mt-0.5">DeepLearning.AI · 2024</p>
-        </div>
-      </div>
-
-      <!-- Game Design -->
-      <div class="achievement-badge reveal delay-4">
-        <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="gamepad-2" class="w-5 h-5 text-green-400"></i>
-        </div>
-        <div>
-          <p class="text-lilac text-sm font-medium">Game Design Fundamentals</p>
-          <p class="text-lilac/45 text-xs mt-0.5">Michigan State University · 2024</p>
-        </div>
-      </div>
-
-      <!-- Hackathon -->
-      <div class="achievement-badge reveal delay-1">
-        <div class="w-10 h-10 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="zap" class="w-5 h-5 text-orange-400"></i>
-        </div>
-        <div>
-          <p class="text-lilac text-sm font-medium">Hackathon Winner — 2nd Place</p>
-          <p class="text-lilac/45 text-xs mt-0.5">COMSATS Web Dev Competition · 2024</p>
-        </div>
-      </div>
-
-      <!-- Open Source -->
-      <div class="achievement-badge reveal delay-2">
-        <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="github" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <p class="text-lilac text-sm font-medium">Open Source Contributor</p>
-          <p class="text-lilac/45 text-xs mt-0.5">3 projects · 1K+ total downloads</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECTION 7: TESTIMONIALS
-============================================================ -->
-<section id="testimonials" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(122,63,145,0.10) 0%, transparent 70%);">
-  <div class="max-w-6xl mx-auto">
-
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">Client Words</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Testimonials</h2>
+    <div class="text-center mb-14 reveal">
+      <p class="section-label mb-3">Client Feedback</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-normal gradient-text">Testimonials</h2>
       <div class="divider-line mt-6"></div>
     </div>
 
@@ -2241,57 +1288,51 @@
 
       <!-- Testimonial 1 -->
       <div class="testimonial-card reveal delay-1">
-        <div class="pt-10">
-          <div class="flex gap-1 mb-4">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
-            "Azhar delivered our brand identity beyond what we imagined. His creative vision and attention to detail transformed our startup's visual presence completely. Absolutely world-class work."
-          </p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">S</div>
-            <div>
-              <p class="text-lilac text-sm font-medium">Sarah Malik</p>
-              <p class="text-amethyst/50 text-xs">CEO, NexaVentures</p>
-            </div>
+        <div class="flex gap-1 mb-4" aria-label="5 star rating">
+          <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+        </div>
+        <p class="text-lilac/70 text-sm leading-relaxed mb-5">
+          "Azhar delivered our brand identity beyond expectations. His creative vision and attention to detail transformed our startup's visual presence. World-class work."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-serif text-lg text-amethyst font-semibold">S</div>
+          <div>
+            <p class="text-lilac text-sm font-medium">Sarah M.</p>
+            <p class="text-amethyst/60 text-xs">Startup Founder</p>
           </div>
         </div>
       </div>
 
       <!-- Testimonial 2 -->
       <div class="testimonial-card reveal delay-2">
-        <div class="pt-10">
-          <div class="flex gap-1 mb-4">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
-            "The e-commerce website Azhar built for us is stunning — fast, responsive, and beautifully designed. Our conversion rate improved significantly within the first month of launch. Highly recommended."
-          </p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">K</div>
-            <div>
-              <p class="text-lilac text-sm font-medium">Kamran Baig</p>
-              <p class="text-amethyst/50 text-xs">Founder, Aura Commerce</p>
-            </div>
+        <div class="flex gap-1 mb-4" aria-label="5 star rating">
+          <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+        </div>
+        <p class="text-lilac/70 text-sm leading-relaxed mb-5">
+          "The website Azhar built is stunning — fast, responsive, and beautifully designed. Our conversions improved within the first month. Highly recommended."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-serif text-lg text-amethyst font-semibold">K</div>
+          <div>
+            <p class="text-lilac text-sm font-medium">Kamran B.</p>
+            <p class="text-amethyst/60 text-xs">E-commerce Owner</p>
           </div>
         </div>
       </div>
 
       <!-- Testimonial 3 -->
       <div class="testimonial-card reveal delay-3">
-        <div class="pt-10">
-          <div class="flex gap-1 mb-4">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-          </div>
-          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
-            "Working with Azhar on our motion reel was a remarkable experience. His animation quality rivals top studios. He has a rare instinct for storytelling through motion. A truly gifted creative professional."
-          </p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">L</div>
-            <div>
-              <p class="text-lilac text-sm font-medium">Lara Chen</p>
-              <p class="text-amethyst/50 text-xs">Creative Director, PulseMedia</p>
-            </div>
+        <div class="flex gap-1 mb-4" aria-label="5 star rating">
+          <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+        </div>
+        <p class="text-lilac/70 text-sm leading-relaxed mb-5">
+          "Working with Azhar on our motion reel was remarkable. His animation quality rivals top studios. A truly gifted creative professional."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-serif text-lg text-amethyst font-semibold">L</div>
+          <div>
+            <p class="text-lilac text-sm font-medium">Lara C.</p>
+            <p class="text-amethyst/60 text-xs">Creative Director</p>
           </div>
         </div>
       </div>
@@ -2300,214 +1341,94 @@
 </section>
 
 
-
-
 <!-- ============================================================
-     SECTION 7.5: WHY WORK WITH ME
+     SECTION 6: CONTACT
 ============================================================ -->
-<section class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(122,63,145,0.08) 0%, transparent 70%);">
+<section id="contact" class="relative z-10 py-24 px-6">
   <div class="max-w-5xl mx-auto">
 
-    <div class="text-center mb-16 reveal">
-      <p class="section-label mb-3">The Azhar Difference</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Why Clients Choose Me</h2>
-      <p class="mt-4 text-lilac/50 text-sm max-w-lg mx-auto">Three years. 25+ projects. Zero missed deadlines. Here's what sets my work apart.</p>
-      <div class="divider-line mt-6"></div>
-    </div>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <!-- Card 1 -->
-      <div class="glass p-7 reveal delay-1 flex flex-col gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
-          <i data-lucide="zap" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Fast Turnaround</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">AI-augmented workflows let me deliver in 25% less time than the industry average — without cutting corners on quality.</p>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="glass p-7 reveal delay-2 flex flex-col gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
-          <i data-lucide="star" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <h3 class="font-display text-xl font-semibold text-lilac mb-2">5-Star, Every Time</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">30+ platform reviews. A 98% retention rate. Clients don't just come back — they refer me to their network.</p>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="glass p-7 reveal delay-3 flex flex-col gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
-          <i data-lucide="layers" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Full-Stack Creative</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">Design, dev, animation, AI — all under one roof. No handoffs. No miscommunication. One person who owns the entire vision.</p>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="glass p-7 reveal delay-1 flex flex-col gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
-          <i data-lucide="message-circle" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Clear Communication</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">Daily updates, transparent timelines, and a 24-hour response guarantee. You'll always know exactly where your project stands.</p>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="glass p-7 reveal delay-2 flex flex-col gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
-          <i data-lucide="trending-up" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Results-Driven</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">My designs have improved client ROI by 35–60% on average. Beautiful work that actually converts — that's the goal, every time.</p>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="glass p-7 reveal delay-3 flex flex-col gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
-          <i data-lucide="shield-check" class="w-5 h-5 text-amethyst"></i>
-        </div>
-        <div>
-          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Satisfaction Guarantee</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">Unlimited revisions until you love it. I don't close a project until the client is genuinely happy — not just satisfied.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- CTA Strip -->
-    <div class="mt-14 glass p-8 reveal flex flex-col sm:flex-row items-center justify-between gap-6">
-      <div>
-        <h3 class="font-display text-2xl md:text-3xl font-light text-lilac mb-1">Ready to build something remarkable?</h3>
-        <p class="text-lilac/45 text-sm">Let's turn your idea into a product clients love and competitors envy.</p>
-      </div>
-      <a href="#contact" class="btn-primary flex-shrink-0">
-        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        Start a Project
-      </a>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ============================================================
-     SECTION 8: CONTACT
-============================================================ -->
-<section id="contact" class="relative z-10 py-28 px-6">
-  <div class="max-w-5xl mx-auto">
-
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-14 reveal">
       <p class="section-label mb-3">Get In Touch</p>
-      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Let's Work Together</h2>
-      <p class="mt-4 text-lilac/50 text-sm max-w-md mx-auto">Have a project in mind? I'd love to hear about it. Drop me a message and I'll get back within 24 hours.</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-normal gradient-text">Let's Work Together</h2>
+      <p class="mt-4 text-lilac/60 text-sm max-w-md mx-auto">Have a project in mind? Drop me a message and I'll respond within 24 hours.</p>
       <div class="divider-line mt-6"></div>
     </div>
 
     <div class="grid md:grid-cols-5 gap-8 items-start">
 
       <!-- Contact Info -->
-      <div class="md:col-span-2 flex flex-col gap-6 reveal-left">
+      <div class="md:col-span-2 flex flex-col gap-5 reveal-left">
 
-        <div class="glass p-6">
-          <div class="flex items-center gap-3 mb-3">
+        <div class="glass p-5">
+          <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-              <i data-lucide="mail" class="w-4 h-4 text-amethyst"></i>
+              <i data-lucide="mail" class="w-4 h-4 text-amethyst" aria-hidden="true"></i>
             </div>
             <div>
-              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Email</p>
-              <a href="mailto:arhamjutt6481335@gmail.com" class="text-lilac text-sm hover:text-amethyst transition-colors">arhamjutt6481335@gmail.com</a>
+              <p class="text-xs text-amethyst/60 tracking-wider uppercase">Email</p>
+              <a href="mailto:azharshahbaz.dev@gmail.com" class="text-lilac text-sm hover:text-amethyst transition-colors">azharshahbaz.dev@gmail.com</a>
             </div>
           </div>
         </div>
 
-        <div class="glass p-6">
-          <div class="flex items-center gap-3 mb-3">
+        <div class="glass p-5">
+          <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-              <i data-lucide="phone" class="w-4 h-4 text-amethyst"></i>
+              <i data-lucide="map-pin" class="w-4 h-4 text-amethyst" aria-hidden="true"></i>
             </div>
             <div>
-              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Phone</p>
-              <a href="tel:+923170626356" class="text-lilac text-sm hover:text-amethyst transition-colors">0317-0626356</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="glass p-6">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
-              <i data-lucide="map-pin" class="w-4 h-4 text-amethyst"></i>
-            </div>
-            <div>
-              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Location</p>
+              <p class="text-xs text-amethyst/60 tracking-wider uppercase">Location</p>
               <p class="text-lilac text-sm">Islamabad, Pakistan</p>
             </div>
           </div>
         </div>
 
         <!-- Social Links -->
-        <div class="glass p-6">
-          <p class="text-xs text-amethyst/50 tracking-wider uppercase mb-4">Follow Me</p>
+        <div class="glass p-5">
+          <p class="text-xs text-amethyst/60 tracking-wider uppercase mb-3">Connect</p>
           <div class="flex flex-wrap gap-3">
-            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" class="social-link" title="LinkedIn">
-              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn profile">
+              <i data-lucide="linkedin" class="w-4 h-4" aria-hidden="true"></i>
             </a>
-            <a href="https://behance.net" target="_blank" class="social-link" title="Behance">
-              <i data-lucide="layout-grid" class="w-4 h-4"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">
-              <i data-lucide="instagram" class="w-4 h-4"></i>
-            </a>
-            <a href="https://x.com" target="_blank" class="social-link" title="X / Twitter">
-              <i data-lucide="twitter" class="w-4 h-4"></i>
-            </a>
-            <a href="https://github.com/azhar-dev" target="_blank" class="social-link" title="GitHub">
-              <i data-lucide="github" class="w-4 h-4"></i>
-            </a>
-            <a href="https://azhar.dev" target="_blank" class="social-link" title="Portfolio Website">
-              <i data-lucide="globe" class="w-4 h-4"></i>
+            <a href="https://github.com/fuwxt" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub profile">
+              <i data-lucide="github" class="w-4 h-4" aria-hidden="true"></i>
             </a>
           </div>
+          <p class="text-lilac/40 text-xs mt-3 italic">More profiles coming soon — add your Behance, Dribbble, etc.</p>
         </div>
       </div>
 
-      <!-- Contact Form -->
-      <div class="md:col-span-3 glass p-8 reveal-right">
-        <h3 class="font-display text-2xl font-light text-lilac mb-6">Send a Message</h3>
-        <div class="flex flex-col gap-4">
+      <!-- Contact Form (wired to Formspree) -->
+      <div class="md:col-span-3 glass p-7 reveal-right">
+        <h3 class="font-serif text-2xl font-normal text-lilac mb-5">Send a Message</h3>
+        <form @submit.prevent="submitForm($event)" class="flex flex-col gap-4">
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
-              <input type="text" placeholder="Your name" class="form-input"/>
+              <label for="form-name" class="block text-xs text-amethyst/70 uppercase tracking-wider mb-2">Full Name</label>
+              <input id="form-name" name="name" type="text" required placeholder="Your name" class="form-input"/>
             </div>
             <div>
-              <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Email Address</label>
-              <input type="email" placeholder="your@email.com" class="form-input"/>
+              <label for="form-email" class="block text-xs text-amethyst/70 uppercase tracking-wider mb-2">Email Address</label>
+              <input id="form-email" name="email" type="email" required placeholder="your@email.com" class="form-input"/>
             </div>
           </div>
           <div>
-            <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Subject</label>
-            <input type="text" placeholder="Project inquiry, collaboration..." class="form-input"/>
+            <label for="form-subject" class="block text-xs text-amethyst/70 uppercase tracking-wider mb-2">Subject</label>
+            <input id="form-subject" name="subject" type="text" required placeholder="Project inquiry, collaboration..." class="form-input"/>
           </div>
           <div>
-            <label class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Message</label>
-            <textarea rows="5" placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
+            <label for="form-message" class="block text-xs text-amethyst/70 uppercase tracking-wider mb-2">Message</label>
+            <textarea id="form-message" name="message" rows="5" required placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
           </div>
-          <button class="btn-primary self-start mt-2">
-            <i data-lucide="send" class="w-4 h-4"></i>
-            Send Message
-          </button>
-        </div>
+          <div class="flex items-center gap-4 mt-1">
+            <button type="submit" class="btn-primary" :disabled="formStatus === 'sending'">
+              <i data-lucide="send" class="w-4 h-4" aria-hidden="true"></i>
+              <span x-text="formStatus === 'sending' ? 'Sending...' : 'Send Message'"></span>
+            </button>
+            <p x-show="formStatus === 'success'" class="text-green-400 text-sm" x-transition>Message sent!</p>
+            <p x-show="formStatus === 'error'" class="text-red-400 text-sm" x-transition>Something went wrong. Try again.</p>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -2517,31 +1438,20 @@
 <!-- ============================================================
      FOOTER
 ============================================================ -->
-<footer class="relative z-10 border-t border-amethyst/10 py-12 px-6">
-  <div class="footer-gradient absolute inset-0 pointer-events-none"></div>
-  <div class="max-w-7xl mx-auto relative">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<footer class="relative z-10 border-t border-amethyst/10 py-10 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
-        <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm">Azhar.</a>
-        <p class="text-lilac/35 text-xs mt-1.5 tracking-wide">Graphic Designer & Web Developer</p>
+        <a href="#hero" class="font-serif text-xl font-semibold gradient-text">Azhar.</a>
+        <p class="text-lilac/40 text-xs mt-1">Graphic Designer & Web Developer</p>
       </div>
-      <div class="flex flex-wrap justify-center gap-6 text-xs text-lilac/35 tracking-wider">
-        <a href="#about"        class="hover:text-amethyst transition-colors">About</a>
-        <a href="#skills"       class="hover:text-amethyst transition-colors">Skills</a>
-        <a href="#work"         class="hover:text-amethyst transition-colors">Work</a>
-        <a href="#education"    class="hover:text-amethyst transition-colors">Education</a>
-        <a href="#achievements" class="hover:text-amethyst transition-colors">Achievements</a>
-        <a href="#contact"      class="hover:text-amethyst transition-colors">Contact</a>
+      <div class="flex flex-wrap justify-center gap-5 text-xs text-lilac/40 tracking-wider">
+        <a href="#work" class="hover:text-amethyst transition-colors">Work</a>
+        <a href="#about" class="hover:text-amethyst transition-colors">About</a>
+        <a href="#experience" class="hover:text-amethyst transition-colors">Experience</a>
+        <a href="#contact" class="hover:text-amethyst transition-colors">Contact</a>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-download text-xs py-2 px-4">
-          <i data-lucide="download" class="w-3 h-3"></i>
-          Download Resume
-        </a>
-        <p class="text-lilac/25 text-xs">
-          &copy; 2025 Muhammad Azhar Shahbaz.
-        </p>
-      </div>
+      <p class="text-lilac/30 text-xs">&copy; 2025 Muhammad Azhar Shahbaz.</p>
     </div>
   </div>
 </footer>
@@ -2561,45 +1471,41 @@
   x-transition:leave-end="opacity-0"
   @click.self="closeModal()"
   style="display:none;"
+  role="dialog"
+  aria-modal="true"
+  :aria-label="activeProject?.title + ' project details'"
 >
   <div
-    class="glass-strong rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto modal-enter relative"
+    class="glass-strong rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto relative"
     x-show="modalOpen"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-95 translate-y-4"
     x-transition:enter-end="opacity-100 scale-100 translate-y-0"
   >
-    <!-- Modal Header Thumb -->
-    <div class="h-48 relative" :class="activeProject?.thumbClass" x-show="activeProject">
-      <!-- Pattern -->
-      <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice">
-        <circle cx="300" cy="100" r="80" fill="none" stroke="white" stroke-width="1"/>
-        <circle cx="300" cy="100" r="140" fill="none" stroke="white" stroke-width="0.5"/>
-        <circle cx="300" cy="100" r="200" fill="none" stroke="white" stroke-width="0.3"/>
-      </svg>
-      <!-- Project title overlay -->
+    <!-- Modal Header Image -->
+    <div class="h-48 relative overflow-hidden rounded-t-2xl" x-show="activeProject">
+      <img :src="activeProject?.image" :alt="activeProject?.title" class="w-full h-full object-cover"/>
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
         <div>
-          <span class="text-xs text-white/60 tracking-widest uppercase" x-text="activeProject?.category"></span>
-          <h3 class="font-display text-3xl text-white font-semibold" x-text="activeProject?.title"></h3>
+          <span class="text-xs text-white/70 tracking-widest uppercase" x-text="activeProject?.category"></span>
+          <h3 class="font-serif text-2xl text-white font-semibold" x-text="activeProject?.title"></h3>
         </div>
       </div>
-      <!-- Close Button -->
       <button
         @click="closeModal()"
         class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white/80 hover:bg-black/60 transition-all"
+        aria-label="Close modal"
       >
-        <i data-lucide="x" class="w-4 h-4"></i>
+        <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
       </button>
     </div>
 
     <!-- Modal Body -->
-    <div class="p-8" x-show="activeProject">
-      <p class="text-lilac/65 text-sm leading-relaxed mb-6" x-text="activeProject?.longDesc"></p>
+    <div class="p-7" x-show="activeProject">
+      <p class="text-lilac/70 text-sm leading-relaxed mb-5" x-text="activeProject?.longDesc"></p>
 
-      <!-- Tech Stack -->
-      <div class="mb-6">
-        <p class="section-label mb-3">Tech Stack</p>
+      <div class="mb-5">
+        <p class="section-label mb-2">Tools & Tech</p>
         <div class="flex flex-wrap gap-2">
           <template x-for="tag in activeProject?.tags" :key="tag">
             <span class="tag-chip" x-text="tag"></span>
@@ -2607,387 +1513,25 @@
         </div>
       </div>
 
-      <!-- Highlights -->
-      <div class="mb-8">
-        <p class="section-label mb-3">Highlights</p>
+      <div class="mb-6">
+        <p class="section-label mb-2">Highlights</p>
         <div class="flex flex-col gap-2">
           <template x-for="h in activeProject?.highlights" :key="h">
-            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
-              <i data-lucide="chevron-right" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+            <div class="flex items-start gap-2 text-sm text-lilac/65">
+              <i data-lucide="chevron-right" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5" aria-hidden="true"></i>
               <span x-text="h"></span>
             </div>
           </template>
         </div>
       </div>
 
-      <!-- Actions -->
-      <div class="flex gap-3">
-        <button class="btn-primary">
-          <i data-lucide="external-link" class="w-4 h-4"></i>
-          Live Preview
-        </button>
-        <button class="btn-outline" @click="closeModal()">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          Back
-        </button>
-      </div>
+      <button class="btn-outline" @click="closeModal()">
+        <i data-lucide="arrow-left" class="w-4 h-4" aria-hidden="true"></i>
+        Back to Projects
+      </button>
     </div>
   </div>
 </div>
-<!-- ============================================================
-     ANIMATION ENGINE — Particles, Bursts, Cursor, Text FX
-============================================================ -->
-<script>
-(function() {
-  /* ── PALETTE ─────────────────────────────────────────────── */
-  const COLORS = {
-    lilac:    'rgba(242,234,247,',
-    amethyst: 'rgba(197,157,217,',
-    regal:    'rgba(122,63,145,',
-    velvet:   'rgba(43,13,62,'
-  };
-  const BURST_COLORS = [
-    [242,234,247], [197,157,217], [122,63,145],
-    [170,100,200], [220,180,240], [80,30,120]
-  ];
-
-  /* ══════════════════════════════════════════════════════════
-     1. PARTICLE CANVAS BACKGROUND (DISABLED)
-     The 2D particle system has been replaced by the WebGL ink
-     fluid simulation (see #fluid-canvas + WebGLFluid init below).
-     We keep a no-op `Particle` class so click-burst code below
-     doesn't break.
-  ══════════════════════════════════════════════════════════ */
-  class Particle {
-    constructor() {}
-    reset() {}
-    update() {}
-    draw() {}
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     2. COLOR BURST ON CLICK / TOUCH
-  ══════════════════════════════════════════════════════════ */
-  function spawnBurst(x, y) {
-    const count = 4 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < count; i++) {
-      const [r,g,b] = BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)];
-      const size = 70 + Math.random() * 140;
-      const el = document.createElement('div');
-      el.className = 'burst-ripple';
-      el.style.cssText = `
-        left:${x}px; top:${y}px;
-        width:${size}px; height:${size}px;
-        background: radial-gradient(circle, rgba(${r},${g},${b},0.45) 0%, rgba(${r},${g},${b},0.12) 50%, transparent 70%);
-        animation-delay: ${i * 60}ms;
-        animation-duration: ${0.7 + Math.random() * 0.4}s;
-      `;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1400);
-    }
-  }
-
-  document.addEventListener('click', e => spawnBurst(e.clientX, e.clientY));
-  document.addEventListener('touchstart', e => {
-    Array.from(e.touches).forEach(t => spawnBurst(t.clientX, t.clientY));
-  }, { passive: true });
-
-  /* ══════════════════════════════════════════════════════════
-     3. CUSTOM MAGNETIC CURSOR (desktop only)
-  ══════════════════════════════════════════════════════════ */
-  const glowEl  = document.getElementById('cursor-glow');
-  const ringEl  = document.getElementById('cursor-ring');
-  let cx = 0, cy = 0, rx = 0, ry = 0;
-
-  if (window.matchMedia('(pointer: fine)').matches) {
-    document.addEventListener('mousemove', e => {
-      cx = e.clientX; cy = e.clientY;
-      glowEl.style.left = cx + 'px';
-      glowEl.style.top  = cy + 'px';
-    });
-
-    // Ring follows with lerp
-    (function lerpRing() {
-      rx += (cx - rx) * 0.12;
-      ry += (cy - ry) * 0.12;
-      ringEl.style.left = rx + 'px';
-      ringEl.style.top  = ry + 'px';
-      requestAnimationFrame(lerpRing);
-    })();
-
-    // Enlarge on hover over interactive elements
-    const interactives = 'a, button, .glass, .project-card, .skill-pill, .social-link, .btn-primary, .btn-outline, .btn-download';
-    document.addEventListener('mouseover', e => {
-      if (e.target.closest(interactives)) {
-        ringEl.style.width  = '64px';
-        ringEl.style.height = '64px';
-        ringEl.style.borderColor = 'rgba(197,157,217,0.7)';
-        glowEl.style.width  = '32px';
-        glowEl.style.height = '32px';
-      }
-    });
-    document.addEventListener('mouseout', e => {
-      if (e.target.closest(interactives)) {
-        ringEl.style.width  = '44px';
-        ringEl.style.height = '44px';
-        ringEl.style.borderColor = 'rgba(197,157,217,0.35)';
-        glowEl.style.width  = '20px';
-        glowEl.style.height = '20px';
-      }
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     4. SPLIT TEXT REVEAL ANIMATION
-  ══════════════════════════════════════════════════════════ */
-  function initSplitText() {
-    // Target section h2 headings
-    document.querySelectorAll('h2.gradient-text').forEach((el, idx) => {
-      const words = el.textContent.trim().split(' ');
-      el.innerHTML = words.map((w, i) =>
-        `<span class="split-word" style="margin-right:0.25em"><span style="transition-delay:${i * 80}ms">${w}</span></span>`
-      ).join('');
-
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.split-word').forEach(sw => sw.classList.add('in-view'));
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 });
-      observer.observe(el);
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     5. HEADING UNDERLINE DRAW-IN
-  ══════════════════════════════════════════════════════════ */
-  function initUnderlines() {
-    document.querySelectorAll('.section-label').forEach(label => {
-      const next = label.nextElementSibling;
-      if (next && next.tagName.match(/H[1-6]/)) {
-        next.classList.add('heading-underline');
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in-view');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.5 });
-        observer.observe(next);
-      }
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     6. AURORA SHIMMER — add to all glass cards dynamically
-  ══════════════════════════════════════════════════════════ */
-  function initAurora() {
-    document.querySelectorAll('.glass, .testimonial-card').forEach(el => {
-      el.classList.add('glass-aurora');
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     7. SKILL PILLS STAGGER
-  ══════════════════════════════════════════════════════════ */
-  function initPillStagger() {
-    const container = document.querySelector('[x-for]');
-    // Observe skill sections and stagger pills when visible
-    document.querySelectorAll('.skill-pill').forEach((pill, i) => {
-      pill.style.animationDelay = (i * 45) + 'ms';
-      pill.style.animationPlayState = 'paused';
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.skill-pill').forEach(pill => {
-            pill.style.animationPlayState = 'running';
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('#skills .glass').forEach(el => observer.observe(el));
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     8. HERO CSS PARTICLES (extra floating dots in hero)
-  ══════════════════════════════════════════════════════════ */
-  function initHeroParticles() {
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-    const colors = ['#F2EAF7', '#C59DD9', '#7A3F91', '#a060c0', '#e0c0f0'];
-    for (let i = 0; i < 18; i++) {
-      const dot = document.createElement('div');
-      const size = Math.random() * 4 + 2;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const duration = Math.random() * 12 + 8;
-      const delay    = Math.random() * 8;
-      const x        = Math.random() * 100;
-      dot.className  = 'hero-particle';
-      dot.style.cssText = `
-        left:${x}%;
-        width:${size}px; height:${size}px;
-        background:${color};
-        box-shadow: 0 0 ${size*3}px ${color};
-        animation-duration:${duration}s;
-        animation-delay:${delay}s;
-      `;
-      hero.appendChild(dot);
-    }
-  }
-
-  /* ══════════════════════════════════════════════════════════
-     9. SMOOTH COUNTER NUMBER FORMATTING
-  ══════════════════════════════════════════════════════════ */
-  // Upgrade: make counters ease-out with easing
-  // (already handled by counterAnim, but add visual flourish)
-  function initCounterGlow() {
-    document.querySelectorAll('.counter-card').forEach(card => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            card.style.transition = 'all 0.4s ease';
-            card.style.boxShadow  = '0 0 40px rgba(122,63,145,0.25), inset 0 1px 0 rgba(197,157,217,0.1)';
-            observer.unobserve(card);
-          }
-        });
-      }, { threshold: 0.5 });
-      observer.observe(card);
-    });
-  }
-
-  /* ── INIT ALL on DOM ready ───────────────────────────────── */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  function init() {
-    // Slight delay so Alpine renders dynamic content (skills, counters) first
-    setTimeout(() => {
-      initSplitText();
-      initUnderlines();
-      initAurora();
-      initHeroParticles();
-      initCounterGlow();
-    }, 600);
-
-    // Pill stagger after Alpine renders skills
-    setTimeout(initPillStagger, 1200);
-  }
-
-})();
-</script>
-
-<!-- ============================================================
-     INK FLUID WEBGL — Pavel Dobryakov's WebGL fluid sim, themed
-     to fit the portfolio's purple/amethyst palette. Works on
-     desktop (mouse) and mobile (touch). Performance-tuned.
-============================================================ -->
-<script>
-(function() {
-  if (typeof WebGLFluid !== 'function') {
-    console.warn('[fluid] WebGLFluid CDN failed to load — skipping ink background.');
-    return;
-  }
-  const canvas = document.getElementById('fluid-canvas');
-  if (!canvas) return;
-
-  // Respect users who ask for reduced motion.
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ── EVENT FORWARDING ────────────────────────────────────────
-     The fluid canvas has `pointer-events: none` so it never
-     blocks clicks on links/buttons. The library, however, only
-     listens on the canvas itself. We monkey-patch the canvas's
-     addEventListener to redirect pointer events to `document`,
-     wrapping each event so `e.offsetX/Y` matches the viewport.
-  ────────────────────────────────────────────────────────────── */
-  const FORWARDED = new Set(['mousedown', 'mousemove', 'touchstart', 'touchmove']);
-  const origAdd = canvas.addEventListener.bind(canvas);
-  canvas.addEventListener = function(type, listener, opts) {
-    if (!FORWARDED.has(type)) {
-      return origAdd(type, listener, opts);
-    }
-    const wrapped = function(e) {
-      // Build a minimal event-shape object the lib understands.
-      const fake = {
-        offsetX: e.clientX,
-        offsetY: e.clientY,
-        targetTouches: e.targetTouches || [],
-        changedTouches: e.changedTouches || [],
-        target: canvas,
-        currentTarget: canvas,
-        // No-op preventDefault so page scrolling on mobile still works.
-        preventDefault: function() {}
-      };
-      try { listener(fake); } catch (err) { console.warn('[fluid] listener err', err); }
-    };
-    // touchmove must be passive so iOS scrolling stays smooth.
-    const docOpts = (type === 'touchmove' || type === 'touchstart')
-      ? { passive: true } : opts;
-    document.addEventListener(type, wrapped, docOpts);
-  };
-
-  /* ── INITIALIZE FLUID SIM ──────────────────────────────────── */
-  // Detect if user is on a small/low-power device → lower resolution.
-  const isMobile = window.matchMedia('(max-width: 768px)').matches
-                || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  WebGLFluid(canvas, {
-    TRIGGER: 'hover',
-    IMMEDIATE: true,
-    AUTO: true,
-    INTERVAL: reduceMotion ? 12000 : 5000,
-    SIM_RESOLUTION: isMobile ? 96 : 128,
-    DYE_RESOLUTION: isMobile ? 512 : 1024,
-    CAPTURE_RESOLUTION: 512,
-    DENSITY_DISSIPATION: 1.4,
-    VELOCITY_DISSIPATION: 1.0,
-    PRESSURE: 0.8,
-    PRESSURE_ITERATIONS: 20,
-    CURL: 28,
-    SPLAT_RADIUS: isMobile ? 0.28 : 0.22,
-    SPLAT_FORCE: 6500,
-    SPLAT_COUNT: isMobile ? 3 : 5,
-    SHADING: true,
-    COLORFUL: true,
-    COLOR_UPDATE_SPEED: 8,
-    PAUSED: reduceMotion,
-    BACK_COLOR: { r: 0, g: 0, b: 0 },
-    TRANSPARENT: true,
-    BLOOM: !isMobile,
-    BLOOM_ITERATIONS: 8,
-    BLOOM_RESOLUTION: 256,
-    BLOOM_INTENSITY: 0.65,
-    BLOOM_THRESHOLD: 0.6,
-    BLOOM_SOFT_KNEE: 0.7,
-    SUNRAYS: false
-  });
-
-  /* ── PAUSE WHEN TAB IS HIDDEN ───────────────────────────────
-     Saves battery + CPU on background tabs. The lib watches the
-     spacebar; a synthetic 'P' keydown toggles its PAUSED state.
-  ────────────────────────────────────────────────────────────── */
-  let pausedByTab = false;
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden && !pausedByTab) {
-      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
-      pausedByTab = true;
-    } else if (!document.hidden && pausedByTab) {
-      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
-      pausedByTab = false;
-    }
-  });
-})();
-</script>
 
 </body>
 </html>
