@@ -139,7 +139,7 @@
             id: 4,
             title: 'AI Prompt Studio Dashboard',
             category: 'AI / Dev',
-            icon: 'brain-circuit',
+            icon: 'cpu',
             thumbClass: 'thumb-4',
             shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
             longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
@@ -171,7 +171,7 @@
             id: 6,
             title: 'Vortex Game UI/UX',
             category: 'Game Design',
-            icon: 'gamepad-2',
+            icon: 'gamepad',
             thumbClass: 'thumb-6',
             shortDesc: 'A complete UI/UX design system for a sci-fi action game — HUD, menus, inventory, and character screens.',
             longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
@@ -218,9 +218,8 @@
             this.initReveal();
             this.initTyping();
             lucide.createIcons();
-            // Safety net: re-run icon creation after Alpine has fully
+            // Safety net: re-run icon creation once after Alpine has fully
             // rendered all x-for templates (skill pills, projects, etc.)
-            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 250);
             setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
           });
         },
@@ -339,10 +338,11 @@
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background-color: var(--c-velvet2);
+      background-color: #1a0827;
       color: var(--c-lilac);
       overflow-x: hidden;
     }
+    html.dark-mode body { background-color: #1a0827; }
 
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--c-velvet2); }
@@ -602,6 +602,112 @@
     /* Section radial bg overlays */
     html.light-mode section[style*="radial-gradient"] {
       background: transparent !important;
+    }
+
+    /* ============================================================
+       LIGHT MODE — ADDITIONAL POLISH (Task 4 fixes)
+    ============================================================ */
+    /* Body background */
+    html.light-mode body {
+      background-color: #f5f0fb;
+      color: #1d0a2e;
+    }
+
+    /* Glass cards in light mode */
+    html.light-mode .glass {
+      background: rgba(255, 255, 255, 0.75) !important;
+      border-color: rgba(122, 63, 145, 0.18) !important;
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+    }
+    html.light-mode .glass:hover {
+      background: rgba(255, 255, 255, 0.90) !important;
+      border-color: rgba(122, 63, 145, 0.35) !important;
+      box-shadow: 0 8px 40px rgba(122, 63, 145, 0.15), 0 0 0 1px rgba(122, 63, 145, 0.10);
+    }
+    html.light-mode .glass-strong {
+      background: rgba(255, 255, 255, 0.88) !important;
+      border-color: rgba(122, 63, 145, 0.22) !important;
+    }
+
+    /* Text colors in light mode */
+    html.light-mode .text-lilac,
+    html.light-mode h1, html.light-mode h2, html.light-mode h3 {
+      color: #1d0a2e;
+    }
+    html.light-mode .counter-label {
+      color: rgba(43, 13, 62, 0.55) !important;
+    }
+    html.light-mode .text-lilac\/50,
+    html.light-mode .text-lilac\/55,
+    html.light-mode .text-lilac\/60,
+    html.light-mode .text-lilac\/65 {
+      color: rgba(43, 13, 62, 0.65) !important;
+    }
+
+    /* Section radial backgrounds */
+    html.light-mode section {
+      background: transparent !important;
+    }
+
+    /* Skill pills in light mode */
+    html.light-mode .skill-pill {
+      background: rgba(122, 63, 145, 0.08);
+      border-color: rgba(122, 63, 145, 0.20);
+      color: #1d0a2e;
+    }
+    html.light-mode .skill-pill:hover {
+      background: rgba(122, 63, 145, 0.18);
+      color: #1d0a2e;
+    }
+
+    /* Form inputs in light mode */
+    html.light-mode .form-input {
+      background: rgba(255, 255, 255, 0.80) !important;
+      border-color: rgba(122, 63, 145, 0.25) !important;
+      color: #1d0a2e !important;
+    }
+    html.light-mode .form-input::placeholder {
+      color: rgba(43, 13, 62, 0.40) !important;
+    }
+    html.light-mode .form-input:focus {
+      border-color: rgba(122, 63, 145, 0.55) !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+    }
+
+    /* Achievement badges */
+    html.light-mode .achievement-badge {
+      background: rgba(122, 63, 145, 0.06);
+      border-color: rgba(122, 63, 145, 0.18);
+    }
+    html.light-mode .achievement-badge:hover {
+      background: rgba(122, 63, 145, 0.14);
+    }
+
+    /* Hero particles in light mode */
+    html.light-mode .hero-particle {
+      opacity: 0.4 !important;
+    }
+
+    /* Footer in light mode */
+    html.light-mode footer {
+      border-top-color: rgba(122, 63, 145, 0.20);
+    }
+    html.light-mode footer .text-lilac\/35 {
+      color: rgba(43, 13, 62, 0.45) !important;
+    }
+
+    /* Nav in light mode */
+    html.light-mode .nav-link {
+      color: rgba(43, 13, 62, 0.65);
+    }
+    html.light-mode .nav-link:hover {
+      color: #7A3F91;
+    }
+
+    /* Modal backdrop in light mode */
+    html.light-mode .modal-backdrop {
+      background: rgba(245, 240, 251, 0.88);
     }
 
     /* ============================================================
@@ -900,7 +1006,7 @@
       font-size: 0.75rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(242,234,247,0.5);
+      color: rgba(242,234,247,0.55);
       margin-top: 8px;
     }
 
@@ -1139,10 +1245,10 @@
     ============================================================ */
     .edu-card-accent {
       position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 100%;
-      background: linear-gradient(180deg, var(--c-amethyst), var(--c-regal));
-      border-radius: 4px 0 0 4px;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #7A3F91, #C59DD9);
+      border-radius: 0 2px 2px 0;
     }
 
     /* ============================================================
@@ -1284,6 +1390,18 @@
       .hero-brand { font-size: 4.5rem; }
       .orb-1 { width: 250px; height: 250px; }
     }
+    @media (max-width: 480px) {
+      .hero-brand {
+        font-size: clamp(3.5rem, 13vw, 5rem);
+        letter-spacing: -0.01em;
+      }
+    }
+    @media (max-width: 768px) {
+      .nav-glass .px-6 { padding-left: 1rem; padding-right: 1rem; }
+    }
+    @media (max-width: 360px) {
+      .skill-pill { font-size: 0.70rem; padding: 6px 12px; }
+    }
 
     /* ============================================================
        INK FLUID WEBGL BACKGROUND CANVAS
@@ -1295,14 +1413,14 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      pointer-events: auto;     /* fluid responds to hover/touch */
-      mix-blend-mode: screen;   /* blends ink onto deep velvet bg */
-      opacity: 0.85;
-      touch-action: none;       /* prevent scroll while dragging fluid on mobile */
+      pointer-events: auto;
+      mix-blend-mode: screen;
+      opacity: 0.75;
+      touch-action: pan-y;  /* CRITICAL: allow vertical scroll on mobile */
     }
     html.light-mode #fluid-canvas {
-      mix-blend-mode: multiply; /* darker ink reads better on light bg */
-      opacity: 0.55;
+      mix-blend-mode: multiply;
+      opacity: 0.40;
     }
 
     /* Tiny CSS-only legacy particle canvas (kept hidden, replaced by fluid) */
@@ -1557,7 +1675,7 @@
     }
     .stat-bar[style*="width:9"],
     .stat-bar[style*="width:10"] { }
-    .visible ~ .stat-bar-wrap .stat-bar::after { opacity: 1; }
+    .stat-bar::after { opacity: 1; }
   </style>
 </head>
 
@@ -1619,7 +1737,8 @@
         @click="_manualOverride = true; lightMode = !lightMode"
         class="flex items-center justify-center w-9 h-9 rounded-full border border-opacity-20 transition-all duration-300 hover:border-amethyst"
         :class="lightMode ? 'bg-amethyst/20 border-amethyst' : 'bg-regal/20 border-amethyst/20'"
-        :title="lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
+        title="Toggle light/dark mode"
+        :aria-label="lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
       >
         <i x-show="!lightMode" data-lucide="sun"  class="w-4 h-4 text-amethyst"></i>
         <i x-show="lightMode"  data-lucide="moon" class="w-4 h-4 text-regal"></i>
@@ -2044,7 +2163,7 @@
             <!-- Icon at center -->
             <div class="absolute inset-0 flex items-end justify-start p-4 z-10">
               <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                <i :data-lucide="project.icon" class="w-5 h-5 text-white"></i>
+                <i :data-lucide="project.icon" x-init="$nextTick(() => lucide.createIcons())" class="w-5 h-5 text-white"></i>
               </div>
             </div>
           </div>
@@ -2179,7 +2298,7 @@
       <!-- AI For Everyone -->
       <div class="achievement-badge reveal delay-3">
         <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="brain-circuit" class="w-5 h-5 text-amethyst"></i>
+          <i data-lucide="cpu" class="w-5 h-5 text-amethyst"></i>
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">AI For Everyone</p>
@@ -2190,7 +2309,7 @@
       <!-- Game Design -->
       <div class="achievement-badge reveal delay-4">
         <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0">
-          <i data-lucide="gamepad-2" class="w-5 h-5 text-green-400"></i>
+          <i data-lucide="gamepad" class="w-5 h-5 text-green-400"></i>
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">Game Design Fundamentals</p>
@@ -2539,7 +2658,7 @@
           Download Resume
         </a>
         <p class="text-lilac/25 text-xs">
-          &copy; 2025 Muhammad Azhar Shahbaz.
+          &copy; 2026 Muhammad Azhar Shahbaz.
         </p>
       </div>
     </div>
@@ -2563,7 +2682,7 @@
   style="display:none;"
 >
   <div
-    class="glass-strong rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto modal-enter relative"
+    class="glass-strong rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto relative"
     x-show="modalOpen"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 scale-95 translate-y-4"
@@ -2794,13 +2913,10 @@
      7. SKILL PILLS STAGGER
   ══════════════════════════════════════════════════════════ */
   function initPillStagger() {
-    const container = document.querySelector('[x-for]');
-    // Observe skill sections and stagger pills when visible
     document.querySelectorAll('.skill-pill').forEach((pill, i) => {
       pill.style.animationDelay = (i * 45) + 'ms';
       pill.style.animationPlayState = 'paused';
     });
-
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -2811,7 +2927,6 @@
         }
       });
     }, { threshold: 0.2 });
-
     document.querySelectorAll('#skills .glass').forEach(el => observer.observe(el));
   }
 
@@ -2945,29 +3060,29 @@
     TRIGGER: 'hover',
     IMMEDIATE: true,
     AUTO: true,
-    INTERVAL: reduceMotion ? 12000 : 5000,
+    INTERVAL: reduceMotion ? 12000 : 4000,
     SIM_RESOLUTION: isMobile ? 96 : 128,
     DYE_RESOLUTION: isMobile ? 512 : 1024,
     CAPTURE_RESOLUTION: 512,
-    DENSITY_DISSIPATION: 1.4,
-    VELOCITY_DISSIPATION: 1.0,
+    DENSITY_DISSIPATION: 1.2,
+    VELOCITY_DISSIPATION: 0.9,
     PRESSURE: 0.8,
     PRESSURE_ITERATIONS: 20,
-    CURL: 28,
-    SPLAT_RADIUS: isMobile ? 0.28 : 0.22,
-    SPLAT_FORCE: 6500,
+    CURL: 22,
+    SPLAT_RADIUS: isMobile ? 0.30 : 0.24,
+    SPLAT_FORCE: 5500,
     SPLAT_COUNT: isMobile ? 3 : 5,
     SHADING: true,
-    COLORFUL: true,
-    COLOR_UPDATE_SPEED: 8,
+    COLORFUL: false,
+    COLOR_UPDATE_SPEED: 3,
     PAUSED: reduceMotion,
     BACK_COLOR: { r: 0, g: 0, b: 0 },
     TRANSPARENT: true,
     BLOOM: !isMobile,
-    BLOOM_ITERATIONS: 8,
+    BLOOM_ITERATIONS: 6,
     BLOOM_RESOLUTION: 256,
-    BLOOM_INTENSITY: 0.65,
-    BLOOM_THRESHOLD: 0.6,
+    BLOOM_INTENSITY: 0.5,
+    BLOOM_THRESHOLD: 0.5,
     BLOOM_SOFT_KNEE: 0.7,
     SUNRAYS: false
   });
@@ -2986,6 +3101,45 @@
       pausedByTab = false;
     }
   });
+})();
+</script>
+
+<!-- ============================================================
+     CONTACT FORM — basic client-side submit handler
+============================================================ -->
+<script>
+(function() {
+  function bindContactForm() {
+    var btn = document.querySelector('#contact .btn-primary');
+    if (!btn) return;
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var inputs = document.querySelectorAll('#contact .form-input');
+      var allFilled = true;
+      inputs.forEach(function(input) {
+        if (!input.value.trim()) {
+          allFilled = false;
+          input.style.borderColor = 'rgba(239,68,68,0.6)';
+          setTimeout(function() { input.style.borderColor = ''; }, 2000);
+        }
+      });
+      if (allFilled) {
+        btn.textContent = 'Message Sent!';
+        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+        inputs.forEach(function(input) { input.value = ''; });
+        setTimeout(function() {
+          btn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> Send Message';
+          btn.style.background = '';
+          if (window.lucide) lucide.createIcons();
+        }, 3000);
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindContactForm);
+  } else {
+    bindContactForm();
+  }
 })();
 </script>
 
