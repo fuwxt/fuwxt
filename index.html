@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Azhar. â€” AI & Animation Specialist | Full-Stack Designer</title>
+  <title>Azhar. — AI & Animation Specialist | Full-Stack Designer</title>
 
   <!-- ============================================================
        DEVTOOLS BLOCKER + SYSTEM THEME INIT (runs before paint)
   ============================================================ -->
   <script>
-    /* â”€â”€ 1. SYSTEM THEME DETECTION (instant, no flash) â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── 1. SYSTEM THEME DETECTION (instant, no flash) ──────── */
     (function() {
       var mq = window.matchMedia('(prefers-color-scheme: light)');
       // Store system preference; Alpine will pick it up
       window.__systemLight = mq.matches;
-      // Apply class immediately to <html> so no darkâ†’light flash
+      // Apply class immediately to <html> so no dark→light flash
       if (mq.matches) {
         document.documentElement.classList.add('light-mode');
         document.documentElement.classList.remove('dark-mode');
@@ -24,37 +24,22 @@
       }
     })();
 
-    /* â”€â”€ 2. DEVTOOLS BLOCKER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ── 2. SOFT-PROTECT (no perf killers) ──────────────────── */
     (function() {
-      // Block right-click context menu
+      // Block right-click context menu (lightweight)
       document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
-      // Block F12, Ctrl+Shift+I/J/C/U, Cmd+Opt+I/J/C, Ctrl+U
+      // Block obvious view-source / save shortcuts (still lightweight, no debugger trap)
       document.addEventListener('keydown', function(e) {
+        var k = (e.key || '').toUpperCase();
         var blocked =
-          e.key === 'F12' ||
-          (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(e.key.toUpperCase())) ||
-          (e.metaKey && e.altKey  && ['I','J','C'].includes(e.key.toUpperCase())) ||
-          (e.ctrlKey && e.key.toUpperCase() === 'U');
+          k === 'F12' ||
+          (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(k)) ||
+          (e.metaKey && e.altKey  && ['I','J','C'].includes(k)) ||
+          (e.ctrlKey && k === 'U') ||
+          ((e.ctrlKey || e.metaKey) && k === 'S');
         if (blocked) { e.preventDefault(); e.stopPropagation(); return false; }
       }, true);
-
-      // Devtools size-change detection
-      var threshold = 160;
-      function detectDevTools() {
-        var widthDiff  = window.outerWidth  - window.innerWidth  > threshold;
-        var heightDiff = window.outerHeight - window.innerHeight > threshold;
-        if (widthDiff || heightDiff) {
-          document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a0827;color:#C59DD9;font-family:\'DM Sans\',sans-serif;font-size:1.1rem;letter-spacing:0.05em;">ðŸ”’ Access Restricted</div>';
-        }
-      }
-      setInterval(detectDevTools, 1000);
-
-      // Debugger trap (slows down devtools console)
-      setInterval(function() { (function(){}).constructor('debugger')(); }, 50);
-
-      // Disable text selection (optional â€” comment out if you want it)
-      // document.addEventListener('selectstart', function(e) { e.preventDefault(); });
     })();
   </script>
 
@@ -66,11 +51,14 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- WebGL Fluid Simulation (ink-style background) -->
+  <script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.4"></script>
+
   <!-- Alpine.js v3 + Intersect Plugin (must load before Alpine) -->
   <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <!-- Alpine component functions â€” MUST be defined before Alpine boots -->
+  <!-- Alpine component functions — MUST be defined before Alpine boots -->
   <script>
     document.addEventListener('alpine:init', () => {
       // Register components globally so x-data can find them
@@ -105,7 +93,7 @@
             category: 'Branding',
             icon: 'hexagon',
             thumbClass: 'thumb-1',
-            shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup â€” from logo to full design language.',
+            shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup — from logo to full design language.',
             longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
             tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
             highlights: [
@@ -138,7 +126,7 @@
             icon: 'play-circle',
             thumbClass: 'thumb-3',
             shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
-            longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities â€” from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
+            longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
             tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
             highlights: [
               '90-second reel spanning 8 distinct animation styles',
@@ -169,8 +157,8 @@
             category: 'Graphic Design',
             icon: 'image',
             thumbClass: 'thumb-5',
-            shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand â€” Instagram, Stories, Reels covers & more.',
-            longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics â€” all built on a vibrant, energetic design system optimized for engagement.',
+            shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand — Instagram, Stories, Reels covers & more.',
+            longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics — all built on a vibrant, energetic design system optimized for engagement.',
             tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
             highlights: [
               '60 fully editable template files across 6 formats',
@@ -185,7 +173,7 @@
             category: 'Game Design',
             icon: 'gamepad-2',
             thumbClass: 'thumb-6',
-            shortDesc: 'A complete UI/UX design system for a sci-fi action game â€” HUD, menus, inventory, and character screens.',
+            shortDesc: 'A complete UI/UX design system for a sci-fi action game — HUD, menus, inventory, and character screens.',
             longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
             tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
             highlights: [
@@ -230,6 +218,10 @@
             this.initReveal();
             this.initTyping();
             lucide.createIcons();
+            // Safety net: re-run icon creation after Alpine has fully
+            // rendered all x-for templates (skill pills, projects, etc.)
+            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 250);
+            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
           });
         },
 
@@ -357,7 +349,7 @@
     ::-webkit-scrollbar-thumb { background: var(--c-regal); border-radius: 2px; }
 
     /* ============================================================
-       LIGHT MODE â€” Apple UI Style, same purple/lilac palette
+       LIGHT MODE — Apple UI Style, same purple/lilac palette
     ============================================================ */
 
     /* CSS vars for light mode */
@@ -383,7 +375,7 @@
     html.light-mode ::-webkit-scrollbar-track { background: #ede5f7; }
     html.light-mode ::-webkit-scrollbar-thumb { background: var(--c-regal); }
 
-    /* Background breathing orbs â€” lighter tint */
+    /* Background breathing orbs — lighter tint */
     html.light-mode .bg-breathe {
       background: #f5f0fb;
     }
@@ -462,7 +454,7 @@
     /* Section labels */
     html.light-mode .section-label { color: var(--c-regal); opacity: 0.75; }
 
-    /* Gradient text stays â€” just tweak start color for better contrast on white */
+    /* Gradient text stays — just tweak start color for better contrast on white */
     html.light-mode .gradient-text {
       background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 50%, var(--c-amethyst) 100%);
       -webkit-background-clip: text;
@@ -1294,14 +1286,27 @@
     }
 
     /* ============================================================
-       PARTICLE CANVAS BACKGROUND
+       INK FLUID WEBGL BACKGROUND CANVAS
+       (sits behind everything but above body bg)
     ============================================================ */
-    #particle-canvas {
+    #fluid-canvas {
       position: fixed;
       inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
-      pointer-events: none;
+      pointer-events: auto;     /* fluid responds to hover/touch */
+      mix-blend-mode: screen;   /* blends ink onto deep velvet bg */
+      opacity: 0.85;
+      touch-action: none;       /* prevent scroll while dragging fluid on mobile */
     }
+    html.light-mode #fluid-canvas {
+      mix-blend-mode: multiply; /* darker ink reads better on light bg */
+      opacity: 0.55;
+    }
+
+    /* Tiny CSS-only legacy particle canvas (kept hidden, replaced by fluid) */
+    #particle-canvas { display: none; }
 
     /* ============================================================
        COLOR BURST RIPPLE
@@ -1413,7 +1418,7 @@
     }
 
     /* ============================================================
-       COUNTER CARDS â€” UPGRADED
+       COUNTER CARDS — UPGRADED
     ============================================================ */
     .counter-card {
       position: relative;
@@ -1499,7 +1504,7 @@
     }
 
     /* ============================================================
-       SKILL PILL â€” STAGGER ENTRANCE
+       SKILL PILL — STAGGER ENTRANCE
     ============================================================ */
     .skill-pill {
       animation: pill-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -1522,7 +1527,7 @@
     }
 
     /* ============================================================
-       NAV LINK â€” LETTER SPACING HOVER
+       NAV LINK — LETTER SPACING HOVER
     ============================================================ */
     .nav-link {
       transition: color 0.3s ease, letter-spacing 0.3s ease;
@@ -1561,7 +1566,14 @@
 ============================================================ -->
 <body class="bg-breathe relative" x-data="portfolioApp()" @keydown.escape.window="modalOpen && closeModal()">
 
-<!-- Particle Canvas -->
+<!-- ============================================================
+     INK FLUID WEBGL BACKGROUND
+     A real fluid simulation by PavelDoGreat (via webgl-fluid CDN).
+     Sits behind all content. Responds to hover (desktop) and touch (mobile).
+============================================================ -->
+<canvas id="fluid-canvas"></canvas>
+
+<!-- Legacy 2D particle canvas (kept for compatibility, hidden via CSS) -->
 <canvas id="particle-canvas"></canvas>
 
 <!-- Custom Cursor (desktop only) -->
@@ -1763,10 +1775,10 @@
           <em class="gradient-text">art and technology.</em>
         </h3>
         <p class="text-lilac/60 leading-relaxed text-sm md:text-base mb-4">
-          I'm Muhammad Azhar Shahbaz â€” a creative technologist, AI specialist, and full-stack designer based in Islamabad, Pakistan. Pursuing a dual degree in Computer Science and Animation at COMSATS University, I sit at the rare intersection of engineering and artistry â€” building digital products that don't just look exceptional, they perform exceptionally.
+          I'm Muhammad Azhar Shahbaz — a creative technologist, AI specialist, and full-stack designer based in Islamabad, Pakistan. Pursuing a dual degree in Computer Science and Animation at COMSATS University, I sit at the rare intersection of engineering and artistry — building digital products that don't just look exceptional, they perform exceptionally.
         </p>
         <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
-          Over 3 years of freelancing for premium US-based clients, I've delivered 25+ high-value projects â€” brand identities, web applications, animated explainers, and AI-powered workflows â€” generating <span class="text-amethyst font-medium">$7K+</span> in revenue, with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
+          Over 3 years of freelancing for premium US-based clients, I've delivered 25+ high-value projects — brand identities, web applications, animated explainers, and AI-powered workflows — generating <span class="text-amethyst font-medium">$7K+</span> in revenue, with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
         </p>
 
         <!-- Quick stat bars -->
@@ -1926,12 +1938,12 @@
             </span>
           </div>
 
-          <p class="font-sans text-amethyst/70 text-sm font-medium mb-1">Self-Employed Â· Premium US-Based Clients</p>
+          <p class="font-sans text-amethyst/70 text-sm font-medium mb-1">Self-Employed · Premium US-Based Clients</p>
 
           <div class="flex flex-wrap items-center gap-4 text-xs text-lilac/40 mb-6">
             <span class="flex items-center gap-1.5">
               <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-              January 2022 â€” Present
+              January 2022 — Present
             </span>
             <span class="flex items-center gap-1.5">
               <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
@@ -1944,18 +1956,18 @@
           </div>
 
           <p class="text-lilac/60 text-sm leading-relaxed mb-6">
-            Generated <span class="text-amethyst font-medium">$7K+</span> in revenue through 25+ premium projects for US-based startups â€” spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
+            Generated <span class="text-amethyst font-medium">$7K+</span> in revenue through 25+ premium projects for US-based startups — spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
           </p>
 
           <!-- Highlights -->
           <div class="grid sm:grid-cols-2 gap-3">
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              $7K+ revenue Â· 25+ premium projects
+              $7K+ revenue · 25+ premium projects
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              Increased client ROI by 35â€“60%
+              Increased client ROI by 35–60%
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
@@ -1963,7 +1975,7 @@
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              98% client retention Â· zero late deliveries
+              98% client retention · zero late deliveries
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="check-circle-2" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
@@ -2086,12 +2098,12 @@
             </div>
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
               <i data-lucide="calendar" class="w-3 h-3"></i>
-              2025 â€” Present
+              2025 — Present
             </span>
           </div>
           <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
           <p class="text-lilac/55 text-sm leading-relaxed">
-            Rigorous study of algorithms, data structures, software engineering, machine learning, and artificial intelligence â€” laying the theoretical and practical foundation for cutting-edge digital solutions.
+            Rigorous study of algorithms, data structures, software engineering, machine learning, and artificial intelligence — laying the theoretical and practical foundation for cutting-edge digital solutions.
           </p>
         </div>
       </div>
@@ -2114,12 +2126,12 @@
             </div>
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
               <i data-lucide="calendar" class="w-3 h-3"></i>
-              2025 â€” Present
+              2025 — Present
             </span>
           </div>
           <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
           <p class="text-lilac/55 text-sm leading-relaxed">
-            Comprehensive training in 2D/3D animation pipelines, motion graphics, visual effects, interactive media design, and cinematic storytelling â€” bridging technical craft with creative artistry.
+            Comprehensive training in 2D/3D animation pipelines, motion graphics, visual effects, interactive media design, and cinematic storytelling — bridging technical craft with creative artistry.
           </p>
         </div>
       </div>
@@ -2149,7 +2161,7 @@
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">Top 3% Freelancer</p>
-          <p class="text-lilac/45 text-xs mt-0.5">5-star rating across 30+ projects Â· Upwork & Fiverr</p>
+          <p class="text-lilac/45 text-xs mt-0.5">5-star rating across 30+ projects · Upwork & Fiverr</p>
         </div>
       </div>
 
@@ -2160,7 +2172,7 @@
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">Google UX Design Certificate</p>
-          <p class="text-lilac/45 text-xs mt-0.5">Coursera Â· 2024</p>
+          <p class="text-lilac/45 text-xs mt-0.5">Coursera · 2024</p>
         </div>
       </div>
 
@@ -2171,7 +2183,7 @@
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">AI For Everyone</p>
-          <p class="text-lilac/45 text-xs mt-0.5">DeepLearning.AI Â· 2024</p>
+          <p class="text-lilac/45 text-xs mt-0.5">DeepLearning.AI · 2024</p>
         </div>
       </div>
 
@@ -2182,7 +2194,7 @@
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">Game Design Fundamentals</p>
-          <p class="text-lilac/45 text-xs mt-0.5">Michigan State University Â· 2024</p>
+          <p class="text-lilac/45 text-xs mt-0.5">Michigan State University · 2024</p>
         </div>
       </div>
 
@@ -2192,8 +2204,8 @@
           <i data-lucide="zap" class="w-5 h-5 text-orange-400"></i>
         </div>
         <div>
-          <p class="text-lilac text-sm font-medium">Hackathon Winner â€” 2nd Place</p>
-          <p class="text-lilac/45 text-xs mt-0.5">COMSATS Web Dev Competition Â· 2024</p>
+          <p class="text-lilac text-sm font-medium">Hackathon Winner — 2nd Place</p>
+          <p class="text-lilac/45 text-xs mt-0.5">COMSATS Web Dev Competition · 2024</p>
         </div>
       </div>
 
@@ -2204,7 +2216,7 @@
         </div>
         <div>
           <p class="text-lilac text-sm font-medium">Open Source Contributor</p>
-          <p class="text-lilac/45 text-xs mt-0.5">3 projects Â· 1K+ total downloads</p>
+          <p class="text-lilac/45 text-xs mt-0.5">3 projects · 1K+ total downloads</p>
         </div>
       </div>
 
@@ -2231,7 +2243,7 @@
       <div class="testimonial-card reveal delay-1">
         <div class="pt-10">
           <div class="flex gap-1 mb-4">
-            <span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span>
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
           </div>
           <p class="text-lilac/65 text-sm leading-relaxed mb-6">
             "Azhar delivered our brand identity beyond what we imagined. His creative vision and attention to detail transformed our startup's visual presence completely. Absolutely world-class work."
@@ -2250,10 +2262,10 @@
       <div class="testimonial-card reveal delay-2">
         <div class="pt-10">
           <div class="flex gap-1 mb-4">
-            <span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span>
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
           </div>
           <p class="text-lilac/65 text-sm leading-relaxed mb-6">
-            "The e-commerce website Azhar built for us is stunning â€” fast, responsive, and beautifully designed. Our conversion rate improved significantly within the first month of launch. Highly recommended."
+            "The e-commerce website Azhar built for us is stunning — fast, responsive, and beautifully designed. Our conversion rate improved significantly within the first month of launch. Highly recommended."
           </p>
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">K</div>
@@ -2269,7 +2281,7 @@
       <div class="testimonial-card reveal delay-3">
         <div class="pt-10">
           <div class="flex gap-1 mb-4">
-            <span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span><span class="star">â˜…</span>
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
           </div>
           <p class="text-lilac/65 text-sm leading-relaxed mb-6">
             "Working with Azhar on our motion reel was a remarkable experience. His animation quality rivals top studios. He has a rare instinct for storytelling through motion. A truly gifted creative professional."
@@ -2312,7 +2324,7 @@
         </div>
         <div>
           <h3 class="font-display text-xl font-semibold text-lilac mb-2">Fast Turnaround</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">AI-augmented workflows let me deliver in 25% less time than the industry average â€” without cutting corners on quality.</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">AI-augmented workflows let me deliver in 25% less time than the industry average — without cutting corners on quality.</p>
         </div>
       </div>
 
@@ -2323,7 +2335,7 @@
         </div>
         <div>
           <h3 class="font-display text-xl font-semibold text-lilac mb-2">5-Star, Every Time</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">30+ platform reviews. A 98% retention rate. Clients don't just come back â€” they refer me to their network.</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">30+ platform reviews. A 98% retention rate. Clients don't just come back — they refer me to their network.</p>
         </div>
       </div>
 
@@ -2334,7 +2346,7 @@
         </div>
         <div>
           <h3 class="font-display text-xl font-semibold text-lilac mb-2">Full-Stack Creative</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">Design, dev, animation, AI â€” all under one roof. No handoffs. No miscommunication. One person who owns the entire vision.</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">Design, dev, animation, AI — all under one roof. No handoffs. No miscommunication. One person who owns the entire vision.</p>
         </div>
       </div>
 
@@ -2356,7 +2368,7 @@
         </div>
         <div>
           <h3 class="font-display text-xl font-semibold text-lilac mb-2">Results-Driven</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">My designs have improved client ROI by 35â€“60% on average. Beautiful work that actually converts â€” that's the goal, every time.</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">My designs have improved client ROI by 35–60% on average. Beautiful work that actually converts — that's the goal, every time.</p>
         </div>
       </div>
 
@@ -2367,7 +2379,7 @@
         </div>
         <div>
           <h3 class="font-display text-xl font-semibold text-lilac mb-2">Satisfaction Guarantee</h3>
-          <p class="text-lilac/55 text-sm leading-relaxed">Unlimited revisions until you love it. I don't close a project until the client is genuinely happy â€” not just satisfied.</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">Unlimited revisions until you love it. I don't close a project until the client is genuinely happy — not just satisfied.</p>
         </div>
       </div>
 
@@ -2414,7 +2426,7 @@
             </div>
             <div>
               <p class="text-xs text-amethyst/50 tracking-wider uppercase">Email</p>
-              <a href="/cdn-cgi/l/email-protection#8beaf9e3eae6e1feffffbdbfb3bab8b8becbece6eae2e7a5e8e4e6" class="text-lilac text-sm hover:text-amethyst transition-colors"><span class="__cf_email__" data-cfemail="a4c5d6ccc5c9ced1d0d092909c95979791e4c3c9c5cdc88ac7cbc9">[email&#160;protected]</span></a>
+              <a href="mailto:arhamjutt6481335@gmail.com" class="text-lilac text-sm hover:text-amethyst transition-colors">arhamjutt6481335@gmail.com</a>
             </div>
           </div>
         </div>
@@ -2623,11 +2635,11 @@
   </div>
 </div>
 <!-- ============================================================
-     ANIMATION ENGINE â€” Particles, Bursts, Cursor, Text FX
+     ANIMATION ENGINE — Particles, Bursts, Cursor, Text FX
 ============================================================ -->
 <script>
 (function() {
-  /* â”€â”€ PALETTE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── PALETTE ─────────────────────────────────────────────── */
   const COLORS = {
     lilac:    'rgba(242,234,247,',
     amethyst: 'rgba(197,157,217,',
@@ -2639,129 +2651,39 @@
     [170,100,200], [220,180,240], [80,30,120]
   ];
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-     1. PARTICLE CANVAS BACKGROUND
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [], mouse = { x: -9999, y: -9999 };
-
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
+  /* ══════════════════════════════════════════════════════════
+     1. PARTICLE CANVAS BACKGROUND (DISABLED)
+     The 2D particle system has been replaced by the WebGL ink
+     fluid simulation (see #fluid-canvas + WebGLFluid init below).
+     We keep a no-op `Particle` class so click-burst code below
+     doesn't break.
+  ══════════════════════════════════════════════════════════ */
   class Particle {
-    constructor() { this.reset(true); }
-    reset(init) {
-      this.x  = Math.random() * W;
-      this.y  = init ? Math.random() * H : H + 10;
-      this.r  = Math.random() * 1.8 + 0.3;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = -(Math.random() * 0.4 + 0.15);
-      this.life = 0;
-      this.maxLife = Math.random() * 300 + 150;
-      const c = [COLORS.amethyst, COLORS.regal, COLORS.lilac];
-      this.color = c[Math.floor(Math.random() * c.length)];
-      this.twinkleSpeed = Math.random() * 0.04 + 0.01;
-      this.twinkleOffset = Math.random() * Math.PI * 2;
-    }
-    update() {
-      this.life++;
-      this.x += this.vx;
-      this.y += this.vy;
-      // Mouse repel
-      const dx = this.x - mouse.x, dy = this.y - mouse.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 100) {
-        const force = (100 - dist) / 100 * 0.5;
-        this.x += (dx / dist) * force;
-        this.y += (dy / dist) * force;
-      }
-      if (this.life > this.maxLife || this.y < -10) this.reset(false);
-    }
-    draw() {
-      const progress = this.life / this.maxLife;
-      const alpha = progress < 0.1 ? progress * 10 :
-                    progress > 0.8 ? (1 - progress) * 5 : 1;
-      const twinkle = 0.5 + 0.5 * Math.sin(this.life * this.twinkleSpeed + this.twinkleOffset);
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.fillStyle = this.color + (alpha * twinkle * 0.7) + ')';
-      ctx.fill();
-    }
+    constructor() {}
+    reset() {}
+    update() {}
+    draw() {}
   }
 
-  // Create particles
-  for (let i = 0; i < 120; i++) particles.push(new Particle());
-
-  // Connection lines between nearby particles
-  function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d  = Math.sqrt(dx*dx + dy*dy);
-        if (d < 90) {
-          const alpha = (1 - d/90) * 0.12;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = COLORS.regal + alpha + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-  }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, W, H);
-    drawConnections();
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animateParticles);
-  }
-  animateParticles();
-
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  window.addEventListener('touchmove', e => {
-    mouse.x = e.touches[0].clientX;
-    mouse.y = e.touches[0].clientY;
-  }, { passive: true });
-
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      2. COLOR BURST ON CLICK / TOUCH
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   function spawnBurst(x, y) {
-    const count = 6 + Math.floor(Math.random() * 4);
+    const count = 4 + Math.floor(Math.random() * 3);
     for (let i = 0; i < count; i++) {
       const [r,g,b] = BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)];
-      const size = 80 + Math.random() * 180;
+      const size = 70 + Math.random() * 140;
       const el = document.createElement('div');
       el.className = 'burst-ripple';
       el.style.cssText = `
         left:${x}px; top:${y}px;
         width:${size}px; height:${size}px;
-        background: radial-gradient(circle, rgba(${r},${g},${b},0.55) 0%, rgba(${r},${g},${b},0.15) 50%, transparent 70%);
+        background: radial-gradient(circle, rgba(${r},${g},${b},0.45) 0%, rgba(${r},${g},${b},0.12) 50%, transparent 70%);
         animation-delay: ${i * 60}ms;
         animation-duration: ${0.7 + Math.random() * 0.4}s;
       `;
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 1400);
-    }
-
-    // Also spawn extra particles at click point
-    for (let i = 0; i < 8; i++) {
-      const p = new Particle();
-      p.x = x; p.y = y;
-      p.vx = (Math.random() - 0.5) * 3;
-      p.vy = (Math.random() - 0.5) * 3 - 1;
-      p.r  = Math.random() * 3 + 1;
-      p.maxLife = 60 + Math.random() * 40;
-      particles.push(p);
-      if (particles.length > 160) particles.shift();
     }
   }
 
@@ -2770,9 +2692,9 @@
     Array.from(e.touches).forEach(t => spawnBurst(t.clientX, t.clientY));
   }, { passive: true });
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      3. CUSTOM MAGNETIC CURSOR (desktop only)
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   const glowEl  = document.getElementById('cursor-glow');
   const ringEl  = document.getElementById('cursor-ring');
   let cx = 0, cy = 0, rx = 0, ry = 0;
@@ -2815,9 +2737,9 @@
     });
   }
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      4. SPLIT TEXT REVEAL ANIMATION
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   function initSplitText() {
     // Target section h2 headings
     document.querySelectorAll('h2.gradient-text').forEach((el, idx) => {
@@ -2838,9 +2760,9 @@
     });
   }
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      5. HEADING UNDERLINE DRAW-IN
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   function initUnderlines() {
     document.querySelectorAll('.section-label').forEach(label => {
       const next = label.nextElementSibling;
@@ -2859,18 +2781,18 @@
     });
   }
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-     6. AURORA SHIMMER â€” add to all glass cards dynamically
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  /* ══════════════════════════════════════════════════════════
+     6. AURORA SHIMMER — add to all glass cards dynamically
+  ══════════════════════════════════════════════════════════ */
   function initAurora() {
     document.querySelectorAll('.glass, .testimonial-card').forEach(el => {
       el.classList.add('glass-aurora');
     });
   }
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      7. SKILL PILLS STAGGER
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   function initPillStagger() {
     const container = document.querySelector('[x-for]');
     // Observe skill sections and stagger pills when visible
@@ -2893,9 +2815,9 @@
     document.querySelectorAll('#skills .glass').forEach(el => observer.observe(el));
   }
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      8. HERO CSS PARTICLES (extra floating dots in hero)
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   function initHeroParticles() {
     const hero = document.getElementById('hero');
     if (!hero) return;
@@ -2920,9 +2842,9 @@
     }
   }
 
-  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  /* ══════════════════════════════════════════════════════════
      9. SMOOTH COUNTER NUMBER FORMATTING
-  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+  ══════════════════════════════════════════════════════════ */
   // Upgrade: make counters ease-out with easing
   // (already handled by counterAnim, but add visual flourish)
   function initCounterGlow() {
@@ -2940,7 +2862,7 @@
     });
   }
 
-  /* â”€â”€ INIT ALL on DOM ready â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── INIT ALL on DOM ready ───────────────────────────────── */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -2961,6 +2883,109 @@
     setTimeout(initPillStagger, 1200);
   }
 
+})();
+</script>
+
+<!-- ============================================================
+     INK FLUID WEBGL — Pavel Dobryakov's WebGL fluid sim, themed
+     to fit the portfolio's purple/amethyst palette. Works on
+     desktop (mouse) and mobile (touch). Performance-tuned.
+============================================================ -->
+<script>
+(function() {
+  if (typeof WebGLFluid !== 'function') {
+    console.warn('[fluid] WebGLFluid CDN failed to load — skipping ink background.');
+    return;
+  }
+  const canvas = document.getElementById('fluid-canvas');
+  if (!canvas) return;
+
+  // Respect users who ask for reduced motion.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── EVENT FORWARDING ────────────────────────────────────────
+     The fluid canvas has `pointer-events: none` so it never
+     blocks clicks on links/buttons. The library, however, only
+     listens on the canvas itself. We monkey-patch the canvas's
+     addEventListener to redirect pointer events to `document`,
+     wrapping each event so `e.offsetX/Y` matches the viewport.
+  ────────────────────────────────────────────────────────────── */
+  const FORWARDED = new Set(['mousedown', 'mousemove', 'touchstart', 'touchmove']);
+  const origAdd = canvas.addEventListener.bind(canvas);
+  canvas.addEventListener = function(type, listener, opts) {
+    if (!FORWARDED.has(type)) {
+      return origAdd(type, listener, opts);
+    }
+    const wrapped = function(e) {
+      // Build a minimal event-shape object the lib understands.
+      const fake = {
+        offsetX: e.clientX,
+        offsetY: e.clientY,
+        targetTouches: e.targetTouches || [],
+        changedTouches: e.changedTouches || [],
+        target: canvas,
+        currentTarget: canvas,
+        // No-op preventDefault so page scrolling on mobile still works.
+        preventDefault: function() {}
+      };
+      try { listener(fake); } catch (err) { console.warn('[fluid] listener err', err); }
+    };
+    // touchmove must be passive so iOS scrolling stays smooth.
+    const docOpts = (type === 'touchmove' || type === 'touchstart')
+      ? { passive: true } : opts;
+    document.addEventListener(type, wrapped, docOpts);
+  };
+
+  /* ── INITIALIZE FLUID SIM ──────────────────────────────────── */
+  // Detect if user is on a small/low-power device → lower resolution.
+  const isMobile = window.matchMedia('(max-width: 768px)').matches
+                || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  WebGLFluid(canvas, {
+    TRIGGER: 'hover',
+    IMMEDIATE: true,
+    AUTO: true,
+    INTERVAL: reduceMotion ? 12000 : 5000,
+    SIM_RESOLUTION: isMobile ? 96 : 128,
+    DYE_RESOLUTION: isMobile ? 512 : 1024,
+    CAPTURE_RESOLUTION: 512,
+    DENSITY_DISSIPATION: 1.4,
+    VELOCITY_DISSIPATION: 1.0,
+    PRESSURE: 0.8,
+    PRESSURE_ITERATIONS: 20,
+    CURL: 28,
+    SPLAT_RADIUS: isMobile ? 0.28 : 0.22,
+    SPLAT_FORCE: 6500,
+    SPLAT_COUNT: isMobile ? 3 : 5,
+    SHADING: true,
+    COLORFUL: true,
+    COLOR_UPDATE_SPEED: 8,
+    PAUSED: reduceMotion,
+    BACK_COLOR: { r: 0, g: 0, b: 0 },
+    TRANSPARENT: true,
+    BLOOM: !isMobile,
+    BLOOM_ITERATIONS: 8,
+    BLOOM_RESOLUTION: 256,
+    BLOOM_INTENSITY: 0.65,
+    BLOOM_THRESHOLD: 0.6,
+    BLOOM_SOFT_KNEE: 0.7,
+    SUNRAYS: false
+  });
+
+  /* ── PAUSE WHEN TAB IS HIDDEN ───────────────────────────────
+     Saves battery + CPU on background tabs. The lib watches the
+     spacebar; a synthetic 'P' keydown toggles its PAUSED state.
+  ────────────────────────────────────────────────────────────── */
+  let pausedByTab = false;
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden && !pausedByTab) {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+      pausedByTab = true;
+    } else if (!document.hidden && pausedByTab) {
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+      pausedByTab = false;
+    }
+  });
 })();
 </script>
 
