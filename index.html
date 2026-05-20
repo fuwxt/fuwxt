@@ -848,14 +848,15 @@
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.25;
-      animation: float 8s ease-in-out infinite alternate;
+      filter: blur(40px);
+      opacity: 0.22;
+      animation: float 12s ease-in-out infinite alternate;
       pointer-events: none;
+      will-change: transform;
     }
-    .orb-1 { width: 400px; height: 400px; background: var(--c-regal); top: -100px; right: -100px; animation-delay: 0s; }
-    .orb-2 { width: 250px; height: 250px; background: var(--c-amethyst); bottom: 10%; left: -80px; animation-delay: 3s; }
-    .orb-3 { width: 180px; height: 180px; background: var(--c-regal); top: 40%; left: 30%; animation-delay: 5s; opacity: 0.12; }
+    .orb-1 { width: 360px; height: 360px; background: var(--c-regal); top: -100px; right: -100px; animation-delay: 0s; }
+    .orb-2 { width: 240px; height: 240px; background: var(--c-amethyst); bottom: 10%; left: -80px; animation-delay: 3s; }
+    .orb-3 { width: 160px; height: 160px; background: var(--c-regal); top: 40%; left: 30%; animation-delay: 5s; opacity: 0.10; }
 
     @keyframes float {
       0%   { transform: translateY(0px) translateX(0px); }
@@ -1577,28 +1578,16 @@
     .heading-underline.in-view::after { width: 100%; }
 
     /* ============================================================
-       AURORA SHIMMER ON GLASS CARDS
+       AURORA SHIMMER ON GLASS CARDS — DISABLED
+       (Conic-gradient + 8s rotate on every glass card was the
+       single biggest GPU/paint cost. Kept selector for safety
+       but rendered as a no-op.)
     ============================================================ */
     .glass-aurora {
       position: relative;
       overflow: hidden;
     }
-    .glass-aurora::after {
-      content: '';
-      position: absolute;
-      inset: -100%;
-      background: conic-gradient(
-        from 0deg at 50% 50%,
-        transparent 0deg,
-        rgba(197,157,217,0.06) 60deg,
-        rgba(122,63,145,0.10) 120deg,
-        transparent 180deg,
-        rgba(197,157,217,0.06) 240deg,
-        transparent 360deg
-      );
-      animation: aurora-spin 8s linear infinite;
-      pointer-events: none;
-    }
+    .glass-aurora::after { content: none !important; }
     @keyframes aurora-spin {
       from { transform: rotate(0deg); }
       to   { transform: rotate(360deg); }
@@ -1676,6 +1665,152 @@
     .stat-bar[style*="width:9"],
     .stat-bar[style*="width:10"] { }
     .stat-bar::after { opacity: 1; }
+
+    /* ============================================================
+       PERFORMANCE OVERRIDES (loaded last → wins specificity)
+       Goals: lighter paint cost, smoother scroll, calmer GPU.
+    ============================================================ */
+
+    /* GPU compositing hints for animated/fixed layers */
+    #fluid-canvas {
+      will-change: transform;
+      transform: translateZ(0);
+    }
+    .bg-breathe::before { will-change: opacity, transform; }
+    .hero-particle { will-change: transform, opacity; }
+
+    /* Trim stacked backdrop-filter blur (single biggest paint
+       cost outside WebGL). Saturate is enough to keep the
+       "frosted glass" feel without 18-20px gaussian blurs. */
+    .glass {
+      backdrop-filter: blur(12px) saturate(135%);
+      -webkit-backdrop-filter: blur(12px) saturate(135%);
+    }
+    html.light-mode .glass {
+      backdrop-filter: blur(14px) saturate(140%) !important;
+      -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+    }
+    .glass-strong {
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+    }
+    .modal-backdrop {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .project-overlay {
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .btn-outline {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    /* Drop the data-text glitch ::before/::after duplicates if no
+       data-text attribute exists — saves two extra paint layers
+       on the largest piece of text on the page. */
+    .hero-brand:not([data-text])::before,
+    .hero-brand:not([data-text])::after { content: none; }
+
+    /* Respect reduced-motion users — kill the heaviest loops */
+    @media (prefers-reduced-motion: reduce) {
+      .orb, .bg-breathe::before, .hero-particle,
+      .hero-brand::before, .hero-brand::after { animation: none !important; }
+    }
+
+    /* ============================================================
+       LIGHT MODE — DESIGNER POLISH (final overrides)
+       Goals:
+         • No more "blank-white" feel — paper-lilac canvas
+         • Two-tone diagonal wash + subtle radial accents
+         • Ink fluid canvas visible enough to feel intentional
+         • Glass cards keep clean white for contrast
+    ============================================================ */
+    html.light-mode body {
+      /* Soft cream-lilac base with a quiet warm-cool diagonal */
+      background:
+        radial-gradient(ellipse 70% 55% at 100% 0%,  rgba(197,157,217,0.32) 0%, transparent 60%),
+        radial-gradient(ellipse 65% 50% at 0% 100%,  rgba(122, 63,145,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(255,250,253,0.45) 0%, transparent 70%),
+        linear-gradient(160deg, #ead9f1 0%, #ddc6ea 50%, #e8d6ee 100%) !important;
+      background-attachment: fixed !important;
+      color: #1d0a2e;
+    }
+
+    /* Re-tint the ::before breathing layer so it stays in
+       palette (was almost invisible against new warmer bg) */
+    html.light-mode .bg-breathe { background: transparent !important; }
+    html.light-mode .bg-breathe::before {
+      background:
+        radial-gradient(ellipse 70% 55% at 15% 12%, rgba(122,63,145,0.16) 0%, transparent 62%),
+        radial-gradient(ellipse 55% 45% at 85% 85%, rgba(197,157,217,0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 45% 35% at 50% 50%, rgba(232,214,238,0.55) 0%, transparent 70%);
+      opacity: 0.85;
+    }
+    /* Tone down the noise grain — too much grain on a light bg
+       reads as JPEG noise rather than paper texture. */
+    html.light-mode .bg-breathe::after { opacity: 0.18; }
+
+    /* Hero in light mode — saturated, not bleached */
+    html.light-mode .hero-bg {
+      background:
+        radial-gradient(ellipse 95% 75% at 50% 0%,   rgba(197,157,217,0.45) 0%, transparent 62%),
+        radial-gradient(ellipse 65% 55% at 80% 100%, rgba(122, 63,145,0.22) 0%, transparent 58%),
+        radial-gradient(ellipse 55% 45% at 15% 90%,  rgba(214,184,232,0.38) 0%, transparent 60%),
+        linear-gradient(180deg, #e0caec 0%, #d3b9e3 50%, #e3d0ee 100%) !important;
+    }
+
+    /* Make the ink fluid feel alive in light mode */
+    html.light-mode #fluid-canvas {
+      mix-blend-mode: multiply;
+      opacity: 0.55;        /* was 0.40 */
+    }
+
+    /* Floating orbs need a touch more presence on lighter bg
+       (with the new paper-lilac canvas they were invisible) */
+    html.light-mode .orb { opacity: 0.18; filter: blur(50px); }
+
+    /* Glass cards — keep clean white for crispness, but lift
+       the edge so they don't melt into the warmer canvas */
+    html.light-mode .glass {
+      background: rgba(255,255,255,0.78) !important;
+      border-color: rgba(122,63,145,0.22) !important;
+      box-shadow:
+        0 4px 24px rgba(122,63,145,0.10),
+        0 1px 0 rgba(255,255,255,0.95) inset;
+    }
+    html.light-mode .glass:hover {
+      background: rgba(255,255,255,0.92) !important;
+      box-shadow:
+        0 12px 44px rgba(122,63,145,0.18),
+        0 0 0 1px rgba(122,63,145,0.14);
+    }
+
+    /* Project / testimonial cards keep the same crisp lift */
+    html.light-mode .project-card,
+    html.light-mode .testimonial-card {
+      background: rgba(255,255,255,0.80) !important;
+      box-shadow: 0 4px 20px rgba(122,63,145,0.08);
+    }
+
+    /* Nav glass — slightly more colored when not scrolled */
+    html.light-mode .nav-glass {
+      background: rgba(234,217,241,0.72) !important;
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+    }
+    html.light-mode .nav-glass.scrolled {
+      background: rgba(234,217,241,0.92) !important;
+    }
+
+    /* Footer blends with new canvas instead of looking pasted-on */
+    html.light-mode footer {
+      background: rgba(220,198,234,0.55) !important;
+    }
+    html.light-mode .footer-gradient {
+      background: linear-gradient(0deg, #d3b9e3 0%, transparent 100%);
+    }
   </style>
 </head>
 
@@ -2901,13 +3036,11 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     6. AURORA SHIMMER — add to all glass cards dynamically
+     6. AURORA SHIMMER — DISABLED (was running on every glass
+     card, painting an animated conic-gradient layer per card.
+     This was the single biggest paint cost on the page.)
   ══════════════════════════════════════════════════════════ */
-  function initAurora() {
-    document.querySelectorAll('.glass, .testimonial-card').forEach(el => {
-      el.classList.add('glass-aurora');
-    });
-  }
+  function initAurora() { /* no-op — kept for call-site compatibility */ }
 
   /* ══════════════════════════════════════════════════════════
      7. SKILL PILLS STAGGER
@@ -2936,12 +3069,16 @@
   function initHeroParticles() {
     const hero = document.getElementById('hero');
     if (!hero) return;
+    // Skip on small screens / reduced motion — tiny visual win, big perf win.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const isSmall = window.matchMedia('(max-width: 768px)').matches;
+    const COUNT = isSmall ? 5 : 9;   // was 18 — halved
     const colors = ['#F2EAF7', '#C59DD9', '#7A3F91', '#a060c0', '#e0c0f0'];
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < COUNT; i++) {
       const dot = document.createElement('div');
       const size = Math.random() * 4 + 2;
       const color = colors[Math.floor(Math.random() * colors.length)];
-      const duration = Math.random() * 12 + 8;
+      const duration = Math.random() * 12 + 10;
       const delay    = Math.random() * 8;
       const x        = Math.random() * 100;
       dot.className  = 'hero-particle';
@@ -2949,7 +3086,7 @@
         left:${x}%;
         width:${size}px; height:${size}px;
         background:${color};
-        box-shadow: 0 0 ${size*3}px ${color};
+        box-shadow: 0 0 ${size*2.5}px ${color};
         animation-duration:${duration}s;
         animation-delay:${delay}s;
       `;
@@ -3056,51 +3193,91 @@
   const isMobile = window.matchMedia('(max-width: 768px)').matches
                 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  WebGLFluid(canvas, {
+  // Detect low-end devices via hardwareConcurrency (cores) + deviceMemory.
+  const cores  = navigator.hardwareConcurrency || 4;
+  const memory = navigator.deviceMemory || 4;
+  const isLowEnd = cores <= 4 || memory <= 4;
+
+  // ── BUILD CONFIG ────────────────────────────────────────────
+  // Tuned for *smooth* ink flow over raw fidelity:
+  //   • BLOOM disabled (single biggest GPU saver — 4-6 extra passes/frame)
+  //   • SHADING disabled (saves a fragment-shader branch)
+  //   • DYE_RESOLUTION halved (1024 → 512) — barely visible at canvas size
+  //   • Splats are slightly slower & wider → ink trails feel buttery
+  const fluidConfig = {
     TRIGGER: 'hover',
     IMMEDIATE: true,
     AUTO: true,
-    INTERVAL: reduceMotion ? 12000 : 4000,
-    SIM_RESOLUTION: isMobile ? 96 : 128,
-    DYE_RESOLUTION: isMobile ? 512 : 1024,
-    CAPTURE_RESOLUTION: 512,
-    DENSITY_DISSIPATION: 1.2,
-    VELOCITY_DISSIPATION: 0.9,
-    PRESSURE: 0.8,
-    PRESSURE_ITERATIONS: 20,
-    CURL: 22,
-    SPLAT_RADIUS: isMobile ? 0.30 : 0.24,
-    SPLAT_FORCE: 5500,
-    SPLAT_COUNT: isMobile ? 3 : 5,
-    SHADING: true,
+    INTERVAL: reduceMotion ? 14000 : (isMobile || isLowEnd ? 9000 : 6500),
+    SIM_RESOLUTION:  isMobile || isLowEnd ? 64  : 96,
+    DYE_RESOLUTION:  isMobile || isLowEnd ? 256 : 512,
+    CAPTURE_RESOLUTION: 256,
+    DENSITY_DISSIPATION: 1.6,   // ink fades a touch faster → less overdraw
+    VELOCITY_DISSIPATION: 1.2,
+    PRESSURE: 0.78,
+    PRESSURE_ITERATIONS: 14,    // was 20
+    CURL: 18,
+    SPLAT_RADIUS: isMobile ? 0.28 : 0.22,
+    SPLAT_FORCE: 4200,          // softer push → calmer flow
+    SPLAT_COUNT: isMobile || isLowEnd ? 2 : 3,
+    SHADING: false,             // OFF
     COLORFUL: false,
-    COLOR_UPDATE_SPEED: 3,
+    COLOR_UPDATE_SPEED: 2,
     PAUSED: reduceMotion,
     BACK_COLOR: { r: 0, g: 0, b: 0 },
     TRANSPARENT: true,
-    BLOOM: !isMobile,
-    BLOOM_ITERATIONS: 6,
+    BLOOM: false,               // OFF — massive perf win
+    BLOOM_ITERATIONS: 4,
     BLOOM_RESOLUTION: 256,
-    BLOOM_INTENSITY: 0.5,
-    BLOOM_THRESHOLD: 0.5,
+    BLOOM_INTENSITY: 0.4,
+    BLOOM_THRESHOLD: 0.6,
     BLOOM_SOFT_KNEE: 0.7,
     SUNRAYS: false
+  };
+
+  // ── LAZY-INIT (don't block first paint / Alpine boot) ───────
+  let fluidStarted = false;
+  function startFluid() {
+    if (fluidStarted) return;
+    fluidStarted = true;
+    try { WebGLFluid(canvas, fluidConfig); }
+    catch (err) { console.warn('[fluid] init failed', err); }
+  }
+  // Use requestIdleCallback if available, fallback to load+timeout.
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(startFluid, { timeout: 1500 });
+  } else if (document.readyState === 'complete') {
+    setTimeout(startFluid, 600);
+  } else {
+    window.addEventListener('load', () => setTimeout(startFluid, 600), { once: true });
+  }
+
+  /* ── PAUSE WHEN TAB IS HIDDEN OR HERO IS OFFSCREEN ──────────
+     The lib watches spacebar; a synthetic 'P' keydown toggles
+     its PAUSED state. We toggle it on tab hidden + scroll-away.
+  ────────────────────────────────────────────────────────────── */
+  let isPaused = false;
+  function setPaused(shouldPause) {
+    if (shouldPause === isPaused) return;
+    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
+    isPaused = shouldPause;
+  }
+  document.addEventListener('visibilitychange', function() {
+    setPaused(document.hidden);
   });
 
-  /* ── PAUSE WHEN TAB IS HIDDEN ───────────────────────────────
-     Saves battery + CPU on background tabs. The lib watches the
-     spacebar; a synthetic 'P' keydown toggles its PAUSED state.
-  ────────────────────────────────────────────────────────────── */
-  let pausedByTab = false;
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden && !pausedByTab) {
-      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
-      pausedByTab = true;
-    } else if (!document.hidden && pausedByTab) {
-      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyP' }));
-      pausedByTab = false;
-    }
-  });
+  // Pause once user has scrolled well past the hero — saves
+  // tons of GPU on long scrolls through the rest of the page.
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function() {
+      const past = window.scrollY > window.innerHeight * 1.2;
+      setPaused(past);
+      ticking = false;
+    });
+  }, { passive: true });
 })();
 </script>
 
