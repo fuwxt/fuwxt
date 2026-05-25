@@ -109,7 +109,12 @@
 
   /* ── PAUSE WHEN TAB IS HIDDEN OR HERO IS OFFSCREEN ──────────
      The lib watches spacebar; a synthetic 'P' keydown toggles
-     its PAUSED state. We toggle it on tab hidden + scroll-away.
+     its PAUSED state. We toggle it on tab hidden, and combine
+     a *graceful* opacity fade with a delayed pause when the
+     hero is well past the viewport so users who scroll past
+     the hero don't see the ink "snap" off — they see it
+     dissolve naturally as they leave the hero, then the
+     simulation pauses (saving GPU) once it's invisible.
   ────────────────────────────────────────────────────────────── */
   let isPaused = false;
   function setPaused(shouldPause) {
@@ -121,16 +126,61 @@
     setPaused(document.hidden);
   });
 
-  // Pause once user has scrolled well past the hero — saves
-  // tons of GPU on long scrolls through the rest of the page.
-  let ticking = false;
+  // ── GRACEFUL SCROLL-OUT FADE ────────────────────────────────
+  // Map vertical scroll distance to a 0..1 fade multiplier:
+  //   • 0          → 0.6 vh   : full ink (hero fully visible)
+  //   • 0.6 vh     → 1.4 vh   : linear fade 1 → 0
+  //   • > 1.4 vh              : invisible, sim paused
+  // The multiplier is written to a CSS custom property
+  // `--fluid-fade` on the canvas; CSS multiplies it into the
+  // base opacity (0.75 dark / 0.55 light) so light/dark logic
+  // is preserved. requestAnimationFrame coalesces scroll bursts
+  // so we never write the property more than once per frame.
+  const FADE_START = 0.6;   // viewport-heights
+  const FADE_END   = 1.4;   // viewport-heights
+  let fadeTicking = false;
+  let lastFade    = 1;
+  let pauseTimer  = null;
+
+  function applyFade() {
+    const vh    = window.innerHeight || 1;
+    const ratio = window.scrollY / vh;
+    let fade;
+    if (ratio <= FADE_START)      fade = 1;
+    else if (ratio >= FADE_END)   fade = 0;
+    else                          fade = 1 - (ratio - FADE_START) / (FADE_END - FADE_START);
+
+    // Only push to the DOM when the value actually changes (rounded
+    // to 2 decimals so micro-scrolls don't churn style recalcs).
+    const rounded = Math.round(fade * 100) / 100;
+    if (rounded !== lastFade) {
+      canvas.style.setProperty('--fluid-fade', String(rounded));
+      lastFade = rounded;
+    }
+
+    // Pause the simulation only after the fade has fully completed,
+    // and resume the moment the user scrolls back into the hero.
+    if (rounded === 0) {
+      // Defer the pause slightly so the CSS transition (0.35s) gets
+      // to actually render the dissolve before the GPU work stops.
+      if (!pauseTimer) {
+        pauseTimer = setTimeout(() => { setPaused(true); pauseTimer = null; }, 400);
+      }
+    } else {
+      if (pauseTimer) { clearTimeout(pauseTimer); pauseTimer = null; }
+      if (isPaused) setPaused(false);
+    }
+  }
+
   window.addEventListener('scroll', function() {
-    if (ticking) return;
-    ticking = true;
+    if (fadeTicking) return;
+    fadeTicking = true;
     requestAnimationFrame(function() {
-      const past = window.scrollY > window.innerHeight * 1.2;
-      setPaused(past);
-      ticking = false;
+      applyFade();
+      fadeTicking = false;
     });
   }, { passive: true });
+  // Apply once on load so the initial state matches scroll position
+  // (e.g. when the user refreshes mid-page).
+  applyFade();
 })();

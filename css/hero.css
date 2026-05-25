@@ -5,12 +5,25 @@ html.light-mode .hero-bg {
     radial-gradient(ellipse 60% 50% at 80% 100%, rgba(122,63,145,0.12) 0%, transparent 55%),
     linear-gradient(180deg, #ede5f7 0%, #e8daf5 50%, #f5f0fb 100%);
 }
+/* Hero "Azhar." wordmark in light mode — now blended with a touch of
+   coral at the tail of the gradient + a coral drop-shadow so the
+   signature reads as a luxury wordmark rather than a flat lavender
+   block. Earlier the whole gradient lived in the purple family which
+   made it visually disappear into the surrounding pastel canvas. */
 html.light-mode .hero-brand {
-  background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 40%, var(--c-amethyst) 100%);
+  background: linear-gradient(
+    115deg,
+    #2a0848 0%,
+    var(--c-regal) 35%,
+    var(--c-amethyst) 70%,
+    var(--c-coral) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 16px rgba(122,63,145,0.18));
+  filter:
+    drop-shadow(0 2px 16px rgba(122,63,145,0.22))
+    drop-shadow(0 0 30px rgba(245,168,147,0.12));
 }
 html.light-mode .orb {
   opacity: 0.12;
@@ -137,5 +150,16 @@ html.light-mode .hero-bg {
 }
 
 /* Floating orbs need a touch more presence on lighter bg
-   (with the new paper-lilac canvas they were invisible) */
+   (with the new paper-lilac canvas they were invisible).
+   `orb-2` (the smaller mid-left orb) gets a coral tint so the
+   hero now has both warm + cool focal points instead of pure
+   purple-on-purple — single biggest light-mode aesthetic win. */
 html.light-mode .orb { opacity: 0.18; filter: blur(50px); }
+html.light-mode .orb-2 {
+  background: var(--c-coral);
+  opacity: 0.22;
+}
+html.light-mode .orb-3 {
+  background: var(--c-coral2);
+  opacity: 0.14;
+}

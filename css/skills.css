@@ -1,24 +1,34 @@
-/* Skill pills */
+/* Skill pills — light mode.
+   Earlier values (rgba(122,63,145,0.08)) read as nearly invisible
+   blobs on the paper-lilac canvas. Bumped fill + border opacity
+   so each pill reads as a defined chip even at rest, and added
+   a coral hover so highlights feel deliberate.
+   (NOTE: the previous identical duplicate block right below this
+    one was removed — it was a stale leftover from an older
+    refactor and just made the cascade harder to reason about.) */
 html.light-mode .skill-pill {
-  background: rgba(122,63,145,0.08);
-  border-color: rgba(122,63,145,0.20);
+  background: rgba(122,63,145,0.14);
+  border-color: rgba(122,63,145,0.32);
   color: #1d0a2e;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
 }
 html.light-mode .skill-pill:hover {
-  background: rgba(122,63,145,0.18);
-  border-color: rgba(122,63,145,0.40);
+  background: linear-gradient(
+    135deg,
+    rgba(122,63,145,0.22) 0%,
+    rgba(245,168,147,0.22) 100%
+  );
+  border-color: var(--c-coral);
   color: var(--c-velvet);
+  box-shadow: 0 4px 14px rgba(245,168,147,0.25), 0 1px 0 rgba(255,255,255,0.8) inset;
 }
-
-/* Skill pills in light mode */
-html.light-mode .skill-pill {
-  background: rgba(122, 63, 145, 0.08);
-  border-color: rgba(122, 63, 145, 0.20);
-  color: #1d0a2e;
+html.light-mode .skill-pill .skill-dot {
+  /* Brighten the leading dot so each pill has a clear "marker" */
+  box-shadow: 0 0 6px rgba(122,63,145,0.45);
 }
-html.light-mode .skill-pill:hover {
-  background: rgba(122, 63, 145, 0.18);
-  color: #1d0a2e;
+html.light-mode .skill-pill:hover .skill-dot {
+  background: var(--c-coral) !important;
+  box-shadow: 0 0 8px rgba(245,168,147,0.7);
 }
 
 /* ============================================================
@@ -42,11 +52,17 @@ html.light-mode .skill-pill:hover {
   transform: translateY(-2px);
   color: #fff;
 }
+/* Dark mode hover gets the same coral kiss for consistency */
+.skill-pill:hover .skill-dot {
+  background: var(--c-coral);
+  box-shadow: 0 0 8px rgba(245,168,147,0.7);
+}
 .skill-dot {
   width: 5px; height: 5px;
   border-radius: 50%;
   background: var(--c-amethyst);
   flex-shrink: 0;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 @media (max-width: 360px) {
