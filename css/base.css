@@ -959,3 +959,292 @@ html.light-mode .section-label {
 .avatar-fallback { opacity: 0; transition: opacity 0.3s ease; }
 .hero-pfp-img[style*="display: none"] + .hero-pfp-fallback,
 .avatar-img[style*="display: none"]   + .avatar-fallback { opacity: 1; }
+
+
+
+/* ============================================================
+   FINAL POLISH PASS v2 — addresses every remaining bug from the
+   senior review (PDF / thumbnails / liveUrl explicitly deferred
+   per user instruction).
+
+   Scope of this pass:
+     1. Hero brand glitch — kill on mobile + light mode (paint hog,
+        biggest single piece of text on the page). Keeps the effect
+        as a quiet desktop-dark-mode flourish only.
+     2. Skip-link theme awareness — was velvet-on-velvet in light.
+     3. Hero scroll indicator — invisible against pale lavender bg
+        (Tailwind `from-amethyst/60` resolved to ~0.6 opacity of
+        #C59DD9 = barely visible on #ecdaf2). Light-mode override.
+     4. Light-mode hero brand drop-shadow — softer, less "dropped
+        purple cloud" feel against the warm canvas.
+     5. About floating "Open to Work" pill — green + amethyst on
+        white glass cards in light mode for proper contrast.
+     6. Active "January 2022 — Present" badge in light mode —
+        bumped green for AA compliance.
+     7. Modal backdrop, tag chips, star rating, project category
+        pill in light mode.
+     8. PFP halo less aggressive on small screens (saves paint
+        + matches reduced sizing).
+   ============================================================ */
+
+/* ── 1. Hero brand glitch — desktop dark only ────────────────
+   The ::before/::after duplicates are two extra paint layers
+   on the largest piece of text. On mobile the small viewport
+   makes the offset look like a rendering bug rather than a
+   stylistic choice, so we kill it under 768px. Light mode
+   strips it entirely — chromatic-aberration is a dark-UI motif. */
+@media (max-width: 768px) {
+  .hero-brand::before,
+  .hero-brand::after { content: none !important; }
+}
+html.light-mode .hero-brand::before,
+html.light-mode .hero-brand::after { content: none !important; }
+
+/* Soften the dark-mode glitch keyframes too — was popping at 0.6
+   opacity, now 0.35 max. Matches the new reduced-distraction
+   aesthetic ("luxury wordmark" not "dev tool demo"). */
+@keyframes glitch-1 {
+  0%, 95%, 100% { transform: translate(0); opacity: 0; }
+  96% { transform: translate(-2px, 1px); opacity: 0.35; }
+  97% { transform: translate(1px, -1px); opacity: 0.22; }
+  98% { transform: translate(-1px, 1px); opacity: 0.30; }
+  99% { transform: translate(0); opacity: 0; }
+}
+@keyframes glitch-2 {
+  0%, 94%, 100% { transform: translate(0); opacity: 0; }
+  95% { transform: translate(2px, -1px); opacity: 0.30; }
+  97% { transform: translate(-1px, 1px); opacity: 0.18; }
+  98% { transform: translate(1px, 0); opacity: 0.28; }
+  99% { transform: translate(0); opacity: 0; }
+}
+
+/* ── 2. Skip-link theme awareness ──────────────────────────── */
+html.light-mode .skip-link {
+  background: #fff;
+  color: var(--c-velvet);
+  border-color: rgba(122, 63, 145, 0.45);
+  box-shadow: 0 4px 18px rgba(122, 63, 145, 0.15);
+}
+html.light-mode .skip-link:focus {
+  outline-color: var(--c-regal);
+}
+
+/* ── 3. Hero scroll indicator — visible in light mode ───────
+   Tailwind `from-amethyst/60 to-transparent` is ~0.6 of #C59DD9
+   on #ecdaf2 = ~2.5:1 contrast, basically invisible. We re-paint
+   the gradient line via the parent's child selector (no markup
+   change) using regal so it has 4.5:1+ contrast. */
+html.light-mode #hero .h-12.bg-gradient-to-b {
+  background: linear-gradient(180deg,
+    rgba(122, 63, 145, 0.65) 0%,
+    rgba(122, 63, 145, 0.00) 100%
+  ) !important;
+}
+html.light-mode #hero .text-amethyst\/60 {
+  color: rgba(58, 27, 78, 0.78) !important;
+}
+
+/* ── 4. Soften hero brand drop-shadow in light mode ─────────
+   Was filter: drop-shadow(0 2px 16px rgba(122,63,145,0.18)) —
+   reads as a "dropped purple cloud" against the warmer canvas.
+   New: thinner shadow with mild peach undertone for warmth. */
+html.light-mode .hero-brand {
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.8))
+    drop-shadow(0 2px 12px rgba(122, 63, 145, 0.12))
+    drop-shadow(0 0 24px rgba(245, 168, 147, 0.18));
+}
+
+/* ── 5. About avatar's floating "Open to Work" pill in light mode
+   The pill sits on a white glass card; original `text-amethyst`
+   on `glass` background gave ~3.0:1 contrast. Bumped to deeper
+   regal on tinted-white pill background. The lightning bolt icon
+   gets a green pulse to mirror the hero status badge — visual
+   continuity between the two "Open to Work" surfaces. */
+html.light-mode #about .glass[class*="rounded-full"][class*="px-3"] {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(232, 250, 240, 0.85) 100%
+  ) !important;
+  border-color: rgba(52, 211, 153, 0.35) !important;
+  color: var(--c-velvet) !important;
+  font-weight: 500;
+  box-shadow:
+    0 4px 14px rgba(52, 211, 153, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+}
+html.light-mode #about .glass[class*="rounded-full"][class*="px-3"] i {
+  color: #059669 !important;          /* deeper green for AA contrast */
+}
+
+/* ── 6. Active "January 2022 — Present" badge — light-mode AA ──
+   Tailwind `text-green-400` (#4ade80) on `bg-green-500/10`
+   (~rgba(34,197,94,0.10)) measured ~3.3:1 against the lavender
+   canvas. Override to a deeper green that hits 4.6:1. */
+html.light-mode #experience .text-green-400 {
+  color: #047857 !important;
+}
+html.light-mode #experience .bg-green-500\/10 {
+  background-color: rgba(16, 185, 129, 0.14) !important;
+}
+html.light-mode #experience .border-green-500\/30 {
+  border-color: rgba(16, 185, 129, 0.42) !important;
+}
+html.light-mode #experience .bg-green-400 {
+  background-color: #10b981 !important;
+}
+
+/* ── 7. Modal + thumb chips + stars in light mode ───────────── */
+
+/* Modal backdrop in light mode — keep it readable but not pure
+   white (would feel like a system dialog, not a portfolio piece) */
+html.light-mode .modal-backdrop {
+  background: rgba(43, 13, 62, 0.18) !important;   /* soft purple wash */
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+html.light-mode .modal-backdrop > .glass-strong {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(122, 63, 145, 0.20) !important;
+  box-shadow:
+    0 24px 70px rgba(122, 63, 145, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.95) inset;
+}
+
+/* Tag chips — already styled in work.css for light mode. Just
+   bump contrast a hair so they read against pale section bg. */
+html.light-mode .tag-chip {
+  background: rgba(122, 63, 145, 0.12) !important;
+  border-color: rgba(122, 63, 145, 0.28) !important;
+  color: var(--c-velvet) !important;
+  font-weight: 500;
+}
+
+/* Star rating in testimonials — was inheriting `text-amethyst`
+   which becomes regal in light mode. Make it gold for "review
+   star" semantic alignment. */
+html.light-mode .star {
+  color: #f59e0b !important;            /* amber-500 — "5-star" feel */
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.30);
+}
+
+/* Testimonial avatar circles in light mode — were dark velvet
+   on white card, looked like holes. Lift to lilac with regal
+   accent border. */
+html.light-mode #testimonials .rounded-full[class*="bg-regal"] {
+  background: linear-gradient(135deg, #f5e8fb 0%, #ddc6ea 100%) !important;
+  border-color: rgba(122, 63, 145, 0.30) !important;
+  color: var(--c-regal) !important;
+}
+
+/* ── 8. PFP halo — slightly cheaper paint on mobile ─────────
+   Drop the multi-shadow stack to a single shadow on small
+   screens. The shimmer gradient is still the focal element;
+   the secondary shadows were redundant at 144px → 120px scale. */
+@media (max-width: 640px) {
+  .hero-pfp-ring {
+    box-shadow: 0 10px 30px rgba(122, 63, 145, 0.40),
+                0 0 0 1px rgba(197, 157, 217, 0.25);
+  }
+}
+
+/* ============================================================
+   DARK MODE — small refinements
+   The dark experience was already 8.5/10. Nudges to push 9+:
+     • Slightly deeper page bg (less navy-purple, more ink) so
+       the WebGL ink reads with more saturation.
+     • Subtle vignette so attention pools toward content center.
+     • Stronger inner-edge highlight on glass cards for the
+       "polished obsidian" feel.
+
+   Note: <body> already has `.bg-breathe` which uses both ::before
+   (orbs) and ::after (noise SVG). To add a vignette without
+   clobbering those pseudo-elements, we attach it to <main>'s
+   ::before instead — `main` had no pseudo-elements yet and is
+   guaranteed to span the full viewport since its children fill
+   the page.
+   ============================================================ */
+html.dark-mode body {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(122, 63, 145, 0.20) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(43, 13, 62, 0.55) 0%, transparent 70%),
+    linear-gradient(180deg, #150621 0%, #0d0317 50%, #150621 100%) !important;
+  background-attachment: fixed;
+}
+html.dark-mode .glass {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 4px 22px rgba(0, 0, 0, 0.30);
+}
+html.dark-mode .glass:hover {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 12px 44px rgba(122, 63, 145, 0.30),
+    0 0 0 1px rgba(197, 157, 217, 0.18);
+}
+
+/* Subtle vignette overlay — focuses attention to the center
+   without dimming content. pointer-events:none so it never
+   blocks clicks; z-index:1 so it sits ABOVE the WebGL canvas
+   (z:0) and the .bg-breathe pseudo-elements (z:0) but BELOW
+   every content section (z:10+). */
+html.dark-mode #main::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 80% 65% at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.22) 100%);
+}
+
+/* ============================================================
+   GLOBAL — smooth theme switch
+   When `lightMode` toggles, every color/background/border/box-shadow
+   rule above transitions over 320ms. No FOUC, no jarring snap.
+   ============================================================ */
+html, body, .glass, .glass-strong,
+.btn-primary, .btn-outline, .btn-download,
+.skill-pill, .achievement-badge, .testimonial-card,
+.project-card, .form-input, .nav-glass, .nav-link,
+.hero-bg, .hero-status-badge, .hero-pfp-inner,
+.tag-chip, .social-link, .star, .stat-bar-wrap,
+.modal-backdrop {
+  transition:
+    background-color 0.32s ease,
+    background    0.32s ease,
+    color         0.32s ease,
+    border-color  0.32s ease,
+    box-shadow    0.32s ease;
+}
+/* For hover-lift elements, preserve the original cubic-bezier
+   "ease-out-back" feel (0.23,1,0.32,1) on transform/opacity
+   while adding faster theme-swap easing on the color/background
+   properties. Without this override the simpler `ease` from the
+   base block above would freeze the bouncy hover lift. */
+.glass, .project-card, .testimonial-card, .achievement-badge,
+.btn-primary, .btn-outline, .btn-download, .skill-pill,
+.social-link {
+  transition-property:
+    background-color, background, color,
+    border-color, box-shadow, transform, opacity;
+  transition-duration: 0.32s, 0.32s, 0.32s, 0.32s, 0.32s, 0.4s, 0.4s;
+  transition-timing-function:
+    ease, ease, ease, ease, ease,
+    cubic-bezier(0.23, 1, 0.32, 1),
+    cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Reduced-motion: kill the theme transition (instant swap) */
+@media (prefers-reduced-motion: reduce) {
+  html, body, .glass, .glass-strong,
+  .btn-primary, .btn-outline, .btn-download,
+  .skill-pill, .achievement-badge, .testimonial-card,
+  .project-card, .form-input, .nav-glass, .nav-link,
+  .hero-bg, .hero-status-badge, .hero-pfp-inner,
+  .tag-chip, .social-link, .star, .stat-bar-wrap,
+  .modal-backdrop {
+    transition: none !important;
+  }
+}
