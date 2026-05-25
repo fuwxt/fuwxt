@@ -1,0 +1,81 @@
+/* Form inputs */
+html.light-mode .form-input {
+  background: rgba(255,255,255,0.75);
+  border-color: rgba(122,63,145,0.20);
+  color: #1d0a2e;
+}
+html.light-mode .form-input::placeholder { color: rgba(43,13,62,0.30); }
+html.light-mode .form-input:focus {
+  border-color: rgba(122,63,145,0.50);
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 0 20px rgba(122,63,145,0.10);
+}
+
+/* Social links */
+html.light-mode .social-link {
+  background: rgba(122,63,145,0.08);
+  border-color: rgba(122,63,145,0.20);
+  color: var(--c-regal);
+}
+html.light-mode .social-link:hover {
+  background: rgba(122,63,145,0.18);
+  border-color: var(--c-regal);
+  color: var(--c-velvet);
+}
+
+/* Form inputs in light mode */
+html.light-mode .form-input {
+  background: rgba(255, 255, 255, 0.80) !important;
+  border-color: rgba(122, 63, 145, 0.25) !important;
+  color: #1d0a2e !important;
+}
+html.light-mode .form-input::placeholder {
+  color: rgba(43, 13, 62, 0.40) !important;
+}
+html.light-mode .form-input:focus {
+  border-color: rgba(122, 63, 145, 0.55) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* ============================================================
+   FORM INPUTS
+============================================================ */
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(43,13,62,0.5);
+  border: 1px solid rgba(197,157,217,0.18);
+  border-radius: 10px;
+  color: var(--c-lilac);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+.form-input::placeholder { color: rgba(242,234,247,0.30); }
+.form-input:focus {
+  border-color: rgba(197,157,217,0.5);
+  box-shadow: 0 0 20px rgba(122,63,145,0.20);
+  background: rgba(43,13,62,0.7);
+}
+
+/* ============================================================
+   SOCIAL ICON LINKS
+============================================================ */
+.social-link {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  background: rgba(122,63,145,0.15);
+  border: 1px solid rgba(197,157,217,0.20);
+  border-radius: 12px;
+  color: var(--c-amethyst);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.social-link:hover {
+  background: rgba(122,63,145,0.35);
+  border-color: var(--c-amethyst);
+  color: var(--c-lilac);
+  box-shadow: 0 0 20px rgba(122,63,145,0.35);
+  transform: translateY(-3px);
+}

@@ -1,0 +1,61 @@
+/* Skill pills */
+html.light-mode .skill-pill {
+  background: rgba(122,63,145,0.08);
+  border-color: rgba(122,63,145,0.20);
+  color: #1d0a2e;
+}
+html.light-mode .skill-pill:hover {
+  background: rgba(122,63,145,0.18);
+  border-color: rgba(122,63,145,0.40);
+  color: var(--c-velvet);
+}
+
+/* Skill pills in light mode */
+html.light-mode .skill-pill {
+  background: rgba(122, 63, 145, 0.08);
+  border-color: rgba(122, 63, 145, 0.20);
+  color: #1d0a2e;
+}
+html.light-mode .skill-pill:hover {
+  background: rgba(122, 63, 145, 0.18);
+  color: #1d0a2e;
+}
+
+/* ============================================================
+   SKILL PILL
+============================================================ */
+.skill-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(122,63,145,0.12);
+  border: 1px solid rgba(197,157,217,0.16);
+  border-radius: 50px;
+  font-size: 0.78rem;
+  color: var(--c-lilac);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.skill-pill:hover {
+  background: rgba(122,63,145,0.28);
+  border-color: rgba(197,157,217,0.4);
+  box-shadow: 0 0 20px rgba(122,63,145,0.25);
+  transform: translateY(-2px);
+  color: #fff;
+}
+.skill-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-amethyst);
+  flex-shrink: 0;
+}
+
+@media (max-width: 360px) {
+  .skill-pill { font-size: 0.70rem; padding: 6px 12px; }
+}
+
+/* ============================================================
+   SKILL PILL — STAGGER ENTRANCE
+============================================================ */
+.skill-pill {
+  animation: pill-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
