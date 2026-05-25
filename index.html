@@ -659,45 +659,25 @@
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
 
-    <!-- ── OPEN TO WORK badge (sits ABOVE the PFP, per design brief) ──
-         Reads "Open to Work" as the loud headline + "Available for
-         Freelance" as the supporting tagline. Glowing pulsing green dot
-         signals live availability. Coral hover edge in light mode so it
-         doesn't fade into the warmer paper-lilac canvas. -->
-    <div class="reveal hero-status-badge mb-6">
+    <!-- ── AVAILABILITY badge ──────────────────────────────────
+         Single-line "Available for Freelance" pill with a glowing
+         pulsing green dot for the live-availability signal. The
+         redundant "Open to Work" headline + sub-line was removed:
+         one clear status reads stronger than two stacked claims.
+         Coral hover edge in light mode keeps it visible on the
+         warmer paper-lilac canvas. -->
+    <div class="reveal hero-status-badge mb-10">
       <span class="status-dot" aria-hidden="true"></span>
       <span class="status-text">
-        <strong>Open to Work</strong>
-        <span class="status-text__sub">· Available for Freelance</span>
+        <strong>Available for Freelance</strong>
       </span>
     </div>
 
-    <!-- ── PROFILE PICTURE / VOID LOGO ───────────────────────────
-         Sits BELOW the "Open to Work" badge and ABOVE the wordmark
-         (per design brief). Same `assets/void.png` brand mark used
-         in the About avatar, so identity stays consistent on every
-         scroll position. The .hero-pfp-* CSS classes were already
-         defined in css/hero.css but never rendered — wiring them up
-         here. Decorative counter-rotating orbits add the "creative
-         engineer" sparkle without dominating. -->
-    <div class="reveal delay-1 hero-pfp-wrap mb-7">
-      <span class="hero-pfp-orbit"           aria-hidden="true"></span>
-      <span class="hero-pfp-orbit hero-pfp-orbit--2" aria-hidden="true"></span>
-      <div class="hero-pfp-ring">
-        <div class="hero-pfp-inner">
-          <img
-            src="assets/void.png"
-            alt="Muhammad Azhar Shahbaz — Void brand logo"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-            class="hero-pfp-img"
-            onerror="this.style.display='none'; this.nextElementSibling && (this.nextElementSibling.style.opacity = 1)"
-          />
-          <span class="hero-pfp-fallback" aria-hidden="true">MA</span>
-        </div>
-      </div>
-    </div>
+    <!-- (Hero PFP removed — having both a 144px hero PFP and the
+         larger About avatar on the same page read as redundant.
+         Identity is now anchored by the single big avatar in the
+         About section + the "Azhar." wordmark below, which the
+         glitch effect already treats as the visual anchor.) -->
 
     <!-- Brand Name -->
     <h1 class="hero-brand reveal delay-2 mb-4" data-text="Azhar.">Azhar.</h1>
