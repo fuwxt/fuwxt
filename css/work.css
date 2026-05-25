@@ -1,238 +1,147 @@
-/* =============================================================
-   WORK — 2-col grid, CSS placeholders, accordion expand
-============================================================= */
+/* Project cards */
+html.light-mode .project-card {
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(122,63,145,0.14);
+}
+html.light-mode .project-card:hover {
+  border-color: rgba(122,63,145,0.30);
+  box-shadow: 0 12px 50px rgba(122,63,145,0.16);
+}
+html.light-mode .project-card h3 { color: #1d0a2e; }
+html.light-mode .project-card .text-lilac\/50 { color: rgba(43,13,62,0.55) !important; }
 
-#work {
-  padding: var(--section-py) 40px;
+/* Modal backdrop */
+html.light-mode .modal-backdrop {
+  background: rgba(242,234,247,0.85);
 }
 
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+/* Tag chips */
+html.light-mode .tag-chip {
+  background: rgba(122,63,145,0.10);
+  border-color: rgba(122,63,145,0.20);
+  color: var(--c-regal);
 }
 
-/* ── Project card ── */
+/* Modal backdrop in light mode */
+html.light-mode .modal-backdrop {
+  background: rgba(245, 240, 251, 0.88);
+}
+
+/* ============================================================
+   PROJECT CARDS
+============================================================ */
 .project-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
-}
-
-.project-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-lg);
-}
-
-/* ── CSS placeholder visuals ── */
-.project-thumb {
-  aspect-ratio: 16 / 10;
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  cursor: pointer;
+  background: rgba(43, 13, 62, 0.5);
+  border: 1px solid rgba(197,157,217,0.14);
+  border-radius: 16px;
+  transition: all 0.45s cubic-bezier(0.23,1,0.32,1);
 }
-
-/* Card 1: diagonal stripes — violet + dark */
-.project-thumb-1 {
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(110, 58, 255, 0.18) 0px,
-    rgba(110, 58, 255, 0.18) 2px,
-    #0c0c1e 2px,
-    #0c0c1e 28px
-  );
-}
-
-/* Card 2: radial concentric rings — cyan tones */
-.project-thumb-2 {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 232, 200, 0.08) 31%, transparent 32%),
-    radial-gradient(circle at 50% 50%, transparent 48%, rgba(0, 232, 200, 0.07) 49%, transparent 50%),
-    radial-gradient(circle at 50% 50%, transparent 65%, rgba(0, 232, 200, 0.05) 66%, transparent 67%),
-    radial-gradient(circle at 50% 50%, transparent 80%, rgba(0, 232, 200, 0.04) 81%, transparent 82%),
-    #040d12;
-  background-size: 100% 100%;
-}
-
-/* Card 3: dot grid pattern */
-.project-thumb-3 {
-  background-color: #08100f;
-  background-image: radial-gradient(circle, rgba(0, 232, 200, 0.25) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-/* Card 4: large "A" letterform */
-.project-thumb-4 {
-  background: #08081a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 200px;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.04);
-  letter-spacing: -0.05em;
-  user-select: none;
-  line-height: 1;
-}
-
-/* ── "View Case Study" hover text ── */
-.project-thumb-overlay {
+.project-card::before {
+  content: '';
   position: absolute;
   inset: 0;
-  background: rgba(var(--accent-rgb), 0.75);
+  background: linear-gradient(135deg, rgba(122,63,145,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+.project-card:hover {
+  border-color: rgba(197,157,217,0.35);
+  box-shadow: 0 12px 50px rgba(122,63,145,0.35), 0 0 0 1px rgba(197,157,217,0.1);
+  transform: translateY(-8px) scale(1.01);
+}
+.project-card:hover::before { opacity: 1; }
+/* Visible focus ring for keyboard users (cards are role=button, so they
+   must look focusable when tabbed to). */
+.project-card:focus-visible {
+  outline: 2px solid var(--c-amethyst);
+  outline-offset: 4px;
+  border-color: rgba(197,157,217,0.5);
+}
+
+.project-thumb {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+.project-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: rgba(43,13,62,0.7);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+  z-index: 2;
 }
+.project-card:hover .project-overlay { opacity: 1; }
 
-.project-card:hover .project-thumb-overlay {
-  opacity: 1;
-}
-
-.project-thumb-overlay span {
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.03em;
-}
-
-/* ── Card body ── */
-.project-body {
+/* ============================================================
+   MODAL
+   (align-items center on tall content was clipping the top
+   on small viewports — switched to flex-start with auto
+   margins via overflow-y-auto on the backdrop itself.)
+============================================================ */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(26, 8, 39, 0.88);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex; align-items: flex-start; justify-content: center;
   padding: 24px;
+  overflow-y: auto;
+}
+@media (min-height: 720px) {
+  .modal-backdrop { align-items: center; }
+}
+.modal-enter {
+  animation: modalIn 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+.modal-leave {
+  animation: modalOut 0.3s ease forwards;
 }
 
-.project-category {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
-  display: block;
+/* ============================================================
+   PROJECT GRADIENT THUMBS
+============================================================ */
+.thumb-1 { background: linear-gradient(135deg, #3d1659 0%, #7A3F91 50%, #c59dd9 100%); }
+.thumb-2 { background: linear-gradient(135deg, #1a0a2e 0%, #4a2070 50%, #8a55a8 100%); }
+.thumb-3 { background: linear-gradient(135deg, #2b0d3e 0%, #7A3F91 40%, #f2eaf7 100%); }
+.thumb-4 { background: linear-gradient(135deg, #0d0d1a 0%, #2b0d3e 40%, #7A3F91 100%); }
+.thumb-5 { background: linear-gradient(135deg, #4a1060 0%, #c59dd9 60%, #f2eaf7 100%); }
+.thumb-6 { background: linear-gradient(135deg, #1e0535 0%, #5c2080 50%, #c59dd9 100%); }
+
+/* ============================================================
+   THUMB GEOMETRIC PATTERNS
+============================================================ */
+.thumb-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
 }
 
-.project-title {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 10px;
-  line-height: 1.2;
+/* ============================================================
+   TAG CHIPS FOR MODAL
+============================================================ */
+.tag-chip {
+  display: inline-flex; align-items: center;
+  padding: 4px 12px;
+  background: rgba(122,63,145,0.20);
+  border: 1px solid rgba(197,157,217,0.22);
+  border-radius: 50px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--c-amethyst);
 }
 
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.project-result {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--highlight);
-  letter-spacing: 0.02em;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-/* ── Expand toggle ── */
-.project-expand-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  transition: color 0.2s ease;
-}
-
-.project-expand-btn:hover {
-  color: var(--text);
-}
-
-.expand-icon {
-  width: 16px;
-  height: 16px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  transition: transform 0.3s var(--ease);
-}
-
-.project-expand-btn[aria-expanded="true"] .expand-icon {
-  transform: rotate(180deg);
-}
-
-/* ── Accordion detail ── */
-.project-detail {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s var(--ease);
-}
-
-.project-detail.open {
-  max-height: 520px;
-}
-
-.project-detail-inner {
-  padding: 0 24px 24px;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-}
-
-.detail-block {
-  margin-bottom: 16px;
-}
-
-.detail-block:last-child {
-  margin-bottom: 0;
-}
-
-.detail-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 5px;
-  display: block;
-}
-
-.detail-text {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.detail-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  #work { padding: var(--section-py) 20px; }
-  .work-grid { grid-template-columns: 1fr; }
+/* Project / testimonial cards keep the same crisp lift */
+html.light-mode .project-card,
+html.light-mode .testimonial-card {
+  background: rgba(255,255,255,0.80) !important;
+  box-shadow: 0 4px 20px rgba(122,63,145,0.08);
 }
