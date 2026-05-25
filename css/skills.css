@@ -1,129 +1,61 @@
-/* =============================================================
-   SKILLS — tab interface, pill badges
-============================================================= */
-
-#skills {
-  padding: var(--section-py) 40px;
+/* Skill pills */
+html.light-mode .skill-pill {
+  background: rgba(122,63,145,0.08);
+  border-color: rgba(122,63,145,0.20);
+  color: #1d0a2e;
+}
+html.light-mode .skill-pill:hover {
+  background: rgba(122,63,145,0.18);
+  border-color: rgba(122,63,145,0.40);
+  color: var(--c-velvet);
 }
 
-/* ── Tab list ── */
-.tab-list {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 36px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* Skill pills in light mode */
+html.light-mode .skill-pill {
+  background: rgba(122, 63, 145, 0.08);
+  border-color: rgba(122, 63, 145, 0.20);
+  color: #1d0a2e;
+}
+html.light-mode .skill-pill:hover {
+  background: rgba(122, 63, 145, 0.18);
+  color: #1d0a2e;
 }
 
-.tab-list::-webkit-scrollbar {
-  display: none;
-}
-
-.tab-btn {
-  position: relative;
-  padding: 12px 24px;
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.2s ease;
-  outline: none;
-}
-
-.tab-btn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: -2px;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-}
-
-.tab-btn[aria-selected="true"] {
-  color: var(--text);
-  border-bottom-color: var(--accent);
-}
-
-.tab-btn:not([aria-selected="true"]):hover {
-  color: var(--text);
-}
-
-/* ── Tab panels ── */
-.tab-content-wrapper {
-  min-height: 320px;
-}
-
-.tab-panel {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.tab-panel.active {
-  display: block;
-  opacity: 1;
-}
-
-/* ── Skills grid ── */
-.skills-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-/* ── Skill pill ── */
+/* ============================================================
+   SKILL PILL
+============================================================ */
 .skill-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  background: rgba(122,63,145,0.12);
+  border: 1px solid rgba(197,157,217,0.16);
+  border-radius: 50px;
+  font-size: 0.78rem;
+  color: var(--c-lilac);
+  transition: all 0.3s ease;
   cursor: default;
-  user-select: none;
 }
-
 .skill-pill:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.2);
+  background: rgba(122,63,145,0.28);
+  border-color: rgba(197,157,217,0.4);
+  box-shadow: 0 0 20px rgba(122,63,145,0.25);
+  transform: translateY(-2px);
+  color: #fff;
 }
-
-/* ── Demand tags ── */
-.demand-tag {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 4px;
-  white-space: nowrap;
+.skill-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-amethyst);
   flex-shrink: 0;
 }
 
-.demand-tag.high {
-  color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.12);
+@media (max-width: 360px) {
+  .skill-pill { font-size: 0.70rem; padding: 6px 12px; }
 }
 
-.demand-tag.trending {
-  color: var(--highlight);
-  background: rgba(var(--highlight-rgb), 0.12);
-}
-
-@media (max-width: 768px) {
-  #skills { padding: var(--section-py) 20px; }
-  .tab-btn { padding: 10px 16px; font-size: 0.8125rem; }
+/* ============================================================
+   SKILL PILL — STAGGER ENTRANCE
+============================================================ */
+.skill-pill {
+  animation: pill-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }

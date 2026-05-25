@@ -1,320 +1,578 @@
-/* =============================================================
-   BASE — reset, body, noise, typography defaults, utilities
-============================================================= */
+/* ============================================================
+   BASE RESET & SCROLLBAR
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+html { scroll-behavior: smooth; }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-}
+/* Anchored sections must clear the fixed (~76px) navbar when targeted
+   via hash links, otherwise their headings hide behind the nav. */
+section[id], #hero { scroll-margin-top: 80px; }
 
-/* Transition only after first paint to prevent FOUC */
-html.theme-loaded {
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* x-cloak: hides Alpine-bound elements until Alpine has parsed the DOM,
+   avoiding a flash of unstyled / unhidden content (FOUC). */
+[x-cloak] { display: none !important; }
+
+/* Skip-to-content link — invisible until focused, then drops into view
+   at the top-left so keyboard users can jump past the nav. */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 10000;
+  padding: 10px 18px;
+  background: var(--c-velvet2);
+  color: var(--c-lilac);
+  border: 1px solid var(--c-amethyst);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: top 0.2s ease;
 }
+.skip-link:focus { top: 12px; outline: 2px solid var(--c-amethyst); outline-offset: 2px; }
 
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.6;
-  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  background-color: #1a0827;
+  color: var(--c-lilac);
   overflow-x: hidden;
-  position: relative;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+}
+html.dark-mode body { background-color: #1a0827; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--c-velvet2); }
+::-webkit-scrollbar-thumb { background: var(--c-regal); border-radius: 2px; }
+
+/* ============================================================
+   LIGHT MODE — Apple UI Style, same purple/lilac palette
+============================================================ */
+
+/* CSS vars for light mode */
+html.light-mode {
+  --c-bg:        #f5f0fb;
+  --c-bg2:       #ede5f7;
+  --c-surface:   rgba(255,255,255,0.72);
+  --c-surface2:  rgba(242,234,247,0.85);
+  --c-border:    rgba(122,63,145,0.18);
+  --c-text:      #1d0a2e;
+  --c-text2:     rgba(43,13,62,0.70);
+  --c-text3:     rgba(43,13,62,0.45);
+  --c-accent:    #7A3F91;
+  --c-lilac:     #F2EAF7;
 }
 
-/* Noise texture overlay via SVG filter on a pseudo-element */
-body::before {
+html.light-mode body {
+  background-color: #f5f0fb;
+  color: #1d0a2e;
+}
+
+/* Scrollbar */
+html.light-mode ::-webkit-scrollbar-track { background: #ede5f7; }
+html.light-mode ::-webkit-scrollbar-thumb { background: var(--c-regal); }
+
+/* Background breathing orbs — lighter tint */
+html.light-mode .bg-breathe {
+  background: #f5f0fb;
+}
+html.light-mode .bg-breathe::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(242,234,247,0.6) 0%, transparent 70%);
+}
+
+/* Glass cards */
+html.light-mode .glass {
+  background: rgba(255,255,255,0.68);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(122,63,145,0.14);
+  box-shadow: 0 2px 20px rgba(122,63,145,0.07), 0 1px 0 rgba(255,255,255,0.9) inset;
+}
+html.light-mode .glass:hover {
+  border-color: rgba(122,63,145,0.28);
+  box-shadow: 0 8px 40px rgba(122,63,145,0.14), 0 1px 0 rgba(255,255,255,0.9) inset;
+}
+html.light-mode .glass-strong {
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(122,63,145,0.16);
+  box-shadow: 0 8px 40px rgba(122,63,145,0.12);
+}
+
+/* Typography color overrides */
+html.light-mode .text-lilac { color: #1d0a2e !important; }
+html.light-mode .text-lilac\/60, html.light-mode .text-lilac\/65,
+html.light-mode .text-lilac\/55, html.light-mode .text-lilac\/50 { color: rgba(43,13,62,0.65) !important; }
+html.light-mode .text-lilac\/40, html.light-mode .text-lilac\/45 { color: rgba(43,13,62,0.45) !important; }
+html.light-mode .text-lilac\/35, html.light-mode .text-lilac\/25 { color: rgba(43,13,62,0.38) !important; }
+html.light-mode .text-amethyst { color: var(--c-regal) !important; }
+html.light-mode .text-amethyst\/50, html.light-mode .text-amethyst\/70 { color: rgba(122,63,145,0.65) !important; }
+html.light-mode .text-amethyst\/60 { color: rgba(122,63,145,0.55) !important; }
+
+/* Section labels */
+html.light-mode .section-label { color: var(--c-regal); opacity: 0.75; }
+
+/* Light-mode contrast bumps for low-opacity accent text — earlier
+   values (~0.55-0.65) measured around 3.0:1 on the paper-lilac
+   background, below WCAG AA 4.5:1 for body text. Raised to 0.85
+   so labels and metadata stay legible without losing the soft feel. */
+html.light-mode .text-amethyst\/50,
+html.light-mode .text-amethyst\/60,
+html.light-mode .text-amethyst\/70,
+html.light-mode .text-amethyst\/80 { color: rgba(58, 27, 78, 0.85) !important; }
+html.light-mode .text-lilac\/40,
+html.light-mode .text-lilac\/45,
+html.light-mode .text-lilac\/35,
+html.light-mode .text-lilac\/25 { color: rgba(29, 10, 46, 0.70) !important; }
+
+/* Gradient text stays — just tweak start color for better contrast on white */
+html.light-mode .gradient-text {
+  background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 50%, var(--c-amethyst) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+html.light-mode .gradient-text-warm {
+  background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-amethyst) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Buttons */
+html.light-mode .btn-outline {
+  color: var(--c-regal);
+  border-color: rgba(122,63,145,0.35);
+}
+html.light-mode .btn-outline:hover {
+  background: rgba(122,63,145,0.10);
+  border-color: var(--c-regal);
+  color: var(--c-velvet);
+}
+html.light-mode .btn-download {
+  background: linear-gradient(135deg, rgba(122,63,145,0.10) 0%, rgba(197,157,217,0.20) 100%);
+  color: var(--c-regal);
+  border-color: rgba(122,63,145,0.30);
+}
+html.light-mode .btn-download:hover {
+  background: linear-gradient(135deg, rgba(122,63,145,0.18) 0%, rgba(197,157,217,0.32) 100%);
+  color: var(--c-velvet);
+  border-color: var(--c-regal);
+}
+
+/* Section radial bg overlays — keep them, but soften so they
+   don't fight the warmer paper-lilac canvas in light mode.
+   (Earlier rule stripped these to transparent which made every
+   section visually identical — restored with reduced opacity.) */
+html.light-mode section[style*="radial-gradient"] {
+  background-color: transparent !important;
+}
+
+/* ============================================================
+   LIGHT MODE — ADDITIONAL POLISH (Task 4 fixes)
+============================================================ */
+/* Body background */
+html.light-mode body {
+  background-color: #f5f0fb;
+  color: #1d0a2e;
+}
+
+/* Glass cards in light mode */
+html.light-mode .glass {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border-color: rgba(122, 63, 145, 0.18) !important;
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+}
+html.light-mode .glass:hover {
+  background: rgba(255, 255, 255, 0.90) !important;
+  border-color: rgba(122, 63, 145, 0.35) !important;
+  box-shadow: 0 8px 40px rgba(122, 63, 145, 0.15), 0 0 0 1px rgba(122, 63, 145, 0.10);
+}
+html.light-mode .glass-strong {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(122, 63, 145, 0.22) !important;
+}
+
+/* Text colors in light mode */
+html.light-mode .text-lilac,
+html.light-mode h1, html.light-mode h2, html.light-mode h3 {
+  color: #1d0a2e;
+}
+html.light-mode .text-lilac\/50,
+html.light-mode .text-lilac\/55,
+html.light-mode .text-lilac\/60,
+html.light-mode .text-lilac\/65 {
+  color: rgba(43, 13, 62, 0.65) !important;
+}
+
+/* Section radial backgrounds — DON'T strip; they were getting
+   killed by the earlier blanket override. Keep their gradients. */
+/* (Removed: html.light-mode section { background: transparent !important; }) */
+
+/* ============================================================
+   BREATHING GRADIENT BACKGROUND
+============================================================ */
+.bg-breathe {
+  background: var(--c-velvet2);
+  position: relative;
+}
+.bg-breathe::before {
   content: '';
   position: fixed;
   inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(122,63,145,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(197,157,217,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(43,13,62,0.5) 0%, transparent 70%);
+  animation: breathe 12s ease-in-out infinite alternate;
   pointer-events: none;
-  z-index: 9998;
-  opacity: var(--noise-opacity);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+  z-index: 0;
 }
 
-/* ── Section wrapper ── */
-.section-wrap {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 40px;
+/* Noise texture overlay for depth */
+.bg-breathe::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
 }
 
-@media (max-width: 768px) {
-  .section-wrap { padding: 0 20px; }
-  :root { --section-py: 80px; }
+/* ============================================================
+   GLASS CARD SYSTEM
+============================================================ */
+.glass {
+  background: rgba(43, 13, 62, 0.55);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(197,157,217,0.18);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.glass:hover {
+  border-color: rgba(197,157,217,0.38);
+  box-shadow: 0 8px 40px rgba(122,63,145,0.30), 0 0 0 1px rgba(197,157,217,0.12);
+  transform: translateY(-4px);
+}
+.glass-strong {
+  background: rgba(43, 13, 62, 0.75);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  border: 1px solid rgba(197,157,217,0.22);
 }
 
-/* ── Section divider (light mode character) ── */
-[data-theme="light"] section + section {
-  border-top: 1px solid var(--border);
-}
+/* ============================================================
+   TYPOGRAPHY
+============================================================ */
+.font-display { font-family: 'Cormorant Garamond', serif; }
 
-/* ── Headings ── */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
 
-/* ── Links ── */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: var(--radius-sm);
-}
-
-/* ── Section label ── */
 .section-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.15em;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  display: block;
+  color: var(--c-amethyst);
+  opacity: 0.8;
 }
 
-/* ── Section heading ── */
-.section-heading {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  line-height: 1.05;
-  margin-top: 12px;
-  margin-bottom: 56px;
+.gradient-text {
+  background: linear-gradient(135deg, var(--c-lilac) 0%, var(--c-amethyst) 50%, var(--c-regal) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* ── Buttons ── */
+.gradient-text-warm {
+  background: linear-gradient(135deg, var(--c-amethyst) 0%, var(--c-lilac) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   CTA BUTTONS
+============================================================ */
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 600;
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--c-regal) 0%, #5c2e72 100%);
+  color: var(--c-lilac);
+  border: 1px solid rgba(197,157,217,0.3);
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   cursor: pointer;
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
   text-decoration: none;
-  white-space: nowrap;
 }
-
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(197,157,217,0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 .btn-primary:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(122,63,145,0.55), 0 0 60px rgba(122,63,145,0.25);
+  transform: translateY(-2px);
+  border-color: rgba(197,157,217,0.5);
 }
+.btn-primary:hover::before { opacity: 1; }
 
 .btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 32px;
   background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border-hover);
-  border-radius: var(--radius);
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 600;
+  color: var(--c-amethyst);
+  border: 1px solid rgba(197,157,217,0.35);
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   cursor: pointer;
-  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
   text-decoration: none;
-  white-space: nowrap;
+  backdrop-filter: blur(10px);
 }
-
 .btn-outline:hover {
-  border-color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.06);
-  transform: translateY(-1px);
+  background: rgba(197,157,217,0.10);
+  border-color: var(--c-amethyst);
+  box-shadow: 0 0 25px rgba(197,157,217,0.20);
+  transform: translateY(-2px);
+  color: var(--c-lilac);
 }
 
-/* ── Chip / Tag pill ── */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  transition: border-color 0.2s var(--ease);
+/* ============================================================
+   SECTION DIVIDER LINES
+============================================================ */
+.divider-line {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-regal), transparent);
+  margin: 0 auto;
+}
+.divider-line-left {
+  width: 60px; height: 1px;
+  background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst), transparent);
 }
 
-/* ── Skip link ── */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 20px;
-  z-index: 10000;
-  padding: 8px 16px;
-  background: var(--accent);
+/* Download resume pulse ring */
+.btn-download {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px;
+  background: linear-gradient(135deg, rgba(197,157,217,0.15) 0%, rgba(122,63,145,0.20) 100%);
+  color: var(--c-amethyst);
+  border: 1px solid rgba(197,157,217,0.40);
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+  backdrop-filter: blur(10px);
+}
+.btn-download:hover {
+  background: linear-gradient(135deg, rgba(197,157,217,0.28) 0%, rgba(122,63,145,0.35) 100%);
+  border-color: var(--c-amethyst);
   color: #fff;
-  border-radius: var(--radius-sm);
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: top 0.2s;
+  box-shadow: 0 0 30px rgba(197,157,217,0.25);
+  transform: translateY(-2px);
+}
+.btn-download::before {
+  /* No pulse by default — only when explicitly opted-in via .btn-download--pulse.
+     Earlier rule made every Resume button pulse forever (5+ instances on the page
+     = 5 perpetual GPU animations). Now only the primary CTA gets the ring. */
+  content: none;
+}
+.btn-download--pulse::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50px;
+  border: 1px solid rgba(197,157,217,0.15);
+  animation: ring-pulse 2.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.skip-link:focus {
-  top: 12px;
-}
-
-/* ── WebGL canvas ── */
-#webgl-canvas {
+/* ============================================================
+   INK FLUID WEBGL BACKGROUND CANVAS
+   (sits behind everything but above body bg)
+============================================================ */
+#fluid-canvas {
   position: fixed;
   inset: 0;
-  z-index: 0;
-  pointer-events: none;
   width: 100%;
   height: 100%;
-}
-
-/* ── CSS fallback blobs (no WebGL) ── */
-.css-fallback-bg {
-  position: fixed;
-  inset: 0;
   z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
+  pointer-events: auto;
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  touch-action: pan-y;  /* CRITICAL: allow vertical scroll on mobile */
+}
+html.light-mode #fluid-canvas {
+  mix-blend-mode: multiply;
+  opacity: 0.40;
 }
 
-.css-fallback-bg .blob {
-  position: absolute;
-  width: 600px;
-  height: 600px;
+/* (removed dead `#particle-canvas` rule — element no longer exists) */
+
+/* ============================================================
+   MAGNETIC CURSOR
+============================================================ */
+.cursor-glow {
+  position: fixed;
+  width: 20px; height: 20px;
   border-radius: 50%;
-  filter: blur(80px);
-  animation: blobFloat 12s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(197,157,217,0.8) 0%, rgba(122,63,145,0.4) 50%, transparent 70%);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(197,157,217,0.35);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+  mix-blend-mode: screen;
+}
+/* Light-mode cursor: switch blend mode + tone so the glow
+   stays visible against the bright paper-lilac canvas. */
+html.light-mode .cursor-glow {
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle, rgba(122,63,145,0.55) 0%, rgba(122,63,145,0.18) 50%, transparent 70%);
+}
+html.light-mode .cursor-ring {
+  mix-blend-mode: multiply;
+  border-color: rgba(122,63,145,0.45);
+}
+/* Hide custom cursor on touch / pen / coarse-pointer devices */
+@media (pointer: coarse) {
+  .cursor-glow, .cursor-ring { display: none; }
+}
+/* Hide custom cursor over text inputs so the native caret stays visible/uncluttered */
+.form-input:focus ~ .cursor-glow,
+.form-input:focus ~ .cursor-ring { opacity: 0; }
+body:has(.form-input:focus) .cursor-glow,
+body:has(.form-input:focus) .cursor-ring { opacity: 0.4; }
+
+/* ============================================================
+   PERFORMANCE OVERRIDES (loaded last → wins specificity)
+   Goals: lighter paint cost, smoother scroll, calmer GPU.
+============================================================ */
+
+/* GPU compositing hints for animated/fixed layers */
+#fluid-canvas {
+  will-change: transform;
+  transform: translateZ(0);
+}
+.bg-breathe::before { will-change: opacity, transform; }
+.hero-particle { will-change: transform, opacity; }
+
+/* Trim stacked backdrop-filter blur (single biggest paint
+   cost outside WebGL). Saturate is enough to keep the
+   "frosted glass" feel without 18-20px gaussian blurs. */
+.glass {
+  backdrop-filter: blur(12px) saturate(135%);
+  -webkit-backdrop-filter: blur(12px) saturate(135%);
+}
+html.light-mode .glass {
+  backdrop-filter: blur(14px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
+}
+.glass-strong {
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.project-overlay {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.btn-outline {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
-.css-fallback-bg .blob-1 {
-  background: radial-gradient(circle, rgba(110, 58, 255, 0.35), transparent 70%);
-  top: -10%;
-  left: -10%;
-  animation-delay: 0s;
+/* Drop the data-text glitch ::before/::after duplicates if no
+   data-text attribute exists — saves two extra paint layers
+   on the largest piece of text on the page. */
+.hero-brand:not([data-text])::before,
+.hero-brand:not([data-text])::after { content: none; }
+
+/* ============================================================
+   LIGHT MODE — DESIGNER POLISH (final overrides)
+   Goals:
+     • No more "blank-white" feel — paper-lilac canvas
+     • Two-tone diagonal wash + subtle radial accents
+     • Ink fluid canvas visible enough to feel intentional
+     • Glass cards keep clean white for contrast
+============================================================ */
+html.light-mode body {
+  /* Soft cream-lilac base with a quiet warm-cool diagonal */
+  background:
+    radial-gradient(ellipse 70% 55% at 100% 0%,  rgba(197,157,217,0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 50% at 0% 100%,  rgba(122, 63,145,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(255,250,253,0.45) 0%, transparent 70%),
+    linear-gradient(160deg, #ead9f1 0%, #ddc6ea 50%, #e8d6ee 100%) !important;
+  background-attachment: fixed !important;
+  color: #1d0a2e;
 }
 
-.css-fallback-bg .blob-2 {
-  background: radial-gradient(circle, rgba(0, 232, 200, 0.25), transparent 70%);
-  bottom: -10%;
-  right: -10%;
-  animation-delay: 4s;
+/* Re-tint the ::before breathing layer so it stays in
+   palette (was almost invisible against new warmer bg) */
+html.light-mode .bg-breathe { background: transparent !important; }
+html.light-mode .bg-breathe::before {
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 12%, rgba(122,63,145,0.16) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(197,157,217,0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 45% 35% at 50% 50%, rgba(232,214,238,0.55) 0%, transparent 70%);
+  opacity: 0.85;
+}
+/* Tone down the noise grain — too much grain on a light bg
+   reads as JPEG noise rather than paper texture. */
+html.light-mode .bg-breathe::after { opacity: 0.18; }
+
+/* Make the ink fluid feel alive in light mode */
+html.light-mode #fluid-canvas {
+  mix-blend-mode: multiply;
+  opacity: 0.55;        /* was 0.40 */
 }
 
-.css-fallback-bg .blob-3 {
-  background: radial-gradient(circle, rgba(26, 10, 58, 0.4), transparent 70%);
-  top: 40%;
-  left: 40%;
-  animation-delay: 8s;
+/* Glass cards — keep clean white for crispness, but lift
+   the edge so they don't melt into the warmer canvas */
+html.light-mode .glass {
+  background: rgba(255,255,255,0.78) !important;
+  border-color: rgba(122,63,145,0.22) !important;
+  box-shadow:
+    0 4px 24px rgba(122,63,145,0.10),
+    0 1px 0 rgba(255,255,255,0.95) inset;
 }
-
-@keyframes blobFloat {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(40px, 30px) scale(1.08); }
-}
-
-/* ── Main content above canvas ── */
-main, nav, footer, #loading-screen {
-  position: relative;
-  z-index: 1;
-}
-
-/* ── Utility ── */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ── Print styles ── */
-@media print {
-  .cursor-dot,
-  .cursor-ring,
-  #loading-screen,
-  #webgl-canvas,
-  .css-fallback-bg,
-  nav,
-  .scroll-indicator,
-  .testimonials-track,
-  #contact form { display: none !important; }
-
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    font-size: 12pt;
-  }
-
-  a { color: #000000 !important; text-decoration: underline; }
-
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  section { page-break-inside: avoid; }
-  h1, h2, h3 { page-break-after: avoid; }
-
-  .project-detail {
-    display: block !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  @page { margin: 2cm; }
-}
-
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .cursor-dot, .cursor-ring { display: none !important; }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+html.light-mode .glass:hover {
+  background: rgba(255,255,255,0.92) !important;
+  box-shadow:
+    0 12px 44px rgba(122,63,145,0.18),
+    0 0 0 1px rgba(122,63,145,0.14);
 }

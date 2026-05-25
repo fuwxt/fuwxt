@@ -1,1002 +1,1631 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <!-- FOUC Prevention — must be first tag inside head -->
-  <script>
-    (function() {
-      var saved = localStorage.getItem('theme');
-      var preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      var theme = saved || preferred;
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#1a0827" media="(prefers-color-scheme: dark)"/>
+  <meta name="theme-color" content="#f5f0fb" media="(prefers-color-scheme: light)"/>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080810" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#F4F1EB" media="(prefers-color-scheme: light)">
+  <title>Azhar. — AI & Animation Specialist | Full-Stack Designer</title>
+  <meta name="description" content="Muhammad Azhar Shahbaz — AI specialist, full-stack designer & motion graphics artist based in Islamabad. Branding, web apps, animation, AI workflows. 3+ years freelancing for premium US clients."/>
+  <meta name="author" content="Muhammad Azhar Shahbaz"/>
+  <meta name="keywords" content="Muhammad Azhar Shahbaz, freelance graphic designer, web developer, AI engineer, motion graphics, brand identity, Islamabad, Pakistan, Cormorant Garamond portfolio"/>
 
-  <title>Azhar. — AI &amp; LLM Specialist | Full-Stack Designer</title>
-  <meta name="description" content="Muhammad Azhar Shahbaz — AI specialist, full-stack designer and motion artist based in Islamabad. 3+ years, 25+ projects, $7K+ revenue, 98% retention.">
-  <meta name="author" content="Muhammad Azhar Shahbaz">
-  <link rel="canonical" href="https://fuwxt.github.io/">
+  <!--
+    Canonical: when this site is deployed, replace the URL below with the
+    real production domain. Leaving it pointing at a non-deployed domain
+    can hurt SEO indexing of your GitHub Pages preview.
+  -->
+  <link rel="canonical" href="https://azhar.dev/"/>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Azhar. — AI &amp; LLM Specialist | Full-Stack Designer">
-  <meta property="og:description" content="Brand identity, web applications, motion graphics and AI workflows by Muhammad Azhar Shahbaz.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://fuwxt.github.io/">
-  <!-- og:image: upload og-image.png (1200x630) to repo root then uncomment:
-  <meta property="og:image" content="https://fuwxt.github.io/og-image.png"> -->
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Azhar. — AI & Animation Specialist | Full-Stack Designer"/>
+  <meta property="og:description" content="Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz."/>
+  <meta property="og:url" content="https://azhar.dev/"/>
+  <meta property="og:site_name" content="Azhar."/>
+  <!--
+    Open Graph image. TODO: upload a real `og-preview.jpg` (1200x630)
+    to the repo root for rich social previews. Until that file exists,
+    we fall back to the inline-SVG favicon as a graceful (if smaller)
+    preview so social shares don't render a broken-image icon.
+  -->
+  <meta property="og:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231a0827'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3ClinearGradient id='t' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F2EAF7'/%3E%3Cstop offset='1' stop-color='%23C59DD9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23b)'/%3E%3Ctext x='600' y='320' font-family='Georgia,serif' font-size='160' font-weight='600' text-anchor='middle' fill='url(%23t)'%3EAzhar.%3C/text%3E%3Ctext x='600' y='400' font-family='sans-serif' font-size='32' text-anchor='middle' fill='%23C59DD9' opacity='0.85'%3EAI %26 Animation Specialist | Full-Stack Designer%3C/text%3E%3C/svg%3E"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:locale" content="en_US"/>
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Azhar. — AI &amp; LLM Specialist">
-  <meta name="twitter:description" content="Brand identity, web apps, motion graphics and AI workflows.">
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Azhar. — AI & Animation Specialist"/>
+  <meta name="twitter:description" content="Brand identity, web apps, motion graphics & AI workflows."/>
+  <meta name="twitter:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231a0827'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3ClinearGradient id='t' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F2EAF7'/%3E%3Cstop offset='1' stop-color='%23C59DD9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23b)'/%3E%3Ctext x='600' y='320' font-family='Georgia,serif' font-size='160' font-weight='600' text-anchor='middle' fill='url(%23t)'%3EAzhar.%3C/text%3E%3Ctext x='600' y='400' font-family='sans-serif' font-size='32' text-anchor='middle' fill='%23C59DD9' opacity='0.85'%3EAI %26 Animation Specialist | Full-Stack Designer%3C/text%3E%3C/svg%3E"/>
 
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23080810'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='44' font-weight='700' text-anchor='middle' dominant-baseline='middle' fill='%236E3AFF'%3EA%3C/text%3E%3C/svg%3E">
+  <!-- Favicons (inline SVG so no extra request; replace with /favicon.ico when ready) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='36' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='120' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
 
-  <!-- JSON-LD -->
+  <!-- JSON-LD: Person schema for rich results -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Muhammad Azhar Shahbaz",
     "alternateName": "Azhar",
-    "jobTitle": "AI & LLM Specialist | Full-Stack Designer",
-    "description": "Brand identity, web applications, motion graphics and AI workflows.",
-    "address": { "@type": "PostalAddress", "addressLocality": "Islamabad", "addressCountry": "PK" },
-    "url": "https://fuwxt.github.io/",
+    "jobTitle": "AI & Animation Specialist | Full-Stack Designer",
+    "description": "Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz, based in Islamabad.",
+    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Islamabad",
+      "addressCountry": "PK"
+    },
+    "url": "https://azhar.dev/",
     "sameAs": [
       "https://linkedin.com/in/muhammad-azhar-shahbaz",
-      "https://github.com/fuwxt"
-    ]
+      "https://github.com/azhar-dev",
+      "https://behance.net",
+      "https://instagram.com",
+      "https://x.com"
+    ],
+    "knowsAbout": ["Brand Identity", "Web Development", "Motion Graphics", "Artificial Intelligence", "Prompt Engineering"],
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "COMSATS University Islamabad"
+    }
   }
   </script>
 
-  <!-- Font preconnects -->
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- ============================================================
+       SYSTEM THEME INIT (runs before paint, no FOUC)
+  ============================================================ -->
+  <script>
+    (function() {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      window.__systemLight = mq.matches;
+      if (mq.matches) {
+        document.documentElement.classList.add('light-mode');
+        document.documentElement.classList.remove('dark-mode');
+      } else {
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.remove('light-mode');
+      }
+    })();
+  </script>
 
-  <!-- Fonts -->
-  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500&f[]=satoshi@700,500,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Cormorant Garamond + DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
 
-  <!-- CSS -->
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind config — MUST come immediately after the CDN script so
+       custom colors (lilac/amethyst/regal/velvet) are registered before
+       Tailwind's first JIT scan. Was previously declared further below
+       which caused a brief FOUC of unstyled `text-lilac`/`bg-regal/15`
+       classes on first paint. -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            lilac:    '#F2EAF7',
+            amethyst: '#C59DD9',
+            regal:    '#7A3F91',
+            velvet:   '#2B0D3E',
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'Georgia', 'serif'],
+            sans:  ['DM Sans', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- WebGL Fluid Simulation (ink-style background) -->
+  <script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.4"></script>
+
+  <!-- Alpine.js v3 + Intersect + Focus Plugins (must load before Alpine) -->
+  <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Alpine component functions — MUST be defined before Alpine boots -->
+  <script>
+    function portfolioApp() {
+      return {
+        lightMode: false,
+        _manualOverride: false,
+        scrolled: false,
+        mobileMenu: false,
+        modalOpen: false,
+        activeProject: null,
+
+        creativeSkills: [
+          '2D Animation', '3D Animation', 'Character Animation',
+          'Motion Design', 'Motion Graphics', 'Video Editing',
+          'Logo Design', 'Branding & Identity', 'Graphic Design',
+          'Adobe Photoshop', 'Adobe Illustrator'
+        ],
+        technicalSkills: [
+          'Artificial Intelligence (AI)', 'Machine Learning',
+          'Prompt Engineering', 'Web Development',
+          'Responsive Web Design', 'Web Applications',
+          'CSS', 'Debugging', 'Game Design'
+        ],
+
+        projects: [
+          {
+            id: 1,
+            title: 'Nexus Brand Identity',
+            category: 'Branding',
+            icon: 'hexagon',
+            thumbClass: 'thumb-1',
+            shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup — from logo to full design language.',
+            longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
+            tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
+            highlights: [
+              'Full logo suite including primary, secondary and icon variants',
+              '40-page brand guidelines document',
+              'Complete stationery system and business collateral',
+              'Social media template kit with 20+ designs'
+            ]
+          },
+          {
+            id: 2,
+            title: 'Aura E-commerce Website',
+            category: 'Web Dev',
+            icon: 'shopping-bag',
+            thumbClass: 'thumb-2',
+            shortDesc: 'A luxury e-commerce platform with seamless UX, lightning-fast performance, and a beautifully minimal aesthetic.',
+            longDesc: 'Aura is a premium fashion e-commerce website built from the ground up with performance and elegance as dual priorities. The site features smooth page transitions, a custom cart system, product filtering, and full mobile responsiveness. The design language prioritizes white space, editorial imagery, and intuitive navigation.',
+            tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'UX Design', 'Performance'],
+            highlights: [
+              'Sub-2s load time with optimized asset pipeline',
+              'Custom cart & checkout flow with validation',
+              'Infinite scroll product listings with filters',
+              'Mobile-first responsive layout across all breakpoints'
+            ]
+          },
+          {
+            id: 3,
+            title: 'Neon Motion Reel 2024',
+            category: 'Motion',
+            icon: 'play-circle',
+            thumbClass: 'thumb-3',
+            shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
+            longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
+            tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
+            highlights: [
+              '90-second reel spanning 8 distinct animation styles',
+              'Original sound design and audio-reactive elements',
+              'Custom character rig with 40+ control points',
+              'Delivered in 4K ProRes for broadcast standard'
+            ]
+          },
+          {
+            id: 4,
+            title: 'AI Prompt Studio Dashboard',
+            category: 'AI / Dev',
+            icon: 'cpu',
+            thumbClass: 'thumb-4',
+            shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
+            longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
+            tags: ['Web Development', 'AI', 'Prompt Engineering', 'CSS', 'JavaScript', 'API Integration'],
+            highlights: [
+              'Real-time prompt testing with model API integration',
+              'Version control system with diff viewer',
+              'Team workspace with role-based permissions',
+              'Bulk export to JSON, CSV, and YAML formats'
+            ]
+          },
+          {
+            id: 5,
+            title: 'Pulse Social Media Pack',
+            category: 'Graphic Design',
+            icon: 'image',
+            thumbClass: 'thumb-5',
+            shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand — Instagram, Stories, Reels covers & more.',
+            longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics — all built on a vibrant, energetic design system optimized for engagement.',
+            tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
+            highlights: [
+              '60 fully editable template files across 6 formats',
+              'Consistent design system with 3 sub-brand variants',
+              'Optimized for Instagram, TikTok, YouTube and Facebook',
+              'Client training guide for in-house editing'
+            ]
+          },
+          {
+            id: 6,
+            title: 'Vortex Game UI/UX',
+            category: 'Game Design',
+            icon: 'gamepad-2',
+            thumbClass: 'thumb-6',
+            shortDesc: 'A complete UI/UX design system for a sci-fi action game — HUD, menus, inventory, and character screens.',
+            longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
+            tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
+            highlights: [
+              'Full UI kit with 80+ screen-ready components',
+              'Animated HUD prototype with hover/active states',
+              'Accessibility-compliant color contrast ratios',
+              'Delivered with Figma source files and dev specs'
+            ]
+          }
+        ],
+
+        openModal(project) {
+          // Remember which element had focus so we can restore it on close (a11y)
+          this._lastFocused = document.activeElement;
+          this.activeProject = project;
+          this.modalOpen = true;
+          document.body.style.overflow = 'hidden';
+          this.$nextTick(() => {
+            try { lucide.createIcons(); } catch(e) {}
+            // Move focus into the modal — close button is the safest first stop
+            // because it's always present regardless of which actions render.
+            const closeBtn = document.querySelector('[data-modal-close]');
+            if (closeBtn && typeof closeBtn.focus === 'function') {
+              try { closeBtn.focus(); } catch (e) {}
+            }
+          });
+        },
+        closeModal() {
+          this.modalOpen = false;
+          document.body.style.overflow = '';
+          setTimeout(() => {
+            this.activeProject = null;
+            // Restore focus to the trigger that opened the modal
+            if (this._lastFocused && typeof this._lastFocused.focus === 'function') {
+              try { this._lastFocused.focus(); } catch (e) {}
+            }
+          }, 300);
+        },
+
+        init() {
+          this.lightMode = window.__systemLight || false;
+
+          const mq = window.matchMedia('(prefers-color-scheme: light)');
+          mq.addEventListener('change', (e) => {
+            if (!this._manualOverride) this.lightMode = e.matches;
+          });
+
+          this.$watch('lightMode', (val) => {
+            document.documentElement.classList.toggle('light-mode', val);
+            document.documentElement.classList.toggle('dark-mode', !val);
+          });
+
+          // Single rAF-throttled scroll listener for both navbar `scrolled`
+          // state and (later) fluid-pause check. Earlier we had two separate
+          // `scroll` handlers running on every event.
+          let scrollTicking = false;
+          window.addEventListener('scroll', () => {
+            if (scrollTicking) return;
+            scrollTicking = true;
+            requestAnimationFrame(() => {
+              this.scrolled = window.scrollY > 40;
+              scrollTicking = false;
+            });
+          }, { passive: true });
+
+          this.$nextTick(() => {
+            this.initReveal();
+            this.initTyping();
+            // Auto-update footer year so we never ship a stale copyright
+            const yr = document.getElementById('footer-year');
+            if (yr) yr.textContent = String(new Date().getFullYear());
+            try { lucide.createIcons(); } catch(e) {}
+            // Safety net: re-run icon creation once after Alpine has fully
+            // rendered all x-for templates (skill pills, projects, etc.)
+            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
+          });
+        },
+
+        initReveal() {
+          const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+          els.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              el.classList.add('visible');
+            } else {
+              observer.observe(el);
+            }
+          });
+        },
+
+        initTyping() {
+          const phrases = [
+            'Freelance Graphic Designer',
+            'Web Developer',
+            'AI & Prompt Engineer',
+            'Motion Graphics Artist',
+            'Brand Identity Specialist'
+          ];
+          let phraseIndex = 0, charIndex = 0, deleting = false;
+          const el = document.getElementById('typed-text');
+          if (!el) return;
+          function type() {
+            const current = phrases[phraseIndex];
+            if (!deleting) {
+              el.textContent = current.slice(0, charIndex + 1);
+              charIndex++;
+              if (charIndex === current.length) { deleting = true; setTimeout(type, 2200); return; }
+            } else {
+              el.textContent = current.slice(0, charIndex - 1);
+              charIndex--;
+              if (charIndex === 0) { deleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; }
+            }
+            setTimeout(type, deleting ? 55 : 80);
+          }
+          setTimeout(type, 800);
+        }
+      };
+    }
+
+    function counterAnim(target, suffix = '') {
+      return {
+        display: 0, target, suffix, started: false,
+        start() {
+          if (this.started) return;
+          this.started = true;
+          const step = 16;
+          const increment = target / (1800 / step);
+          const timer = setInterval(() => {
+            this.display = Math.min(Math.round(this.display + increment), target);
+            if (this.display >= target) { this.display = target; clearInterval(timer); }
+          }, step);
+        }
+      };
+    }
+  </script>
+
+  <!-- Lucide Icons (pinned to a known-good version so icon names stay stable) -->
+  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="stylesheet" href="css/skills.css">
   <link rel="stylesheet" href="css/work.css">
-  <link rel="stylesheet" href="css/experience.css">
   <link rel="stylesheet" href="css/education.css">
   <link rel="stylesheet" href="css/achievements.css">
   <link rel="stylesheet" href="css/testimonials.css">
-  <link rel="stylesheet" href="css/why.css">
   <link rel="stylesheet" href="css/contact.css">
   <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/animations.css">
 
-  <!-- No-JS fallback -->
+
+  <!--
+    No-JS fallback: every section below the hero starts at opacity:0 and
+    relies on Alpine + IntersectionObserver to fade in. If JS is disabled
+    or blocked, the page would be a long blank scroll. This stylesheet
+    forces all reveal classes to their final visible state. The modal &
+    mobile menu remain hidden because they're only useful with JS anyway.
+  -->
   <noscript>
     <style>
-      .reveal,.reveal-left,.reveal-right{opacity:1!important;transform:none!important;}
-      .char{opacity:1!important;transform:none!important;}
-      .hero-availability,.hero-typewriter,.hero-description,.hero-cta,.hero-stats,.scroll-indicator{opacity:1!important;}
-      #typewriter-text::after{content:'AI \26 LLM Specialist';}
-      .cursor-dot,.cursor-ring{display:none!important;}
-      #webgl-canvas{display:none!important;}
-      .tab-panel{display:block!important;opacity:1!important;}
+      .reveal, .reveal-left, .reveal-right, .reveal-scale {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .split-word span { transform: none !important; opacity: 1 !important; }
+      #typed-text::after { content: 'Designer · Developer · Animator · AI Engineer'; }
+      .cursor-glow, .cursor-ring { display: none !important; }
+      #fluid-canvas { display: none !important; }
     </style>
   </noscript>
 </head>
-<body>
 
+<!-- ============================================================
+     ALPINE.JS APP INIT
+============================================================ -->
+<body class="bg-breathe relative" x-data="portfolioApp()" @keydown.escape.window="modalOpen && closeModal()">
 
-<!-- Skip link -->
+<!-- Skip-to-content link for keyboard / screen-reader users -->
 <a href="#hero" class="skip-link">Skip to main content</a>
 
-<!-- Custom Cursor -->
-<div class="cursor-dot" aria-hidden="true"></div>
-<div class="cursor-ring" aria-hidden="true"></div>
+<!-- ============================================================
+     INK FLUID WEBGL BACKGROUND
+     A real fluid simulation by PavelDoGreat (via webgl-fluid CDN).
+     Sits behind all content. Responds to hover (desktop) and touch (mobile).
+============================================================ -->
+<canvas id="fluid-canvas"></canvas>
 
-<!-- WebGL Canvas -->
-<canvas id="webgl-canvas" aria-hidden="true" role="presentation"></canvas>
+<!-- (Removed dead `<canvas id="particle-canvas">` — replaced by WebGL fluid sim) -->
 
-<!-- CSS Fallback Blobs (hidden until WebGL fails) -->
-<div class="css-fallback-bg" style="display:none" aria-hidden="true">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-</div>
+<!-- Custom Cursor (desktop only) -->
+<div class="cursor-glow" id="cursor-glow"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 
-<!-- ══════════════════════════════════════════
-     1. LOADING SCREEN
-══════════════════════════════════════════ -->
-<div id="loading-screen" aria-hidden="true">
-  <div class="loader-name">
-    Azhar.
-    <svg class="loader-underline" width="140" height="8" viewBox="0 0 140 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="0" y1="4" x2="140" y2="4"/>
-    </svg>
+<!-- ============================================================
+     STICKY NAVBAR
+============================================================ -->
+<nav
+  class="nav-glass fixed top-0 left-0 right-0 z-50"
+  :class="{ 'scrolled': scrolled }"
+  id="navbar"
+>
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm tracking-tight z-10">
+      Azhar.
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about"        class="nav-link">About</a>
+      <a href="#skills"       class="nav-link">Skills</a>
+      <a href="#experience"   class="nav-link">Experience</a>
+      <a href="#work"         class="nav-link">Work</a>
+      <a href="#education"    class="nav-link">Education</a>
+      <a href="#achievements" class="nav-link">Achievements</a>
+      <a href="#testimonials" class="nav-link">Testimonials</a>
+      <a href="#contact"      class="nav-link">Contact</a>
+      <!--
+        Resume Download (primary CTA — only this one gets the pulse ring).
+        TODO: upload `Azhar_Resume.pdf` to repo root for this download to work.
+        While the file is missing, the click handler in the contact-form script
+        below probes the URL and gracefully falls back to scrolling the user to
+        the #contact section instead of hitting a 404.
+      -->
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download btn-download--pulse ml-2">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        Resume
+      </a>
+    </div>
+
+    <!-- Right: Dark/Light Toggle + Mobile Menu Btn -->
+    <div class="flex items-center gap-4 z-10">
+
+      <!--
+        Theme Toggle.
+        IMPORTANT: x-show is bound to a <span> wrapper, NOT directly on
+        the <i data-lucide>. Lucide replaces every <i> with a fresh <svg>
+        which destroys any Alpine binding on that element. Wrapping in
+        a span keeps the binding on a stable host node.
+      -->
+      <button
+        @click="_manualOverride = true; lightMode = !lightMode"
+        class="flex items-center justify-center w-9 h-9 rounded-full border border-opacity-20 transition-all duration-300 hover:border-amethyst"
+        :class="lightMode ? 'bg-amethyst/20 border-amethyst' : 'bg-regal/20 border-amethyst/20'"
+        title="Toggle light/dark mode"
+        :aria-pressed="lightMode.toString()"
+        :aria-label="lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'"
+      >
+        <span x-show="!lightMode" class="flex" aria-hidden="true"><i data-lucide="sun"  class="w-4 h-4 text-amethyst"></i></span>
+        <span x-show="lightMode"  class="flex" aria-hidden="true"><i data-lucide="moon" class="w-4 h-4 text-regal"></i></span>
+      </button>
+
+      <!-- Mobile menu toggle (same pattern: wrap icons in <span> for x-show) -->
+      <button
+        class="md:hidden flex items-center justify-center w-9 h-9"
+        @click="mobileMenu = !mobileMenu"
+        :aria-label="mobileMenu ? 'Close navigation menu' : 'Open navigation menu'"
+        :aria-expanded="mobileMenu.toString()"
+        aria-controls="mobile-menu-panel"
+      >
+        <span x-show="!mobileMenu" class="flex" aria-hidden="true"><i data-lucide="menu" class="w-5 h-5 text-amethyst"></i></span>
+        <span x-show="mobileMenu"  class="flex" aria-hidden="true"><i data-lucide="x"    class="w-5 h-5 text-amethyst"></i></span>
+      </button>
+    </div>
   </div>
-</div>
 
-<!-- ══════════════════════════════════════════
-     2. NAVBAR
-══════════════════════════════════════════ -->
-<nav id="navbar" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">Azhar.</a>
-
-    <ul class="nav-links" role="list">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#achievements">Achievements</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-
-    <div class="nav-controls">
-      <button id="theme-toggle" class="theme-toggle" aria-label="Switch to light mode">
-        <!-- Sun icon (shown in dark mode) -->
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:block">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <!-- Moon icon (shown in light mode) -->
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-      <a href="#contact" class="nav-hire">Hire Me</a>
-      <button id="hamburger" class="hamburger" aria-expanded="false" aria-controls="mobile-overlay" aria-label="Open navigation menu">
-        <span></span><span></span><span></span>
-      </button>
+  <!-- Mobile Menu Dropdown -->
+  <div
+    id="mobile-menu-panel"
+    class="mobile-menu md:hidden overflow-hidden"
+    role="navigation"
+    aria-label="Mobile navigation"
+    x-show="mobileMenu"
+    x-cloak
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 -translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+  >
+    <div class="px-6 py-4 flex flex-col gap-4">
+      <a href="#about"        class="nav-link py-2" @click="mobileMenu=false">About</a>
+      <a href="#skills"       class="nav-link py-2" @click="mobileMenu=false">Skills</a>
+      <a href="#experience"   class="nav-link py-2" @click="mobileMenu=false">Experience</a>
+      <a href="#work"         class="nav-link py-2" @click="mobileMenu=false">Work</a>
+      <a href="#education"    class="nav-link py-2" @click="mobileMenu=false">Education</a>
+      <a href="#achievements" class="nav-link py-2" @click="mobileMenu=false">Achievements</a>
+      <a href="#testimonials" class="nav-link py-2" @click="mobileMenu=false">Testimonials</a>
+      <a href="#contact"      class="nav-link py-2" @click="mobileMenu=false">Contact</a>
+      <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download py-2.5 text-xs justify-center mt-2">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        Download Resume
+      </a>
     </div>
   </div>
 </nav>
 
-<!-- Mobile overlay -->
-<div id="mobile-overlay" aria-hidden="true" aria-modal="true" role="dialog" aria-label="Mobile navigation">
-  <button id="overlay-close" class="mobile-overlay-close" aria-label="Close navigation">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
-  <ul class="mobile-nav-links" role="list">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#achievements">Achievements</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</div>
 
+<!-- Main landmark wraps every content section so screen readers and the
+     skip-to-content link have a clear navigation target. -->
 <main id="main">
 
 
-<!-- ══════════════════════════════════════════
-     3. HERO
-══════════════════════════════════════════ -->
-<section id="hero">
-  <div class="hero-content">
+<!-- ============================================================
+     SECTION 1: HERO
+============================================================ -->
+<section id="hero" class="hero-bg relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
 
-    <!-- Availability -->
-    <div class="hero-availability">
-      <span class="pulse-dot"></span>
-      Islamabad, Pakistan &nbsp;—&nbsp; Available for work
+  <!-- Floating orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <!-- Decorative grid lines -->
+  <div class="absolute inset-0 pointer-events-none opacity-5"
+    style="background-image: linear-gradient(rgba(197,157,217,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(197,157,217,0.4) 1px, transparent 1px); background-size: 60px 60px;">
+  </div>
+
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
+
+    <!-- Availability badge -->
+    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amethyst/25 bg-regal/15 backdrop-blur-sm mb-8 text-xs tracking-widest text-amethyst/80 uppercase" style="letter-spacing:0.18em;">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>
+      Available for freelance work
     </div>
 
-    <!-- Name with char spans -->
-    <div class="hero-name-wrap">
-      <h1 class="hero-name" aria-label="Azhar.">
-        <span class="char">A</span><span class="char">z</span><span class="char">h</span><span class="char">a</span><span class="char">r</span><span class="char">.</span>
-      </h1>
-    </div>
+    <!-- Brand Name -->
+    <h1 class="hero-brand reveal delay-1 mb-4" data-text="Azhar.">Azhar.</h1>
 
-    <!-- Typewriter subtitle -->
-    <div class="hero-typewriter" aria-live="polite">
-      <span id="typewriter-text"></span><span class="typewriter-cursor" aria-hidden="true"></span>
-    </div>
-
-    <!-- Description -->
-    <p class="hero-description">
-      Crafting digital products at the intersection of engineering and art.
+    <!-- Full Name -->
+    <p class="reveal delay-2 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
+      Muhammad Azhar Shahbaz
     </p>
 
-    <!-- CTAs -->
-    <div class="hero-cta">
-      <a href="#work" class="btn-primary">View Work</a>
-      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" class="btn-outline">Download CV</a>
+    <!-- Tagline with typing animation -->
+    <div class="reveal delay-3 mb-10">
+      <p class="font-display text-xl md:text-3xl font-light text-lilac/80 leading-relaxed">
+        <span id="typed-text" class="typing-cursor"></span>
+      </p>
     </div>
 
-    <!-- Stats -->
-    <div class="hero-stats" aria-label="Key statistics">
-      <div class="stat-item">
-        <span class="stat-value" data-count="3" data-suffix="+" data-duration="1200">3+</span>
-        <span class="stat-label">Years Experience</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value" data-count="25" data-suffix="+" data-duration="1500">25+</span>
-        <span class="stat-label">Premium Projects</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value" data-count="98" data-suffix="%" data-duration="1800">98%</span>
-        <span class="stat-label">Client Retention</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value" data-count="7" data-prefix="$" data-suffix="K+" data-duration="1400">$7K+</span>
-        <span class="stat-label">Revenue Generated</span>
-      </div>
+    <!-- Location -->
+    <div class="reveal delay-4 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
+      <i data-lucide="map-pin" class="w-4 h-4"></i>
+      <span>Islamabad, Pakistan</span>
     </div>
 
-    <!-- Scroll cue -->
-    <div class="scroll-indicator-wrap" aria-hidden="true">
-      <div class="scroll-indicator">
-        <span>scroll</span>
-        <div class="scroll-line"></div>
-      </div>
+    <!-- CTA Buttons -->
+    <div class="reveal delay-5 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#work" class="btn-primary">
+        <i data-lucide="layers" class="w-4 h-4"></i>
+        View My Work
+      </a>
+      <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
+      <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download">
+        <i data-lucide="download" class="w-4 h-4"></i>
+        Download Resume
+      </a>
+      <a href="#contact" class="btn-outline">
+        <i data-lucide="send" class="w-4 h-4"></i>
+        Let's Collaborate
+      </a>
     </div>
 
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     4. ABOUT
-══════════════════════════════════════════ -->
-<section id="about">
-  <div class="section-wrap">
-    <span class="section-label reveal">Who I Am</span>
-    <h2 class="section-heading reveal">About Me</h2>
-
-    <div class="about-grid">
-      <!-- Avatar -->
-      <div class="about-avatar-col reveal-left">
-        <div class="avatar-wrap">
-          <svg class="avatar-ring-svg avatar-ring-animated" viewBox="0 0 212 212" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="106" cy="106" r="103" stroke="url(#avatarGrad)" stroke-width="3"/>
-            <defs>
-              <linearGradient id="avatarGrad" x1="0" y1="0" x2="212" y2="212" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#6E3AFF"/>
-                <stop offset="100%" stop-color="#00E8C8"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <div class="avatar-inner">MA</div>
-        </div>
-        <div class="avatar-status">
-          <span class="pulse-dot"></span>Open to Work
-        </div>
-      </div>
-
-      <!-- Bio -->
-      <div class="about-bio reveal-right">
-        <p>
-          I'm <strong>Muhammad Azhar Shahbaz</strong> — a creative technologist and AI specialist based in Islamabad, Pakistan. I work at the intersection of design, engineering, and artificial intelligence to build products that actually move the needle for clients.
-        </p>
-        <p>
-          Over 3 years of freelancing for US-based clients, I've delivered 25+ high-value projects spanning brand identities, web applications, animated explainers, and AI-powered workflows — generating <strong>$7K+</strong> in revenue with a <strong>98% client retention rate</strong>.
-        </p>
-        <p>
-          Currently pursuing dual degrees in Computer Science and Animation at COMSATS University Islamabad — deepening both the technical foundation and the creative instinct.
-        </p>
-
-        <div class="philosophy-cards">
-          <div class="philosophy-card">
-            <h4>Art-First Thinking</h4>
-            <p>Every technical decision starts with the question: does this feel right?</p>
-          </div>
-          <div class="philosophy-card">
-            <h4>Engineering Precision</h4>
-            <p>Beautiful interfaces that perform. Consistent, maintainable, fast.</p>
-          </div>
-          <div class="philosophy-card">
-            <h4>AI-Augmented Speed</h4>
-            <p>Using AI as a force multiplier — not a replacement for craft.</p>
-          </div>
-        </div>
-      </div>
+    <!-- Scroll indicator -->
+    <div class="reveal delay-6 mt-20 flex flex-col items-center gap-2 opacity-40">
+      <span class="text-xs tracking-[0.2em] uppercase text-amethyst/60">Scroll to explore</span>
+      <div class="w-px h-12 bg-gradient-to-b from-amethyst/60 to-transparent animate-pulse"></div>
     </div>
   </div>
 </section>
 
 
-<!-- ══════════════════════════════════════════
-     5. SKILLS
-══════════════════════════════════════════ -->
-<section id="skills">
-  <div class="section-wrap">
-    <span class="section-label reveal">My Expertise</span>
-    <h2 class="section-heading reveal">Skills</h2>
+<!-- ============================================================
+     SECTION 2: ABOUT ME
+============================================================ -->
+<section id="about" class="relative z-10 py-28 px-6">
+  <div class="max-w-6xl mx-auto">
 
-    <div class="reveal">
-      <!-- Tab list -->
-      <div role="tablist" aria-label="Skill categories" class="tab-list">
-        <button role="tab" id="tab-ai"     aria-selected="true"  aria-controls="panel-ai"     tabindex="0"  class="tab-btn">AI &amp; LLM</button>
-        <button role="tab" id="tab-design" aria-selected="false" aria-controls="panel-design" tabindex="-1" class="tab-btn">Design &amp; Motion</button>
-        <button role="tab" id="tab-dev"    aria-selected="false" aria-controls="panel-dev"    tabindex="-1" class="tab-btn">Development</button>
-        <button role="tab" id="tab-strat"  aria-selected="false" aria-controls="panel-strat"  tabindex="-1" class="tab-btn">Strategy</button>
-      </div>
-
-      <div class="tab-content-wrapper">
-
-        <!-- Panel 1: AI & LLM -->
-        <div role="tabpanel" id="panel-ai" aria-labelledby="tab-ai" tabindex="0" class="tab-panel">
-          <div class="skills-grid">
-            <span class="skill-pill">Prompt Engineering <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">RAG — Retrieval-Augmented Generation <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">LangChain <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">LlamaIndex</span>
-            <span class="skill-pill">Vector DBs — Pinecone, Chroma, Weaviate <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">LLM Fine-tuning — LoRA, QLoRA <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">AI Agents — CrewAI, AutoGen, LangGraph <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">OpenAI API — Assistants, Function Calling <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">Anthropic Claude API — Tool Use</span>
-            <span class="skill-pill">Hugging Face Transformers <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">Embeddings + Semantic Search <span class="demand-tag high">High Demand</span></span>
-            <span class="skill-pill">Structured Output — Instructor, Outlines <span class="demand-tag trending">2026 Trending</span></span>
-            <span class="skill-pill">n8n + Make + Zapier AI Automation</span>
-            <span class="skill-pill">Evaluation — LangSmith, RAGAS, DeepEval</span>
-            <span class="skill-pill">Model Context Protocol (MCP) <span class="demand-tag trending">2026 Trending</span></span>
-            <span class="skill-pill">Multimodal — Vision APIs, Whisper, TTS</span>
-            <span class="skill-pill">ComfyUI + Stable Diffusion Pipelines</span>
-          </div>
-        </div>
-
-        <!-- Panel 2: Design & Motion -->
-        <div role="tabpanel" id="panel-design" aria-labelledby="tab-design" tabindex="0" class="tab-panel">
-          <div class="skills-grid">
-            <span class="skill-pill">Brand Identity Systems</span>
-            <span class="skill-pill">UI/UX Design — Figma</span>
-            <span class="skill-pill">Design Systems + Component Libraries</span>
-            <span class="skill-pill">Motion Graphics — After Effects</span>
-            <span class="skill-pill">Lottie Animations</span>
-            <span class="skill-pill">3D — Blender, Spline</span>
-            <span class="skill-pill">WebGL + Three.js</span>
-            <span class="skill-pill">GSAP + ScrollTrigger</span>
-            <span class="skill-pill">Framer</span>
-            <span class="skill-pill">Generative AI Art Direction</span>
-            <span class="skill-pill">Video Production — DaVinci Resolve</span>
-          </div>
-        </div>
-
-        <!-- Panel 3: Development -->
-        <div role="tabpanel" id="panel-dev" aria-labelledby="tab-dev" tabindex="0" class="tab-panel">
-          <div class="skills-grid">
-            <span class="skill-pill">React + Next.js (App Router)</span>
-            <span class="skill-pill">TypeScript</span>
-            <span class="skill-pill">Node.js + Express</span>
-            <span class="skill-pill">Python — FastAPI</span>
-            <span class="skill-pill">PostgreSQL + Supabase</span>
-            <span class="skill-pill">MongoDB</span>
-            <span class="skill-pill">REST API + GraphQL</span>
-            <span class="skill-pill">Docker + CI/CD</span>
-            <span class="skill-pill">Vercel + Railway</span>
-            <span class="skill-pill">Tailwind CSS</span>
-            <span class="skill-pill">Web Performance + Core Web Vitals</span>
-          </div>
-        </div>
-
-        <!-- Panel 4: Strategy -->
-        <div role="tabpanel" id="panel-strat" aria-labelledby="tab-strat" tabindex="0" class="tab-panel">
-          <div class="skills-grid">
-            <span class="skill-pill">Conversion Rate Optimization</span>
-            <span class="skill-pill">Technical SEO</span>
-            <span class="skill-pill">Analytics — GA4, PostHog</span>
-            <span class="skill-pill">Email Automation — Resend, Loops</span>
-            <span class="skill-pill">A/B Testing</span>
-            <span class="skill-pill">Product Thinking</span>
-            <span class="skill-pill">Freelance Pricing Strategy</span>
-          </div>
-        </div>
-
-      </div><!-- .tab-content-wrapper -->
+    <!-- Section Header -->
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Who I Am</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">About Me</h2>
+      <div class="divider-line mt-6"></div>
     </div>
-  </div>
-</section>
 
+    <!-- About Grid -->
+    <div class="grid md:grid-cols-2 gap-16 items-center">
 
-<!-- ══════════════════════════════════════════
-     6. WORK
-══════════════════════════════════════════ -->
-<section id="work">
-  <div class="section-wrap">
-    <span class="section-label reveal">Portfolio</span>
-    <h2 class="section-heading reveal">Featured Work</h2>
-
-    <div class="work-grid">
-
-      <!-- Card 1 — NexaVentures -->
-      <article class="project-card reveal">
-        <div class="project-thumb project-thumb-1">
-          <div class="project-thumb-overlay"><span>View Case Study</span></div>
-        </div>
-        <div class="project-body">
-          <span class="project-category">Branding</span>
-          <h3 class="project-title">NexaVentures — Brand Identity</h3>
-          <div class="project-tags">
-            <span class="chip">Branding</span>
-            <span class="chip">Identity System</span>
-            <span class="chip">AI-Assisted</span>
-          </div>
-          <p class="project-result">Launched in 3 weeks. Client raised seed round 60 days later.</p>
-        </div>
-        <button class="project-expand-btn" aria-expanded="false" aria-controls="detail-1">
-          Case Study
-          <svg class="expand-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="project-detail" id="detail-1" role="region">
-          <div class="project-detail-inner">
-            <div class="detail-block">
-              <span class="detail-label">Problem</span>
-              <p class="detail-text">Startup needed a complete brand system before investor meetings — zero visual identity existed.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Process</span>
-              <p class="detail-text">Identity audit, moodboarding, logo system, color tokens, type scale, brand guidelines document.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Result</span>
-              <p class="detail-text">Full 40-page brand guide delivered. Investor deck used the system. Seed round followed 60 days post-launch.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Stack</span>
-              <div class="detail-stack">
-                <span class="chip">Figma</span>
-                <span class="chip">Illustrator</span>
-                <span class="chip">Midjourney</span>
-              </div>
+      <!-- Avatar + decoration -->
+      <div class="reveal-left flex flex-col items-center md:items-start gap-8">
+        <div class="relative">
+          <div class="avatar-ring">
+            <!--
+              TODO: drop your profile photo into the repo (e.g. `profile.jpg`,
+              square 600x600 minimum) and uncomment the <img> tag below.
+              The `MA` initials are kept as a graceful fallback / loading state.
+            -->
+            <div class="avatar-inner">
+              <!-- <img src="profile.jpg" alt="Muhammad Azhar Shahbaz" class="w-full h-full rounded-full object-cover"/> -->
+              MA
             </div>
           </div>
-        </div>
-      </article>
-
-      <!-- Card 2 — Aura Commerce -->
-      <article class="project-card reveal">
-        <div class="project-thumb project-thumb-2">
-          <div class="project-thumb-overlay"><span>View Case Study</span></div>
-        </div>
-        <div class="project-body">
-          <span class="project-category">Web Development</span>
-          <h3 class="project-title">Aura Commerce — E-commerce Platform</h3>
-          <div class="project-tags">
-            <span class="chip">Next.js</span>
-            <span class="chip">UI/UX</span>
-            <span class="chip">Conversion</span>
-          </div>
-          <p class="project-result">Conversion rate up 40% in first month post-launch.</p>
-        </div>
-        <button class="project-expand-btn" aria-expanded="false" aria-controls="detail-2">
-          Case Study
-          <svg class="expand-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="project-detail" id="detail-2" role="region">
-          <div class="project-detail-inner">
-            <div class="detail-block">
-              <span class="detail-label">Problem</span>
-              <p class="detail-text">Existing site had 2.1% conversion rate and a broken mobile experience losing 60% of traffic.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Process</span>
-              <p class="detail-text">UX audit, new information architecture, component system rebuild, performance optimization pipeline.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Result</span>
-              <p class="detail-text">Core Web Vitals all green. Mobile bounce rate down 35%. Conversion rate climbed from 2.1% to 2.94%.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Stack</span>
-              <div class="detail-stack">
-                <span class="chip">Next.js</span>
-                <span class="chip">Tailwind CSS</span>
-                <span class="chip">Supabase</span>
-                <span class="chip">Vercel</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 3 — PulseMedia -->
-      <article class="project-card reveal">
-        <div class="project-thumb project-thumb-3">
-          <div class="project-thumb-overlay"><span>View Case Study</span></div>
-        </div>
-        <div class="project-body">
-          <span class="project-category">Motion</span>
-          <h3 class="project-title">PulseMedia — Motion Reel</h3>
-          <div class="project-tags">
-            <span class="chip">After Effects</span>
-            <span class="chip">3D</span>
-            <span class="chip">Sound Design</span>
-          </div>
-          <p class="project-result">Used in $2M pitch deck. Viewer retention 94%.</p>
-        </div>
-        <button class="project-expand-btn" aria-expanded="false" aria-controls="detail-3">
-          Case Study
-          <svg class="expand-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="project-detail" id="detail-3" role="region">
-          <div class="project-detail-inner">
-            <div class="detail-block">
-              <span class="detail-label">Problem</span>
-              <p class="detail-text">Agency needed a showreel capable of anchoring a high-stakes $2M funding pitch.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Process</span>
-              <p class="detail-text">Script, storyboard, 3D scene blocking, motion graphics, sound design, final grade.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Result</span>
-              <p class="detail-text">Pitch succeeded. 94% viewer retention. Client retained for 3 follow-on projects.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Stack</span>
-              <div class="detail-stack">
-                <span class="chip">After Effects</span>
-                <span class="chip">Blender</span>
-                <span class="chip">DaVinci Resolve</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 4 — AI Document Pipeline -->
-      <article class="project-card reveal">
-        <div class="project-thumb project-thumb-4" aria-hidden="true">A</div>
-        <div class="project-body">
-          <span class="project-category">AI / LLM</span>
-          <h3 class="project-title">AI Document Pipeline — LLM Workflow</h3>
-          <div class="project-tags">
-            <span class="chip">RAG</span>
-            <span class="chip">LangChain</span>
-            <span class="chip">FastAPI</span>
-          </div>
-          <p class="project-result">Processes 10K documents/day. Manual review cut 80%.</p>
-        </div>
-        <button class="project-expand-btn" aria-expanded="false" aria-controls="detail-4">
-          Case Study
-          <svg class="expand-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="project-detail" id="detail-4" role="region">
-          <div class="project-detail-inner">
-            <div class="detail-block">
-              <span class="detail-label">Problem</span>
-              <p class="detail-text">Client had 10K+ unstructured PDFs per day needing classification and extraction — manual team at capacity.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Process</span>
-              <p class="detail-text">RAG architecture design, vector DB setup (Pinecone), chunking strategy, eval loop with RAGAS, Railway deployment.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Result</span>
-              <p class="detail-text">94% extraction accuracy. Cost under $40/month. Manual review workload reduced by 80%.</p>
-            </div>
-            <div class="detail-block">
-              <span class="detail-label">Stack</span>
-              <div class="detail-stack">
-                <span class="chip">LangChain</span>
-                <span class="chip">Pinecone</span>
-                <span class="chip">FastAPI</span>
-                <span class="chip">OpenAI API</span>
-                <span class="chip">Railway</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-    </div><!-- .work-grid -->
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════════════
-     7. EXPERIENCE
-══════════════════════════════════════════ -->
-<section id="experience">
-  <div class="section-wrap">
-    <span class="section-label reveal">Professional Journey</span>
-    <h2 class="section-heading reveal">Experience</h2>
-
-    <div class="timeline reveal">
-      <div class="timeline-line"></div>
-
-      <div class="timeline-entry">
-        <div class="timeline-dot" aria-hidden="true"></div>
-
-        <div class="exp-header">
-          <h3 class="exp-title">Freelance Designer &amp; Developer</h3>
-          <span class="exp-badge">
-            <span class="pulse-dot" aria-hidden="true"></span>
-            Active
-          </span>
-        </div>
-
-        <p class="exp-company">Self-Employed · Remote — US-Based Clients</p>
-        <p class="exp-period">January 2022 — Present</p>
-
-        <p class="exp-description">
-          Delivered 25+ premium projects for US-based startups spanning brand identity, web applications, and AI automation. Maintained a 5-star rating across every platform with zero late deliveries.
-        </p>
-
-        <div class="exp-metrics" role="list" aria-label="Key metrics">
-          <span class="exp-metric" role="listitem">$7K+ revenue</span>
-          <span class="exp-metric" role="listitem">25+ projects</span>
-          <span class="exp-metric" role="listitem">98% retention</span>
-          <span class="exp-metric" role="listitem">5-star rating</span>
-        </div>
-
-        <p class="exp-note">Currently open to long-term collaborations and contract work.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     8. EDUCATION
-══════════════════════════════════════════ -->
-<section id="education">
-  <div class="section-wrap">
-    <span class="section-label reveal">Academic Background</span>
-    <h2 class="section-heading reveal">Education</h2>
-
-    <span class="edu-label reveal">Dual Degree</span>
-
-    <div class="edu-grid">
-      <div class="edu-card reveal-left">
-        <span class="edu-degree-type">Bachelor of Science</span>
-        <h3 class="edu-degree-name">Computer Science</h3>
-        <p class="edu-institution">COMSATS University Islamabad</p>
-        <div class="edu-period">
-          <span class="edu-period-dot" aria-hidden="true"></span>
-          2025 — Present
-        </div>
-      </div>
-
-      <div class="edu-card reveal-right">
-        <span class="edu-degree-type">Bachelor of Science</span>
-        <h3 class="edu-degree-name">Animation, Interactive Technology &amp; VFX</h3>
-        <p class="edu-institution">COMSATS University Islamabad</p>
-        <div class="edu-period">
-          <span class="edu-period-dot" aria-hidden="true"></span>
-          2025 — Present
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     9. ACHIEVEMENTS
-══════════════════════════════════════════ -->
-<section id="achievements">
-  <div class="section-wrap">
-    <span class="section-label reveal">Recognition &amp; Certifications</span>
-    <h2 class="section-heading reveal">Achievements</h2>
-
-    <div class="bento-grid">
-
-      <!-- Featured: Top 3% -->
-      <div class="achievement-card featured reveal">
-        <span class="ach-year">Upwork + Fiverr</span>
-        <h3 class="ach-title">Top 3% Freelancer</h3>
-        <p class="ach-sub">Upwork + Fiverr — across 30+ reviewed projects with a maintained 5-star rating.</p>
-      </div>
-
-      <div class="achievement-card reveal">
-        <span class="ach-year">Coursera · 2024</span>
-        <h3 class="ach-title">Google UX Design Certificate</h3>
-        <p class="ach-sub">Professional certificate in UX research, wireframing, and prototyping.</p>
-      </div>
-
-      <div class="achievement-card reveal">
-        <span class="ach-year">DeepLearning.AI · 2024</span>
-        <h3 class="ach-title">AI For Everyone</h3>
-        <p class="ach-sub">Foundational AI literacy and business application of machine learning.</p>
-      </div>
-
-      <div class="achievement-card reveal">
-        <span class="ach-year">Michigan State University · 2024</span>
-        <h3 class="ach-title">Game Design Fundamentals</h3>
-        <p class="ach-sub">Coursera specialisation covering game mechanics, UX, and systems design.</p>
-      </div>
-
-      <div class="achievement-card reveal">
-        <span class="ach-year">COMSATS · 2024</span>
-        <h3 class="ach-title">Hackathon — 2nd Place</h3>
-        <p class="ach-sub">COMSATS University Web Development Competition, 2024.</p>
-      </div>
-
-      <div class="achievement-card reveal">
-        <span class="ach-year">Open Source</span>
-        <h3 class="ach-title">Open Source Contributor</h3>
-        <p class="ach-sub">3 projects published. 1K+ total downloads across GitHub.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════════════
-     10. TESTIMONIALS
-══════════════════════════════════════════ -->
-<section id="testimonials">
-  <div class="section-wrap">
-    <span class="section-label reveal">Client Words</span>
-    <h2 class="section-heading reveal">Testimonials</h2>
-  </div>
-
-  <div class="testimonials-outer">
-    <div class="testimonials-track" role="list" aria-label="Client testimonials">
-
-      <div class="testimonial-card" role="listitem">
-        <div class="stars" aria-label="5 out of 5 stars">
-          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-          <span class="star" aria-hidden="true">★</span>
-        </div>
-        <p class="testimonial-quote">"Azhar delivered our brand identity beyond what we imagined. His creative vision and attention to detail transformed our startup's visual presence completely. The investor deck built on his system helped us close our seed round."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar" aria-hidden="true">SM</div>
-          <div>
-            <span class="author-name">Sarah Malik</span>
-            <span class="author-role">CEO, NexaVentures</span>
+          <!-- Decorative ring -->
+          <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin" style="animation-duration:20s;"></div>
+          <div class="absolute -inset-6 rounded-full border border-regal/10 animate-spin" style="animation-duration:30s; animation-direction: reverse;"></div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-3 -right-3 glass px-3 py-2 rounded-full text-xs text-amethyst border border-amethyst/25 flex items-center gap-2">
+            <i data-lucide="zap" class="w-3 h-3"></i>
+            <span>Open to Work</span>
           </div>
         </div>
       </div>
 
-      <div class="testimonial-card" role="listitem">
-        <div class="stars" aria-label="5 out of 5 stars">
-          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-          <span class="star" aria-hidden="true">★</span>
-        </div>
-        <p class="testimonial-quote">"The e-commerce website Azhar built for us is stunning — fast, responsive, and beautifully designed. Our conversion rate improved by 40% within the first month of launch. He communicated daily and delivered ahead of schedule."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar" aria-hidden="true">KB</div>
-          <div>
-            <span class="author-name">Kamran Baig</span>
-            <span class="author-role">Founder, Aura Commerce</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial-card" role="listitem">
-        <div class="stars" aria-label="5 out of 5 stars">
-          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-          <span class="star" aria-hidden="true">★</span>
-        </div>
-        <p class="testimonial-quote">"Working with Azhar on our motion reel was a remarkable experience. His animation quality rivals top studios. He has a rare instinct for storytelling through motion — and the pitch succeeded because of it."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar" aria-hidden="true">LC</div>
-          <div>
-            <span class="author-name">Lara Chen</span>
-            <span class="author-role">Creative Director, PulseMedia</span>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- .testimonials-track -->
-  </div>
-
-  <!-- Pagination dots -->
-  <div class="testimonials-dots" aria-label="Testimonial navigation">
-    <button class="testimonial-dot active" aria-label="Go to testimonial 1"></button>
-    <button class="testimonial-dot" aria-label="Go to testimonial 2"></button>
-    <button class="testimonial-dot" aria-label="Go to testimonial 3"></button>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     11. WHY CHOOSE ME
-══════════════════════════════════════════ -->
-<section id="why">
-  <div class="section-wrap">
-    <span class="section-label reveal">The Difference</span>
-    <h2 class="section-heading reveal">Why Clients Choose Me</h2>
-
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <h3>Fast Turnaround</h3>
-        <p>AI-augmented workflows let me deliver 25% faster than the industry average — without cutting corners on quality.</p>
-      </div>
-      <div class="why-card reveal">
-        <h3>5-Star Record</h3>
-        <p>30+ platform reviews. 98% retention rate. Clients don't just come back — they refer me to their networks.</p>
-      </div>
-      <div class="why-card reveal">
-        <h3>Full-Stack Creative</h3>
-        <p>Design, dev, animation, AI — under one roof. No handoffs. No miscommunication. One person owns the full vision.</p>
-      </div>
-      <div class="why-card reveal">
-        <h3>Clear Communication</h3>
-        <p>Daily updates, transparent timelines, and a 24-hour response guarantee. You always know where your project stands.</p>
-      </div>
-      <div class="why-card reveal">
-        <h3>Results-Driven</h3>
-        <p>My designs have improved client ROI by 35–60% on average. Beautiful work that actually converts.</p>
-      </div>
-      <div class="why-card reveal">
-        <h3>Satisfaction Guarantee</h3>
-        <p>Revisions until you're genuinely happy. No closed project without your explicit sign-off.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ══════════════════════════════════════════
-     12. CONTACT
-══════════════════════════════════════════ -->
-<section id="contact">
-  <div class="section-wrap">
-    <span class="section-label reveal">Get In Touch</span>
-    <h2 class="section-heading reveal">Let's Work Together</h2>
-
-    <div class="contact-grid">
-
-      <!-- Left: info -->
-      <div class="contact-info reveal-left">
-
-        <div class="contact-item">
-          <span class="contact-item-label">Email</span>
-          <a href="mailto:arhamjutt6481335@gmail.com" class="contact-item-value">arhamjutt6481335@gmail.com</a>
-        </div>
-
-        <div class="contact-item">
-          <span class="contact-item-label">Phone</span>
-          <a href="tel:+923170626356" class="contact-item-value">+92 317 0626356</a>
-        </div>
-
-        <div class="contact-item">
-          <span class="contact-item-label">Location</span>
-          <span class="contact-item-value">Islamabad, Pakistan</span>
-        </div>
-
-        <p class="contact-availability">Response within 24 hours, guaranteed.</p>
-
-        <div>
-          <span class="contact-item-label" style="margin-bottom:12px;display:block;">Profiles</span>
-          <div class="contact-social">
-            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
-            <a href="https://github.com/fuwxt" target="_blank" rel="noopener noreferrer" class="social-link">GitHub</a>
-            <a href="https://behance.net/[YOUR_HANDLE]" target="_blank" rel="noopener noreferrer" class="social-link">Behance</a>
-            <a href="https://instagram.com/[YOUR_HANDLE]" target="_blank" rel="noopener noreferrer" class="social-link">Instagram</a>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Right: form -->
+      <!-- Bio Text -->
       <div class="reveal-right">
+        <div class="divider-line-left mb-6"></div>
+        <h3 class="font-display text-3xl md:text-4xl font-light text-lilac mb-6 leading-snug">
+          Crafting digital experiences at the intersection of
+          <em class="gradient-text">art and technology.</em>
+        </h3>
+        <p class="text-lilac/60 leading-relaxed text-sm md:text-base mb-4">
+          I'm Muhammad Azhar Shahbaz — a creative technologist, AI specialist, and full-stack designer based in Islamabad, Pakistan. Pursuing a dual degree in Computer Science and Animation at COMSATS University, I sit at the rare intersection of engineering and artistry — building digital products that don't just look exceptional, they perform exceptionally.
+        </p>
+        <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
+          Over 3 years of freelancing for premium US-based clients, I've delivered 25+ high-value projects — brand identities, web applications, animated explainers, and AI-powered workflows — generating <span class="text-amethyst font-medium">$7K+</span> in revenue, with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
+        </p>
+
+        <!-- Quick stat bars -->
+        <div class="flex flex-col gap-3 mb-8">
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 98, 400)">
+            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
+              <span>Client Retention</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 100, 600)">
+            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
+              <span>On-Time Delivery</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+          <div x-data="{ w: 0 }" x-intersect.once="setTimeout(() => w = 92, 800)">
+            <div class="flex justify-between text-xs text-lilac/45 mb-1.5">
+              <span>Client ROI Improvement (avg)</span><span class="text-amethyst" x-text="w + '%'"></span>
+            </div>
+            <div class="stat-bar-wrap"><div class="stat-bar" :style="'width:' + w + '%'"></div></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="#contact" class="btn-primary inline-flex">
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            Start a Project
+          </a>
+          <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
+          <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download inline-flex">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            Download CV
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Counters -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-20">
+      <div class="glass counter-card reveal delay-1" x-data="counterAnim(3, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Years Experience</div>
+      </div>
+      <div class="glass counter-card reveal delay-2" x-data="counterAnim(25, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Premium Projects</div>
+      </div>
+      <div class="glass counter-card reveal delay-3" x-data="counterAnim(30, '+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="display + suffix"></div>
+        <div class="counter-label">Happy Clients</div>
+      </div>
+      <div class="glass counter-card reveal delay-4" x-data="counterAnim(7, 'K+')" x-intersect.once="start()">
+        <div class="counter-number" x-text="'$' + display + suffix"></div>
+        <div class="counter-label">Revenue Generated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 3: SKILLS
+============================================================ -->
+<section id="skills" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(122,63,145,0.08) 0%, transparent 70%);">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">My Expertise</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Skills</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+      <!-- Creative Skills -->
+      <div class="glass p-8 reveal-left">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+            <i data-lucide="palette" class="w-5 h-5 text-amethyst"></i>
+          </div>
+          <div>
+            <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design & Motion</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <template x-for="skill in creativeSkills" :key="skill">
+            <span class="skill-pill">
+              <span class="skill-dot"></span>
+              <span x-text="skill"></span>
+            </span>
+          </template>
+        </div>
+      </div>
+
+      <!-- Technical Skills -->
+      <div class="glass p-8 reveal-right">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+            <i data-lucide="code-2" class="w-5 h-5 text-amethyst"></i>
+          </div>
+          <div>
+            <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Dev & AI</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <template x-for="skill in technicalSkills" :key="skill">
+            <span class="skill-pill">
+              <span class="skill-dot" style="background: #7A3F91;"></span>
+              <span x-text="skill"></span>
+            </span>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 4: EXPERIENCE
+============================================================ -->
+<section id="experience" class="relative z-10 py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Professional Journey</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Experience</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <!-- Experience Card -->
+    <div class="glass p-8 md:p-10 reveal relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5 pointer-events-none"
+        style="background: radial-gradient(circle, var(--c-amethyst), transparent); transform: translate(30%, -30%);"></div>
+
+      <div class="flex flex-col md:flex-row md:items-start gap-6">
+
+        <!-- Company Icon -->
+        <div class="flex-shrink-0">
+          <div class="w-14 h-14 rounded-2xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+            <i data-lucide="briefcase" class="w-6 h-6 text-amethyst"></i>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="flex-1">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-3">
+            <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac">
+              Freelance Graphic Designer & Web Developer
+            </h3>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-green-500/30 bg-green-500/10 text-green-400 self-start md:self-center">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+              Active
+            </span>
+          </div>
+
+          <p class="font-sans text-amethyst/70 text-sm font-medium mb-1">Self-Employed · Premium US-Based Clients</p>
+
+          <div class="flex flex-wrap items-center gap-4 text-xs text-lilac/40 mb-6">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+              January 2022 — Present
+            </span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+              Islamabad, Pakistan
+            </span>
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              Remote / International
+            </span>
+          </div>
+
+          <p class="text-lilac/60 text-sm leading-relaxed mb-6">
+            Generated <span class="text-amethyst font-medium">$7K+</span> in revenue through 25+ premium projects for US-based startups — spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
+          </p>
+
+          <!-- Highlights -->
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              $7K+ revenue · 25+ premium projects
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              Increased client ROI by 35–60%
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              25% faster delivery via AI workflows
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              98% client retention · zero late deliveries
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              Top 3% freelancer on Upwork & Fiverr
+            </div>
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              5-star rating across 30+ platform reviews
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 5: FEATURED WORK
+============================================================ -->
+<section id="work" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(122,63,145,0.10) 0%, transparent 70%);">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Portfolio</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Featured Work</h2>
+      <p class="mt-4 text-lilac/50 text-sm max-w-md mx-auto">A curated selection of projects spanning branding, development, motion & AI.</p>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <!-- Project Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <template x-for="(project, index) in projects" :key="project.id">
+        <div
+          class="project-card reveal"
+          :class="'delay-' + ((index % 3) + 1)"
+          @click="openModal(project)"
+          @keydown.enter.prevent="openModal(project)"
+          @keydown.space.prevent="openModal(project)"
+          role="button"
+          tabindex="0"
+          :aria-label="'Open project details for ' + project.title"
+        >
+          <!--
+            Thumbnail.
+            TODO: each `project` in the data array can carry an `image` field
+            (e.g. add `image: 'work/nexus.jpg'` in the projects[] above) and
+            replace the gradient block below with:
+
+              <img :src="project.image" :alt="project.title + ' — ' + project.category"
+                   class="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
+
+            Until images are uploaded, the gradient + decorative SVG keeps the
+            grid visually consistent.
+          -->
+          <div class="project-thumb" :class="project.thumbClass">
+            <!-- SVG Pattern Decoration -->
+            <svg class="thumb-pattern absolute inset-0 w-full h-full" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
+              <circle cx="150" cy="90" r="60" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <circle cx="150" cy="90" r="100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="0" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <line x1="150" y1="0" x2="150" y2="180" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+            </svg>
+
+            <!-- Project number -->
+            <div class="absolute top-4 left-4 font-display text-5xl font-light opacity-25 text-white z-0" x-text="'0' + (index+1)"></div>
+
+            <!-- Category badge -->
+            <div class="absolute top-4 right-4 z-10">
+              <span class="text-xs px-2.5 py-1 rounded-full border border-white/20 bg-black/30 backdrop-blur-sm text-white/80 tracking-wide"
+                x-text="project.category"></span>
+            </div>
+
+            <!-- Hover overlay -->
+            <div class="project-overlay">
+              <div class="flex items-center gap-2 text-sm text-white font-medium">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                View Details
+              </div>
+            </div>
+
+            <!-- Icon at center -->
+            <div class="absolute inset-0 flex items-end justify-start p-4 z-10">
+              <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                <!-- (Removed redundant x-init lucide.createIcons() — now batched after Alpine renders all x-for templates, see init() below.) -->
+                <i :data-lucide="project.icon" class="w-5 h-5 text-white"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="p-6 relative z-10">
+            <h3 class="font-display text-xl font-semibold text-lilac mb-1.5" x-text="project.title"></h3>
+            <p class="text-lilac/50 text-xs leading-relaxed line-clamp-2 mb-4" x-text="project.shortDesc"></p>
+            <div class="flex flex-wrap gap-1.5">
+              <template x-for="tag in project.tags.slice(0,3)" :key="tag">
+                <span class="tag-chip" x-text="tag"></span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 6: EDUCATION
+============================================================ -->
+<section id="education" class="relative z-10 py-28 px-6">
+  <div class="max-w-4xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Academic Background</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Education</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+
+      <!-- BS Computer Science -->
+      <div class="glass p-8 reveal-left relative overflow-hidden">
+        <div class="edu-card-accent"></div>
+        <div class="pl-4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+                  <i data-lucide="cpu" class="w-4 h-4 text-amethyst"></i>
+                </div>
+                <span class="section-label">Bachelor of Science</span>
+              </div>
+              <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac leading-snug">
+                Computer Science
+              </h3>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
+              <i data-lucide="calendar" class="w-3 h-3"></i>
+              2025 — Present
+            </span>
+          </div>
+          <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">
+            Rigorous study of algorithms, data structures, software engineering, machine learning, and artificial intelligence — laying the theoretical and practical foundation for cutting-edge digital solutions.
+          </p>
+        </div>
+      </div>
+
+      <!-- BS Animation -->
+      <div class="glass p-8 reveal-right relative overflow-hidden">
+        <div class="edu-card-accent" style="background: linear-gradient(180deg, #C59DD9, #7A3F91);"></div>
+        <div class="pl-4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+                  <i data-lucide="film" class="w-4 h-4 text-amethyst"></i>
+                </div>
+                <span class="section-label">Bachelor of Science</span>
+              </div>
+              <h3 class="font-display text-2xl md:text-3xl font-semibold text-lilac leading-snug">
+                Animation, Interactive Technology,<br/>Video Graphics & Special Effects
+              </h3>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-amethyst/30 bg-amethyst/10 text-amethyst self-start">
+              <i data-lucide="calendar" class="w-3 h-3"></i>
+              2025 — Present
+            </span>
+          </div>
+          <p class="text-amethyst/70 text-sm font-medium mb-3">COMSATS University Islamabad</p>
+          <p class="text-lilac/55 text-sm leading-relaxed">
+            Comprehensive training in 2D/3D animation pipelines, motion graphics, visual effects, interactive media design, and cinematic storytelling — bridging technical craft with creative artistry.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 6.5: ACHIEVEMENTS
+============================================================ -->
+<section id="achievements" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 70% 40% at 50% 50%, rgba(122,63,145,0.09) 0%, transparent 70%);">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Recognition & Certifications</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Achievements</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+
+      <!-- Top Freelancer -->
+      <div class="achievement-badge reveal delay-1">
+        <div class="w-10 h-10 rounded-xl bg-yellow-500/15 border border-yellow-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="trophy" class="w-5 h-5 text-yellow-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Top 3% Freelancer</p>
+          <p class="text-lilac/45 text-xs mt-0.5">5-star rating across 30+ projects · Upwork & Fiverr</p>
+        </div>
+      </div>
+
+      <!-- Google UX -->
+      <div class="achievement-badge reveal delay-2">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="award" class="w-5 h-5 text-blue-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Google UX Design Certificate</p>
+          <p class="text-lilac/45 text-xs mt-0.5">Coursera · 2024</p>
+        </div>
+      </div>
+
+      <!-- AI For Everyone -->
+      <div class="achievement-badge reveal delay-3">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="cpu" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">AI For Everyone</p>
+          <p class="text-lilac/45 text-xs mt-0.5">DeepLearning.AI · 2024</p>
+        </div>
+      </div>
+
+      <!-- Game Design -->
+      <div class="achievement-badge reveal delay-4">
+        <div class="w-10 h-10 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="gamepad-2" class="w-5 h-5 text-green-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Game Design Fundamentals</p>
+          <p class="text-lilac/45 text-xs mt-0.5">Michigan State University · 2024</p>
+        </div>
+      </div>
+
+      <!-- Hackathon -->
+      <div class="achievement-badge reveal delay-1">
+        <div class="w-10 h-10 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="zap" class="w-5 h-5 text-orange-400"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Hackathon Winner — 2nd Place</p>
+          <p class="text-lilac/45 text-xs mt-0.5">COMSATS Web Dev Competition · 2024</p>
+        </div>
+      </div>
+
+      <!-- Open Source -->
+      <div class="achievement-badge reveal delay-2">
+        <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="github" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <p class="text-lilac text-sm font-medium">Open Source Contributor</p>
+          <p class="text-lilac/45 text-xs mt-0.5">3 projects · 1K+ total downloads</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 7: TESTIMONIALS
+============================================================ -->
+<section id="testimonials" class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(122,63,145,0.10) 0%, transparent 70%);">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Client Words</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Testimonials</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card reveal delay-1">
+        <div class="pt-10">
+          <div class="flex gap-1 mb-4">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
+            "Azhar delivered our brand identity beyond what we imagined. His creative vision and attention to detail transformed our startup's visual presence completely. Absolutely world-class work."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">S</div>
+            <div>
+              <p class="text-lilac text-sm font-medium">Sarah Malik</p>
+              <p class="text-amethyst/50 text-xs">CEO, NexaVentures</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card reveal delay-2">
+        <div class="pt-10">
+          <div class="flex gap-1 mb-4">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
+            "The e-commerce website Azhar built for us is stunning — fast, responsive, and beautifully designed. Our conversion rate improved significantly within the first month of launch. Highly recommended."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">K</div>
+            <div>
+              <p class="text-lilac text-sm font-medium">Kamran Baig</p>
+              <p class="text-amethyst/50 text-xs">Founder, Aura Commerce</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card reveal delay-3">
+        <div class="pt-10">
+          <div class="flex gap-1 mb-4">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <p class="text-lilac/65 text-sm leading-relaxed mb-6">
+            "Working with Azhar on our motion reel was a remarkable experience. His animation quality rivals top studios. He has a rare instinct for storytelling through motion. A truly gifted creative professional."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-regal/40 border border-amethyst/25 flex items-center justify-center font-display text-lg text-amethyst font-semibold flex-shrink-0">L</div>
+            <div>
+              <p class="text-lilac text-sm font-medium">Lara Chen</p>
+              <p class="text-amethyst/50 text-xs">Creative Director, PulseMedia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ============================================================
+     SECTION 7.5: WHY WORK WITH ME
+============================================================ -->
+<section class="relative z-10 py-28 px-6" style="background: radial-gradient(ellipse 80% 50% at 50% 50%, rgba(122,63,145,0.08) 0%, transparent 70%);">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">The Azhar Difference</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Why Clients Choose Me</h2>
+      <p class="mt-4 text-lilac/50 text-sm max-w-lg mx-auto">Three years. 25+ projects. Zero missed deadlines. Here's what sets my work apart.</p>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <div class="glass p-7 reveal delay-1 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="zap" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Fast Turnaround</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">AI-augmented workflows let me deliver in 25% less time than the industry average — without cutting corners on quality.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glass p-7 reveal delay-2 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="star" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">5-Star, Every Time</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">30+ platform reviews. A 98% retention rate. Clients don't just come back — they refer me to their network.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glass p-7 reveal delay-3 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="layers" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Full-Stack Creative</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">Design, dev, animation, AI — all under one roof. No handoffs. No miscommunication. One person who owns the entire vision.</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="glass p-7 reveal delay-1 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="message-circle" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Clear Communication</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">Daily updates, transparent timelines, and a 24-hour response guarantee. You'll always know exactly where your project stands.</p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="glass p-7 reveal delay-2 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="trending-up" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Results-Driven</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">My designs have improved client ROI by 35–60% on average. Beautiful work that actually converts — that's the goal, every time.</p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="glass p-7 reveal delay-3 flex flex-col gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-regal/20 border border-amethyst/25 flex items-center justify-center">
+          <i data-lucide="shield-check" class="w-5 h-5 text-amethyst"></i>
+        </div>
+        <div>
+          <h3 class="font-display text-xl font-semibold text-lilac mb-2">Satisfaction Guarantee</h3>
+          <p class="text-lilac/55 text-sm leading-relaxed">Unlimited revisions until you love it. I don't close a project until the client is genuinely happy — not just satisfied.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA Strip -->
+    <div class="mt-14 glass p-8 reveal flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <h3 class="font-display text-2xl md:text-3xl font-light text-lilac mb-1">Ready to build something remarkable?</h3>
+        <p class="text-lilac/45 text-sm">Let's turn your idea into a product clients love and competitors envy.</p>
+      </div>
+      <a href="#contact" class="btn-primary flex-shrink-0">
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        Start a Project
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 8: CONTACT
+============================================================ -->
+<section id="contact" class="relative z-10 py-28 px-6">
+  <div class="max-w-5xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Get In Touch</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Let's Work Together</h2>
+      <p class="mt-4 text-lilac/50 text-sm max-w-md mx-auto">Have a project in mind? I'd love to hear about it. Drop me a message and I'll get back within 24 hours.</p>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid md:grid-cols-5 gap-8 items-start">
+
+      <!-- Contact Info -->
+      <div class="md:col-span-2 flex flex-col gap-6 reveal-left">
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="mail" class="w-4 h-4 text-amethyst"></i>
+            </div>
+            <div>
+              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Email</p>
+              <!--
+                Email is split into two data attributes and re-assembled by JS
+                so naive scrapers don't pick it up as a complete address. If
+                JS is disabled, a `<noscript>` fallback shows the visible
+                address (still functional) — see below.
+              -->
+              <a
+                id="email-link"
+                href="#contact"
+                data-user="arhamjutt6481335"
+                data-host="gmail.com"
+                class="text-lilac text-sm hover:text-amethyst transition-colors"
+              >
+                <span data-email-display>email me</span>
+              </a>
+              <noscript>
+                <span class="text-lilac text-sm">arhamjutt6481335 [at] gmail [dot] com</span>
+              </noscript>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="phone" class="w-4 h-4 text-amethyst"></i>
+            </div>
+            <div>
+              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Phone</p>
+              <a href="tel:+923170626356" class="text-lilac text-sm hover:text-amethyst transition-colors">0317-0626356</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass p-6">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
+              <i data-lucide="map-pin" class="w-4 h-4 text-amethyst"></i>
+            </div>
+            <div>
+              <p class="text-xs text-amethyst/50 tracking-wider uppercase">Location</p>
+              <p class="text-lilac text-sm">Islamabad, Pakistan</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="glass p-6">
+          <p class="text-xs text-amethyst/50 tracking-wider uppercase mb-4">Follow Me</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" rel="noopener" class="social-link" title="LinkedIn" aria-label="LinkedIn">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+            <a href="https://behance.net" target="_blank" rel="noopener" class="social-link" title="Behance" aria-label="Behance">
+              <!-- Behance brand SVG (Lucide has no Behance icon) -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                <path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zM3 11h3.584c2.508 0 2.906-3-.312-3H3v3zm3.391 3H3v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/>
+              </svg>
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link" title="Instagram" aria-label="Instagram">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="https://x.com" target="_blank" rel="noopener" class="social-link" title="X / Twitter" aria-label="X (formerly Twitter)">
+              <!-- X (Twitter) brand SVG — Lucide's `twitter` icon is deprecated -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <a href="https://github.com/azhar-dev" target="_blank" rel="noopener" class="social-link" title="GitHub" aria-label="GitHub">
+              <i data-lucide="github" class="w-4 h-4"></i>
+            </a>
+            <a href="https://azhar.dev" target="_blank" rel="noopener" class="social-link" title="Portfolio Website" aria-label="Portfolio Website">
+              <i data-lucide="globe" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="md:col-span-3 glass p-8 reveal-right">
+        <h3 class="font-display text-2xl font-light text-lilac mb-6">Send a Message</h3>
+        <!--
+          Real form. Action is empty in markup so scrapers don't pick the
+          email out of the HTML; a small script (in the contact-form handler
+          below) wires the live `mailto:` action at runtime from the same
+          two data attributes used by the visible email link.
+          To collect submissions in a dashboard, swap to a Formspree /
+          Web3Forms / Getform endpoint, e.g. action="https://formspree.io/f/XXXXX" method="POST".
+        -->
         <form
           id="contact-form"
-          class="contact-form"
-          action="https://formspree.io/f/YOUR_FORM_ID"
-          method="POST"
+          action=""
+          method="post"
+          enctype="text/plain"
           novalidate
+          class="flex flex-col gap-4"
         >
-          <div class="form-row">
-            <div class="form-field">
-              <label for="cf-name">Full Name</label>
-              <input
-                id="cf-name"
-                name="name"
-                type="text"
-                placeholder="Your name"
-                required
-                aria-required="true"
-                autocomplete="name"
-              >
-              <span id="cf-name-error" class="field-error" role="alert" aria-live="polite"></span>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="contact-name" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
+              <input id="contact-name" name="name" type="text" required autocomplete="name" placeholder="Your name" class="form-input"/>
             </div>
-            <div class="form-field">
-              <label for="cf-email">Email Address</label>
-              <input
-                id="cf-email"
-                name="email"
-                type="email"
-                placeholder="your@email.com"
-                required
-                aria-required="true"
-                autocomplete="email"
-              >
-              <span id="cf-email-error" class="field-error" role="alert" aria-live="polite"></span>
+            <div>
+              <label for="contact-email" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Email Address</label>
+              <input id="contact-email" name="email" type="email" required autocomplete="email" placeholder="your@email.com" class="form-input"/>
             </div>
           </div>
-
-          <div class="form-row">
-            <div class="form-field">
-              <label for="cf-budget">Budget Range</label>
-              <select id="cf-budget" name="budget">
-                <option value="">Select a range</option>
-                <option value="under-500">Under $500</option>
-                <option value="500-2k">$500 – $2K</option>
-                <option value="2k-5k">$2K – $5K</option>
-                <option value="5k-plus">$5K+</option>
-                <option value="open">Open to discuss</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label for="cf-type">Project Type</label>
-              <select id="cf-type" name="project_type">
-                <option value="">Select type</option>
-                <option value="brand">Brand Identity</option>
-                <option value="web">Web Application</option>
-                <option value="motion">Motion &amp; Animation</option>
-                <option value="ai">AI &amp; LLM Integration</option>
-                <option value="fullstack">Full-Stack Development</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+          <div>
+            <label for="contact-subject" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Subject</label>
+            <input id="contact-subject" name="subject" type="text" required placeholder="Project inquiry, collaboration..." class="form-input"/>
           </div>
-
-          <div class="form-field">
-            <label for="cf-message">Message</label>
-            <textarea
-              id="cf-message"
-              name="message"
-              rows="5"
-              placeholder="Tell me about your project…"
-              required
-              aria-required="true"
-              minlength="20"
-            ></textarea>
-            <span id="cf-message-error" class="field-error" role="alert" aria-live="polite"></span>
+          <div>
+            <label for="contact-message" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Message</label>
+            <textarea id="contact-message" name="message" rows="5" required placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
           </div>
-
-          <button type="submit" class="form-submit">Send Message</button>
-
-          <p class="form-direct-email">
-            Or email directly: <a href="mailto:arhamjutt6481335@gmail.com">arhamjutt6481335@gmail.com</a>
-          </p>
+          <button type="submit" class="btn-primary self-start mt-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            Send Message
+          </button>
         </form>
       </div>
-
     </div>
   </div>
 </section>
 
-</main><!-- /main -->
 
-<!-- ══════════════════════════════════════════
-     13. FOOTER
-══════════════════════════════════════════ -->
-<footer id="footer">
-  <div class="footer-inner">
-    <div>
-      <a href="#hero" class="footer-logo">Azhar.</a>
-      <p class="footer-tagline">AI &amp; LLM Specialist · Full-Stack Designer</p>
-    </div>
-
-    <nav class="footer-links" aria-label="Footer navigation">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#achievements">Achievements</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-    <div class="footer-copy">
-      &copy; <span id="footer-year">2026</span> Muhammad Azhar Shahbaz.
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+</main>
+<footer class="relative z-10 border-t border-amethyst/10 py-12 px-6">
+  <div class="footer-gradient absolute inset-0 pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto relative">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm">Azhar.</a>
+        <p class="text-lilac/35 text-xs mt-1.5 tracking-wide">Graphic Designer & Web Developer</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 text-xs text-lilac/35 tracking-wider">
+        <a href="#about"        class="hover:text-amethyst transition-colors">About</a>
+        <a href="#skills"       class="hover:text-amethyst transition-colors">Skills</a>
+        <a href="#experience"   class="hover:text-amethyst transition-colors">Experience</a>
+        <a href="#work"         class="hover:text-amethyst transition-colors">Work</a>
+        <a href="#education"    class="hover:text-amethyst transition-colors">Education</a>
+        <a href="#achievements" class="hover:text-amethyst transition-colors">Achievements</a>
+        <a href="#testimonials" class="hover:text-amethyst transition-colors">Testimonials</a>
+        <a href="#contact"      class="hover:text-amethyst transition-colors">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
+        <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download text-xs py-2 px-4">
+          <i data-lucide="download" class="w-3 h-3"></i>
+          Download Resume
+        </a>
+        <p class="text-lilac/25 text-xs">
+          &copy; <span id="footer-year">2026</span> Muhammad Azhar Shahbaz.
+        </p>
+      </div>
     </div>
   </div>
 </footer>
 
-<!-- Three.js r128 (deferred — loads after HTML is parsed) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-<!-- Main JS -->
-<script src="js/main.js" defer></script>
+
+<!-- ============================================================
+     PROJECT MODAL
+============================================================ -->
+<div
+  class="modal-backdrop"
+  x-show="modalOpen"
+  x-cloak
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
+  @click.self="closeModal()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div
+    class="glass-strong rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto relative"
+    x-show="modalOpen"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+    x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+    x-trap.noscroll="modalOpen"
+  >
+    <!-- Modal Header Thumb -->
+    <div class="h-48 relative" :class="activeProject?.thumbClass" x-show="activeProject">
+      <!-- Pattern -->
+      <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice">
+        <circle cx="300" cy="100" r="80" fill="none" stroke="white" stroke-width="1"/>
+        <circle cx="300" cy="100" r="140" fill="none" stroke="white" stroke-width="0.5"/>
+        <circle cx="300" cy="100" r="200" fill="none" stroke="white" stroke-width="0.3"/>
+      </svg>
+      <!-- Project title overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+        <div>
+          <span class="text-xs text-white/60 tracking-widest uppercase" x-text="activeProject?.category"></span>
+          <h3 id="modal-title" class="font-display text-3xl text-white font-semibold" x-text="activeProject?.title"></h3>
+        </div>
+      </div>
+      <!-- Close Button -->
+      <button
+        @click="closeModal()"
+        data-modal-close
+        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white/80 hover:bg-black/60 transition-all"
+        aria-label="Close project details"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-8" x-show="activeProject">
+      <p class="text-lilac/65 text-sm leading-relaxed mb-6" x-text="activeProject?.longDesc"></p>
+
+      <!-- Tech Stack -->
+      <div class="mb-6">
+        <p class="section-label mb-3">Tech Stack</p>
+        <div class="flex flex-wrap gap-2">
+          <template x-for="tag in activeProject?.tags" :key="tag">
+            <span class="tag-chip" x-text="tag"></span>
+          </template>
+        </div>
+      </div>
+
+      <!-- Highlights -->
+      <div class="mb-8">
+        <p class="section-label mb-3">Highlights</p>
+        <div class="flex flex-col gap-2">
+          <template x-for="h in activeProject?.highlights" :key="h">
+            <div class="flex items-start gap-2.5 text-sm text-lilac/60">
+              <i data-lucide="chevron-right" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
+              <span x-text="h"></span>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3">
+        <!--
+          "Live Preview" is only rendered when a project carries a `liveUrl`.
+          None of the seeded projects do (yet), so this button stays hidden
+          until you add e.g. `liveUrl: 'https://...'` to a project entry.
+        -->
+        <a
+          x-show="activeProject?.liveUrl"
+          :href="activeProject?.liveUrl || '#'"
+          target="_blank"
+          rel="noopener"
+          class="btn-primary"
+        >
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          Live Preview
+        </a>
+        <button class="btn-outline" @click="closeModal()">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          Back
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/webgl.js" defer></script>
+<script src="js/cursor.js" defer></script>
+<script src="js/animations.js" defer></script>
+<script src="js/contact.js" defer></script>
+
 </body>
 </html>

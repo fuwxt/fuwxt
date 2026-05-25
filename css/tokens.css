@@ -1,69 +1,13 @@
-/* =============================================================
-   DESIGN TOKENS
-   All theme values live here. Applied via [data-theme] on <html>.
-============================================================= */
-
-/* ── Dark theme (default) ── */
-[data-theme="dark"] {
-  --bg:           #080810;
-  --bg-alt:       #0d0d1a;
-  --surface:      rgba(255, 255, 255, 0.03);
-  --surface-hover:rgba(255, 255, 255, 0.06);
-  --border:       rgba(255, 255, 255, 0.07);
-  --border-hover: rgba(255, 255, 255, 0.15);
-  --text:         #EDEDF0;
-  --text-muted:   #72717F;
-  --accent:       #6E3AFF;
-  --accent-rgb:   110, 58, 255;
-  --highlight:    #00E8C8;
-  --highlight-rgb:0, 232, 200;
-  --gold:         #C9972A;
-  --green:        #1DB954;
-  --red:          #FF4D4D;
-  --nav-bg:       rgba(8, 8, 16, 0.85);
-  --shadow:       0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-lg:    0 8px 48px rgba(0, 0, 0, 0.6);
-  --noise-opacity:0.025;
-}
-
-/* ── Light theme ── */
-[data-theme="light"] {
-  --bg:           #F4F1EB;
-  --bg-alt:       #EDE9E0;
-  --surface:      #FFFFFF;
-  --surface-hover:#F8F6F2;
-  --border:       rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(0, 0, 0, 0.18);
-  --text:         #111018;
-  --text-muted:   #5C5B6B;
-  --accent:       #5228CC;
-  --accent-rgb:   82, 40, 204;
-  --highlight:    #007A6A;
-  --highlight-rgb:0, 122, 106;
-  --gold:         #A07020;
-  --green:        #1a8a3f;
-  --red:          #CC2200;
-  --nav-bg:       rgba(244, 241, 235, 0.92);
-  --shadow:       0 2px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg:    0 6px 32px rgba(0, 0, 0, 0.12);
-  --noise-opacity:0.018;
-}
-
-/* ── Typography ── */
+/* ============================================================
+   CSS CUSTOM PROPERTIES & ROOT
+============================================================ */
 :root {
-  --font-display: 'Cabinet Grotesk', 'Georgia', serif;
-  --font-body:    'Satoshi', 'Helvetica Neue', Arial, sans-serif;
-  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
-
-  --radius:       12px;
-  --radius-sm:    6px;
-  --radius-lg:    20px;
-
-  --ease:         cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
-  --spring:       cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  --max-w:        1200px;
-  --nav-h:        64px;
-  --section-py:   120px;
+  --c-lilac:    #F2EAF7;
+  --c-amethyst: #C59DD9;
+  --c-regal:    #7A3F91;
+  --c-velvet:   #2B0D3E;
+  --c-velvet2:  #1a0827;
+  --glow-sm:    0 0 20px rgba(197,157,217,0.25);
+  --glow-md:    0 0 40px rgba(122,63,145,0.35);
+  --glow-lg:    0 0 70px rgba(122,63,145,0.45);
 }
