@@ -190,11 +190,15 @@
           'Node.js', 'Python', 'REST & GraphQL APIs',
           // ─ LLM application engineering (highest-demand 2026) ─
           'LLM Integration (GPT-5 / Claude / Gemini)',
+          'OpenAI / Anthropic / Hugging Face APIs',
           'RAG (Retrieval-Augmented Generation)',
           'LangChain / LlamaIndex',
           'Vector Databases (Pinecone / Qdrant / Weaviate)',
           'Embeddings & Semantic Search',
           'Fine-tuning & LoRA',
+          'Function Calling / Tool Use',
+          'Multimodal AI (Vision + Audio)',
+          'AI Voice (ElevenLabs / Whisper)',
           'AI Agents (CrewAI / AutoGen)',
           'Model Context Protocol (MCP)',
           // ─ AI workflow automation (premium retainer work) ─
@@ -624,35 +628,64 @@
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
 
-    <!-- Availability badge -->
-    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amethyst/25 bg-regal/15 backdrop-blur-sm mb-8 text-xs tracking-widest text-amethyst/80 uppercase" style="letter-spacing:0.18em;">
-      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>
-      Available for freelance work
+    <!-- ── OPEN TO WORK badge (sits ABOVE the PFP) ──────────────
+         Repurposed from the previous "Available for freelance" pill.
+         Now louder + clearer: a glowing pulse dot, slightly larger
+         pill, and a coral kiss in light mode so it doesn't fade
+         into the warmer paper-lilac canvas. -->
+    <div class="reveal hero-status-badge mb-6">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-text">Open to Work · Available for Freelance</span>
+    </div>
+
+    <!-- ── HERO PROFILE PICTURE ─────────────────────────────────
+         The Void brand mark (`assets/void.png`) doubles as Azhar's
+         PFP. Wrapped in a gradient ring with two slowly counter-
+         rotating orbital lines for a subtle "creative-engineer"
+         feel. The `<img>` is hard-fallback-protected: if the asset
+         404s, the inner `.hero-pfp-fallback` initials show through
+         (same pattern as the about-section avatar). -->
+    <div class="reveal delay-1 hero-pfp-wrap mb-6">
+      <div class="hero-pfp-orbit"></div>
+      <div class="hero-pfp-orbit hero-pfp-orbit--2"></div>
+      <div class="hero-pfp-ring">
+        <div class="hero-pfp-inner">
+          <img
+            src="assets/void.png"
+            alt="Muhammad Azhar Shahbaz — Void logo"
+            loading="eager"
+            decoding="async"
+            class="hero-pfp-img"
+            onerror="this.style.display='none'"
+          />
+          <span class="hero-pfp-fallback" aria-hidden="true">MA</span>
+        </div>
+      </div>
     </div>
 
     <!-- Brand Name -->
-    <h1 class="hero-brand reveal delay-1 mb-4" data-text="Azhar.">Azhar.</h1>
+    <h1 class="hero-brand reveal delay-2 mb-4" data-text="Azhar.">Azhar.</h1>
 
     <!-- Full Name -->
-    <p class="reveal delay-2 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
+    <p class="reveal delay-3 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
       Muhammad Azhar Shahbaz
     </p>
 
     <!-- Tagline with typing animation -->
-    <div class="reveal delay-3 mb-10">
+    <div class="reveal delay-4 mb-10">
       <p class="font-display text-xl md:text-3xl font-light text-lilac/80 leading-relaxed">
         <span id="typed-text" class="typing-cursor"></span>
       </p>
     </div>
 
     <!-- Location -->
-    <div class="reveal delay-4 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
+    <div class="reveal delay-5 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
       <i data-lucide="map-pin" class="w-4 h-4"></i>
       <span>Islamabad, Pakistan</span>
     </div>
 
     <!-- CTA Buttons -->
-    <div class="reveal delay-5 flex flex-col sm:flex-row items-center justify-center gap-4">
+    <div class="reveal delay-6 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="#work" class="btn-primary">
         <i data-lucide="layers" class="w-4 h-4"></i>
         View My Work

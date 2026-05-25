@@ -629,3 +629,93 @@ html.light-mode .stat-bar::after {
   background: var(--c-coral);
   box-shadow: 0 0 10px rgba(245,168,147,0.85), 0 0 20px rgba(122,63,145,0.4);
 }
+
+
+
+/* ============================================================
+   LIGHT MODE — "NOT BORING" UPGRADE PASS
+   The previous light mode lived almost entirely in the purple
+   family on a near-flat paper canvas. This pass adds:
+     • A slow-moving gradient mesh (so the bg has *life*, not just
+       static pastel) — runs at 24s, GPU-cheap, hidden on
+       prefers-reduced-motion.
+     • A soft conic accent layer (fixed position) that drifts
+       imperceptibly. Reads as ambient color rather than
+       "background image".
+     • Coral micro-accents on `.section-label` so the eye has a
+       warm anchor across every section.
+   All overrides are under `html.light-mode` and the keyframes
+   are scoped — they cannot affect the dark-mode experience.
+============================================================ */
+@keyframes light-mesh-drift {
+  0%   { background-position:   0% 0%,  100% 100%, 50% 50%, 0 0; }
+  50%  { background-position: 100% 0%,    0% 100%, 50% 50%, 0 0; }
+  100% { background-position:   0% 0%,  100% 100%, 50% 50%, 0 0; }
+}
+
+html.light-mode body {
+  /* Same color stops, but the radial layers now share a
+     single oversized canvas so they can drift without
+     visible seams. */
+  background-size:
+    220% 220%,
+    220% 220%,
+    180% 180%,
+    100% 100% !important;
+  animation: light-mesh-drift 32s ease-in-out infinite;
+}
+
+/* A second decorative layer — a wide conic gradient pinned to
+   the viewport that adds barely-there hue rotation. Positioned
+   above the body bg but below all content (fixed z:0 vs content
+   z:10+). Very low opacity, very large blur — feels like real
+   ambient lighting, not a "pattern". */
+html.light-mode body::after {
+  content: '';
+  position: fixed;
+  inset: -20vh -20vw;
+  z-index: 0;
+  pointer-events: none;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(122,  63, 145, 0.10) 0deg,
+    rgba(245, 168, 147, 0.14) 90deg,
+    rgba(197, 157, 217, 0.10) 180deg,
+    rgba(255, 210, 194, 0.12) 270deg,
+    rgba(122,  63, 145, 0.10) 360deg
+  );
+  filter: blur(80px) saturate(120%);
+  opacity: 0.55;
+  animation: light-conic-spin 60s linear infinite;
+  mix-blend-mode: multiply;
+}
+@keyframes light-conic-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Section labels get a coral tint — the single warmest color
+   the page has, so every section header gets a small temperature
+   shift that breaks the "all-purple" feeling. */
+html.light-mode .section-label {
+  color: var(--c-regal);
+  position: relative;
+}
+html.light-mode .section-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-coral);
+  margin-right: 10px;
+  vertical-align: middle;
+  box-shadow: 0 0 6px rgba(245, 168, 147, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Respect reduced-motion users — the animated gradients and
+   conic spin both freeze. The static palette still looks great. */
+@media (prefers-reduced-motion: reduce) {
+  html.light-mode body { animation: none !important; }
+  html.light-mode body::after { animation: none !important; }
+}
