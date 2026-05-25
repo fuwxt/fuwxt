@@ -724,9 +724,15 @@
     <div class="grid md:grid-cols-2 gap-16 items-center">
 
       <!-- Avatar + decoration -->
-      <div class="reveal-left flex flex-col items-center md:items-start gap-8">
-        <div class="relative">
-          <div class="avatar-ring">
+      <div class="reveal-left flex flex-col items-center md:items-start gap-5">
+        <!--
+          Avatar wrapper. The `.avatar-glow` halo sits behind the avatar
+          (z-index handled in CSS) and is theme-aware: a soft amethyst
+          aurora in dark mode, a warmer coral-lilac bloom in light mode.
+        -->
+        <div class="avatar-wrap relative">
+          <div class="avatar-glow" aria-hidden="true"></div>
+          <div class="avatar-ring relative z-10">
             <!--
               Real brand mark — `assets/void.png` is Azhar's personal Void
               logo and serves double-duty as profile picture. The image
@@ -746,14 +752,16 @@
               <span class="avatar-fallback" aria-hidden="true">MA</span>
             </div>
           </div>
-          <!-- Decorative ring -->
-          <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin" style="animation-duration:20s;"></div>
-          <div class="absolute -inset-6 rounded-full border border-regal/10 animate-spin" style="animation-duration:30s; animation-direction: reverse;"></div>
-          <!-- Floating badge -->
-          <div class="absolute -bottom-3 -right-3 glass px-3 py-2 rounded-full text-xs text-amethyst border border-amethyst/25 flex items-center gap-2">
-            <i data-lucide="zap" class="w-3 h-3"></i>
-            <span>Open to Work</span>
-          </div>
+          <!-- Decorative orbital rings -->
+          <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin pointer-events-none" style="animation-duration:20s;"></div>
+          <div class="absolute -inset-6 rounded-full border border-regal/10 animate-spin pointer-events-none" style="animation-duration:30s; animation-direction: reverse;"></div>
+        </div>
+
+        <!-- Open-to-Work badge (now sits BELOW the avatar, centered on
+             mobile, left-aligned on md+ to match the column flow) -->
+        <div class="avatar-status-badge">
+          <span class="avatar-status-dot" aria-hidden="true"></span>
+          <span>Open to Work</span>
         </div>
       </div>
 

@@ -42,15 +42,43 @@ html.light-mode .counter-label {
 }
 
 /* ============================================================
-   AVATAR PLACEHOLDER
+   AVATAR (About-Me PFP)
+   Anatomy:
+     .avatar-wrap   — positioning context for the halo + orbital rings
+     .avatar-glow   — animated aurora behind the avatar (theme-aware)
+     .avatar-ring   — gradient halo border around the image
+     .avatar-inner  — circular clipping container for the image
 ============================================================ */
+.avatar-wrap {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
 .avatar-ring {
   width: 180px; height: 180px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--c-regal), var(--c-amethyst));
+  background-size: 220% 220%;
   padding: 2px;
   flex-shrink: 0;
+  box-shadow:
+    0 12px 40px rgba(122, 63, 145, 0.45),
+    0 0 0 1px rgba(197, 157, 217, 0.25);
+  animation: avatar-shimmer 7s ease-in-out infinite;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
+.avatar-wrap:hover .avatar-ring {
+  transform: scale(1.04);
+}
+@keyframes avatar-shimmer {
+  0%, 100% { background-position: 0% 0%; }
+  50%      { background-position: 100% 100%; }
+}
+
 .avatar-inner {
   width: 100%; height: 100%;
   border-radius: 50%;
@@ -60,6 +88,134 @@ html.light-mode .counter-label {
   font-size: 3.5rem;
   font-weight: 600;
   color: var(--c-amethyst);
+  position: relative;
+  overflow: hidden;
+}
+/* Image and fallback positioning live in base.css (single source of
+   truth: position:absolute, z-index 2 for image, z-index 1 for the
+   "MA" initials fallback). Only the hover micro-interaction is
+   defined here so the avatar reacts to .avatar-wrap:hover. */
+.avatar-wrap:hover .avatar-img {
+  transform: scale(1.06);
+  filter: saturate(1.15) brightness(1.05);
+}
+.avatar-img {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+              filter 0.6s ease;
+}
+
+/* ── AURORA GLOW (theme-aware) ──────────────────────────────
+   A soft, slowly pulsing radial halo placed behind the avatar.
+   Dark mode  → cool amethyst/regal aurora.
+   Light mode → warm coral/amethyst bloom that pops on the
+                paper-lilac canvas without bleaching the image.
+============================================================ */
+.avatar-glow {
+  position: absolute;
+  inset: -38px;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(197, 157, 217, 0.55) 0%,
+      rgba(122,  63, 145, 0.35) 35%,
+      rgba(122,  63, 145, 0.00) 70%);
+  filter: blur(28px);
+  opacity: 0.85;
+  animation: avatar-glow-pulse 5.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+@keyframes avatar-glow-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.78; }
+  50%      { transform: scale(1.12); opacity: 1;    }
+}
+
+html.light-mode .avatar-ring {
+  box-shadow:
+    0 14px 44px rgba(122, 63, 145, 0.30),
+    0 0 0 1px rgba(122, 63, 145, 0.18),
+    0 0 60px rgba(245, 168, 147, 0.32);
+}
+html.light-mode .avatar-inner {
+  background: #fff;
+  color: var(--c-regal);
+}
+html.light-mode .avatar-glow {
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(245, 168, 147, 0.55) 0%,
+      rgba(197, 157, 217, 0.40) 35%,
+      rgba(122,  63, 145, 0.00) 72%);
+  opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-ring,
+  .avatar-glow { animation: none !important; }
+}
+
+/* ── OPEN-TO-WORK BADGE (sits BELOW the avatar) ─────────────
+   Glass pill with a softly pulsing emerald dot. Centered on
+   mobile (parent column is `items-center`), left-aligned on
+   md+ to match the column flow.
+============================================================ */
+.avatar-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  background: linear-gradient(135deg,
+    rgba(52, 211, 153, 0.16) 0%,
+    rgba(122,  63, 145, 0.18) 100%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(242, 234, 247, 0.92);
+  box-shadow:
+    0 6px 22px rgba(52, 211, 153, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  white-space: nowrap;
+}
+.avatar-status-badge .avatar-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow:
+    0 0 0 4px rgba(52, 211, 153, 0.18),
+    0 0 12px rgba(52, 211, 153, 0.7);
+  animation: avatar-status-pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes avatar-status-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18),
+                0 0 12px rgba(52, 211, 153, 0.70);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(52, 211, 153, 0.04),
+                0 0 18px rgba(52, 211, 153, 0.95);
+  }
+}
+html.light-mode .avatar-status-badge {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(52, 211, 153, 0.18) 100%);
+  border-color: rgba(52, 211, 153, 0.45);
+  color: rgba(43, 13, 62, 0.85);
+  box-shadow:
+    0 4px 18px rgba(122, 63, 145, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.85) inset;
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-status-badge .avatar-status-dot { animation: none !important; }
 }
 
 /* Stat bar */
