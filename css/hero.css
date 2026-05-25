@@ -139,3 +139,242 @@ html.light-mode .hero-bg {
 /* Floating orbs need a touch more presence on lighter bg
    (with the new paper-lilac canvas they were invisible) */
 html.light-mode .orb { opacity: 0.18; filter: blur(50px); }
+
+
+
+/* ============================================================
+   HERO STATUS BADGE — "Open to Work · Available for Freelance"
+   Sits ABOVE the PFP (per design brief). Replaces the older
+   plain "Available for freelance work" pill with:
+     • A glowing pulsing green dot (live availability signal)
+     • Slightly larger pill + tighter tracking for legibility
+     • Coral hover edge in light mode so it doesn't melt into
+       the warmer paper-lilac canvas
+============================================================ */
+.hero-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 157, 217, 0.28);
+  background: linear-gradient(135deg, rgba(122,63,145,0.18) 0%, rgba(52,211,153,0.10) 100%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(242, 234, 247, 0.92);
+  box-shadow: 0 4px 24px rgba(122, 63, 145, 0.25),
+              0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
+}
+.hero-status-badge:hover {
+  transform: translateY(-1px);
+  border-color: rgba(52, 211, 153, 0.45);
+  box-shadow: 0 6px 28px rgba(52, 211, 153, 0.20),
+              0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+.hero-status-badge .status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18),
+              0 0 14px rgba(52, 211, 153, 0.7);
+  animation: status-pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes status-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.18),
+                0 0 14px rgba(52, 211, 153, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(52, 211, 153, 0.04),
+                0 0 22px rgba(52, 211, 153, 0.95);
+  }
+}
+html.light-mode .hero-status-badge {
+  background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(245,168,147,0.18) 100%);
+  border-color: rgba(122, 63, 145, 0.28);
+  color: var(--c-velvet);
+  box-shadow: 0 4px 22px rgba(122, 63, 145, 0.14),
+              0 1px 0 rgba(255, 255, 255, 0.85) inset;
+}
+html.light-mode .hero-status-badge:hover {
+  border-color: rgba(245, 168, 147, 0.55);
+}
+
+/* ============================================================
+   HERO PROFILE PICTURE (Void logo)
+   Circular PFP placed BETWEEN the status badge and the
+   "Azhar." wordmark. Uses `assets/void.png` — the same brand
+   mark also wired into the About avatar for consistent identity
+   across the page.
+
+   Anatomy (z-stack, outermost → innermost):
+     1. .hero-pfp-orbit / .hero-pfp-orbit--2  — counter-rotating
+        decorative rings (CSS-only, GPU-cheap).
+     2. .hero-pfp-ring  — 3px gradient halo (regal → amethyst →
+        coral) doubling as image border.
+     3. .hero-pfp-inner — circular clipping container holding the
+        `<img>` and a fallback "MA" span (revealed only if the
+        image 404s).
+============================================================ */
+.hero-pfp-wrap {
+  position: relative;
+  width: 144px;
+  height: 144px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+.hero-pfp-ring {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg,
+    var(--c-regal)    0%,
+    var(--c-amethyst) 45%,
+    #fff              60%,
+    var(--c-coral, #f5a893) 100%);
+  background-size: 220% 220%;
+  box-shadow:
+    0 14px 50px rgba(122, 63, 145, 0.50),
+    0 0 0 1px rgba(197, 157, 217, 0.30),
+    0 0 60px rgba(245, 168, 147, 0.22);
+  animation: pfp-shimmer 6s ease-in-out infinite,
+             pfp-breathe 4s ease-in-out infinite;
+}
+@keyframes pfp-shimmer {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+@keyframes pfp-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.025); }
+}
+.hero-pfp-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--c-velvet2, #200a30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: var(--c-amethyst);
+}
+.hero-pfp-img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1),
+              filter 0.6s ease;
+}
+.hero-pfp-wrap:hover .hero-pfp-img {
+  transform: scale(1.06);
+  filter: saturate(1.15) brightness(1.05);
+}
+.hero-pfp-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Counter-rotating decorative rings around the PFP. Two layers,
+   opposite directions, different speeds — gives the classic
+   "creative engineer" feel without dominating. */
+.hero-pfp-orbit {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 157, 217, 0.22);
+  animation: pfp-orbit-spin 18s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-pfp-orbit::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-amethyst);
+  box-shadow: 0 0 10px rgba(197, 157, 217, 0.85);
+  transform: translateX(-50%);
+}
+.hero-pfp-orbit--2 {
+  inset: -26px;
+  border-color: rgba(245, 168, 147, 0.18);
+  animation-duration: 28s;
+  animation-direction: reverse;
+}
+.hero-pfp-orbit--2::before {
+  background: var(--c-coral, #f5a893);
+  box-shadow: 0 0 10px rgba(245, 168, 147, 0.75);
+}
+@keyframes pfp-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Light-mode polish — white inner backing for crisp logo
+   contrast, intensified coral glow. */
+html.light-mode .hero-pfp-ring {
+  box-shadow:
+    0 16px 56px rgba(122, 63, 145, 0.32),
+    0 0 0 1px rgba(122, 63, 145, 0.18),
+    0 0 60px rgba(245, 168, 147, 0.30);
+}
+html.light-mode .hero-pfp-inner {
+  background: #fff;
+  color: var(--c-regal);
+}
+html.light-mode .hero-pfp-orbit { border-color: rgba(122, 63, 145, 0.20); }
+html.light-mode .hero-pfp-orbit--2 { border-color: rgba(245, 168, 147, 0.32); }
+
+/* Mobile sizing — keep PFP proportional on small screens */
+@media (max-width: 640px) {
+  .hero-pfp-wrap { width: 120px; height: 120px; }
+  .hero-pfp-orbit { inset: -10px; }
+  .hero-pfp-orbit--2 { inset: -22px; }
+}
+@media (max-width: 380px) {
+  .hero-pfp-wrap { width: 104px; height: 104px; }
+}
+
+/* Reduced-motion: kill all PFP animations */
+@media (prefers-reduced-motion: reduce) {
+  .hero-pfp-ring,
+  .hero-pfp-orbit,
+  .hero-status-badge .status-dot { animation: none !important; }
+}
+
+/* When the hero is off-screen, the existing `.fx-paused` hook
+   freezes orbit rotation + breathing so we don't pay GPU cost
+   for an avatar nobody is looking at. */
+.fx-paused .hero-pfp-ring,
+.fx-paused .hero-pfp-orbit { animation-play-state: paused !important; }

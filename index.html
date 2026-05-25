@@ -12,25 +12,24 @@
   <meta name="keywords" content="Muhammad Azhar Shahbaz, freelance graphic designer, web developer, AI engineer, motion graphics, brand identity, Islamabad, Pakistan, Cormorant Garamond portfolio"/>
 
   <!--
-    Canonical: when this site is deployed, replace the URL below with the
-    real production domain. Leaving it pointing at a non-deployed domain
-    can hurt SEO indexing of your GitHub Pages preview.
+    Canonical: pointed at the live GitHub Pages deployment so Google
+    indexes the correct URL. (Was previously pointing at the un-deployed
+    `azhar.dev` which was hurting SEO of the preview build.)
   -->
-  <link rel="canonical" href="https://azhar.dev/"/>
+  <link rel="canonical" href="https://fuwxt.github.io/"/>
 
   <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Azhar. — AI & Animation Specialist | Full-Stack Designer"/>
   <meta property="og:description" content="Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz."/>
-  <meta property="og:url" content="https://azhar.dev/"/>
+  <meta property="og:url" content="https://fuwxt.github.io/"/>
   <meta property="og:site_name" content="Azhar."/>
   <!--
-    Open Graph image. TODO: upload a real `og-preview.jpg` (1200x630)
-    to the repo root for rich social previews. Until that file exists,
-    we fall back to the inline-SVG favicon as a graceful (if smaller)
-    preview so social shares don't render a broken-image icon.
+    Open Graph image — uses the real `assets/void.png` brand mark so
+    LinkedIn / WhatsApp / X show the proper logo on share. (Previously
+    fell back to an inline SVG placeholder.)
   -->
-  <meta property="og:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231a0827'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3ClinearGradient id='t' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F2EAF7'/%3E%3Cstop offset='1' stop-color='%23C59DD9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23b)'/%3E%3Ctext x='600' y='320' font-family='Georgia,serif' font-size='160' font-weight='600' text-anchor='middle' fill='url(%23t)'%3EAzhar.%3C/text%3E%3Ctext x='600' y='400' font-family='sans-serif' font-size='32' text-anchor='middle' fill='%23C59DD9' opacity='0.85'%3EAI %26 Animation Specialist | Full-Stack Designer%3C/text%3E%3C/svg%3E"/>
+  <meta property="og:image" content="https://fuwxt.github.io/assets/void.png"/>
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
   <meta property="og:locale" content="en_US"/>
@@ -39,11 +38,13 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Azhar. — AI & Animation Specialist"/>
   <meta name="twitter:description" content="Brand identity, web apps, motion graphics & AI workflows."/>
-  <meta name="twitter:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231a0827'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3ClinearGradient id='t' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F2EAF7'/%3E%3Cstop offset='1' stop-color='%23C59DD9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23b)'/%3E%3Ctext x='600' y='320' font-family='Georgia,serif' font-size='160' font-weight='600' text-anchor='middle' fill='url(%23t)'%3EAzhar.%3C/text%3E%3Ctext x='600' y='400' font-family='sans-serif' font-size='32' text-anchor='middle' fill='%23C59DD9' opacity='0.85'%3EAI %26 Animation Specialist | Full-Stack Designer%3C/text%3E%3C/svg%3E"/>
+  <meta name="twitter:image" content="https://fuwxt.github.io/assets/void.png"/>
 
-  <!-- Favicons (inline SVG so no extra request; replace with /favicon.ico when ready) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='36' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='120' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
+  <!-- Favicons — use the real Void brand mark instead of placeholder
+       inline-SVG initials. apple-touch-icon points at the same source so
+       the home-screen icon on iOS / iPadOS matches. -->
+  <link rel="icon" type="image/png" href="assets/void.png"/>
+  <link rel="apple-touch-icon" href="assets/void.png"/>
 
   <!-- JSON-LD: Person schema for rich results -->
   <script type="application/ld+json">
@@ -54,13 +55,13 @@
     "alternateName": "Azhar",
     "jobTitle": "AI & Animation Specialist | Full-Stack Designer",
     "description": "Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz, based in Islamabad.",
-    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E",
+    "image": "https://fuwxt.github.io/assets/void.png",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Islamabad",
       "addressCountry": "PK"
     },
-    "url": "https://azhar.dev/",
+    "url": "https://fuwxt.github.io/",
     "sameAs": [
       "https://linkedin.com/in/muhammad-azhar-shahbaz",
       "https://github.com/azhar-dev",
@@ -144,17 +145,53 @@
         modalOpen: false,
         activeProject: null,
 
+        // ── CREATIVE SKILLS ──────────────────────────────────────────
+        // Tight 12-pill list. Only skills that actually convert into paid
+        // engagements. Replaced the older 11-item list because half of
+        // those ('Character Animation', 'Motion Design', 'Video Editing')
+        // overlap with their parent categories ('2D & 3D Animation',
+        // 'Motion Graphics', Premiere Pro). Modern industry-standard
+        // motion software (After Effects, Cinema 4D, Blender) and the
+        // single AI tool clients actually pay for (Midjourney) added.
+        // Less = more: focused list signals confidence; a 25-pill grid
+        // signals "I list every tool I've ever opened".
         creativeSkills: [
-          '2D Animation', '3D Animation', 'Character Animation',
-          'Motion Design', 'Motion Graphics', 'Video Editing',
-          'Logo Design', 'Branding & Identity', 'Graphic Design',
-          'Adobe Photoshop', 'Adobe Illustrator'
+          'Brand Identity & Logo Design',
+          'Graphic Design',
+          'Adobe Photoshop',
+          'Adobe Illustrator',
+          'Adobe After Effects',
+          'Premiere Pro',
+          'Cinema 4D',
+          'Blender',
+          'Figma (UI / UX)',
+          '2D & 3D Animation',
+          'Motion Graphics',
+          'Midjourney (AI Art Direction)'
         ],
+        // ── TECHNICAL SKILLS ─────────────────────────────────────────
+        // Trimmed to the 14 keywords clients & US recruiters actually
+        // search for. Removed vague filler ('Web Development',
+        // 'Responsive Web Design', 'Web Applications', 'CSS', 'Debugging',
+        // 'AI', 'Machine Learning', 'Game Design'), which read as
+        // self-taught noise rather than a hireable signal. Replaced with
+        // the modern frontend stack, the LLM application layer, and
+        // workflow automation — the exact keywords that unlock $50-150/hr
+        // engagements vs. $15/hr commodity work.
         technicalSkills: [
-          'Artificial Intelligence (AI)', 'Machine Learning',
-          'Prompt Engineering', 'Web Development',
-          'Responsive Web Design', 'Web Applications',
-          'CSS', 'Debugging', 'Game Design'
+          // Frontend money-makers
+          'TypeScript', 'React / Next.js', 'Tailwind CSS',
+          'Three.js / WebGL', 'GSAP & Lottie',
+          // Backend essentials
+          'Node.js', 'Python', 'REST APIs',
+          // LLM application stack (2026 demand)
+          'LLM Integration (GPT / Claude / Gemini)',
+          'RAG (Retrieval-Augmented Generation)',
+          'LangChain',
+          'Vector Databases (Pinecone / Qdrant)',
+          'AI Agents',
+          // Workflow automation (premium retainers)
+          'n8n / Zapier Automation'
         ],
 
         projects: [
@@ -194,7 +231,7 @@
             id: 3,
             title: 'Neon Motion Reel 2024',
             category: 'Motion',
-            icon: 'play-circle',
+            icon: 'circle-play',
             thumbClass: 'thumb-3',
             shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
             longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
@@ -317,9 +354,40 @@
             const yr = document.getElementById('footer-year');
             if (yr) yr.textContent = String(new Date().getFullYear());
             try { lucide.createIcons(); } catch(e) {}
-            // Safety net: re-run icon creation once after Alpine has fully
-            // rendered all x-for templates (skill pills, projects, etc.)
-            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
+            // ── ICON SAFETY NET ──────────────────────────────────────
+            // Lucide replaces every `<i data-lucide>` with a fresh <svg>.
+            // Alpine's `x-for` (skill pills, project cards), `x-show`
+            // (modal, mobile menu) and `:data-lucide` (dynamic project
+            // icons) all add new `<i>` elements AFTER the first
+            // createIcons() pass — those would otherwise stay as bare
+            // `<i>` tags and look like "missing icons" / truncated UI.
+            // A MutationObserver watches the entire document and runs
+            // createIcons() once per microtask whenever new lucide
+            // icons appear. Replaces the previous fixed setTimeout(1200)
+            // which was racy on slower devices.
+            try {
+              let pending = false;
+              const iconObserver = new MutationObserver((muts) => {
+                let needsRescan = false;
+                for (const m of muts) {
+                  for (const node of m.addedNodes) {
+                    if (node.nodeType !== 1) continue;
+                    if (node.matches?.('i[data-lucide]') || node.querySelector?.('i[data-lucide]')) {
+                      needsRescan = true; break;
+                    }
+                  }
+                  if (needsRescan) break;
+                }
+                if (needsRescan && !pending) {
+                  pending = true;
+                  queueMicrotask(() => {
+                    try { lucide.createIcons(); } catch(e){}
+                    pending = false;
+                  });
+                }
+              });
+              iconObserver.observe(document.body, { childList: true, subtree: true });
+            } catch(e) { /* MutationObserver unavailable, fall through */ }
           });
         },
 
@@ -580,35 +648,63 @@
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
 
-    <!-- Availability badge -->
-    <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-amethyst/25 bg-regal/15 backdrop-blur-sm mb-8 text-xs tracking-widest text-amethyst/80 uppercase" style="letter-spacing:0.18em;">
-      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>
-      Available for freelance work
+    <!-- ── OPEN TO WORK badge (sits ABOVE the PFP) ──────────────
+         Repurposed from the previous "Available for freelance" pill.
+         Now louder + clearer: a glowing pulsing dot, slightly larger
+         pill, and a coral kiss in light mode so it doesn't fade into
+         the warmer paper-lilac canvas. -->
+    <div class="reveal hero-status-badge mb-6">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-text">Open to Work · Available for Freelance</span>
+    </div>
+
+    <!-- ── HERO PROFILE PICTURE ─────────────────────────────────
+         The Void brand mark (`assets/void.png`) doubles as Azhar's
+         PFP. Wrapped in a gradient ring with two slowly counter-
+         rotating orbital lines for a subtle "creative engineer"
+         feel. The `<img>` is hard-fallback-protected: if the asset
+         404s, the inner `.hero-pfp-fallback` initials show through. -->
+    <div class="reveal delay-1 hero-pfp-wrap mb-6">
+      <div class="hero-pfp-orbit"></div>
+      <div class="hero-pfp-orbit hero-pfp-orbit--2"></div>
+      <div class="hero-pfp-ring">
+        <div class="hero-pfp-inner">
+          <img
+            src="assets/void.png"
+            alt="Muhammad Azhar Shahbaz — Void logo"
+            loading="eager"
+            decoding="async"
+            class="hero-pfp-img"
+            onerror="this.style.display='none'"
+          />
+          <span class="hero-pfp-fallback" aria-hidden="true">MA</span>
+        </div>
+      </div>
     </div>
 
     <!-- Brand Name -->
-    <h1 class="hero-brand reveal delay-1 mb-4" data-text="Azhar.">Azhar.</h1>
+    <h1 class="hero-brand reveal delay-2 mb-4" data-text="Azhar.">Azhar.</h1>
 
     <!-- Full Name -->
-    <p class="reveal delay-2 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
+    <p class="reveal delay-3 font-sans text-sm tracking-[0.3em] uppercase text-amethyst/60 mb-4">
       Muhammad Azhar Shahbaz
     </p>
 
     <!-- Tagline with typing animation -->
-    <div class="reveal delay-3 mb-10">
+    <div class="reveal delay-4 mb-10">
       <p class="font-display text-xl md:text-3xl font-light text-lilac/80 leading-relaxed">
         <span id="typed-text" class="typing-cursor"></span>
       </p>
     </div>
 
     <!-- Location -->
-    <div class="reveal delay-4 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
+    <div class="reveal delay-5 flex items-center justify-center gap-2 text-sm text-amethyst/50 mb-12">
       <i data-lucide="map-pin" class="w-4 h-4"></i>
       <span>Islamabad, Pakistan</span>
     </div>
 
     <!-- CTA Buttons -->
-    <div class="reveal delay-5 flex flex-col sm:flex-row items-center justify-center gap-4">
+    <div class="reveal delay-6 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="#work" class="btn-primary">
         <i data-lucide="layers" class="w-4 h-4"></i>
         View My Work
@@ -654,13 +750,22 @@
         <div class="relative">
           <div class="avatar-ring">
             <!--
-              TODO: drop your profile photo into the repo (e.g. `profile.jpg`,
-              square 600x600 minimum) and uncomment the <img> tag below.
-              The `MA` initials are kept as a graceful fallback / loading state.
+              Real brand mark — `assets/void.png` is Azhar's personal Void
+              logo and serves double-duty as profile picture. The image
+              is wrapped in `.avatar-inner` which keeps the circular crop.
+              The "MA" initials are preserved as a hard-fallback if the
+              asset ever 404s and as alt text for screen readers.
             -->
             <div class="avatar-inner">
-              <!-- <img src="profile.jpg" alt="Muhammad Azhar Shahbaz" class="w-full h-full rounded-full object-cover"/> -->
-              MA
+              <img
+                src="assets/void.png"
+                alt="Muhammad Azhar Shahbaz — Void logo"
+                loading="eager"
+                decoding="async"
+                class="avatar-img"
+                onerror="this.style.display='none'"
+              />
+              <span class="avatar-fallback" aria-hidden="true">MA</span>
             </div>
           </div>
           <!-- Decorative ring -->

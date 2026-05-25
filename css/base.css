@@ -576,3 +576,158 @@ html.light-mode .glass:hover {
     0 12px 44px rgba(122,63,145,0.18),
     0 0 0 1px rgba(122,63,145,0.14);
 }
+
+
+
+/* ============================================================
+   AVATAR IMAGE — fold real Void logo into the existing avatar-ring
+   The avatar-inner used to display "MA" plain text; now it can hold
+   either the Void brand image OR the fallback initials (revealed
+   only if the image 404s). The `.avatar-img` rule below makes the
+   image fill the circular crop without distortion.
+============================================================ */
+.avatar-inner {
+  position: relative;
+  overflow: hidden;
+}
+.avatar-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 2;
+}
+.avatar-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+html.light-mode .avatar-inner { background: #fff; }
+
+/* ============================================================
+   LIGHT MODE — REAL GLASSMORPHISM (designer pass)
+   The bare default light-mode glass cards earlier in this file
+   used a single flat `rgba(255,255,255,0.78)` surface — clean, but
+   not actually "glassy". This pass adds:
+     • A subtle gradient surface (white → cream-pink) so cards have
+       a direction of light, not just opacity.
+     • Backdrop blur(16px) + saturate(160%) for true frosted look.
+     • A 1px inner top highlight that mimics light catching the
+       frosted edge.
+     • A peach hover inset — only warm hint on the otherwise
+       all-purple palette (color psychology).
+============================================================ */
+html.light-mode .glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(255, 247, 250, 0.72) 100%
+  ) !important;
+  border-color: rgba(122, 63, 145, 0.20) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow:
+    0 4px 20px rgba(122, 63, 145, 0.10),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.40) inset !important;
+}
+html.light-mode .glass:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 240, 245, 0.85) 100%
+  ) !important;
+  border-color: rgba(122, 63, 145, 0.32) !important;
+  box-shadow:
+    0 12px 40px rgba(122, 63, 145, 0.16),
+    0 0 0 1px rgba(122, 63, 145, 0.12),
+    0 0 24px rgba(245, 168, 147, 0.14) !important;
+  transform: translateY(-3px);
+}
+
+/* Light-mode body — slightly warmer canvas with a peach diagonal,
+   keeps the original purple identity but breaks all-lavender
+   monotone. Static (no animation) for perf — the WebGL ink is the
+   movement instead. */
+html.light-mode body {
+  background:
+    radial-gradient(ellipse 70% 55% at 100% 0%,  rgba(197,157,217,0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 50% at 0% 100%,  rgba(245,168,147,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(255,250,253,0.45) 0%, transparent 70%),
+    linear-gradient(160deg, #ecdaf2 0%, #e2cae9 50%, #efe0f3 100%) !important;
+  background-attachment: fixed !important;
+}
+
+/* Coral leading dot on every section label — single warmest accent
+   on the page, breaks the all-purple feel without yelling. */
+html.light-mode .section-label {
+  color: var(--c-regal);
+  position: relative;
+}
+html.light-mode .section-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f5a893;
+  margin-right: 10px;
+  vertical-align: middle;
+  box-shadow: 0 0 8px rgba(245, 168, 147, 0.65);
+  transform: translateY(-1px);
+}
+
+/* Gradient-text headline — deeper start + coral kiss for luxury
+   wordmark feel on lighter canvas. */
+html.light-mode .gradient-text {
+  background: linear-gradient(
+    115deg,
+    #260744 0%,
+    var(--c-regal) 35%,
+    var(--c-amethyst) 70%,
+    #f5a893 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 12px rgba(122, 63, 145, 0.16));
+}
+
+/* ============================================================
+   PERFORMANCE PASS (loaded last — wins specificity)
+   Goal: smooth like butter on mid-range mobile.
+============================================================ */
+
+/* WebGL canvas: persistent across whole page, never fades to 0.
+   `--fluid-fade` is set by js/webgl.js (1.0 in hero, ~0.55 floor
+   past it), so the ink reads as ambient texture below content
+   instead of a foreground distraction. */
+#fluid-canvas {
+  opacity: calc(0.75 * var(--fluid-fade, 1));
+  transition: opacity 0.45s ease-out;
+  will-change: transform;
+  transform: translateZ(0);
+}
+html.light-mode #fluid-canvas {
+  /* Light mode uses multiply blend so ink visibly tints the warm
+     canvas instead of bleaching it. */
+  mix-blend-mode: multiply;
+  opacity: calc(0.45 * var(--fluid-fade, 1)) !important;
+}
+
+/* Trim stacked backdrop-filter blur on smaller blocks — biggest
+   paint-cost win outside WebGL. Saturate alone keeps the frosted
+   feel without 18-20px gaussian blurs. */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.project-overlay {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
