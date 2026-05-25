@@ -1,77 +1,31 @@
-/* =============================================================
+/* Footer */
+html.light-mode footer {
+  border-top-color: rgba(122,63,145,0.12);
+  background: #ede5f7;
+}
+html.light-mode .footer-gradient {
+  background: linear-gradient(0deg, #e8daf5 0%, transparent 100%);
+}
+
+/* Footer in light mode */
+html.light-mode footer {
+  border-top-color: rgba(122, 63, 145, 0.20);
+}
+html.light-mode footer .text-lilac\/35 {
+  color: rgba(43, 13, 62, 0.45) !important;
+}
+
+/* ============================================================
    FOOTER
-============================================================= */
-
-#footer {
-  padding: 48px 40px;
-  border-top: 1px solid var(--border);
-  position: relative;
-  z-index: 1;
+============================================================ */
+.footer-gradient {
+  background: linear-gradient(0deg, #0f0318 0%, transparent 100%);
 }
 
-.footer-inner {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
+/* Footer blends with new canvas instead of looking pasted-on */
+html.light-mode footer {
+  background: rgba(220,198,234,0.55) !important;
 }
-
-.footer-logo {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  text-decoration: none;
-}
-
-.footer-tagline {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-  margin-top: 3px;
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 20px;
-}
-
-.footer-links a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-  color: var(--text);
-}
-
-.footer-copy {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-  text-align: right;
-}
-
-@media (max-width: 768px) {
-  #footer { padding: 40px 20px; }
-
-  .footer-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-
-  .footer-copy { text-align: left; }
+html.light-mode .footer-gradient {
+  background: linear-gradient(0deg, #d3b9e3 0%, transparent 100%);
 }

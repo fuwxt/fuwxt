@@ -1,211 +1,141 @@
-/* =============================================================
-   HERO
-============================================================= */
-
-#hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 100px 40px 80px;
-  position: relative;
-  overflow: hidden;
+/* Hero section */
+html.light-mode .hero-bg {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, rgba(197,157,217,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(122,63,145,0.12) 0%, transparent 55%),
+    linear-gradient(180deg, #ede5f7 0%, #e8daf5 50%, #f5f0fb 100%);
+}
+html.light-mode .hero-brand {
+  background: linear-gradient(135deg, #3d1060 0%, var(--c-regal) 40%, var(--c-amethyst) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 16px rgba(122,63,145,0.18));
+}
+html.light-mode .orb {
+  opacity: 0.12;
 }
 
-.hero-content {
-  max-width: 900px;
-  margin: 0;
-  position: relative;
-  z-index: 2;
+/* Availability badge */
+html.light-mode .border-amethyst\/25 { border-color: rgba(122,63,145,0.25) !important; }
+html.light-mode .bg-regal\/15 { background: rgba(122,63,145,0.10) !important; }
+html.light-mode .text-amethyst\/80 { color: rgba(122,63,145,0.75) !important; }
+
+/* Hero particles in light mode */
+html.light-mode .hero-particle {
+  opacity: 0.4 !important;
 }
 
-/* ── Availability line ── */
-.hero-availability {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-  opacity: 0;
-  transition: opacity 0.5s var(--ease);
+/* ============================================================
+   HERO SECTION
+============================================================ */
+.hero-bg {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, rgba(122,63,145,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(197,157,217,0.12) 0%, transparent 55%),
+    linear-gradient(180deg, var(--c-velvet2) 0%, #200a30 50%, var(--c-velvet2) 100%);
 }
 
-.hero-availability.show {
-  opacity: 1;
-}
-
-/* ── Name ── */
-.hero-name-wrap {
-  margin-bottom: 24px;
-  overflow: hidden;
-  padding-bottom: 0.05em;
-}
-
-.hero-name {
-  font-family: var(--font-display);
-  font-size: clamp(56px, 9.5vw, 108px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  line-height: 0.95;
-  display: inline-block;
-}
-
-/* ── Typewriter ── */
-.hero-typewriter {
-  font-family: var(--font-body);
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-bottom: 20px;
-  min-height: 2em;
-  display: flex;
-  align-items: center;
-  gap: 0;
-  opacity: 0;
-  transition: opacity 0.5s var(--ease);
-}
-
-.hero-typewriter.show {
-  opacity: 1;
-}
-
-#typewriter-text {
-  color: var(--text);
-}
-
-/* ── Description ── */
-.hero-description {
-  font-family: var(--font-body);
-  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
-  color: var(--text-muted);
-  max-width: 560px;
-  line-height: 1.65;
-  margin-bottom: 36px;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
-}
-
-.hero-description.show {
-  opacity: 1;
-}
-
-/* ── Buttons ── */
-.hero-cta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 56px;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
-}
-
-.hero-cta.show {
-  opacity: 1;
-}
-
-/* ── Stats row ── */
-.hero-stats {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  flex-wrap: wrap;
-  row-gap: 24px;
-  margin-bottom: 56px;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
-}
-
-.hero-stats.show {
-  opacity: 1;
-}
-
-.stat-item {
-  padding: 0 36px;
-  position: relative;
-}
-
-.stat-item:first-child {
-  padding-left: 0;
-}
-
-.stat-item:not(:last-child)::after {
-  content: '';
+/* Floating orb decorations */
+.orb {
   position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1px;
-  height: 40px;
-  background: var(--border-hover);
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.22;
+  animation: float 12s ease-in-out infinite alternate;
+  pointer-events: none;
+  will-change: transform;
+}
+.orb-1 { width: 360px; height: 360px; background: var(--c-regal); top: -100px; right: -100px; animation-delay: 0s; }
+.orb-2 { width: 240px; height: 240px; background: var(--c-amethyst); bottom: 10%; left: -80px; animation-delay: 3s; }
+.orb-3 { width: 160px; height: 160px; background: var(--c-regal); top: 40%; left: 30%; animation-delay: 5s; opacity: 0.10; }
+
+/* Typing cursor */
+.typing-cursor::after {
+  content: '|';
+  color: var(--c-amethyst);
+  animation: blink 0.9s step-end infinite;
 }
 
-.stat-value {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  line-height: 1;
-  display: block;
+/* Hero logo / brand */
+.hero-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5rem, 15vw, 12rem);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 0%, var(--c-lilac) 30%, var(--c-amethyst) 70%, var(--c-regal) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(197,157,217,0.3));
 }
 
-.stat-label {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  display: block;
-  margin-top: 5px;
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .hero-brand { font-size: 4.5rem; }
+  .orb-1 { width: 250px; height: 250px; }
 }
-
-/* ── Scroll indicator ── */
-.scroll-indicator-wrap {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-}
-
-@media (max-width: 768px) {
-  #hero {
-    padding: 80px 20px 60px;
-  }
-
-  .hero-cta {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .hero-cta .btn-primary,
-  .hero-cta .btn-outline {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .stat-item {
-    padding: 0 20px;
-  }
-
-  .scroll-indicator-wrap {
-    left: 20px;
-  }
-}
-
 @media (max-width: 480px) {
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-
-  .stat-item {
-    padding: 0;
-  }
-
-  .stat-item::after {
-    display: none;
+  .hero-brand {
+    font-size: clamp(3.5rem, 13vw, 5rem);
+    letter-spacing: -0.01em;
   }
 }
+
+/* ============================================================
+   GLITCH EFFECT ON HERO BRAND
+   (Reduced intensity + longer interval — was 6s loop creating
+   constant micro-distraction. Now 12s with ~98% idle time.)
+============================================================ */
+.hero-brand {
+  position: relative;
+}
+.hero-brand::before,
+.hero-brand::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  background: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  pointer-events: none;
+}
+.hero-brand::before {
+  animation: glitch-1 12s infinite;
+  clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+  transform: translate(-2px, 0);
+  filter: drop-shadow(0 0 8px rgba(197,157,217,0.6));
+}
+.hero-brand::after {
+  animation: glitch-2 12s infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+  transform: translate(2px, 0);
+  filter: drop-shadow(0 0 8px rgba(122,63,145,0.6));
+}
+
+/* ============================================================
+   FLOATING PARTICLES IN HERO (CSS-only extras)
+============================================================ */
+.hero-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: hero-float linear infinite;
+  opacity: 0;
+}
+
+/* Hero in light mode — saturated, not bleached */
+html.light-mode .hero-bg {
+  background:
+    radial-gradient(ellipse 95% 75% at 50% 0%,   rgba(197,157,217,0.45) 0%, transparent 62%),
+    radial-gradient(ellipse 65% 55% at 80% 100%, rgba(122, 63,145,0.22) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 45% at 15% 90%,  rgba(214,184,232,0.38) 0%, transparent 60%),
+    linear-gradient(180deg, #e0caec 0%, #d3b9e3 50%, #e3d0ee 100%) !important;
+}
+
+/* Floating orbs need a touch more presence on lighter bg
+   (with the new paper-lilac canvas they were invisible) */
+html.light-mode .orb { opacity: 0.18; filter: blur(50px); }
