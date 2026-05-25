@@ -1,81 +1,236 @@
-/* Form inputs */
-html.light-mode .form-input {
-  background: rgba(255,255,255,0.75);
-  border-color: rgba(122,63,145,0.20);
-  color: #1d0a2e;
+/* =============================================================
+   CONTACT — two columns, form inputs, validation, social links
+============================================================= */
+
+#contact {
+  padding: var(--section-py) 40px;
 }
-html.light-mode .form-input::placeholder { color: rgba(43,13,62,0.30); }
-html.light-mode .form-input:focus {
-  border-color: rgba(122,63,145,0.50);
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 0 20px rgba(122,63,145,0.10);
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ── Left column ── */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contact-item-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.contact-item-value {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-item-value:hover {
+  color: var(--accent);
+}
+
+.contact-availability {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--green);
+  margin-top: -4px;
 }
 
 /* Social links */
-html.light-mode .social-link {
-  background: rgba(122,63,145,0.08);
-  border-color: rgba(122,63,145,0.20);
-  color: var(--c-regal);
-}
-html.light-mode .social-link:hover {
-  background: rgba(122,63,145,0.18);
-  border-color: var(--c-regal);
-  color: var(--c-velvet);
+.contact-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 4px;
 }
 
-/* Form inputs in light mode */
-html.light-mode .form-input {
-  background: rgba(255, 255, 255, 0.80) !important;
-  border-color: rgba(122, 63, 145, 0.25) !important;
-  color: #1d0a2e !important;
-}
-html.light-mode .form-input::placeholder {
-  color: rgba(43, 13, 62, 0.40) !important;
-}
-html.light-mode .form-input:focus {
-  border-color: rgba(122, 63, 145, 0.55) !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-}
-
-/* ============================================================
-   FORM INPUTS
-============================================================ */
-.form-input {
-  width: 100%;
-  padding: 14px 18px;
-  background: rgba(43,13,62,0.5);
-  border: 1px solid rgba(197,157,217,0.18);
-  border-radius: 10px;
-  color: var(--c-lilac);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.88rem;
-  outline: none;
-  transition: all 0.3s ease;
-}
-.form-input::placeholder { color: rgba(242,234,247,0.30); }
-.form-input:focus {
-  border-color: rgba(197,157,217,0.5);
-  box-shadow: 0 0 20px rgba(122,63,145,0.20);
-  background: rgba(43,13,62,0.7);
-}
-
-/* ============================================================
-   SOCIAL ICON LINKS
-============================================================ */
 .social-link {
-  display: flex; align-items: center; justify-content: center;
-  width: 44px; height: 44px;
-  background: rgba(122,63,145,0.15);
-  border: 1px solid rgba(197,157,217,0.20);
-  border-radius: 12px;
-  color: var(--c-amethyst);
-  transition: all 0.3s ease;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
   text-decoration: none;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
 }
+
 .social-link:hover {
-  background: rgba(122,63,145,0.35);
-  border-color: var(--c-amethyst);
-  color: var(--c-lilac);
-  box-shadow: 0 0 20px rgba(122,63,145,0.35);
-  transform: translateY(-3px);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Form ── */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2372717F' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Dark mode select option fix */
+[data-theme="dark"] .form-field select option {
+  background: #1a1a2e;
+  color: #EDEDF0;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.12);
+  background: var(--surface-hover);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+/* ── Validation error states ── */
+.form-field input.error,
+.form-field select.error,
+.form-field textarea.error {
+  border-color: var(--red);
+  background: rgba(255, 77, 77, 0.05);
+}
+
+.field-error {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--red);
+  letter-spacing: 0.04em;
+  display: none;
+}
+
+.field-error.show {
+  display: block;
+}
+
+/* ── Submit button ── */
+.form-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  letter-spacing: 0.01em;
+}
+
+.form-submit:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Direct email fallback ── */
+.form-direct-email {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.form-direct-email a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+
+.form-direct-email a:hover {
+  color: var(--accent);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+@media (max-width: 600px) {
+  #contact { padding: var(--section-py) 20px; }
+  .form-row { grid-template-columns: 1fr; }
 }
