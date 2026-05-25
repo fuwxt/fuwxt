@@ -1,0 +1,145 @@
+/* =============================================================
+   EXPERIENCE — vertical timeline, animated draw line
+============================================================= */
+
+#experience {
+  padding: var(--section-py) 40px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 52px;
+}
+
+/* The vertical draw line */
+.timeline-line {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border-hover);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.2s ease-in-out;
+}
+
+.timeline-line.draw {
+  clip-path: inset(0 0 0% 0);
+}
+
+/* Dot marker */
+.timeline-dot {
+  position: absolute;
+  left: -41px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.25);
+}
+
+/* Entry */
+.timeline-entry {
+  position: relative;
+}
+
+.exp-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.exp-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.exp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(var(--green-rgb, 29, 185, 84), 0.1);
+  border: 1px solid rgba(29, 185, 84, 0.25);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.exp-badge .pulse-dot {
+  width: 6px;
+  height: 6px;
+  margin-right: 0;
+}
+
+.exp-company {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.exp-description {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 620px;
+  margin-bottom: 20px;
+}
+
+/* Metric chips */
+.exp-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.exp-metric {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.exp-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 768px) {
+  #experience { padding: var(--section-py) 20px; }
+  .exp-header { flex-direction: column; }
+}
