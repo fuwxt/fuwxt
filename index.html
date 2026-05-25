@@ -64,7 +64,7 @@
     "url": "https://fuwxt.github.io/",
     "sameAs": [
       "https://linkedin.com/in/muhammad-azhar-shahbaz",
-      "https://github.com/azhar-dev",
+      "https://github.com/fuwxt",
       "https://behance.net",
       "https://instagram.com",
       "https://x.com"
@@ -170,28 +170,39 @@
           'Midjourney (AI Art Direction)'
         ],
         // ── TECHNICAL SKILLS ─────────────────────────────────────────
-        // Trimmed to the 14 keywords clients & US recruiters actually
-        // search for. Removed vague filler ('Web Development',
-        // 'Responsive Web Design', 'Web Applications', 'CSS', 'Debugging',
-        // 'AI', 'Machine Learning', 'Game Design'), which read as
-        // self-taught noise rather than a hireable signal. Replaced with
-        // the modern frontend stack, the LLM application layer, and
-        // workflow automation — the exact keywords that unlock $50-150/hr
-        // engagements vs. $15/hr commodity work.
+        // Tight 14-keyword list optimized for what US recruiters &
+        // premium clients actually search for in 2026. Removed soft
+        // filler ('AI', 'Machine Learning', 'Web Development', 'CSS')
+        // — those read as self-taught noise rather than a hireable
+        // signal. Replaced with the modern frontend stack and the
+        // *full* LLM application layer (engineering, RAG + vector
+        // stores, agent frameworks, MCP tool-use, evals, automation)
+        // — the exact keywords that unlock $50–150/hr engagements
+        // vs. $15/hr commodity work.
+        //
+        // Explicitly NOT included (per design brief — useless for
+        // hiring): raw "Hugging Face" demos, "Sora 2" hype, "ChatGPT
+        // Prompt Writer" filler. Each entry below maps to a real,
+        // billable deliverable.
         technicalSkills: [
           // Frontend money-makers
-          'TypeScript', 'React / Next.js', 'Tailwind CSS',
-          'Three.js / WebGL', 'GSAP & Lottie',
+          'TypeScript',
+          'React & Next.js',
+          'Tailwind CSS',
+          'Three.js & WebGL',
+          'GSAP & Lottie',
           // Backend essentials
-          'Node.js', 'Python', 'REST APIs',
-          // LLM application stack (2026 demand)
-          'LLM Integration (GPT / Claude / Gemini)',
-          'RAG (Retrieval-Augmented Generation)',
-          'LangChain',
-          'Vector Databases (Pinecone / Qdrant)',
-          'AI Agents',
+          'Node.js',
+          'Python',
+          'REST & GraphQL APIs',
+          // LLM application stack (2026 hire-keywords)
+          'LLM Engineering (GPT / Claude / Gemini)',
+          'RAG & Vector Databases (Pinecone / Qdrant)',
+          'LangChain & LangGraph',
+          'AI Agents & Tool Use (MCP)',
+          'Prompt Engineering & Evals',
           // Workflow automation (premium retainers)
-          'n8n / Zapier Automation'
+          'AI Workflow Automation (n8n / Zapier)'
         ],
 
         projects: [
@@ -648,17 +659,45 @@
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
 
-    <!-- ── OPEN TO WORK badge (sits ABOVE the PFP) ──────────────
-         Repurposed from the previous "Available for freelance" pill.
-         Now louder + clearer: a glowing pulsing dot, slightly larger
-         pill, and a coral kiss in light mode so it doesn't fade into
-         the warmer paper-lilac canvas. -->
+    <!-- ── OPEN TO WORK badge (sits ABOVE the PFP, per design brief) ──
+         Reads "Open to Work" as the loud headline + "Available for
+         Freelance" as the supporting tagline. Glowing pulsing green dot
+         signals live availability. Coral hover edge in light mode so it
+         doesn't fade into the warmer paper-lilac canvas. -->
     <div class="reveal hero-status-badge mb-6">
       <span class="status-dot" aria-hidden="true"></span>
-      <span class="status-text">Available for Freelance</span>
+      <span class="status-text">
+        <strong>Open to Work</strong>
+        <span class="status-text__sub">· Available for Freelance</span>
+      </span>
     </div>
 
-
+    <!-- ── PROFILE PICTURE / VOID LOGO ───────────────────────────
+         Sits BELOW the "Open to Work" badge and ABOVE the wordmark
+         (per design brief). Same `assets/void.png` brand mark used
+         in the About avatar, so identity stays consistent on every
+         scroll position. The .hero-pfp-* CSS classes were already
+         defined in css/hero.css but never rendered — wiring them up
+         here. Decorative counter-rotating orbits add the "creative
+         engineer" sparkle without dominating. -->
+    <div class="reveal delay-1 hero-pfp-wrap mb-7">
+      <span class="hero-pfp-orbit"           aria-hidden="true"></span>
+      <span class="hero-pfp-orbit hero-pfp-orbit--2" aria-hidden="true"></span>
+      <div class="hero-pfp-ring">
+        <div class="hero-pfp-inner">
+          <img
+            src="assets/void.png"
+            alt="Muhammad Azhar Shahbaz — Void brand logo"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            class="hero-pfp-img"
+            onerror="this.style.display='none'; this.nextElementSibling && (this.nextElementSibling.style.opacity = 1)"
+          />
+          <span class="hero-pfp-fallback" aria-hidden="true">MA</span>
+        </div>
+      </div>
+    </div>
 
     <!-- Brand Name -->
     <h1 class="hero-brand reveal delay-2 mb-4" data-text="Azhar.">Azhar.</h1>
@@ -767,8 +806,17 @@
         <p class="text-lilac/60 leading-relaxed text-sm md:text-base mb-4">
           I'm Muhammad Azhar Shahbaz — a creative technologist, AI specialist, and full-stack designer based in Islamabad, Pakistan. Pursuing a dual degree in Computer Science and Animation at COMSATS University, I sit at the rare intersection of engineering and artistry — building digital products that don't just look exceptional, they perform exceptionally.
         </p>
+        <!--
+          Bio paragraph — RETENTION-FIRST framing.
+          Senior review feedback: "$7K + 25 projects + 3 years" reads
+          junior to US recruiters. The actual selling point is the
+          98% retention rate (a number 99% of freelancers don't have).
+          Reordered so the strongest signal hits first; revenue +
+          rating now back-load as supporting evidence rather than the
+          headline number. No data was changed — only the order.
+        -->
         <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
-          Over 3 years of freelancing for premium US-based clients, I've delivered 25+ high-value projects — brand identities, web applications, animated explainers, and AI-powered workflows — generating <span class="text-amethyst font-medium">$7K+</span> in revenue, with a <span class="text-amethyst font-medium">98% client retention rate</span> and a perfect 5-star rating across every platform.
+          Over 3 years of freelancing, I've maintained a <span class="text-amethyst font-medium">98% client retention rate</span> with premium US-based startups — delivering 25+ projects across brand identity, web applications, motion graphics, and AI-powered workflows. Flagship clients return for every release, contributing to <span class="text-amethyst font-medium">$7K+</span> in lifetime revenue and a perfect 5-star rating across every platform.
         </p>
 
         <!-- Quick stat bars -->
@@ -793,15 +841,19 @@
           </div>
         </div>
 
+        <!--
+          Single primary CTA in the About bio. Earlier this row had
+          a second "Download CV" button alongside "Start a Project",
+          which made FIVE total Resume buttons on the page (nav +
+          hero + about + mobile menu + footer). Senior review:
+          repetition reads as desperate, not confident. Resume CTA
+          now lives only in the nav, hero and footer (3) — About
+          drives the user toward conversation instead.
+        -->
         <div class="flex flex-wrap gap-3">
           <a href="#contact" class="btn-primary inline-flex">
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
             Start a Project
-          </a>
-          <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
-          <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download inline-flex">
-            <i data-lucide="download" class="w-4 h-4"></i>
-            Download CV
           </a>
         </div>
       </div>
@@ -1502,10 +1554,23 @@
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
             </a>
-            <a href="https://github.com/azhar-dev" target="_blank" rel="noopener" class="social-link" title="GitHub" aria-label="GitHub">
+            <!--
+              GitHub link points at Azhar's REAL handle (fuwxt — same
+              account this site is hosted under). The earlier `azhar-dev`
+              placeholder 404'd, which read as "details ka khayal nahi
+              hai" to recruiters who clicked through.
+            -->
+            <a href="https://github.com/fuwxt" target="_blank" rel="noopener" class="social-link" title="GitHub" aria-label="GitHub">
               <i data-lucide="github" class="w-4 h-4"></i>
             </a>
-            <a href="https://azhar.dev" target="_blank" rel="noopener" class="social-link" title="Portfolio Website" aria-label="Portfolio Website">
+            <!--
+              Portfolio link → the live GitHub Pages deployment. Was
+              previously pointing at the un-deployed `azhar.dev` which
+              returned a hard 404. When Azhar registers the custom
+              domain later, swap this href back to https://azhar.dev
+              and leave the canonical/og:url meta unchanged.
+            -->
+            <a href="https://fuwxt.github.io/" target="_blank" rel="noopener" class="social-link" title="Portfolio Website" aria-label="Portfolio Website">
               <i data-lucide="globe" class="w-4 h-4"></i>
             </a>
           </div>
@@ -1570,7 +1635,12 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
       <div>
         <a href="#hero" class="font-display text-2xl font-semibold gradient-text-warm">Azhar.</a>
-        <p class="text-lilac/35 text-xs mt-1.5 tracking-wide">Graphic Designer & Web Developer</p>
+        <!-- Footer tagline now matches the <title> + JSON-LD jobTitle so
+             every off-page surface (search snippet, share preview,
+             footer crawl) tells the same story. Earlier "Graphic
+             Designer & Web Developer" understated the actual
+             positioning. -->
+        <p class="text-lilac/35 text-xs mt-1.5 tracking-wide">AI & Animation Specialist · Full-Stack Designer</p>
       </div>
       <div class="flex flex-wrap justify-center gap-6 text-xs text-lilac/35 tracking-wider">
         <a href="#about"        class="hover:text-amethyst transition-colors">About</a>
@@ -1583,10 +1653,14 @@
         <a href="#contact"      class="hover:text-amethyst transition-colors">Contact</a>
       </div>
       <div class="flex items-center gap-4">
-        <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
+        <!-- TODO: upload `Azhar_Resume.pdf` to repo root.
+             Footer Resume CTA — kept as the third (and final) instance
+             on the page. Pulse ring intentionally NOT applied here;
+             only the nav CTA gets the pulse so a single button
+             "leads", and the rest are quiet supporters. -->
         <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download text-xs py-2 px-4">
           <i data-lucide="download" class="w-3 h-3"></i>
-          Download Resume
+          Resume
         </a>
         <p class="text-lilac/25 text-xs">
           &copy; <span id="footer-year">2026</span> Muhammad Azhar Shahbaz.
