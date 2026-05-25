@@ -731,3 +731,231 @@ html.light-mode #fluid-canvas {
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
+
+
+/* ============================================================
+   FINAL POLISH PASS — 2026 senior review fixes
+   Loaded last so these rules always win specificity. Each block
+   maps to a specific issue in the senior review:
+     1. Hero status-text sub-line (Open to Work + Freelance)
+     2. Lucide icon dimension safety net
+     3. WebGL ink visibility past hero (slightly stronger)
+     4. Light-mode section color psychology
+        (skills=periwinkle · work=coral · testimonials=gold ·
+         achievements=mint — each section now has an emotional
+         anchor instead of all-lavender monotone)
+     5. Light-mode glassmorphism polish + section hierarchy
+     6. Performance containment & paint cost trim
+   ============================================================ */
+
+/* ── 1. Hero status badge: "Open to Work · Available for Freelance"
+   The <strong> is the loud headline; .status-text__sub is the soft
+   supporting tagline. Keeping the same uppercase tracking as the
+   parent so the pill reads as one visual unit, not two pieces. */
+.hero-status-badge .status-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-status-badge .status-text strong {
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(52, 211, 153, 0.45);
+}
+.hero-status-badge .status-text__sub {
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  opacity: 0.72;
+}
+html.light-mode .hero-status-badge .status-text strong {
+  color: var(--c-velvet);
+  text-shadow: 0 0 14px rgba(52, 211, 153, 0.30);
+}
+
+/* ── 2. Lucide icon dimension safety net
+   Lucide replaces every <i data-lucide> with a fresh <svg> on first
+   render and on every Alpine x-for / x-show update. The
+   MutationObserver in Alpine init() re-runs createIcons() but during
+   the brief flash before the observer fires, raw <i> tags are still
+   in the DOM and would otherwise render as bare letters ("download"
+   text inside a button). These rules keep the geometry stable so
+   even pre-replacement <i> tags reserve the correct box. */
+i[data-lucide] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  /* Width/height inherited from Tailwind w-{n} h-{n} classes that
+     Lucide also copies onto the replacement svg. If a class is
+     missing, fall back to 1em so the icon at least matches the
+     surrounding font-size instead of collapsing to 0×0. */
+  width: 1em;
+  height: 1em;
+  font-size: 0;            /* hide the literal "download" text */
+  color: transparent;
+}
+svg.lucide,
+[data-lucide] {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+/* When buttons render their <i> placeholder before Lucide loads,
+   keep the gap between icon-slot and text consistent so the button
+   doesn't visibly reflow when the SVG arrives. */
+.btn-primary i, .btn-outline i, .btn-download i,
+.social-link i, .skill-pill i, .achievement-badge i {
+  flex-shrink: 0;
+}
+
+/* ── 3. WebGL ink visibility — slightly stronger so it reads as
+   ambient texture below the fold instead of disappearing behind
+   dark glass cards. Hero stays at full strength, past-hero floor
+   bumped from 0.55 → 0.65 in JS; here we lift the multiplier from
+   0.75 → 0.85 (dark) and 0.45 → 0.55 (light). */
+#fluid-canvas {
+  opacity: calc(0.85 * var(--fluid-fade, 1)) !important;
+}
+html.light-mode #fluid-canvas {
+  opacity: calc(0.55 * var(--fluid-fade, 1)) !important;
+}
+
+/* ── 4. Light-mode section color psychology
+   Each section now carries a distinct emotional hue so the
+   light-mode page reads with rhythm instead of all-lavender
+   monotone. Inline `style="background: radial-gradient(...)"`
+   on each section is overridden ONLY in light mode — dark mode
+   keeps the original purple tint. Hue choices are deliberate:
+     • Skills      → periwinkle  (calm, cognitive, "trust the craft")
+     • Work        → peach/coral (passion, energy, "premium output")
+     • Testimonials→ warm gold   (trust, awards, "social proof")
+     • Achievements→ mint sage   (growth, "earned it")
+     • Why-work    → soft lilac  (the brand anchor)
+   Each tint is kept low-opacity (0.14–0.20) so the page still
+   reads as one cohesive system, not a rainbow.
+   ────────────────────────────────────────────────────────── */
+html.light-mode section[id="skills"] {
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 50%, rgba(108, 167, 222, 0.18) 0%, transparent 72%),
+    radial-gradient(ellipse 40% 30% at 90% 0%, rgba(255, 255, 255, 0.55) 0%, transparent 70%) !important;
+}
+html.light-mode section[id="work"] {
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 0%, rgba(245, 168, 147, 0.22) 0%, transparent 72%),
+    radial-gradient(ellipse 50% 40% at 0% 80%, rgba(197, 157, 217, 0.14) 0%, transparent 70%) !important;
+}
+html.light-mode section[id="testimonials"] {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(232, 196, 110, 0.20) 0%, transparent 72%),
+    radial-gradient(ellipse 40% 30% at 10% 0%, rgba(255, 255, 255, 0.55) 0%, transparent 70%) !important;
+}
+html.light-mode section[id="achievements"] {
+  background:
+    radial-gradient(ellipse 75% 45% at 50% 50%, rgba(160, 200, 170, 0.20) 0%, transparent 72%),
+    radial-gradient(ellipse 40% 30% at 100% 100%, rgba(122, 63, 145, 0.10) 0%, transparent 70%) !important;
+}
+/* Why-work-with-me has no id — target by inline style match */
+html.light-mode section:not([id])[style*="radial-gradient"] {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 50%, rgba(197, 157, 217, 0.22) 0%, transparent 72%),
+    radial-gradient(ellipse 50% 35% at 0% 0%,   rgba(245, 168, 147, 0.10) 0%, transparent 70%) !important;
+}
+/* Hero gets one extra warm-cool bloom for a richer first frame */
+html.light-mode .hero-bg {
+  background:
+    radial-gradient(ellipse 95% 75% at 50% 0%,   rgba(197,157,217,0.45) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 40% at 12% 88%,  rgba(245,168,147,0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 88% 95%,  rgba(108,167,222,0.20) 0%, transparent 60%),
+    linear-gradient(180deg, #e0caec 0%, #d3b9e3 50%, #e8d6ee 100%) !important;
+}
+
+/* ── 5. Light-mode glassmorphism — section-tinted glass cards
+   Cards inside each section pick up a *whisper* of the section
+   tint on hover so the hierarchy connects without screaming.
+   This is the difference between a "designed" portfolio and a
+   "templated" one. */
+html.light-mode section[id="work"] .glass:hover,
+html.light-mode section[id="work"] .project-card:hover {
+  box-shadow:
+    0 12px 40px rgba(245, 168, 147, 0.22),
+    0 0 0 1px rgba(245, 168, 147, 0.20) !important;
+}
+html.light-mode section[id="testimonials"] .glass:hover,
+html.light-mode section[id="testimonials"] .testimonial-card:hover {
+  box-shadow:
+    0 12px 40px rgba(232, 196, 110, 0.24),
+    0 0 0 1px rgba(232, 196, 110, 0.22) !important;
+}
+html.light-mode section[id="achievements"] .achievement-badge:hover {
+  box-shadow:
+    0 10px 30px rgba(160, 200, 170, 0.24),
+    0 0 0 1px rgba(160, 200, 170, 0.22) !important;
+}
+
+/* Light-mode body text contrast bump — "Open to Work" pill, mono
+   labels and counter labels were sitting around 4.0:1 against the
+   warmer canvas. Lift to ≥ 4.8:1 (passes WCAG AA for body text). */
+html.light-mode .text-amethyst\/50,
+html.light-mode .text-amethyst\/55,
+html.light-mode .text-amethyst\/60 {
+  color: rgba(58, 27, 78, 0.85) !important;
+}
+html.light-mode .counter-label,
+html.light-mode .section-label {
+  color: rgba(58, 27, 78, 0.80) !important;
+}
+
+/* ── 6. PERFORMANCE — paint containment
+   `content-visibility: auto` lets the browser skip layout/paint
+   for off-screen sections entirely. Combined with intrinsic-size
+   hints so the scrollbar doesn't jump as sections come into view.
+   This is the single biggest perf win on long single-page sites. */
+@supports (content-visibility: auto) {
+  section[id="experience"],
+  section[id="work"],
+  section[id="education"],
+  section[id="achievements"],
+  section[id="testimonials"],
+  section[id="contact"] {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 800px;
+  }
+}
+
+/* Cards: paint isolation so internal hover/transform doesn't
+   invalidate paint of neighbours. */
+.glass,
+.project-card,
+.achievement-badge,
+.testimonial-card,
+.counter-card {
+  contain: layout paint;
+}
+
+/* The hero never benefits from content-visibility (always above
+   the fold) and we WANT its decorative orbs to layer outside —
+   so explicitly opt out. */
+#hero { contain: none; content-visibility: visible; }
+
+/* The fluid canvas is the only thing that should never be
+   content-visibility'd. Force visible. */
+#fluid-canvas { content-visibility: visible !important; contain: none; }
+
+/* Reduce the scroll-bound paint of the breathing layer — at scale
+   the gradient still breathes, but on a 4× slower clock when the
+   user is actively scrolling (detected via the existing rAF scroll
+   tick, which sets `data-scrolling` on <html>). Simpler approach:
+   just make the breathe period longer so each frame moves the
+   gradient less. Keeps the motion alive without paint cost. */
+.bg-breathe::before { animation-duration: 18s; }
+
+/* ── 7. PFP fallback should fade in only if image fails. The img's
+   onerror handler sets opacity:1 — base state is 0 so we never see
+   "MA" overlay the loaded Void logo. */
+.hero-pfp-fallback,
+.avatar-fallback { opacity: 0; transition: opacity 0.3s ease; }
+.hero-pfp-img[style*="display: none"] + .hero-pfp-fallback,
+.avatar-img[style*="display: none"]   + .avatar-fallback { opacity: 1; }

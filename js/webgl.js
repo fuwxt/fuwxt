@@ -74,17 +74,24 @@
   };
 
   /* ── FLUID CONFIG ───────────────────────────────────────────
-     Tuned for toukoum-style behavior:
+     Tuned for toukoum.fr-style behavior:
 
        AUTO=false, IMMEDIATE=false → no auto-splats; the canvas
          stays empty until the user actually interacts. Saves
          GPU on idle and matches the "appears on touch" brief.
 
-       COLORFUL=true + COLOR_UPDATE_SPEED=18 → each splat picks
-         a markedly different color from the lib's HSV cycle.
+       COLORFUL=true + COLOR_UPDATE_SPEED=22 → each splat picks
+         a markedly different color from the lib's HSV cycle
+         (bumped from 18 so consecutive touches read as distinct
+         colors instead of similar shades).
 
-       DENSITY_DISSIPATION=0.92 → very slow density fade; ink
-         lingers ~5-7 seconds. Lower = stays longer.
+       DENSITY_DISSIPATION=0.94 → very slow density fade; ink
+         lingers ~7-10 seconds. Lower = stays longer. The user
+         brief specifically calls for "ahista ahista fade" (slow
+         fade) and color-mixing on re-touch — both come for free
+         when the dissipation is low: the lib's stable-fluids
+         core mixes new dye with whatever density still exists.
+
        VELOCITY_DISSIPATION=0.55 → slow velocity decay so colors
          keep flowing and mixing while they fade.
 
@@ -98,17 +105,17 @@
     SIM_RESOLUTION:    isMobile || isLowEnd ? 64  : 96,
     DYE_RESOLUTION:    isMobile || isLowEnd ? 256 : 512,
     CAPTURE_RESOLUTION: 256,
-    DENSITY_DISSIPATION:  0.92,        // slow, toukoum-style fade
+    DENSITY_DISSIPATION:  0.94,        // even slower fade so colors mix on re-touch
     VELOCITY_DISSIPATION: 0.55,
     PRESSURE: 0.78,
     PRESSURE_ITERATIONS: 12,
-    CURL: 22,
-    SPLAT_RADIUS: isMobile ? 0.30 : 0.24,
-    SPLAT_FORCE: 5800,
+    CURL: 24,
+    SPLAT_RADIUS: isMobile ? 0.32 : 0.27,
+    SPLAT_FORCE: 6400,
     SPLAT_COUNT: 1,
     SHADING: false,
     COLORFUL: true,
-    COLOR_UPDATE_SPEED: 18,
+    COLOR_UPDATE_SPEED: 22,
     PAUSED: reduceMotion,
     BACK_COLOR: { r: 0, g: 0, b: 0 },
     TRANSPARENT: true,
@@ -153,17 +160,21 @@
   /* ── PAGE-WIDE FADE FLOOR (no scroll-out fade-to-zero) ──────
      Per the new design brief the WebGL ink must be visible
      across the WHOLE page, not just the hero. We map scroll to
-     a 0.55 → 1.0 multiplier on `--fluid-fade`:
+     a 0.65 → 1.0 multiplier on `--fluid-fade`:
        • ratio ≤ 0.6  vh : full strength      (hero region)
-       • ratio 0.6→1.2 vh : interpolate 1.0 → 0.55
-       • ratio ≥ 1.2  vh : steady 0.55 floor  (rest of page)
-     CSS multiplies this into the base opacity (0.75 dark /
-     0.45 light) so the absolute opacity past the hero is
-     ~0.41 dark / ~0.25 light — visible but never overpowering.
+       • ratio 0.6→1.2 vh : interpolate 1.0 → 0.65
+       • ratio ≥ 1.2  vh : steady 0.65 floor  (rest of page)
+     CSS multiplies this into the base opacity (0.85 dark /
+     0.55 light) so the absolute opacity past the hero is
+     ~0.55 dark / ~0.36 light — visibly alive but never
+     overpowering the content layer above it.
+     (Earlier floor was 0.55 with base 0.75 → ~0.41 absolute,
+     which read as "ink only in hero" against dark glass cards
+     covering most of the viewport below the fold.)
   ────────────────────────────────────────────────────────────── */
   const FADE_START = 0.6;
   const FADE_END   = 1.2;
-  const FADE_FLOOR = 0.55;
+  const FADE_FLOOR = 0.65;
   let fadeTicking = false;
   let lastFade    = 1;
 
