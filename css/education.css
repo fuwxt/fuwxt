@@ -1,10 +1,89 @@
-/* ============================================================
-   EDUCATION CARD ACCENT
-============================================================ */
-.edu-card-accent {
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, #7A3F91, #C59DD9);
-  border-radius: 0 2px 2px 0;
+/* =============================================================
+   EDUCATION — dual degree cards, left border accent
+============================================================= */
+
+#education {
+  padding: var(--section-py) 40px;
+}
+
+.edu-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.edu-card {
+  padding: 28px 28px 28px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--accent);
+  position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edu-card:hover {
+  border-left-color: var(--highlight);
+  box-shadow: var(--shadow);
+}
+
+.edu-degree-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.edu-degree-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.edu-institution {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.edu-period {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edu-period-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  #education { padding: var(--section-py) 20px; }
+  .edu-grid { grid-template-columns: 1fr; }
 }
