@@ -725,6 +725,14 @@
 
       <!-- Avatar + decoration -->
       <div class="reveal-left flex flex-col items-center md:items-start gap-5">
+        <!-- Open-to-Work badge sits ABOVE the avatar.
+             Glass blur effect is preserved (.avatar-status-badge in
+             css/about.css uses backdrop-filter: blur). -->
+        <div class="avatar-status-badge">
+          <span class="avatar-status-dot" aria-hidden="true"></span>
+          <span>Open to Work</span>
+        </div>
+
         <!--
           Avatar wrapper. The `.avatar-glow` halo sits behind the avatar
           (z-index handled in CSS) and is theme-aware: a soft amethyst
@@ -755,13 +763,6 @@
           <!-- Decorative orbital rings -->
           <div class="absolute -inset-3 rounded-full border border-amethyst/15 animate-spin pointer-events-none" style="animation-duration:20s;"></div>
           <div class="absolute -inset-6 rounded-full border border-regal/10 animate-spin pointer-events-none" style="animation-duration:30s; animation-direction: reverse;"></div>
-        </div>
-
-        <!-- Open-to-Work badge (now sits BELOW the avatar, centered on
-             mobile, left-aligned on md+ to match the column flow) -->
-        <div class="avatar-status-badge">
-          <span class="avatar-status-dot" aria-hidden="true"></span>
-          <span>Open to Work</span>
         </div>
       </div>
 
