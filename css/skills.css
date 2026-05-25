@@ -25,8 +25,8 @@ html.light-mode .skill-pill:hover {
    SKILL PILL
 ============================================================ */
 .skill-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 16px;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px 8px 12px;
   background: rgba(122,63,145,0.12);
   border: 1px solid rgba(197,157,217,0.16);
   border-radius: 50px;
@@ -49,8 +49,60 @@ html.light-mode .skill-pill:hover {
   flex-shrink: 0;
 }
 
+/* ── REAL BRAND ICONS ON SKILL PILLS ─────────────────────────
+   `<img>` from SimpleIcons CDN. Each icon arrives with the
+   brand's official hex color baked in; on a vivid colored bg
+   we want a small white halo to keep the icon legible. The
+   filter is a 1px white stroke approximation via drop-shadow
+   stack — no per-icon SVG editing required.
+   ────────────────────────────────────────────────────────── */
+.skill-icon-img {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+  display: block;
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.40))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.18));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+.skill-pill:hover .skill-icon-img {
+  transform: scale(1.12);
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
+}
+
+/* Lucide fallback icons — render at the same 16px size as the
+   SimpleIcons SVGs so the pill geometry is consistent regardless
+   of which icon source rendered. The Tailwind `w-3.5 h-3.5`
+   classes in the markup are belt-and-braces; this rule wins via
+   id-class specificity. */
+.skill-icon-lucide,
+.skill-pill svg.lucide {
+  width: 16px !important;
+  height: 16px !important;
+  flex-shrink: 0;
+  color: var(--c-amethyst);
+}
+html.light-mode .skill-icon-lucide,
+html.light-mode .skill-pill svg.lucide {
+  color: var(--c-regal);
+}
+
+/* In light mode, the brand icons sit on a lavender pill —
+   reduce the white halo so the icon doesn't look chalky. */
+html.light-mode .skill-icon-img {
+  filter:
+    drop-shadow(0 0 1px rgba(255, 255, 255, 0.65))
+    drop-shadow(0 0 3px rgba(255, 255, 255, 0.30));
+}
+
 @media (max-width: 360px) {
   .skill-pill { font-size: 0.70rem; padding: 6px 12px; }
+  .skill-icon-img { width: 14px; height: 14px; }
+  .skill-icon-lucide { width: 14px !important; height: 14px !important; }
 }
 
 /* ============================================================

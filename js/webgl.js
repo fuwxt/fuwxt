@@ -191,8 +191,13 @@
     SIM_RESOLUTION:    isMobile || isLowEnd ? 64  : 96,
     DYE_RESOLUTION:    isMobile || isLowEnd ? 256 : 512,
     CAPTURE_RESOLUTION: 256,
-    DENSITY_DISSIPATION:  0.94,
-    VELOCITY_DISSIPATION: 0.55,
+    // Slow-fading, color-mixing ink. Bumped from 0.94 → 0.97 so
+    // splats from scroll-driven painting accumulate visibly during
+    // a continuous scroll motion (was fading mid-scroll before
+    // the next splat fired, breaking the "ink trails the scroll"
+    // effect that's the whole point of this background).
+    DENSITY_DISSIPATION:  0.97,
+    VELOCITY_DISSIPATION: 0.65,
     PRESSURE: 0.78,
     PRESSURE_ITERATIONS: 12,
     CURL: 24,
@@ -250,21 +255,32 @@
   }
   document.addEventListener('visibilitychange', () => setPaused(document.hidden));
 
-  /* ── 9. PAGE-WIDE FADE FLOOR ─────────────────────────────────
+  /* ── 9. PAGE-WIDE FADE FLOOR + SCROLL-DRIVEN SPLATS ──────────
      The WebGL ink should be visible across the WHOLE page, not
      just the hero. Map scroll to a 0.65 → 1.0 multiplier on
      `--fluid-fade`:
        • ratio ≤ 0.6  vh : full strength      (hero region)
        • ratio 0.6→1.2 vh : interpolate 1.0 → 0.65
        • ratio ≥ 1.2  vh : steady 0.65 floor  (rest of page)
-     CSS multiplies this into the base opacity (0.85 dark / 0.55
+     CSS multiplies this into the base opacity (0.85 dark / 0.80
      light) so absolute opacity past the hero is ~0.55 dark and
-     ~0.36 light — visibly alive but never overpowering content. */
+     ~0.52 light — visibly alive but never overpowering content.
+
+     ALSO — every ~80px of cumulative scroll fires a splat at a
+     random position with velocity matching the scroll direction.
+     This is what makes the canvas track scroll motion the way
+     toukoum.fr does, and crucially it keeps animation visible
+     during touch-scroll on mobile + during scroll in light mode
+     (which were the user's two specific complaints). */
   const FADE_START = 0.6;
   const FADE_END   = 1.2;
   const FADE_FLOOR = 0.65;
+  const SCROLL_SPLAT_THRESHOLD = 90;       // px of cumulative scroll per splat
   let fadeTicking = false;
   let lastFade    = 1;
+  let lastScrollY = window.scrollY;
+  let scrollAccumulator = 0;
+
   function applyFade() {
     const vh    = window.innerHeight || 1;
     const ratio = window.scrollY / vh;
@@ -278,10 +294,59 @@
       lastFade = rounded;
     }
   }
+
+  function fireSplatAt(x, y, vx, vy) {
+    if (!initState.ready) return;
+    const dispatch = (type, cx, cy) => {
+      let ev;
+      try {
+        ev = new MouseEvent(type, {
+          bubbles: false, cancelable: false,
+          clientX: cx, clientY: cy, button: 0
+        });
+      } catch (e) { return; }
+      try { canvas.dispatchEvent(ev); } catch (e) {}
+    };
+    // mousedown → trail mousemoves → mouseup, spread across two
+    // animation frames so the splat has a real velocity vector.
+    dispatch('mousedown', x, y);
+    requestAnimationFrame(() => {
+      dispatch('mousemove', x + vx * 0.5, y + vy * 0.5);
+      requestAnimationFrame(() => {
+        dispatch('mousemove', x + vx, y + vy);
+        dispatch('mouseup',   x + vx, y + vy);
+      });
+    });
+  }
+
+  function maybeScrollSplat() {
+    if (!initState.ready) return;
+    const currentY = window.scrollY;
+    const dy = currentY - lastScrollY;
+    lastScrollY = currentY;
+    scrollAccumulator += Math.abs(dy);
+    if (scrollAccumulator < SCROLL_SPLAT_THRESHOLD) return;
+    scrollAccumulator = 0;
+    // Random horizontal position with bias to whichever side the
+    // user hasn't been "painting" much. Vertical position is
+    // slightly biased toward the direction of scroll so trails
+    // feel like they're being dragged along with the gesture.
+    const x = window.innerWidth  * (0.15 + Math.random() * 0.70);
+    const yBias = dy > 0 ? 0.55 : 0.30;
+    const y = window.innerHeight * (yBias + (Math.random() - 0.5) * 0.20);
+    const vx = (Math.random() - 0.5) * 80;
+    const vy = Math.sign(dy || 1) * (40 + Math.random() * 60);
+    fireSplatAt(x, y, vx, vy);
+  }
+
   window.addEventListener('scroll', () => {
     if (fadeTicking) return;
     fadeTicking = true;
-    requestAnimationFrame(() => { applyFade(); fadeTicking = false; });
+    requestAnimationFrame(() => {
+      applyFade();
+      maybeScrollSplat();
+      fadeTicking = false;
+    });
   }, { passive: true });
   applyFade();
 
@@ -324,30 +389,14 @@
     }
     welcomeFired = true;
 
+    // Re-use the same fireSplatAt helper that scroll-driven splats
+    // use so the welcome ink looks identical to the rest of the
+    // animation. Two splats with offset positions for a richer
+    // first frame than the original single-splat version.
     const cx = window.innerWidth  / 2;
     const cy = window.innerHeight * 0.55;
-    const dispatch = (type, x, y) => {
-      let ev;
-      try {
-        ev = new MouseEvent(type, {
-          bubbles: false, cancelable: false,
-          clientX: x, clientY: y, button: 0
-        });
-      } catch (e) { return; }
-      try { canvas.dispatchEvent(ev); } catch (e) {}
-    };
-
-    // mousedown + a short trail of moves so the splat has a
-    // velocity vector. A single mousedown alone produces no
-    // visible dye in stable-fluids.
-    dispatch('mousedown', cx, cy);
-    requestAnimationFrame(() => {
-      dispatch('mousemove', cx + 30, cy + 18);
-      requestAnimationFrame(() => {
-        dispatch('mousemove', cx + 60, cy + 36);
-        dispatch('mouseup',   cx + 60, cy + 36);
-      });
-    });
+    fireSplatAt(cx,        cy,        60,  30);
+    setTimeout(() => fireSplatAt(cx - 80, cy + 40, -50, 20), 180);
   }
   document.addEventListener('pointermove', fireWelcomeSplat, { once: true, passive: true });
   document.addEventListener('touchstart',  fireWelcomeSplat, { once: true, passive: true });
