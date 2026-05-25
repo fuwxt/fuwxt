@@ -12,25 +12,24 @@
   <meta name="keywords" content="Muhammad Azhar Shahbaz, freelance graphic designer, web developer, AI engineer, motion graphics, brand identity, Islamabad, Pakistan, Cormorant Garamond portfolio"/>
 
   <!--
-    Canonical: when this site is deployed, replace the URL below with the
-    real production domain. Leaving it pointing at a non-deployed domain
-    can hurt SEO indexing of your GitHub Pages preview.
+    Canonical: pointed at the live GitHub Pages deployment so Google
+    indexes the correct URL. (Was previously pointing at the un-deployed
+    `azhar.dev` which was hurting SEO of the preview build.)
   -->
-  <link rel="canonical" href="https://azhar.dev/"/>
+  <link rel="canonical" href="https://fuwxt.github.io/"/>
 
   <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="Azhar. — AI & Animation Specialist | Full-Stack Designer"/>
   <meta property="og:description" content="Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz."/>
-  <meta property="og:url" content="https://azhar.dev/"/>
+  <meta property="og:url" content="https://fuwxt.github.io/"/>
   <meta property="og:site_name" content="Azhar."/>
   <!--
-    Open Graph image. TODO: upload a real `og-preview.jpg` (1200x630)
-    to the repo root for rich social previews. Until that file exists,
-    we fall back to the inline-SVG favicon as a graceful (if smaller)
-    preview so social shares don't render a broken-image icon.
+    Open Graph image — uses the real `assets/void.png` brand mark so
+    LinkedIn / WhatsApp / X show the proper logo on share. (Previously
+    fell back to an inline SVG placeholder.)
   -->
-  <meta property="og:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231a0827'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3ClinearGradient id='t' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F2EAF7'/%3E%3Cstop offset='1' stop-color='%23C59DD9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23b)'/%3E%3Ctext x='600' y='320' font-family='Georgia,serif' font-size='160' font-weight='600' text-anchor='middle' fill='url(%23t)'%3EAzhar.%3C/text%3E%3Ctext x='600' y='400' font-family='sans-serif' font-size='32' text-anchor='middle' fill='%23C59DD9' opacity='0.85'%3EAI %26 Animation Specialist | Full-Stack Designer%3C/text%3E%3C/svg%3E"/>
+  <meta property="og:image" content="https://fuwxt.github.io/assets/void.png"/>
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
   <meta property="og:locale" content="en_US"/>
@@ -39,11 +38,13 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Azhar. — AI & Animation Specialist"/>
   <meta name="twitter:description" content="Brand identity, web apps, motion graphics & AI workflows."/>
-  <meta name="twitter:image" content="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%231a0827'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3ClinearGradient id='t' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F2EAF7'/%3E%3Cstop offset='1' stop-color='%23C59DD9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23b)'/%3E%3Ctext x='600' y='320' font-family='Georgia,serif' font-size='160' font-weight='600' text-anchor='middle' fill='url(%23t)'%3EAzhar.%3C/text%3E%3Ctext x='600' y='400' font-family='sans-serif' font-size='32' text-anchor='middle' fill='%23C59DD9' opacity='0.85'%3EAI %26 Animation Specialist | Full-Stack Designer%3C/text%3E%3C/svg%3E"/>
+  <meta name="twitter:image" content="https://fuwxt.github.io/assets/void.png"/>
 
-  <!-- Favicons (inline SVG so no extra request; replace with /favicon.ico when ready) -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='36' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='120' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E"/>
+  <!-- Favicons — use the real Void brand mark instead of the placeholder
+       inline-SVG initial. apple-touch-icon points at the same source so
+       the home-screen icon on iOS / iPadOS matches. -->
+  <link rel="icon" type="image/png" href="assets/void.png"/>
+  <link rel="apple-touch-icon" href="assets/void.png"/>
 
   <!-- JSON-LD: Person schema for rich results -->
   <script type="application/ld+json">
@@ -54,13 +55,13 @@
     "alternateName": "Azhar",
     "jobTitle": "AI & Animation Specialist | Full-Stack Designer",
     "description": "Brand identity, web applications, motion graphics & AI workflows by Muhammad Azhar Shahbaz, based in Islamabad.",
-    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C59DD9'/%3E%3Cstop offset='1' stop-color='%237A3F91'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%231a0827'/%3E%3Ctext x='50%25' y='54%25' font-family='Georgia,serif' font-size='42' font-weight='600' text-anchor='middle' dominant-baseline='middle' fill='url(%23g)'%3EA%3C/text%3E%3C/svg%3E",
+    "image": "https://fuwxt.github.io/assets/void.png",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Islamabad",
       "addressCountry": "PK"
     },
-    "url": "https://azhar.dev/",
+    "url": "https://fuwxt.github.io/",
     "sameAs": [
       "https://linkedin.com/in/muhammad-azhar-shahbaz",
       "https://github.com/azhar-dev",
@@ -144,17 +145,60 @@
         modalOpen: false,
         activeProject: null,
 
+        // ── CREATIVE SKILLS ──────────────────────────────────────────
+        // Original 2D/3D/motion/branding stack PRESERVED — these remain
+        // the bread-and-butter of paid graphic / motion work. Appended
+        // below them are the 2026-relevant additions: industry-standard
+        // motion software (After Effects, Cinema 4D, Blender) that was
+        // previously only mentioned in the README, modern UI/3D tools
+        // (Figma, Spline, Lottie) that hiring managers keyword-match,
+        // and the generative-AI creative toolkit (Midjourney, Flux,
+        // Runway, Sora) which is now table-stakes for premium clients.
         creativeSkills: [
+          // ─ Original animation & design foundations ─
           '2D Animation', '3D Animation', 'Character Animation',
           'Motion Design', 'Motion Graphics', 'Video Editing',
           'Logo Design', 'Branding & Identity', 'Graphic Design',
-          'Adobe Photoshop', 'Adobe Illustrator'
+          'Adobe Photoshop', 'Adobe Illustrator',
+          // ─ Industry-standard motion & 3D pipeline (2026) ─
+          'Adobe After Effects', 'Premiere Pro', 'Cinema 4D', 'Blender',
+          // ─ Modern UI / web-native motion tools ─
+          'Figma', 'Spline 3D', 'Lottie Animation', 'GSAP',
+          // ─ Generative AI creative toolkit (paid-work demand 2026) ─
+          'Midjourney', 'Flux / Stable Diffusion', 'Runway Gen-3',
+          'Sora / Veo 3 (AI Video)', 'ComfyUI Workflows'
         ],
+
+        // ── TECHNICAL SKILLS ─────────────────────────────────────────
+        // Original AI / web / game-dev list PRESERVED. Appended below
+        // are the 2026 hireable additions clients & recruiters actually
+        // search for on LinkedIn / Upwork: modern frontend (TypeScript,
+        // React, Next.js, Tailwind), the LLM application stack (RAG,
+        // LangChain, vector DBs, agents, MCP), and AI workflow
+        // automation tooling (n8n, Make). These are the keywords that
+        // unlock $50-150/hr engagements vs. $15/hr commodity work.
         technicalSkills: [
+          // ─ Original AI / dev / game foundations ─
           'Artificial Intelligence (AI)', 'Machine Learning',
           'Prompt Engineering', 'Web Development',
           'Responsive Web Design', 'Web Applications',
-          'CSS', 'Debugging', 'Game Design'
+          'CSS', 'Debugging', 'Game Design',
+          // ─ Modern frontend stack (paid client work 2026) ─
+          'TypeScript', 'React', 'Next.js', 'Tailwind CSS',
+          'Three.js / WebGL', 'Framer Motion',
+          // ─ Backend & APIs ─
+          'Node.js', 'Python', 'REST & GraphQL APIs',
+          // ─ LLM application engineering (highest-demand 2026) ─
+          'LLM Integration (GPT-5 / Claude / Gemini)',
+          'RAG (Retrieval-Augmented Generation)',
+          'LangChain / LlamaIndex',
+          'Vector Databases (Pinecone / Qdrant / Weaviate)',
+          'Embeddings & Semantic Search',
+          'Fine-tuning & LoRA',
+          'AI Agents (CrewAI / AutoGen)',
+          'Model Context Protocol (MCP)',
+          // ─ AI workflow automation (premium retainer work) ─
+          'n8n / Make / Zapier AI Workflows'
         ],
 
         projects: [
@@ -654,13 +698,22 @@
         <div class="relative">
           <div class="avatar-ring">
             <!--
-              TODO: drop your profile photo into the repo (e.g. `profile.jpg`,
-              square 600x600 minimum) and uncomment the <img> tag below.
-              The `MA` initials are kept as a graceful fallback / loading state.
+              Real brand mark — `assets/void.png` is Azhar's personal Void
+              logo and serves double-duty as profile picture. Image is
+              wrapped in `.avatar-inner` which keeps the circular crop.
+              The "MA" initial fallback is preserved as alt text for
+              screen readers and as a hard-fallback if the asset 404s.
             -->
             <div class="avatar-inner">
-              <!-- <img src="profile.jpg" alt="Muhammad Azhar Shahbaz" class="w-full h-full rounded-full object-cover"/> -->
-              MA
+              <img
+                src="assets/void.png"
+                alt="Muhammad Azhar Shahbaz — Void logo"
+                loading="eager"
+                decoding="async"
+                class="avatar-img"
+                onerror="this.style.display='none'"
+              />
+              <span class="avatar-fallback" aria-hidden="true">MA</span>
             </div>
           </div>
           <!-- Decorative ring -->
@@ -767,9 +820,13 @@
           <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
             <i data-lucide="palette" class="w-5 h-5 text-amethyst"></i>
           </div>
-          <div>
-            <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
-            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design & Motion</p>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
+              <span class="text-[0.65rem] px-2 py-0.5 rounded-full border border-amethyst/30 bg-regal/15 text-amethyst/80 tracking-wider"
+                x-text="creativeSkills.length + ' skills'"></span>
+            </div>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design · Motion · 3D · Generative AI</p>
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
@@ -788,9 +845,13 @@
           <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
             <i data-lucide="code-2" class="w-5 h-5 text-amethyst"></i>
           </div>
-          <div>
-            <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
-            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Dev & AI</p>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
+              <span class="text-[0.65rem] px-2 py-0.5 rounded-full border border-amethyst/30 bg-regal/15 text-amethyst/80 tracking-wider"
+                x-text="technicalSkills.length + ' skills'"></span>
+            </div>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Frontend · Backend · LLM Apps · AI Agents</p>
           </div>
         </div>
         <div class="flex flex-wrap gap-3">

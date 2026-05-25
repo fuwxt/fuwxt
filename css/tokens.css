@@ -7,7 +7,15 @@
   --c-regal:    #7A3F91;
   --c-velvet:   #2B0D3E;
   --c-velvet2:  #1a0827;
+  /* Warm complementary accent — used sparingly for highlight states,
+     priority skill pills, and hero brand glow in light mode so the
+     all-purple palette doesn't read as monotone. Picked to sit at
+     the warm-orange-side of the color wheel opposite our regal
+     purple so it pops without clashing. */
+  --c-coral:    #F5A893;
+  --c-coral2:   #FFD2C2;
   --glow-sm:    0 0 20px rgba(197,157,217,0.25);
   --glow-md:    0 0 40px rgba(122,63,145,0.35);
   --glow-lg:    0 0 70px rgba(122,63,145,0.45);
+  --glow-coral: 0 0 30px rgba(245,168,147,0.35);
 }
