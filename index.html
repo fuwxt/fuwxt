@@ -144,17 +144,60 @@
         modalOpen: false,
         activeProject: null,
 
+        // ── CREATIVE SKILLS ──────────────────────────────────────────
+        // Original 2D/3D/motion/branding stack PRESERVED — these remain
+        // the bread-and-butter of paid graphic / motion work. Appended
+        // below them are the 2026-relevant additions: industry-standard
+        // motion software (After Effects, Cinema 4D, Blender) that was
+        // previously only mentioned in the README, modern UI/3D tools
+        // (Figma, Spline, Lottie) that hiring managers keyword-match,
+        // and the generative-AI creative toolkit (Midjourney, Flux,
+        // Runway, Sora) which is now table-stakes for premium clients.
         creativeSkills: [
+          // ─ Original animation & design foundations ─
           '2D Animation', '3D Animation', 'Character Animation',
           'Motion Design', 'Motion Graphics', 'Video Editing',
           'Logo Design', 'Branding & Identity', 'Graphic Design',
-          'Adobe Photoshop', 'Adobe Illustrator'
+          'Adobe Photoshop', 'Adobe Illustrator',
+          // ─ Industry-standard motion & 3D pipeline (2026) ─
+          'Adobe After Effects', 'Premiere Pro', 'Cinema 4D', 'Blender',
+          // ─ Modern UI / web-native motion tools ─
+          'Figma', 'Spline 3D', 'Lottie Animation', 'GSAP',
+          // ─ Generative AI creative toolkit (paid-work demand 2026) ─
+          'Midjourney', 'Flux / Stable Diffusion', 'Runway Gen-3',
+          'Sora / Veo 3 (AI Video)', 'ComfyUI Workflows'
         ],
+
+        // ── TECHNICAL SKILLS ─────────────────────────────────────────
+        // Original AI / web / game-dev list PRESERVED. Appended below
+        // are the 2026 hireable additions clients & recruiters actually
+        // search for on LinkedIn / Upwork: modern frontend (TypeScript,
+        // React, Next.js, Tailwind), the LLM application stack (RAG,
+        // LangChain, vector DBs, agents, MCP), and AI workflow
+        // automation tooling (n8n, Make). These are the keywords that
+        // unlock $50-150/hr engagements vs. $15/hr commodity work.
         technicalSkills: [
+          // ─ Original AI / dev / game foundations ─
           'Artificial Intelligence (AI)', 'Machine Learning',
           'Prompt Engineering', 'Web Development',
           'Responsive Web Design', 'Web Applications',
-          'CSS', 'Debugging', 'Game Design'
+          'CSS', 'Debugging', 'Game Design',
+          // ─ Modern frontend stack (paid client work 2026) ─
+          'TypeScript', 'React', 'Next.js', 'Tailwind CSS',
+          'Three.js / WebGL', 'Framer Motion',
+          // ─ Backend & APIs ─
+          'Node.js', 'Python', 'REST & GraphQL APIs',
+          // ─ LLM application engineering (highest-demand 2026) ─
+          'LLM Integration (GPT-5 / Claude / Gemini)',
+          'RAG (Retrieval-Augmented Generation)',
+          'LangChain / LlamaIndex',
+          'Vector Databases (Pinecone / Qdrant / Weaviate)',
+          'Embeddings & Semantic Search',
+          'Fine-tuning & LoRA',
+          'AI Agents (CrewAI / AutoGen)',
+          'Model Context Protocol (MCP)',
+          // ─ AI workflow automation (premium retainer work) ─
+          'n8n / Make / Zapier AI Workflows'
         ],
 
         projects: [
@@ -767,9 +810,13 @@
           <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
             <i data-lucide="palette" class="w-5 h-5 text-amethyst"></i>
           </div>
-          <div>
-            <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
-            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design & Motion</p>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-display text-2xl font-semibold text-lilac">Creative</h3>
+              <span class="text-[0.65rem] px-2 py-0.5 rounded-full border border-amethyst/30 bg-regal/15 text-amethyst/80 tracking-wider"
+                x-text="creativeSkills.length + ' skills'"></span>
+            </div>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Design · Motion · 3D · Generative AI</p>
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
@@ -788,9 +835,13 @@
           <div class="w-10 h-10 rounded-xl bg-regal/25 border border-amethyst/25 flex items-center justify-center">
             <i data-lucide="code-2" class="w-5 h-5 text-amethyst"></i>
           </div>
-          <div>
-            <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
-            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Dev & AI</p>
+          <div class="flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-display text-2xl font-semibold text-lilac">Technical</h3>
+              <span class="text-[0.65rem] px-2 py-0.5 rounded-full border border-amethyst/30 bg-regal/15 text-amethyst/80 tracking-wider"
+                x-text="technicalSkills.length + ' skills'"></span>
+            </div>
+            <p class="text-xs text-amethyst/50 tracking-wider mt-0.5">Frontend · Backend · LLM Apps · AI Agents</p>
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
