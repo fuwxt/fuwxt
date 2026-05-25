@@ -1,0 +1,10 @@
+/* ============================================================
+   EDUCATION CARD ACCENT
+============================================================ */
+.edu-card-accent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #7A3F91, #C59DD9);
+  border-radius: 0 2px 2px 0;
+}

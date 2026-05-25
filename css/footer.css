@@ -1,0 +1,31 @@
+/* Footer */
+html.light-mode footer {
+  border-top-color: rgba(122,63,145,0.12);
+  background: #ede5f7;
+}
+html.light-mode .footer-gradient {
+  background: linear-gradient(0deg, #e8daf5 0%, transparent 100%);
+}
+
+/* Footer in light mode */
+html.light-mode footer {
+  border-top-color: rgba(122, 63, 145, 0.20);
+}
+html.light-mode footer .text-lilac\/35 {
+  color: rgba(43, 13, 62, 0.45) !important;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer-gradient {
+  background: linear-gradient(0deg, #0f0318 0%, transparent 100%);
+}
+
+/* Footer blends with new canvas instead of looking pasted-on */
+html.light-mode footer {
+  background: rgba(220,198,234,0.55) !important;
+}
+html.light-mode .footer-gradient {
+  background: linear-gradient(0deg, #d3b9e3 0%, transparent 100%);
+}

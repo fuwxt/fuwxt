@@ -1,0 +1,147 @@
+/* Project cards */
+html.light-mode .project-card {
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(122,63,145,0.14);
+}
+html.light-mode .project-card:hover {
+  border-color: rgba(122,63,145,0.30);
+  box-shadow: 0 12px 50px rgba(122,63,145,0.16);
+}
+html.light-mode .project-card h3 { color: #1d0a2e; }
+html.light-mode .project-card .text-lilac\/50 { color: rgba(43,13,62,0.55) !important; }
+
+/* Modal backdrop */
+html.light-mode .modal-backdrop {
+  background: rgba(242,234,247,0.85);
+}
+
+/* Tag chips */
+html.light-mode .tag-chip {
+  background: rgba(122,63,145,0.10);
+  border-color: rgba(122,63,145,0.20);
+  color: var(--c-regal);
+}
+
+/* Modal backdrop in light mode */
+html.light-mode .modal-backdrop {
+  background: rgba(245, 240, 251, 0.88);
+}
+
+/* ============================================================
+   PROJECT CARDS
+============================================================ */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(43, 13, 62, 0.5);
+  border: 1px solid rgba(197,157,217,0.14);
+  border-radius: 16px;
+  transition: all 0.45s cubic-bezier(0.23,1,0.32,1);
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(122,63,145,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+.project-card:hover {
+  border-color: rgba(197,157,217,0.35);
+  box-shadow: 0 12px 50px rgba(122,63,145,0.35), 0 0 0 1px rgba(197,157,217,0.1);
+  transform: translateY(-8px) scale(1.01);
+}
+.project-card:hover::before { opacity: 1; }
+/* Visible focus ring for keyboard users (cards are role=button, so they
+   must look focusable when tabbed to). */
+.project-card:focus-visible {
+  outline: 2px solid var(--c-amethyst);
+  outline-offset: 4px;
+  border-color: rgba(197,157,217,0.5);
+}
+
+.project-thumb {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+}
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background: rgba(43,13,62,0.7);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+.project-card:hover .project-overlay { opacity: 1; }
+
+/* ============================================================
+   MODAL
+   (align-items center on tall content was clipping the top
+   on small viewports — switched to flex-start with auto
+   margins via overflow-y-auto on the backdrop itself.)
+============================================================ */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(26, 8, 39, 0.88);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+@media (min-height: 720px) {
+  .modal-backdrop { align-items: center; }
+}
+.modal-enter {
+  animation: modalIn 0.45s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+.modal-leave {
+  animation: modalOut 0.3s ease forwards;
+}
+
+/* ============================================================
+   PROJECT GRADIENT THUMBS
+============================================================ */
+.thumb-1 { background: linear-gradient(135deg, #3d1659 0%, #7A3F91 50%, #c59dd9 100%); }
+.thumb-2 { background: linear-gradient(135deg, #1a0a2e 0%, #4a2070 50%, #8a55a8 100%); }
+.thumb-3 { background: linear-gradient(135deg, #2b0d3e 0%, #7A3F91 40%, #f2eaf7 100%); }
+.thumb-4 { background: linear-gradient(135deg, #0d0d1a 0%, #2b0d3e 40%, #7A3F91 100%); }
+.thumb-5 { background: linear-gradient(135deg, #4a1060 0%, #c59dd9 60%, #f2eaf7 100%); }
+.thumb-6 { background: linear-gradient(135deg, #1e0535 0%, #5c2080 50%, #c59dd9 100%); }
+
+/* ============================================================
+   THUMB GEOMETRIC PATTERNS
+============================================================ */
+.thumb-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+}
+
+/* ============================================================
+   TAG CHIPS FOR MODAL
+============================================================ */
+.tag-chip {
+  display: inline-flex; align-items: center;
+  padding: 4px 12px;
+  background: rgba(122,63,145,0.20);
+  border: 1px solid rgba(197,157,217,0.22);
+  border-radius: 50px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--c-amethyst);
+}
+
+/* Project / testimonial cards keep the same crisp lift */
+html.light-mode .project-card,
+html.light-mode .testimonial-card {
+  background: rgba(255,255,255,0.80) !important;
+  box-shadow: 0 4px 20px rgba(122,63,145,0.08);
+}
