@@ -22,7 +22,13 @@
      like Cmd/Ctrl-click for "open in new tab".)
   ══════════════════════════════════════════════════════════ */
   function spawnBurst(x, y) {
-    const count = 4 + Math.floor(Math.random() * 3);
+    /* With WebGL fluid now reacting to every pointer event across
+       the whole page, a heavy DOM-based ripple swarm on top is
+       overkill — the ink splat IS the burst. We keep 2-3 soft DOM
+       ripples so click feedback still shows for users who have
+       reduced-motion enabled (which pauses the WebGL sim) or
+       browsers without WebGL support. */
+    const count = 2 + Math.floor(Math.random() * 2);
     for (let i = 0; i < count; i++) {
       const [r,g,b] = BURST_COLORS[Math.floor(Math.random() * BURST_COLORS.length)];
       const size = 70 + Math.random() * 140;
@@ -135,7 +141,12 @@
     // Skip on small screens / reduced motion — tiny visual win, big perf win.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const isSmall = window.matchMedia('(max-width: 768px)').matches;
-    const COUNT = isSmall ? 5 : 9;   // was 18 — halved
+    /* Trimmed: 18 → 5 (desktop), 5 → 3 (mobile). The WebGL ink
+       fluid now does the heavy lifting for hero atmosphere; these
+       CSS particles are just a tiny extra sparkle. Each particle
+       is a positioned + box-shadowed div animating transform —
+       cheap individually, but the original count of 18 added up. */
+    const COUNT = isSmall ? 3 : 5;
     const colors = ['#F2EAF7', '#C59DD9', '#7A3F91', '#a060c0', '#e0c0f0'];
     for (let i = 0; i < COUNT; i++) {
       const dot = document.createElement('div');
