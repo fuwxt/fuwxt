@@ -112,9 +112,9 @@ The canonical archive lives at [**fuwxt.github.io**](https://fuwxt.github.io). A
 <br/><br/>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fuwxt/fuwxt/output/github-contribution-grid-snake-dark.svg"/>
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/fuwxt/fuwxt/output/github-contribution-grid-snake.svg"/>
-  <img alt="Contribution grid animation" src="https://raw.githubusercontent.com/fuwxt/fuwxt/output/github-contribution-grid-snake.svg"/>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fuwxt/fuwxt.github.io/output/github-contribution-grid-snake-dark.svg"/>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/fuwxt/fuwxt.github.io/output/github-contribution-grid-snake.svg"/>
+  <img alt="Contribution grid animation" src="https://raw.githubusercontent.com/fuwxt/fuwxt.github.io/output/github-contribution-grid-snake.svg"/>
 </picture>
 
 </div>
