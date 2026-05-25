@@ -1,0 +1,116 @@
+/* Counter cards */
+html.light-mode .counter-label { color: rgba(43,13,62,0.45); }
+
+/* Stat bars */
+html.light-mode .stat-bar-wrap { background: rgba(122,63,145,0.10); }
+
+/* Counter numbers keep gradient */
+html.light-mode .counter-number {
+  background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-amethyst) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.light-mode .counter-label {
+  color: rgba(43, 13, 62, 0.55) !important;
+}
+
+/* ============================================================
+   COUNTER ANIMATION
+============================================================ */
+.counter-card {
+  text-align: center;
+  padding: 36px 24px;
+}
+.counter-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--c-lilac) 0%, var(--c-amethyst) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.counter-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(242,234,247,0.55);
+  margin-top: 8px;
+}
+
+/* ============================================================
+   AVATAR PLACEHOLDER
+============================================================ */
+.avatar-ring {
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-regal), var(--c-amethyst));
+  padding: 2px;
+  flex-shrink: 0;
+}
+.avatar-inner {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: var(--c-velvet2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: var(--c-amethyst);
+}
+
+/* Stat bar */
+.stat-bar-wrap { background: rgba(197,157,217,0.10); border-radius: 4px; height: 4px; overflow: hidden; }
+.stat-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--c-regal), var(--c-amethyst)); transition: width 1.4s cubic-bezier(0.23,1,0.32,1); }
+
+/* ============================================================
+   COUNTER CARDS — UPGRADED
+============================================================ */
+.counter-card {
+  position: relative;
+  overflow: hidden;
+}
+.counter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(197,157,217,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.counter-card:hover::before { opacity: 1; }
+.counter-card .counter-number {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.counter-card:hover .counter-number {
+  transform: scale(1.08);
+}
+
+/* ============================================================
+   PROGRESS BAR GLOW
+============================================================ */
+.stat-bar {
+  position: relative;
+  overflow: visible;
+}
+.stat-bar::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-amethyst);
+  transform: translate(50%, -50%);
+  box-shadow: 0 0 8px rgba(197,157,217,0.8), 0 0 16px rgba(122,63,145,0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease 1.2s;
+}
+/* Only show the trailing glow dot once the bar has reached a "milestone"
+   width (>= 90%). Earlier the inline-style attribute selectors were empty
+   AND a follow-on `.stat-bar::after { opacity: 1; }` rule made the dot
+   permanently visible at 100% opacity for every progress bar. */
+.stat-bar[style*="width:9"]::after,
+.stat-bar[style*="width:10"]::after { opacity: 1; }

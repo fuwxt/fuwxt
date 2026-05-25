@@ -1,0 +1,50 @@
+/* Testimonials */
+html.light-mode .testimonial-card {
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(122,63,145,0.14);
+}
+html.light-mode .testimonial-card::before { color: var(--c-amethyst); opacity: 0.3; }
+html.light-mode .testimonial-card:hover {
+  border-color: rgba(122,63,145,0.28);
+  box-shadow: 0 8px 40px rgba(122,63,145,0.10);
+}
+
+/* ============================================================
+   TESTIMONIAL CARDS
+============================================================ */
+.testimonial-card {
+  position: relative;
+  padding: 32px;
+  background: rgba(43,13,62,0.55);
+  border: 1px solid rgba(197,157,217,0.14);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+}
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 16px; left: 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--c-regal);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.testimonial-card:hover {
+  border-color: rgba(197,157,217,0.30);
+  box-shadow: 0 8px 40px rgba(122,63,145,0.25);
+  transform: translateY(-5px);
+}
+
+/* ============================================================
+   STAR RATING
+============================================================ */
+.star { color: var(--c-amethyst); font-size: 1rem; }
+
+/* ============================================================
+   TESTIMONIAL CARD QUOTE MARK ANIMATE
+============================================================ */
+.testimonial-card:hover::before {
+  animation: quote-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
