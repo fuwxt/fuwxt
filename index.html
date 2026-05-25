@@ -146,64 +146,98 @@
         activeProject: null,
 
         // ── CREATIVE SKILLS ──────────────────────────────────────────
-        // Tight 12-pill list. Only skills that actually convert into paid
-        // engagements. Replaced the older 11-item list because half of
-        // those ('Character Animation', 'Motion Design', 'Video Editing')
-        // overlap with their parent categories ('2D & 3D Animation',
-        // 'Motion Graphics', Premiere Pro). Modern industry-standard
-        // motion software (After Effects, Cinema 4D, Blender) and the
-        // single AI tool clients actually pay for (Midjourney) added.
-        // Less = more: focused list signals confidence; a 25-pill grid
-        // signals "I list every tool I've ever opened".
+        // Each skill carries either:
+        //   • simpleicon → brand slug from SimpleIcons CDN. The CDN
+        //     returns the official brand SVG (Photoshop blue, Blender
+        //     orange, etc.) — visible on light AND dark bgs. Optional
+        //     `color` overrides the default brand hex (used for
+        //     monochrome brands like Three.js / Midjourney where the
+        //     default would be black/white and disappear on one mode).
+        //   • lucide → fall back to a Lucide icon for skills that
+        //     don't have a brand mark (Brand Identity, Motion Graphics).
+        // The `name` is what renders inside the pill.
         creativeSkills: [
-          'Brand Identity & Logo Design',
-          'Graphic Design',
-          'Adobe Photoshop',
-          'Adobe Illustrator',
-          'Adobe After Effects',
-          'Premiere Pro',
-          'Cinema 4D',
-          'Blender',
-          'Figma (UI / UX)',
-          '2D & 3D Animation',
-          'Motion Graphics',
-          'Midjourney (AI Art Direction)'
+          { name: 'Brand Identity & Logo Design',     lucide: 'badge-check'                              },
+          { name: 'Graphic Design',                   lucide: 'pen-tool'                                 },
+          { name: 'Adobe Photoshop',                  simpleicon: 'adobephotoshop'                       },
+          { name: 'Adobe Illustrator',                simpleicon: 'adobeillustrator'                     },
+          { name: 'Adobe After Effects',              simpleicon: 'adobeaftereffects'                    },
+          { name: 'Premiere Pro',                     simpleicon: 'adobepremierepro'                     },
+          { name: 'Cinema 4D',                        simpleicon: 'cinema4d',          color: '011A6A'   },
+          { name: 'Blender',                          simpleicon: 'blender',           color: 'E87D0D'   },
+          { name: 'Figma (UI / UX)',                  simpleicon: 'figma',             color: 'F24E1E'   },
+          { name: '2D & 3D Animation',                lucide: 'film'                                     },
+          { name: 'Motion Graphics',                  lucide: 'wand-sparkles'                            },
+          { name: 'Midjourney (AI Art Direction)',    simpleicon: 'midjourney',        color: 'A78BFA'   }
         ],
         // ── TECHNICAL SKILLS ─────────────────────────────────────────
         // Tight 14-keyword list optimized for what US recruiters &
-        // premium clients actually search for in 2026. Removed soft
-        // filler ('AI', 'Machine Learning', 'Web Development', 'CSS')
-        // — those read as self-taught noise rather than a hireable
-        // signal. Replaced with the modern frontend stack and the
-        // *full* LLM application layer (engineering, RAG + vector
-        // stores, agent frameworks, MCP tool-use, evals, automation)
-        // — the exact keywords that unlock $50–150/hr engagements
-        // vs. $15/hr commodity work.
-        //
-        // Explicitly NOT included (per design brief — useless for
-        // hiring): raw "Hugging Face" demos, "Sora 2" hype, "ChatGPT
-        // Prompt Writer" filler. Each entry below maps to a real,
-        // billable deliverable.
+        // premium clients actually search for in 2026. Same icon
+        // pattern as creativeSkills — brand SVGs where the brand
+        // exists, Lucide fallback where it doesn't.
         technicalSkills: [
           // Frontend money-makers
-          'TypeScript',
-          'React & Next.js',
-          'Tailwind CSS',
-          'Three.js & WebGL',
-          'GSAP & Lottie',
+          { name: 'TypeScript',                                   simpleicon: 'typescript'                          },
+          { name: 'React & Next.js',                              simpleicon: 'react',          color: '61DAFB'     },
+          { name: 'Tailwind CSS',                                 simpleicon: 'tailwindcss'                         },
+          { name: 'Three.js & WebGL',                             simpleicon: 'threedotjs',     color: 'A78BFA'     },
+          { name: 'GSAP & Lottie',                                simpleicon: 'greensock',      color: '88CE02'     },
           // Backend essentials
-          'Node.js',
-          'Python',
-          'REST & GraphQL APIs',
+          { name: 'Node.js',                                      simpleicon: 'nodedotjs'                           },
+          { name: 'Python',                                       simpleicon: 'python',         color: '3776AB'     },
+          { name: 'REST & GraphQL APIs',                          simpleicon: 'graphql'                             },
           // LLM application stack (2026 hire-keywords)
-          'LLM Engineering (GPT / Claude / Gemini)',
-          'RAG & Vector Databases (Pinecone / Qdrant)',
-          'LangChain & LangGraph',
-          'AI Agents & Tool Use (MCP)',
-          'Prompt Engineering & Evals',
+          { name: 'LLM Engineering (GPT / Claude / Gemini)',      simpleicon: 'openai',         color: 'A78BFA'     },
+          { name: 'RAG & Vector Databases (Pinecone / Qdrant)',   lucide: 'database'                                },
+          { name: 'LangChain & LangGraph',                        simpleicon: 'langchain',      color: '1C3C3C'     },
+          { name: 'AI Agents & Tool Use (MCP)',                   lucide: 'bot'                                     },
+          { name: 'Prompt Engineering & Evals',                   lucide: 'sparkles'                                },
           // Workflow automation (premium retainers)
-          'AI Workflow Automation (n8n / Zapier)'
+          { name: 'AI Workflow Automation (n8n / Zapier)',        simpleicon: 'n8n',            color: 'EA4B71'     }
         ],
+
+        /* Render the inner HTML for one skill pill. Returns a string
+           with the icon (img / lucide / fallback dot) followed by the
+           skill name. Used via x-html on .skill-pill so we get a
+           single Alpine binding per pill (cheaper than 3 nested
+           x-if templates) and the output is plain HTML the
+           MutationObserver in init() can re-scan for fresh
+           lucide icons. */
+        renderSkillPill(skill) {
+          // HTML-escape skill.name for safety, even though it's
+          // hardcoded — keeps this method reusable if the data
+          // ever comes from a CMS later.
+          const safeName = String(skill.name)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+          let icon;
+          if (skill.simpleicon) {
+            // SimpleIcons CDN: `https://cdn.simpleicons.org/{slug}/{hex}`.
+            // Without {hex} the CDN returns the official brand color.
+            // For monochrome brands (Three.js / OpenAI / Midjourney)
+            // we override to a vivid violet so the icon stays visible
+            // on both dark and light canvases.
+            const path = skill.color
+              ? `${skill.simpleicon}/${skill.color}`
+              : skill.simpleicon;
+            // onerror swaps the broken <img> for the original
+            // colored dot so a missing brand slug never leaves
+            // a blank gap in the pill.
+            icon = `<img src="https://cdn.simpleicons.org/${path}"
+                         alt=""
+                         class="skill-icon-img"
+                         loading="lazy"
+                         decoding="async"
+                         onerror="this.outerHTML='<span class=&quot;skill-dot&quot;></span>'"/>`;
+          } else if (skill.lucide) {
+            icon = `<i data-lucide="${skill.lucide}" class="skill-icon-lucide w-3.5 h-3.5"></i>`;
+          } else {
+            icon = '<span class="skill-dot"></span>';
+          }
+          return icon + '<span>' + safeName + '</span>';
+        },
 
         projects: [
           {
@@ -888,11 +922,8 @@
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
-          <template x-for="skill in creativeSkills" :key="skill">
-            <span class="skill-pill">
-              <span class="skill-dot"></span>
-              <span x-text="skill"></span>
-            </span>
+          <template x-for="skill in creativeSkills" :key="skill.name">
+            <span class="skill-pill" x-html="renderSkillPill(skill)"></span>
           </template>
         </div>
       </div>
@@ -909,11 +940,8 @@
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
-          <template x-for="skill in technicalSkills" :key="skill">
-            <span class="skill-pill">
-              <span class="skill-dot" style="background: #7A3F91;"></span>
-              <span x-text="skill"></span>
-            </span>
+          <template x-for="skill in technicalSkills" :key="skill.name">
+            <span class="skill-pill" x-html="renderSkillPill(skill)"></span>
           </template>
         </div>
       </div>
