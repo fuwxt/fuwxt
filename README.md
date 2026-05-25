@@ -109,14 +109,6 @@ The canonical archive lives at [**fuwxt.github.io**](https://fuwxt.github.io). A
 
 <img src="https://github-readme-streak-stats.herokuapp.com/?user=fuwxt&hide_border=true&background=1a0827&stroke=7A3F91&ring=C59DD9&fire=C59DD9&currStreakLabel=C59DD9&sideLabels=C59DD9&dates=F2EAF7&currStreakNum=F2EAF7&sideNums=F2EAF7" alt="Streak"/>
 
-<br/><br/>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fuwxt/fuwxt/output/github-contribution-grid-snake-dark.svg"/>
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/fuwxt/fuwxt/output/github-contribution-grid-snake.svg"/>
-  <img alt="Contribution grid animation" src="https://raw.githubusercontent.com/fuwxt/fuwxt/output/github-contribution-grid-snake.svg"/>
-</picture>
-
 </div>
 
 ---
