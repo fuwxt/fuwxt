@@ -146,63 +146,52 @@
         activeProject: null,
 
         // ── CREATIVE SKILLS ──────────────────────────────────────────
-        // Original 2D/3D/motion/branding stack PRESERVED — these remain
-        // the bread-and-butter of paid graphic / motion work. Appended
-        // below them are the 2026-relevant additions: industry-standard
-        // motion software (After Effects, Cinema 4D, Blender) that was
-        // previously only mentioned in the README, modern UI/3D tools
-        // (Figma, Spline, Lottie) that hiring managers keyword-match,
-        // and the generative-AI creative toolkit (Midjourney, Flux,
-        // Runway, Sora) which is now table-stakes for premium clients.
+        // Tight 12-pill list. Only skills that actually convert into paid
+        // engagements are kept. Removed: niche / overlap / hype-tier tools
+        // that read as "list filler" to recruiters (Sora/Veo, Flux, Runway,
+        // ComfyUI, Spline, GSAP/Lottie — moved to Technical where they
+        // belong, Character Animation/Motion Design/Video Editing folded
+        // into their parent categories). Less is more: a focused list
+        // signals confidence; a 25-pill grid signals "I list every tool
+        // I've ever opened".
         creativeSkills: [
-          // ─ Original animation & design foundations ─
-          '2D Animation', '3D Animation', 'Character Animation',
-          'Motion Design', 'Motion Graphics', 'Video Editing',
-          'Logo Design', 'Branding & Identity', 'Graphic Design',
-          'Adobe Photoshop', 'Adobe Illustrator',
-          // ─ Industry-standard motion & 3D pipeline (2026) ─
-          'Adobe After Effects', 'Premiere Pro', 'Cinema 4D', 'Blender',
-          // ─ Modern UI / web-native motion tools ─
-          'Figma', 'Spline 3D', 'Lottie Animation', 'GSAP',
-          // ─ Generative AI creative toolkit (paid-work demand 2026) ─
-          'Midjourney', 'Flux / Stable Diffusion', 'Runway Gen-3',
-          'Sora / Veo 3 (AI Video)', 'ComfyUI Workflows'
+          'Brand Identity & Logo Design',
+          'Graphic Design',
+          'Adobe Photoshop',
+          'Adobe Illustrator',
+          'Adobe After Effects',
+          'Premiere Pro',
+          'Cinema 4D',
+          'Blender',
+          'Figma (UI / UX)',
+          '2D & 3D Animation',
+          'Motion Graphics',
+          'Midjourney (AI Art Direction)'
         ],
 
         // ── TECHNICAL SKILLS ─────────────────────────────────────────
-        // Original AI / web / game-dev list PRESERVED. Appended below
-        // are the 2026 hireable additions clients & recruiters actually
-        // search for on LinkedIn / Upwork: modern frontend (TypeScript,
-        // React, Next.js, Tailwind), the LLM application stack (RAG,
-        // LangChain, vector DBs, agents, MCP), and AI workflow
-        // automation tooling (n8n, Make). These are the keywords that
-        // unlock $50-150/hr engagements vs. $15/hr commodity work.
+        // Trimmed to the 13 keywords clients & US recruiters actually
+        // search for. Removed vague filler ("Web Development",
+        // "Responsive Web Design", "Web Applications", "CSS", "Debugging",
+        // "AI", "ML", "Game Design"), niche / pre-hireable items
+        // (LlamaIndex, MCP, Hugging Face, Embeddings/Fine-tuning, ElevenLabs,
+        // Multimodal, Function Calling) and duplicates. What's left maps
+        // 1:1 to high-paying job postings: modern frontend stack, the
+        // LLM application layer, and workflow automation.
         technicalSkills: [
-          // ─ Original AI / dev / game foundations ─
-          'Artificial Intelligence (AI)', 'Machine Learning',
-          'Prompt Engineering', 'Web Development',
-          'Responsive Web Design', 'Web Applications',
-          'CSS', 'Debugging', 'Game Design',
-          // ─ Modern frontend stack (paid client work 2026) ─
-          'TypeScript', 'React', 'Next.js', 'Tailwind CSS',
-          'Three.js / WebGL', 'Framer Motion',
-          // ─ Backend & APIs ─
-          'Node.js', 'Python', 'REST & GraphQL APIs',
-          // ─ LLM application engineering (highest-demand 2026) ─
-          'LLM Integration (GPT-5 / Claude / Gemini)',
-          'OpenAI / Anthropic / Hugging Face APIs',
+          // Frontend money-makers
+          'TypeScript', 'React / Next.js', 'Tailwind CSS',
+          'Three.js / WebGL', 'GSAP & Lottie',
+          // Backend essentials
+          'Node.js', 'Python', 'REST APIs',
+          // LLM application stack (2026 demand)
+          'LLM Integration (GPT / Claude / Gemini)',
           'RAG (Retrieval-Augmented Generation)',
-          'LangChain / LlamaIndex',
-          'Vector Databases (Pinecone / Qdrant / Weaviate)',
-          'Embeddings & Semantic Search',
-          'Fine-tuning & LoRA',
-          'Function Calling / Tool Use',
-          'Multimodal AI (Vision + Audio)',
-          'AI Voice (ElevenLabs / Whisper)',
-          'AI Agents (CrewAI / AutoGen)',
-          'Model Context Protocol (MCP)',
-          // ─ AI workflow automation (premium retainer work) ─
-          'n8n / Make / Zapier AI Workflows'
+          'LangChain',
+          'Vector Databases (Pinecone / Qdrant)',
+          'AI Agents',
+          // Workflow automation (premium retainers)
+          'n8n / Zapier Automation'
         ],
 
         projects: [
@@ -242,12 +231,11 @@
             id: 3,
             title: 'Neon Motion Reel 2024',
             category: 'Motion',
-            icon: 'play-circle',
+            icon: 'circle-play',
             thumbClass: 'thumb-3',
             shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
             longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
-            tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
-            highlights: [
+            tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],            highlights: [
               '90-second reel spanning 8 distinct animation styles',
               'Original sound design and audio-reactive elements',
               'Custom character rig with 40+ control points',
@@ -365,9 +353,38 @@
             const yr = document.getElementById('footer-year');
             if (yr) yr.textContent = String(new Date().getFullYear());
             try { lucide.createIcons(); } catch(e) {}
-            // Safety net: re-run icon creation once after Alpine has fully
-            // rendered all x-for templates (skill pills, projects, etc.)
-            setTimeout(() => { try { lucide.createIcons(); } catch(e){} }, 1200);
+            // ── ICON SAFETY NET ──────────────────────────────────────
+            // Lucide replaces every `<i data-lucide>` with a fresh <svg>.
+            // Alpine's `x-for` (skill pills, project cards), `x-show`
+            // (modal, mobile menu) and `:data-lucide` (dynamic project
+            // icons) all add new `<i>` elements AFTER the first
+            // createIcons() pass — those would otherwise stay as bare
+            // `<i>` tags and look like missing icons. A MutationObserver
+            // watches the entire document and runs createIcons() once
+            // per microtask whenever new lucide icons appear.
+            try {
+              let pending = false;
+              const iconObserver = new MutationObserver((muts) => {
+                let needsRescan = false;
+                for (const m of muts) {
+                  for (const node of m.addedNodes) {
+                    if (node.nodeType !== 1) continue;
+                    if (node.matches?.('i[data-lucide]') || node.querySelector?.('i[data-lucide]')) {
+                      needsRescan = true; break;
+                    }
+                  }
+                  if (needsRescan) break;
+                }
+                if (needsRescan && !pending) {
+                  pending = true;
+                  queueMicrotask(() => {
+                    try { lucide.createIcons(); } catch(e){}
+                    pending = false;
+                  });
+                }
+              });
+              iconObserver.observe(document.body, { childList: true, subtree: true });
+            } catch(e) { /* MutationObserver unavailable, fall through */ }
           });
         },
 

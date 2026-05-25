@@ -117,13 +117,18 @@ html.light-mode .hero-particle {
   pointer-events: none;
 }
 .hero-brand::before {
-  animation: glitch-1 12s infinite;
+  /* Glitch interval bumped from 12s → 18s, intensity already
+     reduced. The duplicate ::before/::after layers each force
+     an extra paint of the largest piece of text on the page;
+     longer interval keeps the effect intentional but lets the
+     GPU rest 99% of the time. */
+  animation: glitch-1 18s infinite;
   clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
   transform: translate(-2px, 0);
   filter: drop-shadow(0 0 8px rgba(197,157,217,0.6));
 }
 .hero-brand::after {
-  animation: glitch-2 12s infinite;
+  animation: glitch-2 18s infinite;
   clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
   transform: translate(2px, 0);
   filter: drop-shadow(0 0 8px rgba(122,63,145,0.6));

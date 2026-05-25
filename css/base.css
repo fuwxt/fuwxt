@@ -412,11 +412,12 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
    INK FLUID WEBGL BACKGROUND CANVAS
    (sits behind everything but above body bg)
 
-   `--fluid-fade` is a runtime-controlled multiplier (0..1) set by
-   js/webgl.js while the user scrolls — drives a smooth opacity
-   easing from full hero visibility to invisible past the hero,
-   replacing the previous hard pause/play toggle that made the
-   ink "snap" off when scrolling out.
+   `--fluid-fade` is a runtime-controlled multiplier (0.55..1) set
+   by js/webgl.js on scroll. It NEVER reaches 0 — the WebGL ink
+   stays visible across the entire page (per design brief). The
+   variable steps down to a calmer floor past the hero so the
+   ambient ink reads as background texture, not a foreground
+   distraction.
 ============================================================ */
 #fluid-canvas {
   position: fixed;
@@ -427,12 +428,15 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
   pointer-events: auto;
   mix-blend-mode: screen;
   opacity: calc(0.75 * var(--fluid-fade, 1));
-  transition: opacity 0.35s ease-out;
+  transition: opacity 0.45s ease-out;
   touch-action: pan-y;  /* CRITICAL: allow vertical scroll on mobile */
 }
 html.light-mode #fluid-canvas {
+  /* Light mode uses multiply so the colored ink visibly tints the
+     warm paper canvas instead of bleaching it. Slightly lower base
+     opacity than dark mode because "multiply" already darkens. */
   mix-blend-mode: multiply;
-  opacity: calc(0.40 * var(--fluid-fade, 1));
+  opacity: calc(0.45 * var(--fluid-fade, 1));
 }
 
 /* (removed dead `#particle-canvas` rule — element no longer exists) */
@@ -530,84 +534,106 @@ html.light-mode .glass {
 .hero-brand:not([data-text])::after { content: none; }
 
 /* ============================================================
-   LIGHT MODE — DESIGNER POLISH (final overrides)
-   Goals:
-     • No more "blank-white" feel — paper-lilac canvas
-     • Two-tone diagonal wash + subtle radial accents
-     • Ink fluid canvas visible enough to feel intentional
-     • Glass cards keep clean white for contrast
+   LIGHT MODE — DESIGNER POLISH (consolidated rewrite)
+
+   This single block replaces the earlier two-part light-mode
+   override (DESIGNER POLISH + "NOT BORING" UPGRADE PASS). The
+   previous setup stacked an animated gradient mesh body bg
+   + an 80px-blur conic-gradient `body::after` that spun on a
+   60s loop. Both were visually subtle but extremely expensive
+   (the conic alone painted ~10 megapixels per frame at retina,
+   constantly). They were the single biggest perf bottleneck on
+   light mode.
+
+   New approach:
+     • Static warm paper-lilac canvas with a peach diagonal
+       (no animation needed — color psychology does the work).
+     • The WebGL ink fluid IS the light-mode "movement", and
+       it's already on a separate canvas that the user can
+       interact with directly (toukoum-style).
+     • Strong real glassmorphism on cards (frosted edges +
+       inner highlight) that finally reads on light bg.
+     • Coral leading dots on section labels — the only warm
+       anchor needed to break the all-purple feel.
 ============================================================ */
 html.light-mode body {
-  /* Soft cream-lilac base with a quiet warm-cool diagonal */
   background:
-    radial-gradient(ellipse 70% 55% at 100% 0%,  rgba(197,157,217,0.32) 0%, transparent 60%),
-    radial-gradient(ellipse 65% 50% at 0% 100%,  rgba(122, 63,145,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 55% at 100% 0%,  rgba(197,157,217,0.30) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 50% at 0% 100%,  rgba(245,168,147,0.20) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(255,250,253,0.45) 0%, transparent 70%),
-    linear-gradient(160deg, #ead9f1 0%, #ddc6ea 50%, #e8d6ee 100%) !important;
+    linear-gradient(160deg, #ecdaf2 0%, #e2cae9 50%, #efe0f3 100%) !important;
   background-attachment: fixed !important;
   color: #1d0a2e;
+  /* Animated mesh + spinning conic both removed in this pass — see
+     comment above. The static gradient gives every bit of warmth
+     the previous animated version did, at zero GPU cost. */
+  animation: none !important;
 }
+html.light-mode body::after { content: none !important; }
 
-/* Re-tint the ::before breathing layer so it stays in
-   palette (was almost invisible against new warmer bg) */
+/* Re-tint the breathing layer for the warmer canvas */
 html.light-mode .bg-breathe { background: transparent !important; }
 html.light-mode .bg-breathe::before {
   background:
-    radial-gradient(ellipse 70% 55% at 15% 12%, rgba(122,63,145,0.16) 0%, transparent 62%),
-    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(197,157,217,0.22) 0%, transparent 58%),
-    radial-gradient(ellipse 45% 35% at 50% 50%, rgba(232,214,238,0.55) 0%, transparent 70%);
+    radial-gradient(ellipse 70% 55% at 15% 12%, rgba(122,63,145,0.14) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(245,168,147,0.18) 0%, transparent 58%),
+    radial-gradient(ellipse 45% 35% at 50% 50%, rgba(232,214,238,0.50) 0%, transparent 70%);
   opacity: 0.85;
 }
-/* Tone down the noise grain — too much grain on a light bg
-   reads as JPEG noise rather than paper texture. */
-html.light-mode .bg-breathe::after { opacity: 0.18; }
+html.light-mode .bg-breathe::after { opacity: 0.14; }
 
-/* Make the ink fluid feel alive in light mode — bumped from 0.40 to 0.55
-   for stronger presence, and threaded through the same `--fluid-fade`
-   multiplier so the scroll-out fade keeps working in light mode too. */
-html.light-mode #fluid-canvas {
-  mix-blend-mode: multiply;
-  opacity: calc(0.55 * var(--fluid-fade, 1));        /* was 0.40 */
-}
-
-/* Glass cards — keep clean white for crispness, but lift
-   the edge so they don't melt into the warmer canvas.
-   Bumped shadow depth + added a faint coral accent edge so
-   the all-purple palette finally has visual breathing room. */
+/* ── REAL GLASSMORPHISM (light mode) ─────────────────────────
+   Two-layer cards: translucent gradient surface + saturated
+   backdrop-filter for true frosted look, plus 1px inner top
+   highlight that mimics light catching the edge of frosted
+   glass. Coral inset on hover keeps the warm anchor. */
 html.light-mode .glass {
-  background: rgba(255,255,255,0.78) !important;
-  border-color: rgba(122,63,145,0.22) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(255, 247, 250, 0.72) 100%
+  ) !important;
+  border-color: rgba(122, 63, 145, 0.20) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
   box-shadow:
-    0 6px 28px rgba(122,63,145,0.13),
-    0 1px 0 rgba(255,255,255,0.95) inset,
-    0 0 0 1px rgba(245,168,147,0.05);
+    0 4px 20px rgba(122, 63, 145, 0.10),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.40) inset;
 }
 html.light-mode .glass:hover {
-  background: rgba(255,255,255,0.94) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 240, 245, 0.85) 100%
+  ) !important;
+  border-color: rgba(122, 63, 145, 0.32) !important;
   box-shadow:
-    0 16px 52px rgba(122,63,145,0.20),
-    0 0 0 1px rgba(122,63,145,0.16),
-    0 0 32px rgba(245,168,147,0.10);
+    0 12px 40px rgba(122, 63, 145, 0.16),
+    0 0 0 1px rgba(122, 63, 145, 0.12),
+    0 0 24px rgba(245, 168, 147, 0.14);
   transform: translateY(-3px);
 }
+html.light-mode .glass-strong {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(122, 63, 145, 0.22) !important;
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+}
 
-/* Punchier gradient text in light mode — the previous
-   `#3d1060 → regal → amethyst` lost contrast on the warmer
-   paper-lilac canvas. Deepen the start, warm the end with a
-   trace of coral so the headline reads as a luxury wordmark
-   rather than washed-out lavender. */
+/* Light-mode gradient text — deeper start + coral kiss */
 html.light-mode .gradient-text {
   background: linear-gradient(
     115deg,
-    #2a0848 0%,
-    var(--c-regal) 38%,
-    var(--c-amethyst) 72%,
+    #260744 0%,
+    var(--c-regal) 35%,
+    var(--c-amethyst) 70%,
     var(--c-coral) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 16px rgba(122,63,145,0.18));
+  filter: drop-shadow(0 1px 12px rgba(122, 63, 145, 0.16));
 }
 html.light-mode .gradient-text-warm {
   background: linear-gradient(135deg, var(--c-regal) 0%, var(--c-coral) 100%);
@@ -616,86 +642,9 @@ html.light-mode .gradient-text-warm {
   background-clip: text;
 }
 
-/* Primary CTA — add a subtle coral inner glow on hover so
-   "Start a Project" / "View My Work" pop on the lighter canvas */
-html.light-mode .btn-primary:hover {
-  box-shadow:
-    0 0 32px rgba(122,63,145,0.45),
-    0 0 64px rgba(245,168,147,0.18);
-}
-
-/* Stat-bar trailing dot — coral milestone glow in light mode */
-html.light-mode .stat-bar::after {
-  background: var(--c-coral);
-  box-shadow: 0 0 10px rgba(245,168,147,0.85), 0 0 20px rgba(122,63,145,0.4);
-}
-
-
-
-/* ============================================================
-   LIGHT MODE — "NOT BORING" UPGRADE PASS
-   The previous light mode lived almost entirely in the purple
-   family on a near-flat paper canvas. This pass adds:
-     • A slow-moving gradient mesh (so the bg has *life*, not just
-       static pastel) — runs at 24s, GPU-cheap, hidden on
-       prefers-reduced-motion.
-     • A soft conic accent layer (fixed position) that drifts
-       imperceptibly. Reads as ambient color rather than
-       "background image".
-     • Coral micro-accents on `.section-label` so the eye has a
-       warm anchor across every section.
-   All overrides are under `html.light-mode` and the keyframes
-   are scoped — they cannot affect the dark-mode experience.
-============================================================ */
-@keyframes light-mesh-drift {
-  0%   { background-position:   0% 0%,  100% 100%, 50% 50%, 0 0; }
-  50%  { background-position: 100% 0%,    0% 100%, 50% 50%, 0 0; }
-  100% { background-position:   0% 0%,  100% 100%, 50% 50%, 0 0; }
-}
-
-html.light-mode body {
-  /* Same color stops, but the radial layers now share a
-     single oversized canvas so they can drift without
-     visible seams. */
-  background-size:
-    220% 220%,
-    220% 220%,
-    180% 180%,
-    100% 100% !important;
-  animation: light-mesh-drift 32s ease-in-out infinite;
-}
-
-/* A second decorative layer — a wide conic gradient pinned to
-   the viewport that adds barely-there hue rotation. Positioned
-   above the body bg but below all content (fixed z:0 vs content
-   z:10+). Very low opacity, very large blur — feels like real
-   ambient lighting, not a "pattern". */
-html.light-mode body::after {
-  content: '';
-  position: fixed;
-  inset: -20vh -20vw;
-  z-index: 0;
-  pointer-events: none;
-  background: conic-gradient(
-    from 0deg at 50% 50%,
-    rgba(122,  63, 145, 0.10) 0deg,
-    rgba(245, 168, 147, 0.14) 90deg,
-    rgba(197, 157, 217, 0.10) 180deg,
-    rgba(255, 210, 194, 0.12) 270deg,
-    rgba(122,  63, 145, 0.10) 360deg
-  );
-  filter: blur(80px) saturate(120%);
-  opacity: 0.55;
-  animation: light-conic-spin 60s linear infinite;
-  mix-blend-mode: multiply;
-}
-@keyframes light-conic-spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Section labels get a coral tint — the single warmest color
-   the page has, so every section header gets a small temperature
-   shift that breaks the "all-purple" feeling. */
+/* Section labels keep the coral leading dot — only warm break
+   on each section header, but stands out crisply now that the
+   spinning conic layer above is gone. */
 html.light-mode .section-label {
   color: var(--c-regal);
   position: relative;
@@ -709,13 +658,19 @@ html.light-mode .section-label::before {
   background: var(--c-coral);
   margin-right: 10px;
   vertical-align: middle;
-  box-shadow: 0 0 6px rgba(245, 168, 147, 0.6);
+  box-shadow: 0 0 8px rgba(245, 168, 147, 0.65);
   transform: translateY(-1px);
 }
 
-/* Respect reduced-motion users — the animated gradients and
-   conic spin both freeze. The static palette still looks great. */
-@media (prefers-reduced-motion: reduce) {
-  html.light-mode body { animation: none !important; }
-  html.light-mode body::after { animation: none !important; }
+/* CTA hover glow */
+html.light-mode .btn-primary:hover {
+  box-shadow:
+    0 0 28px rgba(122, 63, 145, 0.42),
+    0 0 56px rgba(245, 168, 147, 0.16);
+}
+
+/* Stat-bar coral milestone */
+html.light-mode .stat-bar::after {
+  background: var(--c-coral);
+  box-shadow: 0 0 10px rgba(245,168,147,0.85), 0 0 20px rgba(122,63,145,0.4);
 }
