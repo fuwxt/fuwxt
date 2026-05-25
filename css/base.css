@@ -418,10 +418,14 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
   width: 100%;
   height: 100%;
   z-index: 0;
-  pointer-events: auto;
+  /* Canvas never blocks UI — events are forwarded from `document`
+     into the canvas via dispatchEvent in js/webgl.js. This ALSO
+     prevents the canvas's own listeners from double-firing
+     alongside the forwarded events when the user clicks empty
+     body space. */
+  pointer-events: none;
   mix-blend-mode: screen;
   opacity: 0.75;
-  touch-action: pan-y;  /* CRITICAL: allow vertical scroll on mobile */
 }
 html.light-mode #fluid-canvas {
   mix-blend-mode: multiply;
@@ -1247,4 +1251,156 @@ html, body, .glass, .glass-strong,
   .modal-backdrop {
     transition: none !important;
   }
+}
+
+
+
+/* ============================================================
+   LIGHT MODE — TINTED GLASS CARDS (final pass, wins specificity)
+   Per design feedback: stark white cards in light mode read as
+   "default Bootstrap"; they don't connect to the purple brand.
+   Replacing with a low-opacity lavender/purple wash so cards
+   tie back to the palette while keeping the frosted-glass feel.
+
+   Strategy:
+     • Surface = lavender → regal gradient at low opacity (~0.18)
+     • Inner top highlight stays white for the "light-catching
+       glass edge" — that single highlight is what separates
+       glassmorphism from "translucent purple rectangle".
+     • Border lifts from 0.18 → 0.28 regal so the card edge
+       reads cleanly against the warmer paper-lilac canvas.
+     • Hover deepens the wash (~0.28) instead of going whiter.
+
+   Applied uniformly to: .glass, .project-card, .testimonial-card,
+   .achievement-badge, .counter-card, .edu-card (anything that
+   plays the role of a "card" in light mode).
+============================================================ */
+html.light-mode .glass,
+html.light-mode .project-card,
+html.light-mode .testimonial-card,
+html.light-mode .counter-card {
+  background: linear-gradient(
+    135deg,
+    rgba(197, 157, 217, 0.20) 0%,
+    rgba(122,  63, 145, 0.10) 100%
+  ) !important;
+  border: 1px solid rgba(122, 63, 145, 0.26) !important;
+  backdrop-filter: blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+  box-shadow:
+    0 4px 22px rgba(122, 63, 145, 0.10),
+    0 1px 0 rgba(255, 255, 255, 0.70) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.28) inset !important;
+}
+html.light-mode .glass:hover,
+html.light-mode .project-card:hover,
+html.light-mode .testimonial-card:hover,
+html.light-mode .counter-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(197, 157, 217, 0.30) 0%,
+    rgba(122,  63, 145, 0.18) 100%
+  ) !important;
+  border-color: rgba(122, 63, 145, 0.40) !important;
+  box-shadow:
+    0 12px 38px rgba(122, 63, 145, 0.18),
+    0 0 0 1px rgba(122, 63, 145, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.80) inset !important;
+}
+
+/* glass-strong (used by the modal body) — slightly more opaque
+   so modal copy reads cleanly over whatever section sits behind it. */
+html.light-mode .glass-strong {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(197, 157, 217, 0.30) 100%
+  ) !important;
+  border: 1px solid rgba(122, 63, 145, 0.32) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    0 24px 60px rgba(122, 63, 145, 0.22),
+    0 1px 0 rgba(255, 255, 255, 0.85) inset !important;
+}
+
+/* Achievement pills — keep the same family but a touch flatter
+   (they sit in 6-up grid, so reading hierarchy comes from the
+   colored icon tile, not the background). */
+html.light-mode .achievement-badge {
+  background: linear-gradient(
+    135deg,
+    rgba(197, 157, 217, 0.18) 0%,
+    rgba(122,  63, 145, 0.10) 100%
+  ) !important;
+  border: 1px solid rgba(122, 63, 145, 0.24) !important;
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  box-shadow:
+    0 2px 14px rgba(122, 63, 145, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.65) inset !important;
+}
+html.light-mode .achievement-badge:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(197, 157, 217, 0.28) 0%,
+    rgba(122,  63, 145, 0.16) 100%
+  ) !important;
+  border-color: rgba(122, 63, 145, 0.38) !important;
+  transform: translateX(4px);
+}
+
+/* Section-tinted hover variants (work / testimonials / achievements)
+   from earlier in this file used pure-white bases; with the new
+   tinted glass the tint shifts to deepen the section's emotional
+   hue (peach for work, gold for testimonials, mint for
+   achievements) instead of fighting it with white. */
+html.light-mode section[id="work"] .glass:hover,
+html.light-mode section[id="work"] .project-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 168, 147, 0.20) 0%,
+    rgba(122,  63, 145, 0.16) 100%
+  ) !important;
+  border-color: rgba(245, 168, 147, 0.42) !important;
+  box-shadow:
+    0 12px 40px rgba(245, 168, 147, 0.22),
+    0 0 0 1px rgba(245, 168, 147, 0.22) !important;
+}
+html.light-mode section[id="testimonials"] .glass:hover,
+html.light-mode section[id="testimonials"] .testimonial-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(232, 196, 110, 0.22) 0%,
+    rgba(122,  63, 145, 0.14) 100%
+  ) !important;
+  border-color: rgba(232, 196, 110, 0.42) !important;
+  box-shadow:
+    0 12px 40px rgba(232, 196, 110, 0.24),
+    0 0 0 1px rgba(232, 196, 110, 0.24) !important;
+}
+html.light-mode section[id="achievements"] .achievement-badge:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(160, 200, 170, 0.24) 0%,
+    rgba(122,  63, 145, 0.14) 100%
+  ) !important;
+  border-color: rgba(160, 200, 170, 0.42) !important;
+  box-shadow:
+    0 10px 30px rgba(160, 200, 170, 0.24),
+    0 0 0 1px rgba(160, 200, 170, 0.24) !important;
+}
+
+/* Light-mode body text on the new tinted cards needs a small
+   contrast bump — the lighter purple background means deeper
+   text reads cleaner. */
+html.light-mode .glass h3,
+html.light-mode .project-card h3,
+html.light-mode .testimonial-card p,
+html.light-mode .counter-card .counter-number {
+  color: var(--c-velvet);
+}
+html.light-mode .glass p,
+html.light-mode .project-card p {
+  color: rgba(43, 13, 62, 0.72);
 }
