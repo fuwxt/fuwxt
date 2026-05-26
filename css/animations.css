@@ -1,8 +1,13 @@
-/* Respect users who request reduced motion — disable smooth scroll. */
+/* ============================================================
+   ANIMATIONS — centralised keyframes + reveal helpers
+============================================================ */
+
+/* Reduced-motion: disable smooth scroll. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
 
+/* ── KEYFRAMES ─────────────────────────────────────────────── */
 @keyframes breathe {
   0%   { opacity: 0.6; transform: scale(1); }
   50%  { opacity: 1;   transform: scale(1.04); }
@@ -15,7 +20,7 @@
   100% { transform: translateY(10px) translateX(-10px); }
 }
 
-@keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.92) translateY(20px); }
@@ -26,21 +31,67 @@
   to   { opacity: 0; transform: scale(0.94) translateY(12px); }
 }
 
-/* ============================================================
-   SCROLL REVEAL ANIMATIONS
-============================================================ */
+@keyframes ring-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0;   transform: scale(1.06); }
+}
+
+@keyframes burst-expand {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.8; }
+  60%  { opacity: 0.35; }
+  100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+}
+
+/* SINGLE source for the hero-brand glitch keyframes. Earlier these
+   were duplicated in both base.css and animations.css; now defined
+   here only. Reduced peak opacity from 0.6 → 0.35 so the chromatic-
+   aberration reads as "luxury" rather than "dev tool demo". */
+@keyframes glitch-1 {
+  0%, 95%, 100% { transform: translate(0); opacity: 0; }
+  96% { transform: translate(-2px, 1px); opacity: 0.35; }
+  97% { transform: translate(1px, -1px); opacity: 0.22; }
+  98% { transform: translate(-1px, 1px); opacity: 0.30; }
+  99% { transform: translate(0); opacity: 0; }
+}
+@keyframes glitch-2 {
+  0%, 94%, 100% { transform: translate(0); opacity: 0; }
+  95% { transform: translate(2px, -1px); opacity: 0.30; }
+  97% { transform: translate(-1px, 1px); opacity: 0.18; }
+  98% { transform: translate(1px, 0); opacity: 0.28; }
+  99% { transform: translate(0); opacity: 0; }
+}
+
+@keyframes hero-float {
+  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(-20px) scale(1); opacity: 0; }
+}
+
+@keyframes pill-pop {
+  from { transform: scale(0.7) translateY(10px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);     opacity: 1; }
+}
+
+@keyframes quote-bounce {
+  from { transform: scale(1) translateY(0); }
+  50%  { transform: scale(1.2) translateY(-4px); }
+  to   { transform: scale(1) translateY(0); }
+}
+
+/* ── SCROLL REVEAL ────────────────────────────────────────── */
 .reveal,
 .reveal-left,
 .reveal-right,
 .reveal-scale {
   opacity: 0;
-  transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+  transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1),
+              transform 0.7s cubic-bezier(0.23,1,0.32,1);
 }
-/* Fallback: if Alpine hasn't loaded after 3s, show everything */
-.reveal          { transform: translateY(30px); }
-.reveal-left     { transform: translateX(-30px); }
-.reveal-right    { transform: translateX(30px); }
-.reveal-scale    { transform: scale(0.94); }
+.reveal       { transform: translateY(30px); }
+.reveal-left  { transform: translateX(-30px); }
+.reveal-right { transform: translateX(30px); }
+.reveal-scale { transform: scale(0.94); }
 
 .reveal.visible,
 .reveal-left.visible,
@@ -50,11 +101,11 @@
   transform: none !important;
 }
 
-/* Safety net: show hero content always after a delay */
-@keyframes forceShow {
-  to { opacity: 1; transform: none; }
-}
-#hero .reveal, #hero .reveal-left, #hero .reveal-right {
+/* Hero safety net: show after a delay even if observer doesn't fire */
+@keyframes forceShow { to { opacity: 1; transform: none; } }
+#hero .reveal,
+#hero .reveal-left,
+#hero .reveal-right {
   animation: forceShow 0.8s ease forwards;
   animation-delay: inherit;
 }
@@ -65,7 +116,6 @@
 #hero .delay-5 { animation-delay: 0.65s; }
 #hero .delay-6 { animation-delay: 0.85s; }
 
-/* Stagger delays */
 .delay-1 { transition-delay: 0.1s; }
 .delay-2 { transition-delay: 0.2s; }
 .delay-3 { transition-delay: 0.3s; }
@@ -73,26 +123,7 @@
 .delay-5 { transition-delay: 0.5s; }
 .delay-6 { transition-delay: 0.6s; }
 
-/* ============================================================
-   (Removed) EXPERIENCE TIMELINE — `.timeline-dot` + pulse-dot
-   were never used in markup. Removed to trim CSS.
-============================================================ */
-
-/* ============================================================
-   SECTION HEADER DECORATION (kept — used implicitly via flex layouts; can be removed if not referenced)
-   NOTE: removed dead `.section-header-line`, `.timeline-dot`,
-   `@keyframes pulse-dot`, `.glass-aurora`, `@keyframes aurora-spin` —
-   none of these were referenced anywhere in the markup.
-============================================================ */
-
-@keyframes ring-pulse {
-  0%,100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0; transform: scale(1.06); }
-}
-
-/* ============================================================
-   COLOR BURST RIPPLE
-============================================================ */
+/* ── BURST RIPPLE (click feedback for reduced-motion users) ── */
 .burst-ripple {
   position: fixed;
   border-radius: 50%;
@@ -102,18 +133,8 @@
   z-index: 9998;
   mix-blend-mode: screen;
 }
-@keyframes burst-expand {
-  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.8; }
-  60%  { opacity: 0.35; }
-  100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
-}
 
-/* ============================================================
-   SPLIT TEXT ANIMATION
-   (Bottom padding + matching negative margin reserves space for
-   descenders like g, y, j on Cormorant Garamond — earlier
-   `overflow:hidden` was clipping them.)
-============================================================ */
+/* ── SPLIT-WORD HEADING REVEAL ─────────────────────────────── */
 .split-word {
   display: inline-block;
   overflow: hidden;
@@ -125,31 +146,15 @@
   display: inline-block;
   transform: translateY(110%);
   opacity: 0;
-  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.75s ease;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.75s ease;
 }
 .split-word.in-view span {
   transform: translateY(0);
   opacity: 1;
 }
 
-@keyframes glitch-1 {
-  0%, 95%, 100% { transform: translate(0); opacity: 0; }
-  96% { transform: translate(-3px, 1px); opacity: 0.6; }
-  97% { transform: translate(2px, -1px); opacity: 0.4; }
-  98% { transform: translate(-1px, 2px); opacity: 0.6; }
-  99% { transform: translate(0); opacity: 0; }
-}
-@keyframes glitch-2 {
-  0%, 94%, 100% { transform: translate(0); opacity: 0; }
-  95% { transform: translate(3px, -1px); opacity: 0.5; }
-  97% { transform: translate(-2px, 1px); opacity: 0.3; }
-  98% { transform: translate(1px, 0); opacity: 0.5; }
-  99% { transform: translate(0); opacity: 0; }
-}
-
-/* ============================================================
-   SECTION HEADING UNDERLINE DRAW
-============================================================ */
+/* ── HEADING UNDERLINE DRAW-IN ─────────────────────────────── */
 .heading-underline {
   position: relative;
   display: inline-block;
@@ -164,41 +169,3 @@
   border-radius: 2px;
 }
 .heading-underline.in-view::after { width: 100%; }
-
-/* ============================================================
-   (Removed) AURORA SHIMMER + `.glass-aurora` — disabled previously
-   and never applied anywhere in the markup. Selector + keyframes
-   trimmed to keep stylesheet lean.
-============================================================ */
-
-@keyframes hero-float {
-  0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-  10%  { opacity: 0.6; }
-  90%  { opacity: 0.3; }
-  100% { transform: translateY(-20px) scale(1); opacity: 0; }
-}
-
-@keyframes pill-pop {
-  from { transform: scale(0.7) translateY(10px); opacity: 0; }
-  to   { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-@keyframes quote-bounce {
-  from { transform: scale(1) translateY(0); }
-  50%  { transform: scale(1.2) translateY(-4px); }
-  to   { transform: scale(1) translateY(0); }
-}
-
-/* Respect reduced-motion users — kill the heaviest loops */
-@media (prefers-reduced-motion: reduce) {
-  .orb, .bg-breathe::before, .hero-particle,
-  .hero-brand::before, .hero-brand::after { animation: none !important; }
-}
-
-/* Off-screen pause: when Hero or About are scrolled out of view,
-   a JS observer adds `.fx-paused`, which freezes their decorative
-   loops to save GPU/battery. */
-.fx-paused .hero-brand::before,
-.fx-paused .hero-brand::after,
-.fx-paused .animate-spin,
-.fx-paused .orb { animation-play-state: paused !important; }

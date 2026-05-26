@@ -65,9 +65,10 @@
     "sameAs": [
       "https://linkedin.com/in/muhammad-azhar-shahbaz",
       "https://github.com/fuwxt",
-      "https://behance.net",
-      "https://instagram.com",
-      "https://x.com"
+      "https://behance.net/fuwxt",
+      "https://dribbble.com/fuwxt",
+      "https://instagram.com/fuwxt",
+      "https://x.com/fuwxt"
     ],
     "knowsAbout": ["Brand Identity", "Web Development", "Motion Graphics", "Artificial Intelligence", "Prompt Engineering"],
     "alumniOf": {
@@ -146,63 +147,52 @@
         activeProject: null,
 
         // ── CREATIVE SKILLS ──────────────────────────────────────────
-        // Tight 12-pill list. Only skills that actually convert into paid
-        // engagements. Replaced the older 11-item list because half of
-        // those ('Character Animation', 'Motion Design', 'Video Editing')
-        // overlap with their parent categories ('2D & 3D Animation',
-        // 'Motion Graphics', Premiere Pro). Modern industry-standard
-        // motion software (After Effects, Cinema 4D, Blender) and the
-        // single AI tool clients actually pay for (Midjourney) added.
-        // Less = more: focused list signals confidence; a 25-pill grid
-        // signals "I list every tool I've ever opened".
+        // Each skill carries a brand icon ref. Format:
+        //   { name, icon: 'simple:<slug>' | 'lucide:<name>', color }
+        // Brand-icon ones render via Simple Icons CDN (full-color
+        // logo SVGs for the tools clients actually recognise:
+        // Photoshop, Illustrator, After Effects, Figma, Blender,
+        // Premiere, Cinema 4D, Midjourney). Generic concepts ("Brand
+        // Identity", "Graphic Design", "2D & 3D Animation", "Motion
+        // Graphics") fall back to Lucide line icons.
+        // Earlier the skill pills were text-only with a generic dot —
+        // recruiters skimming the page couldn't tell at a glance
+        // which tools Azhar actually uses. Brand icons fix that.
         creativeSkills: [
-          'Brand Identity & Logo Design',
-          'Graphic Design',
-          'Adobe Photoshop',
-          'Adobe Illustrator',
-          'Adobe After Effects',
-          'Premiere Pro',
-          'Cinema 4D',
-          'Blender',
-          'Figma (UI / UX)',
-          '2D & 3D Animation',
-          'Motion Graphics',
-          'Midjourney (AI Art Direction)'
+          { name: 'Brand Identity & Logo Design',  icon: 'lucide:hexagon',         color: '#C59DD9' },
+          { name: 'Graphic Design',                icon: 'lucide:palette',         color: '#C59DD9' },
+          { name: 'Adobe Photoshop',               icon: 'simple:adobephotoshop',  color: '#31A8FF' },
+          { name: 'Adobe Illustrator',             icon: 'simple:adobeillustrator',color: '#FF9A00' },
+          { name: 'Adobe After Effects',           icon: 'simple:adobeaftereffects',color:'#9999FF' },
+          { name: 'Premiere Pro',                  icon: 'simple:adobepremierepro',color: '#9999FF' },
+          { name: 'Cinema 4D',                     icon: 'simple:maxon',           color: '#011A6A' },
+          { name: 'Blender',                       icon: 'simple:blender',         color: '#F5792A' },
+          { name: 'Figma (UI / UX)',               icon: 'simple:figma',           color: '#F24E1E' },
+          { name: '2D & 3D Animation',             icon: 'lucide:film',            color: '#C59DD9' },
+          { name: 'Motion Graphics',               icon: 'lucide:clapperboard',    color: '#C59DD9' },
+          { name: 'Midjourney (AI Art Direction)', icon: 'simple:midjourney',      color: '#FFFFFF' }
         ],
         // ── TECHNICAL SKILLS ─────────────────────────────────────────
-        // Tight 14-keyword list optimized for what US recruiters &
-        // premium clients actually search for in 2026. Removed soft
-        // filler ('AI', 'Machine Learning', 'Web Development', 'CSS')
-        // — those read as self-taught noise rather than a hireable
-        // signal. Replaced with the modern frontend stack and the
-        // *full* LLM application layer (engineering, RAG + vector
-        // stores, agent frameworks, MCP tool-use, evals, automation)
-        // — the exact keywords that unlock $50–150/hr engagements
-        // vs. $15/hr commodity work.
-        //
-        // Explicitly NOT included (per design brief — useless for
-        // hiring): raw "Hugging Face" demos, "Sora 2" hype, "ChatGPT
-        // Prompt Writer" filler. Each entry below maps to a real,
-        // billable deliverable.
+        // Same brand-icon-first treatment for the dev / AI stack.
+        // 2026 hire-keywords get the recognisable logos (TypeScript,
+        // React, Tailwind, Three.js, GSAP, Node, Python, GraphQL,
+        // OpenAI, LangChain, n8n). Wrappers without a clean brand
+        // (RAG, MCP agents, prompt evals) fall back to Lucide.
         technicalSkills: [
-          // Frontend money-makers
-          'TypeScript',
-          'React & Next.js',
-          'Tailwind CSS',
-          'Three.js & WebGL',
-          'GSAP & Lottie',
-          // Backend essentials
-          'Node.js',
-          'Python',
-          'REST & GraphQL APIs',
-          // LLM application stack (2026 hire-keywords)
-          'LLM Engineering (GPT / Claude / Gemini)',
-          'RAG & Vector Databases (Pinecone / Qdrant)',
-          'LangChain & LangGraph',
-          'AI Agents & Tool Use (MCP)',
-          'Prompt Engineering & Evals',
-          // Workflow automation (premium retainers)
-          'AI Workflow Automation (n8n / Zapier)'
+          { name: 'TypeScript',                                 icon: 'simple:typescript', color: '#3178C6' },
+          { name: 'React & Next.js',                            icon: 'simple:react',      color: '#61DAFB' },
+          { name: 'Tailwind CSS',                               icon: 'simple:tailwindcss',color: '#06B6D4' },
+          { name: 'Three.js & WebGL',                           icon: 'simple:threedotjs', color: '#FFFFFF' },
+          { name: 'GSAP & Lottie',                              icon: 'simple:greensock',  color: '#88CE02' },
+          { name: 'Node.js',                                    icon: 'simple:nodedotjs',  color: '#5FA04E' },
+          { name: 'Python',                                     icon: 'simple:python',     color: '#3776AB' },
+          { name: 'REST & GraphQL APIs',                        icon: 'simple:graphql',    color: '#E10098' },
+          { name: 'LLM Engineering (GPT / Claude / Gemini)',    icon: 'simple:openai',     color: '#FFFFFF' },
+          { name: 'RAG & Vector Databases (Pinecone / Qdrant)', icon: 'lucide:database',   color: '#C59DD9' },
+          { name: 'LangChain & LangGraph',                      icon: 'simple:langchain',  color: '#1C3C3C' },
+          { name: 'AI Agents & Tool Use (MCP)',                 icon: 'lucide:bot',        color: '#C59DD9' },
+          { name: 'Prompt Engineering & Evals',                 icon: 'lucide:terminal',   color: '#C59DD9' },
+          { name: 'AI Workflow Automation (n8n / Zapier)',      icon: 'simple:n8n',        color: '#EA4B71' }
         ],
 
         projects: [
@@ -434,7 +424,18 @@
           let phraseIndex = 0, charIndex = 0, deleting = false;
           const el = document.getElementById('typed-text');
           if (!el) return;
+          // Respect users who prefer reduced motion: render the first
+          // phrase as static text instead of typing in / deleting.
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            el.textContent = phrases[0];
+            return;
+          }
           function type() {
+            // Pause the loop while the tab is hidden — the typing
+            // continued forever in background tabs before this guard,
+            // wasting CPU on a page nobody was looking at. We re-arm
+            // when the tab becomes visible (visibilitychange below).
+            if (document.hidden) return;
             const current = phrases[phraseIndex];
             if (!deleting) {
               el.textContent = current.slice(0, charIndex + 1);
@@ -447,6 +448,9 @@
             }
             setTimeout(type, deleting ? 55 : 80);
           }
+          document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) type();
+          });
           setTimeout(type, 800);
         }
       };
@@ -518,16 +522,21 @@
 
 <!-- ============================================================
      INK FLUID WEBGL BACKGROUND
-     A real fluid simulation by PavelDoGreat (via webgl-fluid CDN).
-     Sits behind all content. Responds to hover (desktop) and touch (mobile).
+     Continuous toukoum.fr-style fluid sim. Responds to:
+       • mouse / touch / pointer move (direct splat)
+       • scroll wheel + touch swipe  (directional bg splat)
+       • idle 4s interval            (ambient liveliness)
+     Visible in BOTH light and dark mode (mix-blend-mode picks
+     the right composite per theme). aria-hidden because the
+     canvas is purely decorative — screen readers should skip it.
 ============================================================ -->
-<canvas id="fluid-canvas"></canvas>
+<canvas id="fluid-canvas" aria-hidden="true"></canvas>
 
 <!-- (Removed dead `<canvas id="particle-canvas">` — replaced by WebGL fluid sim) -->
 
-<!-- Custom Cursor (desktop only) -->
-<div class="cursor-glow" id="cursor-glow"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+<!-- Custom Cursor (desktop only, decorative) -->
+<div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
 
 <!-- ============================================================
      STICKY NAVBAR
@@ -888,10 +897,23 @@
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
-          <template x-for="skill in creativeSkills" :key="skill">
+          <template x-for="skill in creativeSkills" :key="skill.name">
             <span class="skill-pill">
-              <span class="skill-dot"></span>
-              <span x-text="skill"></span>
+              <!-- Brand icon: Simple Icons CDN serves a colored SVG
+                   per slug (e.g. /adobephotoshop/31A8FF). Lucide
+                   fallback renders for generic concepts that have
+                   no clean brand mark. -->
+              <template x-if="skill.icon.startsWith('simple:')">
+                <img class="skill-icon"
+                     loading="lazy" decoding="async" aria-hidden="true"
+                     :src="'https://cdn.simpleicons.org/' + skill.icon.slice(7) + '/' + skill.color.replace('#','')"
+                     :alt="skill.name + ' logo'"/>
+              </template>
+              <template x-if="skill.icon.startsWith('lucide:')">
+                <i class="skill-icon" :data-lucide="skill.icon.slice(7)"
+                   :style="'color:' + skill.color"></i>
+              </template>
+              <span x-text="skill.name"></span>
             </span>
           </template>
         </div>
@@ -909,10 +931,19 @@
           </div>
         </div>
         <div class="flex flex-wrap gap-3">
-          <template x-for="skill in technicalSkills" :key="skill">
+          <template x-for="skill in technicalSkills" :key="skill.name">
             <span class="skill-pill">
-              <span class="skill-dot" style="background: #7A3F91;"></span>
-              <span x-text="skill"></span>
+              <template x-if="skill.icon.startsWith('simple:')">
+                <img class="skill-icon"
+                     loading="lazy" decoding="async" aria-hidden="true"
+                     :src="'https://cdn.simpleicons.org/' + skill.icon.slice(7) + '/' + skill.color.replace('#','')"
+                     :alt="skill.name + ' logo'"/>
+              </template>
+              <template x-if="skill.icon.startsWith('lucide:')">
+                <i class="skill-icon" :data-lucide="skill.icon.slice(7)"
+                   :style="'color:' + skill.color"></i>
+              </template>
+              <span x-text="skill.name"></span>
             </span>
           </template>
         </div>
@@ -1468,13 +1499,16 @@
               <p class="text-xs text-amethyst/50 tracking-wider uppercase">Email</p>
               <!--
                 Email is split into two data attributes and re-assembled by JS
-                so naive scrapers don't pick it up as a complete address. If
-                JS is disabled, a `<noscript>` fallback shows the visible
-                address (still functional) — see below.
+                so naive scrapers don't pick it up as a complete address.
+                Initial href is "javascript:void(0)" rather than "#contact" so
+                screen readers don't announce it as an in-page anchor before
+                JS runs (avoids the misleading "skip to contact section"
+                semantic). Once contact.js boots, href is rewritten to the
+                real `mailto:` URL.
               -->
               <a
                 id="email-link"
-                href="#contact"
+                href="javascript:void(0)"
                 data-user="arhamjutt6481335"
                 data-host="gmail.com"
                 class="text-lilac text-sm hover:text-amethyst transition-colors"
@@ -1519,16 +1553,16 @@
             <a href="https://linkedin.com/in/muhammad-azhar-shahbaz" target="_blank" rel="noopener" class="social-link" title="LinkedIn" aria-label="LinkedIn">
               <i data-lucide="linkedin" class="w-4 h-4"></i>
             </a>
-            <a href="https://behance.net" target="_blank" rel="noopener" class="social-link" title="Behance" aria-label="Behance">
+            <a href="https://behance.net/fuwxt" target="_blank" rel="noopener" class="social-link" title="Behance" aria-label="Behance">
               <!-- Behance brand SVG (Lucide has no Behance icon) -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
                 <path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zM3 11h3.584c2.508 0 2.906-3-.312-3H3v3zm3.391 3H3v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/>
               </svg>
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link" title="Instagram" aria-label="Instagram">
+            <a href="https://instagram.com/fuwxt" target="_blank" rel="noopener" class="social-link" title="Instagram" aria-label="Instagram">
               <i data-lucide="instagram" class="w-4 h-4"></i>
             </a>
-            <a href="https://x.com" target="_blank" rel="noopener" class="social-link" title="X / Twitter" aria-label="X (formerly Twitter)">
+            <a href="https://x.com/fuwxt" target="_blank" rel="noopener" class="social-link" title="X / Twitter" aria-label="X (formerly Twitter)">
               <!-- X (Twitter) brand SVG — Lucide's `twitter` icon is deprecated -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -1561,29 +1595,36 @@
       <div class="md:col-span-3 glass p-8 reveal-right">
         <h3 class="font-display text-2xl font-light text-lilac mb-6">Send a Message</h3>
         <!--
-          Real form. Action is empty in markup so scrapers don't pick the
-          email out of the HTML; a small script (in the contact-form handler
-          below) wires the live `mailto:` action at runtime from the same
-          two data attributes used by the visible email link.
-          To collect submissions in a dashboard, swap to a Formspree /
-          Web3Forms / Getform endpoint, e.g. action="https://formspree.io/f/XXXXX" method="POST".
+          Submission strategy:
+            • If `window.__formEndpoint` is set (e.g. Formspree URL),
+              the form posts there via fetch() and shows inline
+              status — see js/contact.js.
+            • Otherwise it falls back to `mailto:` action wired from
+              the same data-user/data-host attrs as the email link.
+          To wire a real endpoint, drop one line above this section:
+            <script>window.__formEndpoint = 'https://formspree.io/f/XXXXX';</script>
+
+          Removed `novalidate` so browsers show native :invalid styling
+          on inputs; js/contact.js still calls reportValidity() on
+          submit so users get a clear first-error message.
         -->
         <form
           id="contact-form"
-          action=""
           method="post"
-          enctype="text/plain"
-          novalidate
           class="flex flex-col gap-4"
+          aria-describedby="form-help"
         >
+          <p id="form-help" class="sr-only">Fill name, email, subject and message; submission opens an email draft to Azhar.</p>
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
               <label for="contact-name" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
-              <input id="contact-name" name="name" type="text" required autocomplete="name" placeholder="Your name" class="form-input"/>
+              <input id="contact-name" name="name" type="text" required autocomplete="name" placeholder="Your name" class="form-input" aria-describedby="contact-name-hint"/>
+              <span id="contact-name-hint" class="sr-only">Enter your full name.</span>
             </div>
             <div>
               <label for="contact-email" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Email Address</label>
-              <input id="contact-email" name="email" type="email" required autocomplete="email" placeholder="your@email.com" class="form-input"/>
+              <input id="contact-email" name="email" type="email" required autocomplete="email" placeholder="your@email.com" class="form-input" aria-describedby="contact-email-hint"/>
+              <span id="contact-email-hint" class="sr-only">Provide an email address you check; replies are sent there within 24 hours.</span>
             </div>
           </div>
           <div>
@@ -1598,6 +1639,10 @@
             <i data-lucide="send" class="w-4 h-4"></i>
             Send Message
           </button>
+          <!-- Inline status slot — populated by js/contact.js with
+               success / error / fallback messages. Stays empty (no
+               visual cost) until the user submits. -->
+          <p data-form-status role="status" aria-live="polite" class="form-status" data-state="info"></p>
         </form>
       </div>
     </div>
@@ -1634,10 +1679,11 @@
       </div>
       <div class="flex items-center gap-4">
         <!-- TODO: upload `Azhar_Resume.pdf` to repo root.
-             Footer Resume CTA — kept as the third (and final) instance
-             on the page. Pulse ring intentionally NOT applied here;
-             only the nav CTA gets the pulse so a single button
-             "leads", and the rest are quiet supporters. -->
+             Footer Resume CTA — fourth (and final) instance on the
+             page (nav + hero + mobile menu + footer). Pulse ring
+             intentionally NOT applied here; only the nav CTA gets
+             the pulse so a single button "leads" and the rest are
+             quiet supporters. -->
         <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download text-xs py-2 px-4">
           <i data-lucide="download" class="w-3 h-3"></i>
           Resume

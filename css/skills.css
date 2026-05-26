@@ -1,38 +1,19 @@
-/* Skill pills */
-html.light-mode .skill-pill {
-  background: rgba(122,63,145,0.08);
-  border-color: rgba(122,63,145,0.20);
-  color: #1d0a2e;
-}
-html.light-mode .skill-pill:hover {
-  background: rgba(122,63,145,0.18);
-  border-color: rgba(122,63,145,0.40);
-  color: var(--c-velvet);
-}
-
-/* Skill pills in light mode */
-html.light-mode .skill-pill {
-  background: rgba(122, 63, 145, 0.08);
-  border-color: rgba(122, 63, 145, 0.20);
-  color: #1d0a2e;
-}
-html.light-mode .skill-pill:hover {
-  background: rgba(122, 63, 145, 0.18);
-  color: #1d0a2e;
-}
-
 /* ============================================================
    SKILL PILL
 ============================================================ */
 .skill-pill {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 10px;
   background: rgba(122,63,145,0.12);
   border: 1px solid rgba(197,157,217,0.16);
   border-radius: 50px;
   font-size: 0.78rem;
   color: var(--c-lilac);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease,
+              box-shadow 0.3s ease, transform 0.3s ease,
+              color 0.3s ease;
   cursor: default;
 }
 .skill-pill:hover {
@@ -42,20 +23,56 @@ html.light-mode .skill-pill:hover {
   transform: translateY(-2px);
   color: #fff;
 }
-.skill-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--c-amethyst);
+
+/* Brand-icon (or Lucide fallback) inside a skill pill. The image
+   variant comes from cdn.simpleicons.org and arrives already-tinted
+   to the brand colour, so we don't need filter tricks. The Lucide
+   fallback inherits its colour from inline `style="color:..."`. */
+.skill-icon {
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+img.skill-icon {
+  object-fit: contain;
+  /* Subtle drop-shadow lifts the brand mark slightly off the pill bg
+     so coloured logos don't disappear into a same-hue glass card. */
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+}
+.skill-pill:hover .skill-icon {
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.35));
+}
+
+/* Legacy `.skill-dot` rule was retained earlier as a fallback for
+   pre-icon markup; removed now that every pill uses `.skill-icon`. */
 
 @media (max-width: 360px) {
-  .skill-pill { font-size: 0.70rem; padding: 6px 12px; }
+  .skill-pill { font-size: 0.70rem; padding: 6px 10px 6px 8px; }
+  .skill-icon { width: 12px; height: 12px; }
 }
 
-/* ============================================================
-   SKILL PILL — STAGGER ENTRANCE
-============================================================ */
+/* Stagger entrance animation (driven by js/animations.js) */
 .skill-pill {
   animation: pill-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ── LIGHT MODE ────────────────────────────────────────────── */
+html.light-mode .skill-pill {
+  background: rgba(122, 63, 145, 0.08);
+  border-color: rgba(122, 63, 145, 0.20);
+  color: #1d0a2e;
+}
+html.light-mode .skill-pill:hover {
+  background: rgba(122, 63, 145, 0.18);
+  border-color: rgba(122, 63, 145, 0.40);
+  color: var(--c-velvet);
+}
+/* In light mode some monochrome brand icons (e.g. Three.js, OpenAI,
+   Midjourney — all white from simpleicons) become invisible on a
+   white-ish pill bg. Invert them so they render dark on light. */
+html.light-mode img.skill-icon[src*="/FFFFFF"] {
+  filter: invert(0.85) brightness(0.6);
 }
