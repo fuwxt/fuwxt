@@ -257,27 +257,33 @@
     sections.forEach(s => observer.observe(s));
   }
 
-  /* ── INIT ALL on DOM ready ───────────────────────────────── */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  /* ── INIT ALL ────────────────────────────────────────────────
+     Alpine fires `alpine:initialized` once every `x-data` block has
+     mounted and rendered its first pass — that's exactly when the
+     `x-for` skill-pill / project-card templates have produced their
+     real DOM nodes. Listen for that event instead of guessing with
+     `setTimeout(600)` / `setTimeout(1200)`, which raced on slower
+     devices and sometimes ran before pills existed.
 
+     We still have a hard fallback timer (1500 ms) in case Alpine
+     fails to load at all — better to wire observers against
+     whatever made it into the DOM than to do nothing. */
+  let didInit = false;
   function init() {
-    // Slight delay so Alpine renders dynamic content (skills, counters) first
-    setTimeout(() => {
-      initSplitText();
-      initUnderlines();
-      initAurora();
-      initHeroParticles();
-      initCounterGlow();
-      initOffscreenPause();
-      initScrollspy();
-    }, 600);
-
-    // Pill stagger after Alpine renders skills
-    setTimeout(initPillStagger, 1200);
+    if (didInit) return;
+    didInit = true;
+    initSplitText();
+    initUnderlines();
+    initAurora();
+    initHeroParticles();
+    initCounterGlow();
+    initOffscreenPause();
+    initScrollspy();
+    initPillStagger();
   }
+
+  document.addEventListener('alpine:initialized', init, { once: true });
+  // Hard fallback if Alpine never fires (CDN blocked, parse error, …)
+  setTimeout(init, 1500);
 
 })();
