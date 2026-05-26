@@ -244,10 +244,21 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
 }
 
 /* ── 7. WEBGL CANVAS + CURSOR ───────────────────────────────────
-   Canvas is fixed behind everything but above the body bg.
-   `--fluid-fade` is set by js/webgl.js (1.0 in hero, ~0.78 floor
-   past it). Multiplier = 0.85 dark / 0.55 light → continuous
-   ambient ink across the whole page in BOTH themes (toukoum-style).
+   Toukoum-style strict z-index ladder:
+
+     bg-breathe::before/::after  z:0   (radial gradients, noise)
+     #fluid-canvas               z:0   (DOM-after, paints above)
+     main, sections              z:2   (always above the canvas)
+     nav, modals, cursor         z:50+
+
+   The dye colours are pre-muted in JS (see generateColor() —
+   each splat is HSV × 0.15) so we DO NOT use mix-blend-mode
+   here. The canvas composites normally; backdrop-blur on
+   `.glass` cards then diffuses the ink into a soft tint
+   instead of bleeding through onto text.
+
+   Same treatment in light mode — the dye sits on top of the
+   warm canvas at low alpha and reads as gentle hue stains.
    ─────────────────────────────────────────────────────────── */
 #fluid-canvas {
   position: fixed;
@@ -256,11 +267,20 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: calc(0.85 * var(--fluid-fade, 1));
-  transition: opacity 0.45s ease-out;
+  /* No mix-blend-mode. No --fluid-fade scroll multiplier.
+     The ×0.15 colour clamp in webgl.js does the muting. */
+  opacity: 1;
   will-change: transform;
   transform: translateZ(0);
+}
+
+/* Lift main above the fixed canvas. Sections inside main
+   already carry `relative z-10` in the markup (Tailwind),
+   which keeps them above the dark-mode vignette overlay
+   (#main::before, z:1) inside main's stacking context. */
+main {
+  position: relative;
+  z-index: 2;
 }
 
 /* Decorative cursor (desktop, fine-pointer only) */
@@ -413,13 +433,14 @@ html.light-mode .bg-breathe::before {
 }
 html.light-mode .bg-breathe::after { opacity: 0.18; }
 
-/* WebGL canvas in light mode — `multiply` blend so ink visibly
-   tints the warm canvas instead of bleaching it. Opacity slightly
-   stronger than dark mode's after-the-fold floor so the ambient
-   bg motion stays clearly visible (toukoum-style continuous bg). */
+/* WebGL canvas in light mode — same treatment as dark mode.
+   The ×0.15 colour clamp + normal compositing means dye trails
+   sit as soft pastel marks over the warm canvas. No blend mode
+   needed. (Was `multiply` previously, which created muddy
+   patches behind text on the lavender background.) */
 html.light-mode #fluid-canvas {
-  mix-blend-mode: multiply;
-  opacity: calc(0.55 * var(--fluid-fade, 1));
+  mix-blend-mode: normal;
+  opacity: 1;
 }
 
 /* Glass cards — single tinted-lavender definition (was 8 separate
