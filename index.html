@@ -127,9 +127,6 @@
     }
   </script>
 
-  <!-- WebGL Fluid Simulation (ink-style background) -->
-  <script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.4"></script>
-
   <!-- Alpine.js v3 + Intersect + Focus Plugins (must load before Alpine) -->
   <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
   <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
@@ -521,14 +518,16 @@
 <a href="#hero" class="skip-link">Skip to main content</a>
 
 <!-- ============================================================
-     INK FLUID WEBGL BACKGROUND
-     Continuous toukoum.fr-style fluid sim. Responds to:
-       • mouse / touch / pointer move (direct splat)
-       • scroll wheel + touch swipe  (directional bg splat)
-       • idle 4s interval            (ambient liveliness)
-     Visible in BOTH light and dark mode (mix-blend-mode picks
-     the right composite per theme). aria-hidden because the
-     canvas is purely decorative — screen readers should skip it.
+     INK FLUID WEBGL BACKGROUND — toukoum.fr-style
+     ─────────────────────────────────────────────────────────
+     Vanilla port of PavelDoGreat / WebGL-Fluid-Simulation,
+     muted via a 0.15× colour clamp and triggered ONLY by
+     mouse + touch (no scroll splats, no ambient interval).
+     The render loop starts lazily on first interaction.
+     `prefers-reduced-motion` returns early in webgl.js so the
+     canvas stays empty for users who opt out.
+     Visible in BOTH light and dark mode (no mix-blend-mode —
+     cards' backdrop-blur diffuses the ink for clean text).
 ============================================================ -->
 <canvas id="fluid-canvas" aria-hidden="true"></canvas>
 

@@ -1,71 +1,65 @@
 /* ============================================================
-   WEBGL FLUID INK BACKGROUND (toukoum.fr-style)
+   WEBGL FLUID INK BACKGROUND — toukoum.fr-style port
    ────────────────────────────────────────────────────────────
 
-   Behaviour contract:
-     • Visible across the ENTIRE page (canvas is `position:fixed`
-       behind every section, in both light and dark mode).
-     • Splats appear on:
-         - mouse / touch / pointer move    (direct interaction)
-         - scroll wheel + touch swipe      (continuous bg motion)
-         - 4-second idle interval          (ambient liveliness)
-     • Each new splat picks a brand-tuned colour (regal / amethyst
-       / lilac / coral) so the ink stays in palette.
-     • Idle? Sim auto-pauses after 30s of zero activity.
-     • `prefers-reduced-motion` = sim paused, single static welcome
-       splat as a quiet identity mark.
+   This is a vanilla-JS port of the inline fluid simulation
+   used on toukoum.fr (PavelDoGreat / WebGL-Fluid-Simulation,
+   MIT). The previous integration here loaded the prebuilt
+   `webgl-fluid@0.4` CDN and fed it through a tangle of
+   forwarders, scroll-splat dispatchers, ambient timers and a
+   page-wide fade-multiplier. The result was loud, saturated,
+   ALWAYS firing, and ate text legibility.
 
-   This is a full rewrite of the previous integration. The earlier
-   version monkey-patched canvas.addEventListener to forward
-   document events as plain object literals — fragile, and silently
-   swallowed errors so any actual library throw was invisible.
-   The new approach:
+   This rewrite drops ALL of that. It mirrors toukoum's
+   approach exactly:
 
-     1. Set canvas pixel dimensions explicitly (DPR-aware) before
-        the library boots, so the first render isn't a default
-        300×150 stretched to viewport.
-     2. Make the canvas `pointer-events: none` so it never blocks
-        clicks on real UI, AND so the canvas's native event
-        listeners don't double-fire alongside our forwards.
-     3. Forward pointer events from `document` to the canvas via
-        synthetic events, rAF-throttled so a mousemove burst
-        (~120/sec) doesn't flood the GPU.
-     4. Probe for WebGL context up front; if unavailable, hide
-        the canvas instead of letting the library throw.
-     5. Errors are logged, not swallowed.
-     6. Welcome splat is gated on init readiness — used to race
-        with requestIdleCallback and dispatch events into a no-op
-        canvas before listeners were bound.
-     7. NEW: scroll-driven splat dispatcher — on every wheel
-        event or touch-driven scroll, fire a directional splat
-        at a position derived from scroll velocity. This is the
-        "ambient bg motion" pass that mirrors toukoum.fr.
-   ============================================================ */
+     1. Trigger sources are MOUSE + TOUCH only — no scroll
+        splats, no ambient interval, no welcome auto-splat.
+     2. The render loop only starts on the FIRST mouse / touch
+        event (lazy rAF init). Tab parked on the page = zero
+        GPU.
+     3. Splat colours pass through a 0.15× multiplier so trails
+        are pastel-muted by default (HSV hue is still random).
+        clickSplat re-amplifies by ×10 for a deliberate "punch"
+        on press, so the press → drag interaction reads as
+        burst → trail.
+     4. No mix-blend-mode. The CSS does the right thing in
+        both light and dark mode without compositing tricks
+        (see css/base.css).
+
+   The simulation core (shaders, framebuffers, advection,
+   pressure, vorticity, dye) is a 1:1 port from toukoum's
+   `use-FluidCursor.tsx`. The only top-of-file additions are:
+
+     • IIFE wrapper (no React)
+     • `prefers-reduced-motion` early-return
+     • WebGL availability probe (private/headless modes)
+     • DYE_RESOLUTION drop on mobile / low-end devices
+     • Lighter SHADING off when no linear filtering support
+
+   Everything below the guards is the toukoum hook code.
+============================================================ */
 
 (function() {
-  /* ── 0. LIBRARY GUARDS ───────────────────────────────────── */
-  if (typeof WebGLFluid !== 'function') {
-    console.warn('[fluid] webgl-fluid library failed to load — skipping ink background.');
+  // ── 0. ENVIRONMENT GUARDS ──────────────────────────────────
+  // Reduced motion → don't run the sim at all. The CSS leaves
+  // the canvas in place but it stays empty (transparent), so
+  // the page renders normally with zero GPU cost.
+  if (window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return;
   }
+
+  // Canvas must exist in the DOM before this runs.
   const canvas = document.getElementById('fluid-canvas');
   if (!canvas) {
-    console.warn('[fluid] #fluid-canvas not found in DOM.');
+    console.warn('[fluid] #fluid-canvas not found — skipping ink background.');
     return;
   }
 
-  /* ── 1. CAPABILITY DETECTION ─────────────────────────────── */
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isMobile = window.matchMedia('(max-width: 768px)').matches
-                || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const cores  = navigator.hardwareConcurrency || 4;
-  const memory = navigator.deviceMemory || 4;
-  const isLowEnd = cores <= 4 || memory <= 4;
-
-  /* ── 2. WEBGL AVAILABILITY ───────────────────────────────────
-     Some browsers (privacy modes, headless VMs, throttled mobile
-     battery savers) silently fail to allocate a GL context. Probe
-     up front so we hide gracefully instead of throwing later. */
+  // WebGL availability probe. Some privacy modes / headless
+  // VMs / battery-savers refuse to allocate a GL context. Fail
+  // gracefully instead of throwing later inside the sim.
   function hasWebGL() {
     try {
       const probe = document.createElement('canvas');
@@ -80,360 +74,918 @@
     return;
   }
 
-  /* ── 3. CANVAS SIZING (DPR-aware, explicit) ─────────────────
-     Set the drawing-buffer dimensions BEFORE the library boots so
-     the first frame renders at the right resolution. The library
-     has its own resize logic afterwards (uses clientWidth × DPR),
-     which keeps the buffer in sync as the viewport changes. */
-  function sizeCanvas() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = Math.max(1, Math.floor(window.innerWidth  * dpr));
-    const h = Math.max(1, Math.floor(window.innerHeight * dpr));
-    if (canvas.width !== w || canvas.height !== h) {
-      canvas.width  = w;
-      canvas.height = h;
-    }
-  }
-  sizeCanvas();
+  // Mobile / low-end detection — drop dye resolution to keep
+  // GPU bill reasonable on phones and old laptops.
+  const isMobile = window.matchMedia('(max-width: 768px)').matches
+                || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const cores  = navigator.hardwareConcurrency || 4;
+  const memory = navigator.deviceMemory || 4;
+  const isLowEnd = cores <= 4 || memory <= 4;
 
-  /* ── 4. CANVAS NEVER BLOCKS UI ───────────────────────────────
-     With `pointer-events: none` the canvas never intercepts real
-     clicks (links, buttons, project cards all stay clickable), and
-     its own listeners don't double-fire when the user clicks empty
-     body space. Events still arrive via `dispatchEvent` from the
-     forwarders below. */
-  canvas.style.pointerEvents = 'none';
-
-  /* ── 5. EVENT FORWARDING (rAF-throttled) ─────────────────────
-     The library binds its `mousedown / mousemove / mouseup` and
-     `touchstart / touchmove / touchend` listeners directly on the
-     canvas. We listen on `document` and re-dispatch real Event
-     objects on the canvas. Throttling is critical: on a fast
-     desktop a mousemove can fire 120×/sec — without rAF coalescing
-     we'd dispatch 120 synthetic events per second, each running
-     the library's pointer handler. */
-  const initState = { ready: false };
-
-  function makeRafThrottled(handler) {
-    let pending = false;
-    let latest = null;
-    return function(e) {
-      latest = e;
-      if (pending) return;
-      pending = true;
-      requestAnimationFrame(() => {
-        pending = false;
-        const ev = latest;
-        latest = null;
-        if (ev) handler(ev);
-      });
-    };
-  }
-
-  function dispatchMouse(type, e) {
-    if (!initState.ready) return;
-    let ev;
-    try {
-      ev = new MouseEvent(type, {
-        bubbles:    false,
-        cancelable: false,
-        clientX:    e.clientX,
-        clientY:    e.clientY,
-        button:     e.button  || 0,
-        buttons:    e.buttons || 0
-      });
-    } catch (err) { return; }
-    try { canvas.dispatchEvent(ev); } catch (err) {
-      console.error('[fluid] mouse dispatch failed:', err);
-    }
-  }
-
-  function dispatchTouch(type, e) {
-    if (!initState.ready) return;
-    // Cloning a TouchEvent reliably is hard across browsers
-    // (Safari rejects synthetic Touch instances). Use a generic
-    // Event and copy the original `Touch` lists as own properties.
-    let ev;
-    try {
-      ev = new Event(type, { bubbles: false, cancelable: false });
-    } catch (err) { return; }
-    try {
-      Object.defineProperty(ev, 'targetTouches',  { value: e.targetTouches  || [] });
-      Object.defineProperty(ev, 'changedTouches', { value: e.changedTouches || [] });
-      Object.defineProperty(ev, 'touches',        { value: e.touches        || [] });
-    } catch (err) { /* defineProperty can fail in strict CSP — fall through */ }
-    try { canvas.dispatchEvent(ev); } catch (err) {
-      console.error('[fluid] touch dispatch failed:', err);
-    }
-  }
-
-  // `passive: true` everywhere — we never preventDefault on the
-  // ORIGINAL document event (that would break scrolling on mobile).
-  document.addEventListener('mousedown',  e => dispatchMouse('mousedown',  e), { passive: true });
-  document.addEventListener('mousemove',  makeRafThrottled(e => dispatchMouse('mousemove', e)), { passive: true });
-  document.addEventListener('mouseup',    e => dispatchMouse('mouseup',    e), { passive: true });
-  document.addEventListener('touchstart', e => dispatchTouch('touchstart', e), { passive: true });
-  document.addEventListener('touchmove',  makeRafThrottled(e => dispatchTouch('touchmove', e)), { passive: true });
-  document.addEventListener('touchend',   e => dispatchTouch('touchend',   e), { passive: true });
-
-  /* ── 6. FLUID CONFIG ─────────────────────────────────────────
-     Tuned for slow-fading, color-mixing ink that feels alive
-     even when nobody is interacting:
-
-       AUTO=true, IMMEDIATE=true → ambient splats every INTERVAL
-         seconds. This is the toukoum-style "background that
-         breathes on its own". Idle pause (sec. 10) suspends the
-         sim if nothing happens for 30 s so it doesn't drain
-         battery on a parked tab.
-
-       INTERVAL=4 → one ambient splat every 4 s. Long enough that
-         it feels intentional, short enough that the canvas never
-         goes "completely still".
-
-       COLORFUL=true + COLOR_UPDATE_SPEED=14 → splats cycle through
-         the brand palette (we override BACK_COLOR for tint).
-
-       DENSITY_DISSIPATION=0.94 → very slow density fade; ink
-         lingers ~7-10s. Lower = stays longer.
-
-       VELOCITY_DISSIPATION=0.55 → slow velocity decay so colors
-         keep flowing and mixing while they fade.
-
-       BLOOM, SUNRAYS, SHADING all OFF — biggest GPU savings. */
-  const fluidConfig = {
-    TRIGGER: 'hover',
-    IMMEDIATE: true,
-    AUTO: true,
-    INTERVAL: 4,                       // ambient splat every 4s
-    SIM_RESOLUTION:    isMobile || isLowEnd ? 64  : 96,
-    DYE_RESOLUTION:    isMobile || isLowEnd ? 256 : 512,
-    CAPTURE_RESOLUTION: 256,
-    DENSITY_DISSIPATION:  0.94,
-    VELOCITY_DISSIPATION: 0.55,
-    PRESSURE: 0.78,
-    PRESSURE_ITERATIONS: 12,
-    CURL: 24,
-    SPLAT_RADIUS: isMobile ? 0.30 : 0.27,
-    SPLAT_FORCE: 6400,
-    SPLAT_COUNT: 1,
-    SHADING: false,
-    COLORFUL: true,
-    COLOR_UPDATE_SPEED: 14,
-    PAUSED: reduceMotion,
-    BACK_COLOR: { r: 0, g: 0, b: 0 },
+  // ── 1. CONFIG ──────────────────────────────────────────────
+  // Verbatim from toukoum's hook, except DYE_RESOLUTION which
+  // is dialled back on constrained devices. The 0.15× colour
+  // multiplier is applied per-splat in generateColor() (sec. 8)
+  // — DO NOT touch SPLAT_FORCE / DENSITY_DISSIPATION here to
+  // "make it more vivid", that breaks the muted-pastel feel.
+  let config = {
+    SIM_RESOLUTION:     128,
+    DYE_RESOLUTION:     (isMobile || isLowEnd) ? 720 : 1440,
+    CAPTURE_RESOLUTION: 512,
+    DENSITY_DISSIPATION:  0.5,
+    VELOCITY_DISSIPATION: 3,
+    PRESSURE: 0.1,
+    PRESSURE_ITERATIONS: 20,
+    CURL: 3,
+    SPLAT_RADIUS: 0.2,
+    SPLAT_FORCE: 6000,
+    SHADING: true,
+    COLOR_UPDATE_SPEED: 10,
+    PAUSED: false,
+    BACK_COLOR: { r: 0.5, g: 0, b: 0 },
     TRANSPARENT: true,
-    BLOOM: false,
-    BLOOM_ITERATIONS: 4,
-    BLOOM_RESOLUTION: 256,
-    BLOOM_INTENSITY: 0.4,
-    BLOOM_THRESHOLD: 0.6,
-    BLOOM_SOFT_KNEE: 0.7,
-    SUNRAYS: false
   };
 
-  /* ── 7. LAZY-INIT ────────────────────────────────────────────
-     Don't block first paint / Alpine boot. Use requestIdleCallback
-     when available, fall back to a load-delay otherwise. */
-  function startFluid() {
-    if (initState.ready) return;
-    try {
-      WebGLFluid(canvas, fluidConfig);
-      initState.ready = true;
-    } catch (err) {
-      console.error('[fluid] init failed — disabling ink background:', err);
-      canvas.style.display = 'none';
-    }
-  }
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(startFluid, { timeout: 1500 });
-  } else if (document.readyState === 'complete') {
-    setTimeout(startFluid, 600);
-  } else {
-    window.addEventListener('load', () => setTimeout(startFluid, 600), { once: true });
+  // ─────────────────────────────────────────────────────────
+  //   BELOW THIS LINE = toukoum's `use-FluidCursor.tsx` port.
+  //   Kept intact for diff-clarity against upstream.
+  // ─────────────────────────────────────────────────────────
+
+  function pointerPrototype() {
+    this.id = -1;
+    this.texcoordX = 0;
+    this.texcoordY = 0;
+    this.prevTexcoordX = 0;
+    this.prevTexcoordY = 0;
+    this.deltaX = 0;
+    this.deltaY = 0;
+    this.down = false;
+    this.moved = false;
+    this.color = [0, 0, 0];
   }
 
-  /* ── 8. PAUSE WHEN TAB HIDDEN ────────────────────────────────
-     The library binds 'KeyP' on window for pause toggle; a
-     synthetic keydown flips its internal PAUSED flag. */
-  let isPaused = !!reduceMotion;
-  function setPaused(shouldPause) {
-    if (!initState.ready || shouldPause === isPaused) return;
-    try {
-      window.dispatchEvent(new KeyboardEvent('keydown', {
-        code: 'KeyP', key: 'p', bubbles: true
-      }));
-      isPaused = shouldPause;
-    } catch (e) { /* untrusted KeyboardEvent — fall through silently */ }
+  const pointers = [];
+  pointers.push(new pointerPrototype());
+
+  resizeCanvas();
+
+  const { gl, ext } = getWebGLContext(canvas);
+
+  if (!ext.supportLinearFiltering) {
+    config.DYE_RESOLUTION = 256;
+    config.SHADING = false;
   }
-  document.addEventListener('visibilitychange', () => setPaused(document.hidden));
 
-  /* ── 9. PAGE-WIDE FADE FLOOR ─────────────────────────────────
-     The WebGL ink should be visible across the WHOLE page, not
-     just the hero. Map scroll to a fade floor:
-       • ratio ≤ 0.6 vh : full strength       (hero region)
-       • ratio 0.6→1.2 vh : interpolate down
-       • ratio ≥ 1.2 vh : steady floor        (rest of page)
-
-     Floors raised vs. previous version so the bg is visibly
-     alive past the hero in BOTH modes (per design feedback —
-     toukoum-style continuous bg). CSS multiplies this into the
-     base opacity (set in css/base.css).
-  */
-  const FADE_START = 0.6;
-  const FADE_END   = 1.2;
-  const FADE_FLOOR = 0.78;             // raised from 0.65
-  let fadeTicking = false;
-  let lastFade    = 1;
-  function applyFade() {
-    const vh    = window.innerHeight || 1;
-    const ratio = window.scrollY / vh;
-    let fade;
-    if (ratio <= FADE_START)      fade = 1;
-    else if (ratio >= FADE_END)   fade = FADE_FLOOR;
-    else fade = 1 - (1 - FADE_FLOOR) * (ratio - FADE_START) / (FADE_END - FADE_START);
-    const rounded = Math.round(fade * 100) / 100;
-    if (rounded !== lastFade) {
-      canvas.style.setProperty('--fluid-fade', String(rounded));
-      lastFade = rounded;
-    }
-  }
-  applyFade();
-
-  /* ── 10. SCROLL-DRIVEN SPLATS (toukoum-style continuous bg) ──
-     On every wheel event (or touch-driven scroll), fire a
-     directional splat at a randomised position with velocity
-     proportional to the scroll delta. The result: the ink
-     responds to scroll exactly like toukoum.fr — every flick of
-     the wheel sends a fresh splash of colour through the canvas,
-     so the bg is never static even when the user only scrolls.
-
-     We rate-limit to 1 splat per ~100 ms (rAF throttled, plus
-     a hard timestamp gate) so a fast trackpad scroll doesn't
-     spam 60 splats/sec. */
-  let lastScrollY    = window.scrollY;
-  let lastScrollTime = Date.now();
-  let scrollSplatPending = false;
-  function fireScrollSplat() {
-    if (!initState.ready || isPaused) return;
-    const now = Date.now();
-    const dy  = window.scrollY - lastScrollY;
-    const dt  = Math.max(16, now - lastScrollTime);
-    lastScrollY    = window.scrollY;
-    lastScrollTime = now;
-    if (Math.abs(dy) < 4) return;            // ignore micro-scrolls
-
-    // Splat origin: a randomised point in the lower-middle band of
-    // the viewport so the trail reads as "rising/falling ink".
-    // X is biased toward the centre but jittered ±35% of viewport
-    // so consecutive scrolls don't stack identical splats.
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    const cx = w * (0.5 + (Math.random() - 0.5) * 0.7);
-    const cy = h * (0.45 + Math.random() * 0.4);
-
-    // Velocity vector: proportional to scroll speed, direction
-    // opposite to the scroll (scrolling DOWN pushes ink UP, like
-    // the page is sliding past the ink layer).
-    const speed = Math.min(120, Math.abs(dy) / dt * 1000);   // px/sec, capped
-    const sign  = dy > 0 ? -1 : 1;
-    const vx    = (Math.random() - 0.5) * speed * 0.6;
-    const vy    = sign * Math.max(40, speed * 0.8);
-
-    // Dispatch as mousedown → mousemove → mouseup so the library
-    // computes a real velocity from the delta.
-    const mk = (type, x, y) => {
-      let ev;
-      try {
-        ev = new MouseEvent(type, {
-          bubbles: false, cancelable: false,
-          clientX: x, clientY: y, button: 0, buttons: type === 'mouseup' ? 0 : 1
-        });
-      } catch (e) { return; }
-      try { canvas.dispatchEvent(ev); } catch (e) {}
+  function getWebGLContext(canvas) {
+    const params = {
+      alpha: true,
+      depth: false,
+      stencil: false,
+      antialias: false,
+      preserveDrawingBuffer: false,
     };
-    mk('mousedown', cx, cy);
-    mk('mousemove', cx + vx * 0.04, cy + vy * 0.04);
-    mk('mousemove', cx + vx * 0.08, cy + vy * 0.08);
-    mk('mouseup',   cx + vx * 0.08, cy + vy * 0.08);
+
+    let gl = canvas.getContext('webgl2', params);
+    const isWebGL2 = !!gl;
+    if (!isWebGL2)
+      gl = canvas.getContext('webgl', params)
+        || canvas.getContext('experimental-webgl', params);
+
+    let halfFloat;
+    let supportLinearFiltering;
+    if (isWebGL2) {
+      gl.getExtension('EXT_color_buffer_float');
+      supportLinearFiltering = gl.getExtension('OES_texture_float_linear');
+    } else {
+      halfFloat = gl.getExtension('OES_texture_half_float');
+      supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear');
+    }
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+    const halfFloatTexType = isWebGL2 ? gl.HALF_FLOAT : halfFloat.HALF_FLOAT_OES;
+    let formatRGBA, formatRG, formatR;
+
+    if (isWebGL2) {
+      formatRGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloatTexType);
+      formatRG   = getSupportedFormat(gl, gl.RG16F,   gl.RG,   halfFloatTexType);
+      formatR    = getSupportedFormat(gl, gl.R16F,    gl.RED,  halfFloatTexType);
+    } else {
+      formatRGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+      formatRG   = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+      formatR    = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
+    }
+
+    return {
+      gl,
+      ext: { formatRGBA, formatRG, formatR, halfFloatTexType, supportLinearFiltering },
+    };
   }
 
-  function onScrollTick() {
-    if (scrollSplatPending) return;
-    scrollSplatPending = true;
-    requestAnimationFrame(() => {
-      applyFade();
-      fireScrollSplat();
-      scrollSplatPending = false;
-    });
-  }
-  window.addEventListener('scroll', onScrollTick, { passive: true });
-
-  /* ── 11. IDLE PAUSE (battery saver) ──────────────────────────
-     If nothing has interacted for 30s, pause the simulation.
-     Resume instantly on any pointer activity. */
-  let lastActivity = Date.now();
-  function bumpActivity() {
-    lastActivity = Date.now();
-    if (isPaused && !document.hidden && !reduceMotion) setPaused(false);
-  }
-  ['pointerdown', 'pointermove', 'touchstart', 'touchmove', 'wheel', 'keydown', 'scroll']
-    .forEach(t => document.addEventListener(t, bumpActivity, { passive: true }));
-  setInterval(() => {
-    if (document.hidden) return;
-    if (Date.now() - lastActivity > 30000 && !isPaused) setPaused(true);
-  }, 4000);
-
-  /* ── 12. WELCOME SPLAT ───────────────────────────────────────
-     On first user interaction (or 3s after init as a fallback),
-     pre-warm the simulation with a soft splat so the link between
-     "I touched the page" and "ink appeared" is immediately
-     obvious. Without this, users sometimes mistake the empty
-     canvas for "no effect at all".
-
-     Gated on `initState.ready` — the previous version raced with
-     requestIdleCallback and silently lost the splat when fired
-     before the library bound its listeners. */
-  let welcomeFired = false;
-  function fireWelcomeSplat() {
-    if (welcomeFired) return;
-    if (!initState.ready) {
-      // Library not yet bound — re-check shortly. Bounded retries
-      // so we never spin forever if init failed.
-      if (fireWelcomeSplat._retries == null) fireWelcomeSplat._retries = 0;
-      if (fireWelcomeSplat._retries++ < 30) {
-        setTimeout(fireWelcomeSplat, 200);
+  function getSupportedFormat(gl, internalFormat, format, type) {
+    if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
+      switch (internalFormat) {
+        case gl.R16F:  return getSupportedFormat(gl, gl.RG16F,   gl.RG,   type);
+        case gl.RG16F: return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type);
+        default:       return null;
       }
-      return;
     }
-    welcomeFired = true;
+    return { internalFormat, format };
+  }
 
-    const cx = window.innerWidth  / 2;
-    const cy = window.innerHeight * 0.55;
-    const dispatch = (type, x, y) => {
-      let ev;
-      try {
-        ev = new MouseEvent(type, {
-          bubbles: false, cancelable: false,
-          clientX: x, clientY: y, button: 0
-        });
-      } catch (e) { return; }
-      try { canvas.dispatchEvent(ev); } catch (e) {}
+  function supportRenderTextureFormat(gl, internalFormat, format, type) {
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 4, 4, 0, format, type, null);
+
+    const fbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+    const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+    return status == gl.FRAMEBUFFER_COMPLETE;
+  }
+
+  class Material {
+    constructor(vertexShader, fragmentShaderSource) {
+      this.vertexShader = vertexShader;
+      this.fragmentShaderSource = fragmentShaderSource;
+      this.programs = [];
+      this.activeProgram = null;
+      this.uniforms = [];
+    }
+    setKeywords(keywords) {
+      let hash = 0;
+      for (let i = 0; i < keywords.length; i++) hash += hashCode(keywords[i]);
+      let program = this.programs[hash];
+      if (program == null) {
+        let fragmentShader = compileShader(gl.FRAGMENT_SHADER, this.fragmentShaderSource, keywords);
+        program = createProgram(this.vertexShader, fragmentShader);
+        this.programs[hash] = program;
+      }
+      if (program == this.activeProgram) return;
+      this.uniforms = getUniforms(program);
+      this.activeProgram = program;
+    }
+    bind() { gl.useProgram(this.activeProgram); }
+  }
+
+  class Program {
+    constructor(vertexShader, fragmentShader) {
+      this.uniforms = {};
+      this.program = createProgram(vertexShader, fragmentShader);
+      this.uniforms = getUniforms(this.program);
+    }
+    bind() { gl.useProgram(this.program); }
+  }
+
+  function createProgram(vertexShader, fragmentShader) {
+    let program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+      console.trace(gl.getProgramInfoLog(program));
+    return program;
+  }
+
+  function getUniforms(program) {
+    let uniforms = [];
+    let uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+    for (let i = 0; i < uniformCount; i++) {
+      let uniformName = gl.getActiveUniform(program, i).name;
+      uniforms[uniformName] = gl.getUniformLocation(program, uniformName);
+    }
+    return uniforms;
+  }
+
+  function compileShader(type, source, keywords) {
+    source = addKeywords(source, keywords);
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+      console.trace(gl.getShaderInfoLog(shader));
+    return shader;
+  }
+
+  function addKeywords(source, keywords) {
+    if (keywords == null) return source;
+    let keywordsString = '';
+    keywords.forEach((keyword) => { keywordsString += '#define ' + keyword + '\n'; });
+    return keywordsString + source;
+  }
+
+  // ── 2. SHADERS ─────────────────────────────────────────────
+  const baseVertexShader = compileShader(gl.VERTEX_SHADER, `
+    precision highp float;
+    attribute vec2 aPosition;
+    varying vec2 vUv;
+    varying vec2 vL;
+    varying vec2 vR;
+    varying vec2 vT;
+    varying vec2 vB;
+    uniform vec2 texelSize;
+    void main () {
+      vUv = aPosition * 0.5 + 0.5;
+      vL = vUv - vec2(texelSize.x, 0.0);
+      vR = vUv + vec2(texelSize.x, 0.0);
+      vT = vUv + vec2(0.0, texelSize.y);
+      vB = vUv - vec2(0.0, texelSize.y);
+      gl_Position = vec4(aPosition, 0.0, 1.0);
+    }
+  `);
+
+  const copyShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision mediump float;
+    precision mediump sampler2D;
+    varying highp vec2 vUv;
+    uniform sampler2D uTexture;
+    void main () { gl_FragColor = texture2D(uTexture, vUv); }
+  `);
+
+  const clearShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision mediump float;
+    precision mediump sampler2D;
+    varying highp vec2 vUv;
+    uniform sampler2D uTexture;
+    uniform float value;
+    void main () { gl_FragColor = value * texture2D(uTexture, vUv); }
+  `);
+
+  const displayShaderSource = `
+    precision highp float;
+    precision highp sampler2D;
+    varying vec2 vUv;
+    varying vec2 vL;
+    varying vec2 vR;
+    varying vec2 vT;
+    varying vec2 vB;
+    uniform sampler2D uTexture;
+    uniform vec2 texelSize;
+    void main () {
+      vec3 c = texture2D(uTexture, vUv).rgb;
+    #ifdef SHADING
+      vec3 lc = texture2D(uTexture, vL).rgb;
+      vec3 rc = texture2D(uTexture, vR).rgb;
+      vec3 tc = texture2D(uTexture, vT).rgb;
+      vec3 bc = texture2D(uTexture, vB).rgb;
+      float dx = length(rc) - length(lc);
+      float dy = length(tc) - length(bc);
+      vec3 n = normalize(vec3(dx, dy, length(texelSize)));
+      vec3 l = vec3(0.0, 0.0, 1.0);
+      float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
+      c *= diffuse;
+    #endif
+      float a = max(c.r, max(c.g, c.b));
+      gl_FragColor = vec4(c, a);
+    }
+  `;
+
+  const splatShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision highp float;
+    precision highp sampler2D;
+    varying vec2 vUv;
+    uniform sampler2D uTarget;
+    uniform float aspectRatio;
+    uniform vec3 color;
+    uniform vec2 point;
+    uniform float radius;
+    void main () {
+      vec2 p = vUv - point.xy;
+      p.x *= aspectRatio;
+      vec3 splat = exp(-dot(p, p) / radius) * color;
+      vec3 base = texture2D(uTarget, vUv).xyz;
+      gl_FragColor = vec4(base + splat, 1.0);
+    }
+  `);
+
+  const advectionShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision highp float;
+    precision highp sampler2D;
+    varying vec2 vUv;
+    uniform sampler2D uVelocity;
+    uniform sampler2D uSource;
+    uniform vec2 texelSize;
+    uniform vec2 dyeTexelSize;
+    uniform float dt;
+    uniform float dissipation;
+    vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
+      vec2 st = uv / tsize - 0.5;
+      vec2 iuv = floor(st);
+      vec2 fuv = fract(st);
+      vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
+      vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
+      vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
+      vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
+      return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
+    }
+    void main () {
+    #ifdef MANUAL_FILTERING
+      vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
+      vec4 result = bilerp(uSource, coord, dyeTexelSize);
+    #else
+      vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
+      vec4 result = texture2D(uSource, coord);
+    #endif
+      float decay = 1.0 + dissipation * dt;
+      gl_FragColor = result / decay;
+    }
+  `, ext.supportLinearFiltering ? null : ['MANUAL_FILTERING']);
+
+  const divergenceShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision mediump float;
+    precision mediump sampler2D;
+    varying highp vec2 vUv;
+    varying highp vec2 vL;
+    varying highp vec2 vR;
+    varying highp vec2 vT;
+    varying highp vec2 vB;
+    uniform sampler2D uVelocity;
+    void main () {
+      float L = texture2D(uVelocity, vL).x;
+      float R = texture2D(uVelocity, vR).x;
+      float T = texture2D(uVelocity, vT).y;
+      float B = texture2D(uVelocity, vB).y;
+      vec2 C = texture2D(uVelocity, vUv).xy;
+      if (vL.x < 0.0) { L = -C.x; }
+      if (vR.x > 1.0) { R = -C.x; }
+      if (vT.y > 1.0) { T = -C.y; }
+      if (vB.y < 0.0) { B = -C.y; }
+      float div = 0.5 * (R - L + T - B);
+      gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
+    }
+  `);
+
+  const curlShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision mediump float;
+    precision mediump sampler2D;
+    varying highp vec2 vUv;
+    varying highp vec2 vL;
+    varying highp vec2 vR;
+    varying highp vec2 vT;
+    varying highp vec2 vB;
+    uniform sampler2D uVelocity;
+    void main () {
+      float L = texture2D(uVelocity, vL).y;
+      float R = texture2D(uVelocity, vR).y;
+      float T = texture2D(uVelocity, vT).x;
+      float B = texture2D(uVelocity, vB).x;
+      float vorticity = R - L - T + B;
+      gl_FragColor = vec4(0.5 * vorticity, 0.0, 0.0, 1.0);
+    }
+  `);
+
+  const vorticityShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision highp float;
+    precision highp sampler2D;
+    varying vec2 vUv;
+    varying vec2 vL;
+    varying vec2 vR;
+    varying vec2 vT;
+    varying vec2 vB;
+    uniform sampler2D uVelocity;
+    uniform sampler2D uCurl;
+    uniform float curl;
+    uniform float dt;
+    void main () {
+      float L = texture2D(uCurl, vL).x;
+      float R = texture2D(uCurl, vR).x;
+      float T = texture2D(uCurl, vT).x;
+      float B = texture2D(uCurl, vB).x;
+      float C = texture2D(uCurl, vUv).x;
+      vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
+      force /= length(force) + 0.0001;
+      force *= curl * C;
+      force.y *= -1.0;
+      vec2 velocity = texture2D(uVelocity, vUv).xy;
+      velocity += force * dt;
+      velocity = min(max(velocity, -1000.0), 1000.0);
+      gl_FragColor = vec4(velocity, 0.0, 1.0);
+    }
+  `);
+
+  const pressureShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision mediump float;
+    precision mediump sampler2D;
+    varying highp vec2 vUv;
+    varying highp vec2 vL;
+    varying highp vec2 vR;
+    varying highp vec2 vT;
+    varying highp vec2 vB;
+    uniform sampler2D uPressure;
+    uniform sampler2D uDivergence;
+    void main () {
+      float L = texture2D(uPressure, vL).x;
+      float R = texture2D(uPressure, vR).x;
+      float T = texture2D(uPressure, vT).x;
+      float B = texture2D(uPressure, vB).x;
+      float C = texture2D(uPressure, vUv).x;
+      float divergence = texture2D(uDivergence, vUv).x;
+      float pressure = (L + R + B + T - divergence) * 0.25;
+      gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
+    }
+  `);
+
+  const gradientSubtractShader = compileShader(gl.FRAGMENT_SHADER, `
+    precision mediump float;
+    precision mediump sampler2D;
+    varying highp vec2 vUv;
+    varying highp vec2 vL;
+    varying highp vec2 vR;
+    varying highp vec2 vT;
+    varying highp vec2 vB;
+    uniform sampler2D uPressure;
+    uniform sampler2D uVelocity;
+    void main () {
+      float L = texture2D(uPressure, vL).x;
+      float R = texture2D(uPressure, vR).x;
+      float T = texture2D(uPressure, vT).x;
+      float B = texture2D(uPressure, vB).x;
+      vec2 velocity = texture2D(uVelocity, vUv).xy;
+      velocity.xy -= vec2(R - L, T - B);
+      gl_FragColor = vec4(velocity, 0.0, 1.0);
+    }
+  `);
+
+  // ── 3. BLIT ────────────────────────────────────────────────
+  const blit = (() => {
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(0);
+
+    return (target, clear = false) => {
+      if (target == null) {
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      } else {
+        gl.viewport(0, 0, target.width, target.height);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, target.fbo);
+      }
+      if (clear) {
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      }
+      gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
     };
+  })();
 
-    // mousedown + a short trail of moves so the splat has a
-    // velocity vector. A single mousedown alone produces no
-    // visible dye in stable-fluids.
-    dispatch('mousedown', cx, cy);
-    requestAnimationFrame(() => {
-      dispatch('mousemove', cx + 30, cy + 18);
-      requestAnimationFrame(() => {
-        dispatch('mousemove', cx + 60, cy + 36);
-        dispatch('mouseup',   cx + 60, cy + 36);
-      });
+  // ── 4. FRAMEBUFFERS ────────────────────────────────────────
+  let dye, velocity, divergence, curl, pressure;
+
+  const copyProgram             = new Program(baseVertexShader, copyShader);
+  const clearProgram            = new Program(baseVertexShader, clearShader);
+  const splatProgram            = new Program(baseVertexShader, splatShader);
+  const advectionProgram        = new Program(baseVertexShader, advectionShader);
+  const divergenceProgram       = new Program(baseVertexShader, divergenceShader);
+  const curlProgram             = new Program(baseVertexShader, curlShader);
+  const vorticityProgram        = new Program(baseVertexShader, vorticityShader);
+  const pressureProgram         = new Program(baseVertexShader, pressureShader);
+  const gradienSubtractProgram  = new Program(baseVertexShader, gradientSubtractShader);
+  const displayMaterial         = new Material(baseVertexShader, displayShaderSource);
+
+  function initFramebuffers() {
+    let simRes = getResolution(config.SIM_RESOLUTION);
+    let dyeRes = getResolution(config.DYE_RESOLUTION);
+
+    const texType = ext.halfFloatTexType;
+    const rgba = ext.formatRGBA;
+    const rg = ext.formatRG;
+    const r = ext.formatR;
+    const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST;
+
+    gl.disable(gl.BLEND);
+
+    if (dye == null)
+      dye = createDoubleFBO(dyeRes.width, dyeRes.height, rgba.internalFormat, rgba.format, texType, filtering);
+    else
+      dye = resizeDoubleFBO(dye, dyeRes.width, dyeRes.height, rgba.internalFormat, rgba.format, texType, filtering);
+
+    if (velocity == null)
+      velocity = createDoubleFBO(simRes.width, simRes.height, rg.internalFormat, rg.format, texType, filtering);
+    else
+      velocity = resizeDoubleFBO(velocity, simRes.width, simRes.height, rg.internalFormat, rg.format, texType, filtering);
+
+    divergence = createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
+    curl       = createFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
+    pressure   = createDoubleFBO(simRes.width, simRes.height, r.internalFormat, r.format, texType, gl.NEAREST);
+  }
+
+  function createFBO(w, h, internalFormat, format, type, param) {
+    gl.activeTexture(gl.TEXTURE0);
+    let texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
+
+    let fbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+    gl.viewport(0, 0, w, h);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    return {
+      texture, fbo, width: w, height: h,
+      texelSizeX: 1.0 / w, texelSizeY: 1.0 / h,
+      attach(id) {
+        gl.activeTexture(gl.TEXTURE0 + id);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        return id;
+      },
+    };
+  }
+
+  function createDoubleFBO(w, h, internalFormat, format, type, param) {
+    let fbo1 = createFBO(w, h, internalFormat, format, type, param);
+    let fbo2 = createFBO(w, h, internalFormat, format, type, param);
+    return {
+      width: w, height: h,
+      texelSizeX: fbo1.texelSizeX, texelSizeY: fbo1.texelSizeY,
+      get read()  { return fbo1; },
+      set read(v) { fbo1 = v; },
+      get write() { return fbo2; },
+      set write(v){ fbo2 = v; },
+      swap() { let temp = fbo1; fbo1 = fbo2; fbo2 = temp; },
+    };
+  }
+
+  function resizeFBO(target, w, h, internalFormat, format, type, param) {
+    let newFBO = createFBO(w, h, internalFormat, format, type, param);
+    copyProgram.bind();
+    gl.uniform1i(copyProgram.uniforms.uTexture, target.attach(0));
+    blit(newFBO);
+    return newFBO;
+  }
+
+  function resizeDoubleFBO(target, w, h, internalFormat, format, type, param) {
+    if (target.width == w && target.height == h) return target;
+    target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
+    target.write = createFBO(w, h, internalFormat, format, type, param);
+    target.width = w;
+    target.height = h;
+    target.texelSizeX = 1.0 / w;
+    target.texelSizeY = 1.0 / h;
+    return target;
+  }
+
+  function updateKeywords() {
+    let displayKeywords = [];
+    if (config.SHADING) displayKeywords.push('SHADING');
+    displayMaterial.setKeywords(displayKeywords);
+  }
+
+  updateKeywords();
+  initFramebuffers();
+
+  // ── 5. UPDATE LOOP ─────────────────────────────────────────
+  let lastUpdateTime = Date.now();
+  let colorUpdateTimer = 0.0;
+
+  function update() {
+    const dt = calcDeltaTime();
+    if (resizeCanvas()) initFramebuffers();
+    updateColors(dt);
+    applyInputs();
+    step(dt);
+    render(null);
+    requestAnimationFrame(update);
+  }
+
+  function calcDeltaTime() {
+    let now = Date.now();
+    let dt = (now - lastUpdateTime) / 1000;
+    dt = Math.min(dt, 0.016666);
+    lastUpdateTime = now;
+    return dt;
+  }
+
+  function resizeCanvas() {
+    let width  = scaleByPixelRatio(canvas.clientWidth);
+    let height = scaleByPixelRatio(canvas.clientHeight);
+    if (canvas.width != width || canvas.height != height) {
+      canvas.width  = width;
+      canvas.height = height;
+      return true;
+    }
+    return false;
+  }
+
+  function updateColors(dt) {
+    colorUpdateTimer += dt * config.COLOR_UPDATE_SPEED;
+    if (colorUpdateTimer >= 1) {
+      colorUpdateTimer = wrap(colorUpdateTimer, 0, 1);
+      pointers.forEach((p) => { p.color = generateColor(); });
+    }
+  }
+
+  function applyInputs() {
+    pointers.forEach((p) => {
+      if (p.moved) {
+        p.moved = false;
+        splatPointer(p);
+      }
     });
   }
-  document.addEventListener('pointermove', fireWelcomeSplat, { once: true, passive: true });
-  document.addEventListener('touchstart',  fireWelcomeSplat, { once: true, passive: true });
-  // Fallback: fire 3s after script load even if user hasn't moved.
-  setTimeout(fireWelcomeSplat, 3000);
+
+  function step(dt) {
+    gl.disable(gl.BLEND);
+
+    curlProgram.bind();
+    gl.uniform2f(curlProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+    gl.uniform1i(curlProgram.uniforms.uVelocity, velocity.read.attach(0));
+    blit(curl);
+
+    vorticityProgram.bind();
+    gl.uniform2f(vorticityProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+    gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocity.read.attach(0));
+    gl.uniform1i(vorticityProgram.uniforms.uCurl,     curl.attach(1));
+    gl.uniform1f(vorticityProgram.uniforms.curl, config.CURL);
+    gl.uniform1f(vorticityProgram.uniforms.dt, dt);
+    blit(velocity.write);
+    velocity.swap();
+
+    divergenceProgram.bind();
+    gl.uniform2f(divergenceProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+    gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocity.read.attach(0));
+    blit(divergence);
+
+    clearProgram.bind();
+    gl.uniform1i(clearProgram.uniforms.uTexture, pressure.read.attach(0));
+    gl.uniform1f(clearProgram.uniforms.value, config.PRESSURE);
+    blit(pressure.write);
+    pressure.swap();
+
+    pressureProgram.bind();
+    gl.uniform2f(pressureProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+    gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
+    for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
+      gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1));
+      blit(pressure.write);
+      pressure.swap();
+    }
+
+    gradienSubtractProgram.bind();
+    gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+    gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressure.read.attach(0));
+    gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocity.read.attach(1));
+    blit(velocity.write);
+    velocity.swap();
+
+    advectionProgram.bind();
+    gl.uniform2f(advectionProgram.uniforms.texelSize, velocity.texelSizeX, velocity.texelSizeY);
+    if (!ext.supportLinearFiltering)
+      gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, velocity.texelSizeX, velocity.texelSizeY);
+    let velocityId = velocity.read.attach(0);
+    gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId);
+    gl.uniform1i(advectionProgram.uniforms.uSource, velocityId);
+    gl.uniform1f(advectionProgram.uniforms.dt, dt);
+    gl.uniform1f(advectionProgram.uniforms.dissipation, config.VELOCITY_DISSIPATION);
+    blit(velocity.write);
+    velocity.swap();
+
+    if (!ext.supportLinearFiltering)
+      gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, dye.texelSizeX, dye.texelSizeY);
+    gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0));
+    gl.uniform1i(advectionProgram.uniforms.uSource, dye.read.attach(1));
+    gl.uniform1f(advectionProgram.uniforms.dissipation, config.DENSITY_DISSIPATION);
+    blit(dye.write);
+    dye.swap();
+  }
+
+  function render(target) {
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.BLEND);
+    drawDisplay(target);
+  }
+
+  function drawDisplay(target) {
+    let width  = target == null ? gl.drawingBufferWidth  : target.width;
+    let height = target == null ? gl.drawingBufferHeight : target.height;
+    displayMaterial.bind();
+    if (config.SHADING)
+      gl.uniform2f(displayMaterial.uniforms.texelSize, 1.0 / width, 1.0 / height);
+    gl.uniform1i(displayMaterial.uniforms.uTexture, dye.read.attach(0));
+    blit(target);
+  }
+
+  // ── 6. SPLAT HELPERS ───────────────────────────────────────
+  function splatPointer(pointer) {
+    let dx = pointer.deltaX * config.SPLAT_FORCE;
+    let dy = pointer.deltaY * config.SPLAT_FORCE;
+    splat(pointer.texcoordX, pointer.texcoordY, dx, dy, pointer.color);
+  }
+
+  function clickSplat(pointer) {
+    const color = generateColor();
+    color.r *= 10.0;
+    color.g *= 10.0;
+    color.b *= 10.0;
+    let dx = 10 * (Math.random() - 0.5);
+    let dy = 30 * (Math.random() - 0.5);
+    splat(pointer.texcoordX, pointer.texcoordY, dx, dy, color);
+  }
+
+  function splat(x, y, dx, dy, color) {
+    splatProgram.bind();
+    gl.uniform1i(splatProgram.uniforms.uTarget, velocity.read.attach(0));
+    gl.uniform1f(splatProgram.uniforms.aspectRatio, canvas.width / canvas.height);
+    gl.uniform2f(splatProgram.uniforms.point, x, y);
+    gl.uniform3f(splatProgram.uniforms.color, dx, dy, 0.0);
+    gl.uniform1f(splatProgram.uniforms.radius, correctRadius(config.SPLAT_RADIUS / 100.0));
+    blit(velocity.write);
+    velocity.swap();
+
+    gl.uniform1i(splatProgram.uniforms.uTarget, dye.read.attach(0));
+    gl.uniform3f(splatProgram.uniforms.color, color.r, color.g, color.b);
+    blit(dye.write);
+    dye.swap();
+  }
+
+  function correctRadius(radius) {
+    let aspectRatio = canvas.width / canvas.height;
+    if (aspectRatio > 1) radius *= aspectRatio;
+    return radius;
+  }
+
+  // ── 7. POINTER EVENT LISTENERS ─────────────────────────────
+  // Mouse + touch only. NO scroll, NO ambient interval, NO
+  // welcome auto-splat. The render loop is started lazily by
+  // the first mousemove / touchstart.
+  window.addEventListener('mousedown', (e) => {
+    let pointer = pointers[0];
+    let posX = scaleByPixelRatio(e.clientX);
+    let posY = scaleByPixelRatio(e.clientY);
+    updatePointerDownData(pointer, -1, posX, posY);
+    clickSplat(pointer);
+  });
+
+  document.body.addEventListener('mousemove', function handleFirstMouseMove(e) {
+    let pointer = pointers[0];
+    let posX = scaleByPixelRatio(e.clientX);
+    let posY = scaleByPixelRatio(e.clientY);
+    let color = generateColor();
+    update();                                                // ← lazy rAF start
+    updatePointerMoveData(pointer, posX, posY, color);
+    document.body.removeEventListener('mousemove', handleFirstMouseMove);
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    let pointer = pointers[0];
+    let posX = scaleByPixelRatio(e.clientX);
+    let posY = scaleByPixelRatio(e.clientY);
+    let color = pointer.color;
+    updatePointerMoveData(pointer, posX, posY, color);
+  });
+
+  document.body.addEventListener('touchstart', function handleFirstTouchStart(e) {
+    const touches = e.targetTouches;
+    let pointer = pointers[0];
+    for (let i = 0; i < touches.length; i++) {
+      let posX = scaleByPixelRatio(touches[i].clientX);
+      let posY = scaleByPixelRatio(touches[i].clientY);
+      update();                                              // ← lazy rAF start
+      updatePointerDownData(pointer, touches[i].identifier, posX, posY);
+    }
+    document.body.removeEventListener('touchstart', handleFirstTouchStart);
+  });
+
+  window.addEventListener('touchstart', (e) => {
+    const touches = e.targetTouches;
+    let pointer = pointers[0];
+    for (let i = 0; i < touches.length; i++) {
+      let posX = scaleByPixelRatio(touches[i].clientX);
+      let posY = scaleByPixelRatio(touches[i].clientY);
+      updatePointerDownData(pointer, touches[i].identifier, posX, posY);
+    }
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    const touches = e.targetTouches;
+    let pointer = pointers[0];
+    for (let i = 0; i < touches.length; i++) {
+      let posX = scaleByPixelRatio(touches[i].clientX);
+      let posY = scaleByPixelRatio(touches[i].clientY);
+      updatePointerMoveData(pointer, posX, posY, pointer.color);
+    }
+  }, false);
+
+  window.addEventListener('touchend', (e) => {
+    const touches = e.changedTouches;
+    let pointer = pointers[0];
+    for (let i = 0; i < touches.length; i++) {
+      updatePointerUpData(pointer);
+    }
+  });
+
+  function updatePointerDownData(pointer, id, posX, posY) {
+    pointer.id = id;
+    pointer.down = true;
+    pointer.moved = false;
+    pointer.texcoordX = posX / canvas.width;
+    pointer.texcoordY = 1.0 - posY / canvas.height;
+    pointer.prevTexcoordX = pointer.texcoordX;
+    pointer.prevTexcoordY = pointer.texcoordY;
+    pointer.deltaX = 0;
+    pointer.deltaY = 0;
+    pointer.color = generateColor();
+  }
+
+  function updatePointerMoveData(pointer, posX, posY, color) {
+    pointer.prevTexcoordX = pointer.texcoordX;
+    pointer.prevTexcoordY = pointer.texcoordY;
+    pointer.texcoordX = posX / canvas.width;
+    pointer.texcoordY = 1.0 - posY / canvas.height;
+    pointer.deltaX = correctDeltaX(pointer.texcoordX - pointer.prevTexcoordX);
+    pointer.deltaY = correctDeltaY(pointer.texcoordY - pointer.prevTexcoordY);
+    pointer.moved  = Math.abs(pointer.deltaX) > 0 || Math.abs(pointer.deltaY) > 0;
+    pointer.color  = color;
+  }
+
+  function updatePointerUpData(pointer) { pointer.down = false; }
+
+  function correctDeltaX(delta) {
+    let aspectRatio = canvas.width / canvas.height;
+    if (aspectRatio < 1) delta *= aspectRatio;
+    return delta;
+  }
+  function correctDeltaY(delta) {
+    let aspectRatio = canvas.width / canvas.height;
+    if (aspectRatio > 1) delta /= aspectRatio;
+    return delta;
+  }
+
+  // ── 8. COLOUR GENERATION (the secret sauce) ────────────────
+  // Random hue, FULL saturation/value, then ×0.15 to clamp the
+  // brightness to ~15% of max. clickSplat re-amplifies by ×10
+  // for a punchy press feedback. This is the single most
+  // important difference from the previous COLORFUL=true lib
+  // build, which was firing full-bright random rainbow splats.
+  function generateColor() {
+    let c = HSVtoRGB(Math.random(), 1.0, 1.0);
+    c.r *= 0.15;
+    c.g *= 0.15;
+    c.b *= 0.15;
+    return c;
+  }
+
+  function HSVtoRGB(h, s, v) {
+    let r, g, b, i, f, p, q, t;
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+      case 0: r = v; g = t; b = p; break;
+      case 1: r = q; g = v; b = p; break;
+      case 2: r = p; g = v; b = t; break;
+      case 3: r = p; g = q; b = v; break;
+      case 4: r = t; g = p; b = v; break;
+      case 5: r = v; g = p; b = q; break;
+    }
+    return { r, g, b };
+  }
+
+  // ── 9. UTIL HELPERS ────────────────────────────────────────
+  function wrap(value, min, max) {
+    const range = max - min;
+    if (range == 0) return min;
+    return ((value - min) % range) + min;
+  }
+
+  function getResolution(resolution) {
+    let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight;
+    if (aspectRatio < 1) aspectRatio = 1.0 / aspectRatio;
+    const min = Math.round(resolution);
+    const max = Math.round(resolution * aspectRatio);
+    if (gl.drawingBufferWidth > gl.drawingBufferHeight)
+      return { width: max, height: min };
+    else
+      return { width: min, height: max };
+  }
+
+  function scaleByPixelRatio(input) {
+    const pixelRatio = window.devicePixelRatio || 1;
+    return Math.floor(input * pixelRatio);
+  }
+
+  function hashCode(s) {
+    if (s.length == 0) return 0;
+    let hash = 0;
+    for (let i = 0; i < s.length; i++) {
+      hash = (hash << 5) - hash + s.charCodeAt(i);
+      hash |= 0;
+    }
+    return hash;
+  }
 })();
