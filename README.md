@@ -73,6 +73,29 @@ status    : open to work
 
 ## Toolkit
 
+<div align="center">
+
+<table>
+  <tr>
+    <td align="right"><sub><b>Design</b></sub></td>
+    <td><a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=ps,ai,figma,xd" alt="Photoshop, Illustrator, Figma, XD"/></a></td>
+  </tr>
+  <tr>
+    <td align="right"><sub><b>Motion</b></sub></td>
+    <td><a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=ae,pr,blender" alt="After Effects, Premiere Pro, Blender"/></a></td>
+  </tr>
+  <tr>
+    <td align="right"><sub><b>Engineering</b></sub></td>
+    <td><a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=ts,react,nextjs,tailwind,threejs,nodejs,py" alt="TypeScript, React, Next.js, Tailwind, Three.js, Node.js, Python"/></a></td>
+  </tr>
+  <tr>
+    <td align="right"><sub><b>Infra</b></sub></td>
+    <td><a href="https://skillicons.dev"><img src="https://skillicons.dev/icons?i=git,github,vercel,vscode,notion" alt="Git, GitHub, Vercel, VS Code, Notion"/></a></td>
+  </tr>
+</table>
+
+</div>
+
 ```
 Design         Photoshop  ·  Illustrator  ·  InDesign  ·  Figma  ·  Lightroom  ·  XD
 Motion         After Effects  ·  Premiere Pro  ·  Cinema 4D  ·  Blender
