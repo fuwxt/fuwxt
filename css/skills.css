@@ -73,6 +73,19 @@ html.light-mode .skill-pill:hover {
 /* In light mode some monochrome brand icons (e.g. Three.js, OpenAI,
    Midjourney — all white from simpleicons) become invisible on a
    white-ish pill bg. Invert them so they render dark on light. */
-html.light-mode img.skill-icon[src*="/FFFFFF"] {
+html.light-mode img.skill-icon[src*="-FFFFFF"] {
   filter: invert(0.85) brightness(0.6);
+}
+
+/* ── GLOBAL ICON SAFETY ────────────────────────────────────────
+   Lucide swaps every <i data-lucide> for an inline <svg>. Inside
+   flex rows those svgs could shrink or get clipped by tight line
+   boxes, which reads as a "truncated" icon. Lock their box. */
+svg.lucide,
+i[data-lucide] {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
 }
