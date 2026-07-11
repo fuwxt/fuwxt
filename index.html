@@ -309,14 +309,29 @@
         },
         closeModal() {
           this.modalOpen = false;
-          document.body.style.overflow = '';
+          document.body.style.overflow = this.mobileMenu ? 'hidden' : '';
           setTimeout(() => {
             this.activeProject = null;
-            // Restore focus to the trigger that opened the modal
             if (this._lastFocused && typeof this._lastFocused.focus === 'function') {
               try { this._lastFocused.focus(); } catch (e) {}
             }
           }, 300);
+        },
+        openMobileMenu(trigger) {
+          this._menuTrigger = trigger;
+          this.mobileMenu = true;
+          document.body.style.overflow = 'hidden';
+          this.$nextTick(() => document.querySelector('#mobile-menu-panel a')?.focus());
+        },
+        closeMobileMenu() {
+          if (!this.mobileMenu) return;
+          this.mobileMenu = false;
+          document.body.style.overflow = this.modalOpen ? 'hidden' : '';
+          this.$nextTick(() => this._menuTrigger?.focus());
+        },
+        navigateMobile() {
+          this.mobileMenu = false;
+          document.body.style.overflow = '';
         },
 
         init() {
@@ -391,6 +406,11 @@
 
         initReveal() {
           const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+          if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            els.forEach(el => el.classList.add('visible'));
+            return;
+          }
+          document.documentElement.classList.add('js-ready');
           const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
@@ -418,7 +438,7 @@
             'Motion Graphics Artist',
             'Brand Identity Specialist'
           ];
-          let phraseIndex = 0, charIndex = 0, deleting = false;
+          let phraseIndex = 0, charIndex = 0, deleting = false, timer = null;
           const el = document.getElementById('typed-text');
           if (!el) return;
           // Respect users who prefer reduced motion: render the first
@@ -437,18 +457,19 @@
             if (!deleting) {
               el.textContent = current.slice(0, charIndex + 1);
               charIndex++;
-              if (charIndex === current.length) { deleting = true; setTimeout(type, 2200); return; }
+              if (charIndex === current.length) { deleting = true; timer = setTimeout(type, 2200); return; }
             } else {
               el.textContent = current.slice(0, charIndex - 1);
               charIndex--;
               if (charIndex === 0) { deleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; }
             }
-            setTimeout(type, deleting ? 55 : 80);
+            timer = setTimeout(type, deleting ? 55 : 80);
           }
           document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) type();
+            clearTimeout(timer);
+            if (!document.hidden) timer = setTimeout(type, 120);
           });
-          setTimeout(type, 800);
+          timer = setTimeout(type, 800);
         }
       };
     }
@@ -486,6 +507,7 @@
   <link rel="stylesheet" href="css/contact.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/premium.css">
 
 
   <!--
@@ -512,10 +534,10 @@
 <!-- ============================================================
      ALPINE.JS APP INIT
 ============================================================ -->
-<body class="bg-breathe relative" x-data="portfolioApp()" @keydown.escape.window="modalOpen && closeModal()">
+<body class="bg-breathe relative" x-data="portfolioApp()" @keydown.escape.window="modalOpen ? closeModal() : closeMobileMenu()">
 
 <!-- Skip-to-content link for keyboard / screen-reader users -->
-<a href="#hero" class="skip-link">Skip to main content</a>
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <!-- ============================================================
      INK FLUID WEBGL BACKGROUND — toukoum.fr-style
@@ -600,7 +622,7 @@
       <!-- Mobile menu toggle (same pattern: wrap icons in <span> for x-show) -->
       <button
         class="md:hidden flex items-center justify-center w-9 h-9"
-        @click="mobileMenu = !mobileMenu"
+        @click="mobileMenu ? closeMobileMenu() : openMobileMenu($el)"
         :aria-label="mobileMenu ? 'Close navigation menu' : 'Open navigation menu'"
         :aria-expanded="mobileMenu.toString()"
         aria-controls="mobile-menu-panel"
@@ -627,14 +649,14 @@
     x-transition:leave-end="opacity-0"
   >
     <div class="px-6 py-4 flex flex-col gap-4">
-      <a href="#about"        class="nav-link py-2" @click="mobileMenu=false">About</a>
-      <a href="#skills"       class="nav-link py-2" @click="mobileMenu=false">Skills</a>
-      <a href="#experience"   class="nav-link py-2" @click="mobileMenu=false">Experience</a>
-      <a href="#work"         class="nav-link py-2" @click="mobileMenu=false">Work</a>
-      <a href="#education"    class="nav-link py-2" @click="mobileMenu=false">Education</a>
-      <a href="#achievements" class="nav-link py-2" @click="mobileMenu=false">Achievements</a>
-      <a href="#testimonials" class="nav-link py-2" @click="mobileMenu=false">Testimonials</a>
-      <a href="#contact"      class="nav-link py-2" @click="mobileMenu=false">Contact</a>
+      <a href="#about"        class="nav-link py-2" @click="navigateMobile()">About</a>
+      <a href="#skills"       class="nav-link py-2" @click="navigateMobile()">Skills</a>
+      <a href="#experience"   class="nav-link py-2" @click="navigateMobile()">Experience</a>
+      <a href="#work"         class="nav-link py-2" @click="navigateMobile()">Work</a>
+      <a href="#education"    class="nav-link py-2" @click="navigateMobile()">Education</a>
+      <a href="#achievements" class="nav-link py-2" @click="navigateMobile()">Achievements</a>
+      <a href="#testimonials" class="nav-link py-2" @click="navigateMobile()">Testimonials</a>
+      <a href="#contact"      class="nav-link py-2" @click="navigateMobile()">Contact</a>
       <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
       <a href="Azhar_Resume.pdf" download="Muhammad_Azhar_Resume.pdf" data-resume-link class="btn-download py-2.5 text-xs justify-center mt-2">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
@@ -1062,15 +1084,12 @@
     <!-- Project Grid -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <template x-for="(project, index) in projects" :key="project.id">
-        <div
+        <button
+          type="button"
           class="project-card reveal"
           :class="'delay-' + ((index % 3) + 1)"
           @click="openModal(project)"
-          @keydown.enter.prevent="openModal(project)"
-          @keydown.space.prevent="openModal(project)"
-          role="button"
-          tabindex="0"
-          :aria-label="'Open project details for ' + project.title"
+          :aria-label="'Open case study for ' + project.title"
         >
           <!--
             Thumbnail.
@@ -1129,7 +1148,7 @@
               </template>
             </div>
           </div>
-        </div>
+        </button>
       </template>
     </div>
   </div>
@@ -1507,7 +1526,7 @@
               -->
               <a
                 id="email-link"
-                href="javascript:void(0)"
+                href="#contact-form"
                 data-user="arhamjutt6481335"
                 data-host="gmail.com"
                 class="text-lilac text-sm hover:text-amethyst transition-colors"
