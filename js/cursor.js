@@ -1,55 +1,34 @@
-(function() {
-  /* ══════════════════════════════════════════════════════════
-     CUSTOM MAGNETIC CURSOR (desktop fine-pointer only)
-     ──────────────────────────────────────────────────────────
-     Two layered elements:
-       • #cursor-glow → small instant-tracking radial glow
-       • #cursor-ring → larger ring that follows with lerp
-     Both are decorative; the OS cursor stays primary input.
-     If either element is missing the module bails out — earlier
-     version threw `Cannot read properties of null` and crashed
-     the whole IIFE silently.
-  ══════════════════════════════════════════════════════════ */
-  const glowEl = document.getElementById('cursor-glow');
-  const ringEl = document.getElementById('cursor-ring');
-  if (!glowEl || !ringEl) return;
-  if (!window.matchMedia('(pointer: fine)').matches) return;
+(function () {
+  'use strict';
+  const glow = document.getElementById('cursor-glow');
+  const ring = document.getElementById('cursor-ring');
+  if (!glow || !ring || !window.matchMedia('(pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  let cx = 0, cy = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    cx = e.clientX; cy = e.clientY;
-    glowEl.style.left = cx + 'px';
-    glowEl.style.top  = cy + 'px';
+  let cx = 0, cy = 0, rx = 0, ry = 0, frame = 0, active = false;
+  function render() {
+    if (!active || document.hidden) { frame = 0; return; }
+    rx += (cx - rx) * 0.14;
+    ry += (cy - ry) * 0.14;
+    ring.style.transform = `translate3d(${rx - 22}px, ${ry - 22}px, 0)`;
+    frame = requestAnimationFrame(render);
+  }
+  document.addEventListener('mousemove', (event) => {
+    cx = event.clientX; cy = event.clientY;
+    glow.style.transform = `translate3d(${cx - 10}px, ${cy - 10}px, 0)`;
+    active = true;
+    if (!frame) frame = requestAnimationFrame(render);
   }, { passive: true });
-
-  // Ring follows with lerp
-  (function lerpRing() {
-    rx += (cx - rx) * 0.12;
-    ry += (cy - ry) * 0.12;
-    ringEl.style.left = rx + 'px';
-    ringEl.style.top  = ry + 'px';
-    requestAnimationFrame(lerpRing);
-  })();
-
-  // Enlarge on hover over interactive elements
-  const interactives = 'a, button, .glass, .project-card, .skill-pill, .social-link, .btn-primary, .btn-outline, .btn-download';
-  document.addEventListener('mouseover', e => {
-    if (e.target && e.target.closest && e.target.closest(interactives)) {
-      ringEl.style.width  = '64px';
-      ringEl.style.height = '64px';
-      ringEl.style.borderColor = 'rgba(197,157,217,0.7)';
-      glowEl.style.width  = '32px';
-      glowEl.style.height = '32px';
-    }
+  document.addEventListener('mouseleave', () => { active = false; glow.style.opacity = '0'; ring.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { glow.style.opacity = ''; ring.style.opacity = ''; });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
+    else if (active && !frame) frame = requestAnimationFrame(render);
   });
-  document.addEventListener('mouseout', e => {
-    if (e.target && e.target.closest && e.target.closest(interactives)) {
-      ringEl.style.width  = '44px';
-      ringEl.style.height = '44px';
-      ringEl.style.borderColor = 'rgba(197,157,217,0.35)';
-      glowEl.style.width  = '20px';
-      glowEl.style.height = '20px';
-    }
-  });
+
+  const interactive = 'a, button, input, textarea, .glass, .project-card, .skill-pill, .social-link';
+  document.addEventListener('pointerover', (event) => {
+    const isInteractive = Boolean(event.target.closest?.(interactive));
+    ring.classList.toggle('is-interactive', isInteractive);
+    glow.classList.toggle('is-interactive', isInteractive);
+  }, { passive: true });
 })();
