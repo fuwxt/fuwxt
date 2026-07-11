@@ -162,12 +162,12 @@
           { name: 'Adobe Illustrator',             icon: 'simple:adobeillustrator',color: '#FF9A00' },
           { name: 'Adobe After Effects',           icon: 'simple:adobeaftereffects',color:'#9999FF' },
           { name: 'Premiere Pro',                  icon: 'simple:adobepremierepro',color: '#9999FF' },
-          { name: 'Cinema 4D',                     icon: 'simple:maxon',           color: '#011A6A' },
+          { name: 'Cinema 4D',                     icon: 'simple:cinema4d',        color: '#C59DD9' },
           { name: 'Blender',                       icon: 'simple:blender',         color: '#F5792A' },
           { name: 'Figma (UI / UX)',               icon: 'simple:figma',           color: '#F24E1E' },
           { name: '2D & 3D Animation',             icon: 'lucide:film',            color: '#C59DD9' },
           { name: 'Motion Graphics',               icon: 'lucide:clapperboard',    color: '#C59DD9' },
-          { name: 'Midjourney (AI Art Direction)', icon: 'simple:midjourney',      color: '#FFFFFF' }
+          { name: 'Midjourney (AI Art Direction)', icon: 'lucide:sparkles',        color: '#C59DD9' }
         ],
         // ── TECHNICAL SKILLS ─────────────────────────────────────────
         // Same brand-icon-first treatment for the dev / AI stack.
@@ -508,6 +508,7 @@
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/premium.css">
+  <link rel="stylesheet" href="css/marquee.css">
 
 
   <!--
@@ -904,6 +905,87 @@
       <div class="divider-line mt-6"></div>
     </div>
 
+    <!-- ── INFINITE TOOLKIT MARQUEE ─────────────────────────────
+         Two counter-scrolling glass ribbons: languages/frameworks
+         forward, apps/tools reverse. Each track holds its chip set
+         twice (duplicate aria-hidden) for a seamless CSS loop. Any
+         chip whose CDN logo fails simply drops its <img> via
+         onerror, so a network miss never leaves a broken square. -->
+    <div class="marquee-shell reveal mb-16" role="region" aria-label="Toolkit showcase">
+
+      <p class="marquee-label">Languages &amp; Frameworks</p>
+      <div class="marquee">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <span class="marquee-chip"><img src="assets/icons/python-3776AB.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Python</span>
+            <span class="marquee-chip"><img src="assets/icons/openjdk-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Java</span>
+            <span class="marquee-chip"><img src="assets/icons/javascript-F7DF1E.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">JavaScript</span>
+            <span class="marquee-chip"><img src="assets/icons/typescript-3178C6.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">TypeScript</span>
+            <span class="marquee-chip"><img src="assets/icons/react-61DAFB.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">React</span>
+            <span class="marquee-chip"><img src="assets/icons/nextdotjs-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Next.js</span>
+            <span class="marquee-chip"><img src="assets/icons/nodedotjs-5FA04E.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Node.js</span>
+            <span class="marquee-chip"><img src="assets/icons/html5-E34F26.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">HTML5</span>
+            <span class="marquee-chip"><img src="assets/icons/css-663399.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">CSS</span>
+            <span class="marquee-chip"><img src="assets/icons/tailwindcss-06B6D4.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Tailwind CSS</span>
+            <span class="marquee-chip"><img src="assets/icons/threedotjs-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Three.js</span>
+            <span class="marquee-chip"><img src="assets/icons/graphql-E10098.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">GraphQL</span>
+            <span class="marquee-chip"><img src="assets/icons/git-F05032.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Git</span>
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <span class="marquee-chip"><img src="assets/icons/python-3776AB.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Python</span>
+            <span class="marquee-chip"><img src="assets/icons/openjdk-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Java</span>
+            <span class="marquee-chip"><img src="assets/icons/javascript-F7DF1E.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">JavaScript</span>
+            <span class="marquee-chip"><img src="assets/icons/typescript-3178C6.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">TypeScript</span>
+            <span class="marquee-chip"><img src="assets/icons/react-61DAFB.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">React</span>
+            <span class="marquee-chip"><img src="assets/icons/nextdotjs-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Next.js</span>
+            <span class="marquee-chip"><img src="assets/icons/nodedotjs-5FA04E.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Node.js</span>
+            <span class="marquee-chip"><img src="assets/icons/html5-E34F26.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">HTML5</span>
+            <span class="marquee-chip"><img src="assets/icons/css-663399.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">CSS</span>
+            <span class="marquee-chip"><img src="assets/icons/tailwindcss-06B6D4.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Tailwind CSS</span>
+            <span class="marquee-chip"><img src="assets/icons/threedotjs-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Three.js</span>
+            <span class="marquee-chip"><img src="assets/icons/graphql-E10098.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">GraphQL</span>
+            <span class="marquee-chip"><img src="assets/icons/git-F05032.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Git</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="marquee-label">Apps &amp; Tools</p>
+      <div class="marquee">
+        <div class="marquee-track reverse">
+          <div class="marquee-group">
+            <span class="marquee-chip"><img src="assets/icons/n8n-EA4B71.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">n8n</span>
+            <span class="marquee-chip"><img src="assets/icons/adobephotoshop-31A8FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Photoshop</span>
+            <span class="marquee-chip"><img src="assets/icons/adobeaftereffects-9999FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">After Effects</span>
+            <span class="marquee-chip"><img src="assets/icons/adobeillustrator-FF9A00.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Illustrator</span>
+            <span class="marquee-chip"><img src="assets/icons/adobepremierepro-9999FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Premiere Pro</span>
+            <span class="marquee-chip"><img src="assets/icons/figma-F24E1E.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Figma</span>
+            <span class="marquee-chip"><img src="assets/icons/framer-0055FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Framer</span>
+            <span class="marquee-chip"><img src="assets/icons/blender-F5792A.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Blender</span>
+            <span class="marquee-chip"><img src="assets/icons/cinema4d-C59DD9.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Cinema 4D</span>
+            <span class="marquee-chip"><img src="assets/icons/openai-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">OpenAI</span>
+            <span class="marquee-chip"><img src="assets/icons/github-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">GitHub</span>
+            <span class="marquee-chip"><img src="assets/icons/notion-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Notion</span>
+            <span class="marquee-chip"><img src="assets/icons/zapier-FF4F00.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Zapier</span>
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <span class="marquee-chip"><img src="assets/icons/n8n-EA4B71.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">n8n</span>
+            <span class="marquee-chip"><img src="assets/icons/adobephotoshop-31A8FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Photoshop</span>
+            <span class="marquee-chip"><img src="assets/icons/adobeaftereffects-9999FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">After Effects</span>
+            <span class="marquee-chip"><img src="assets/icons/adobeillustrator-FF9A00.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Illustrator</span>
+            <span class="marquee-chip"><img src="assets/icons/adobepremierepro-9999FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Premiere Pro</span>
+            <span class="marquee-chip"><img src="assets/icons/figma-F24E1E.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Figma</span>
+            <span class="marquee-chip"><img src="assets/icons/framer-0055FF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Framer</span>
+            <span class="marquee-chip"><img src="assets/icons/blender-F5792A.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Blender</span>
+            <span class="marquee-chip"><img src="assets/icons/cinema4d-C59DD9.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Cinema 4D</span>
+            <span class="marquee-chip"><img src="assets/icons/openai-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">OpenAI</span>
+            <span class="marquee-chip"><img src="assets/icons/github-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">GitHub</span>
+            <span class="marquee-chip"><img src="assets/icons/notion-FFFFFF.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Notion</span>
+            <span class="marquee-chip"><img src="assets/icons/zapier-FF4F00.svg" alt="" width="18" height="18" loading="eager" decoding="async" onerror="this.remove()">Zapier</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="grid md:grid-cols-2 gap-8">
 
       <!-- Creative Skills -->
@@ -926,9 +1008,10 @@
                    no clean brand mark. -->
               <template x-if="skill.icon.startsWith('simple:')">
                 <img class="skill-icon"
-                     loading="lazy" decoding="async" aria-hidden="true"
-                     :src="'https://cdn.simpleicons.org/' + skill.icon.slice(7) + '/' + skill.color.replace('#','')"
-                     :alt="skill.name + ' logo'"/>
+                     loading="lazy" decoding="async" aria-hidden="true" alt=""
+                     width="14" height="14"
+                     @error="$el.remove()"
+                     :src="'assets/icons/' + skill.icon.slice(7) + '-' + skill.color.replace('#','') + '.svg'"/>
               </template>
               <template x-if="skill.icon.startsWith('lucide:')">
                 <i class="skill-icon" :data-lucide="skill.icon.slice(7)"
@@ -956,9 +1039,10 @@
             <span class="skill-pill">
               <template x-if="skill.icon.startsWith('simple:')">
                 <img class="skill-icon"
-                     loading="lazy" decoding="async" aria-hidden="true"
-                     :src="'https://cdn.simpleicons.org/' + skill.icon.slice(7) + '/' + skill.color.replace('#','')"
-                     :alt="skill.name + ' logo'"/>
+                     loading="lazy" decoding="async" aria-hidden="true" alt=""
+                     width="14" height="14"
+                     @error="$el.remove()"
+                     :src="'assets/icons/' + skill.icon.slice(7) + '-' + skill.color.replace('#','') + '.svg'"/>
               </template>
               <template x-if="skill.icon.startsWith('lucide:')">
                 <i class="skill-icon" :data-lucide="skill.icon.slice(7)"
