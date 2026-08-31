@@ -583,6 +583,7 @@
       <a href="#work"         class="nav-link">Work</a>
       <a href="#education"    class="nav-link">Education</a>
       <a href="#achievements" class="nav-link">Achievements</a>
+      <a href="#certificates" class="nav-link">Certificates</a>
       <a href="#testimonials" class="nav-link">Testimonials</a>
       <a href="#contact"      class="nav-link">Contact</a>
       <!--
@@ -656,6 +657,7 @@
       <a href="#work"         class="nav-link py-2" @click="navigateMobile()">Work</a>
       <a href="#education"    class="nav-link py-2" @click="navigateMobile()">Education</a>
       <a href="#achievements" class="nav-link py-2" @click="navigateMobile()">Achievements</a>
+      <a href="#certificates" class="nav-link py-2" @click="navigateMobile()">Certificates</a>
       <a href="#testimonials" class="nav-link py-2" @click="navigateMobile()">Testimonials</a>
       <a href="#contact"      class="nav-link py-2" @click="navigateMobile()">Contact</a>
       <!-- TODO: upload `Azhar_Resume.pdf` to repo root -->
@@ -1392,6 +1394,81 @@
           <p class="text-lilac/45 text-xs mt-0.5">3 projects · 1K+ total downloads</p>
         </div>
       </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     SECTION 7b: CERTIFICATES
+     Verified training certificates with credential IDs. Images live
+     in assets/certificates/. Each card links to the full-size scan.
+============================================================ -->
+<section id="certificates" class="relative z-10 py-28 px-6">
+  <div class="max-w-6xl mx-auto">
+
+    <div class="text-center mb-16 reveal">
+      <p class="section-label mb-3">Verified Credentials</p>
+      <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Certificates</h2>
+      <div class="divider-line mt-6"></div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+
+      <!-- Certificate 1: Gen AI App Developer — Cohort 2 -->
+      <a href="assets/certificates/cert-1.jpg" target="_blank" rel="noopener" class="cert-card reveal delay-1 group block rounded-2xl border border-amethyst/15 bg-regal/10 overflow-hidden transition-all duration-300 hover:border-amethyst/40 hover:-translate-y-1" aria-label="View full certificate: Generative AI Application Developer, Cohort 2">
+        <div class="relative overflow-hidden" style="aspect-ratio: 4/3;">
+          <img src="assets/certificates/cert-1.jpg" alt="Generative AI Application Developer Certificate, Cohort 2, awarded to Muhammad Azhar Shahbaz by UETIANS Lahore Endowment Foundation USA" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+          <span class="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-yellow-500/90 text-black text-[10px] font-semibold px-2.5 py-1 tracking-wide uppercase">
+            <i data-lucide="trophy" class="w-3 h-3"></i> Top Performer
+          </span>
+        </div>
+        <div class="p-5">
+          <p class="text-lilac text-sm font-medium leading-snug">Generative AI Application Developer — Cohort 2</p>
+          <p class="text-lilac/45 text-xs mt-1">ULEF USA · NCEAC–HEC · Pak Angels · March 2026</p>
+          <p class="text-amethyst/70 text-xs mt-3 font-mono">Credential ID: 5899c711ef43368f</p>
+        </div>
+      </a>
+
+      <!-- Certificate 2: Gen AI App Developer — Oct-Nov 2025 -->
+      <a href="assets/certificates/cert-3.jpg" target="_blank" rel="noopener" class="cert-card reveal delay-2 group block rounded-2xl border border-amethyst/15 bg-regal/10 overflow-hidden transition-all duration-300 hover:border-amethyst/40 hover:-translate-y-1" aria-label="View full certificate: Generative AI Application Developer, October to November 2025">
+        <div class="relative overflow-hidden" style="aspect-ratio: 4/3;">
+          <img src="assets/certificates/cert-3.jpg" alt="Generative AI Application Developer Certificate, October to November 2025, awarded to Muhammad Azhar Shahbaz by UETIANS Lahore Endowment Foundation USA" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+          <span class="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-yellow-500/90 text-black text-[10px] font-semibold px-2.5 py-1 tracking-wide uppercase">
+            <i data-lucide="trophy" class="w-3 h-3"></i> Top Performer
+          </span>
+        </div>
+        <div class="p-5">
+          <p class="text-lilac text-sm font-medium leading-snug">Generative AI Application Developer</p>
+          <p class="text-lilac/45 text-xs mt-1">ULEF USA · NCEAC–HEC · Pak Angels · December 2025</p>
+          <p class="text-amethyst/70 text-xs mt-3 font-mono">Credential ID: 3cd7c82d04dd25c0</p>
+        </div>
+      </a>
+
+      <!-- Certificate 3: ASPIRE Cofounder Training -->
+      <a href="assets/certificates/cert-2.jpg" target="_blank" rel="noopener" class="cert-card reveal delay-3 group block rounded-2xl border border-amethyst/15 bg-regal/10 overflow-hidden transition-all duration-300 hover:border-amethyst/40 hover:-translate-y-1" aria-label="View full certificate: ASPIRE Silicon Valley Cofounder Training Program">
+        <div class="relative overflow-hidden" style="aspect-ratio: 4/3;">
+          <img src="assets/certificates/cert-2.jpg" alt="Certificate of Achievement for ASPIRE Silicon Valley Cofounder Training Program, awarded to Muhammad Azhar Shahbaz by ASPIRE Pakistan" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+        </div>
+        <div class="p-5">
+          <p class="text-lilac text-sm font-medium leading-snug">Silicon Valley Cofounder Training Program</p>
+          <p class="text-lilac/45 text-xs mt-1">ASPIRE Pakistan · December 2025</p>
+          <p class="text-amethyst/70 text-xs mt-3 font-mono">Credential ID: 51359c0a4830e7fb</p>
+        </div>
+      </a>
+
+      <!-- Certificate 4: CECECO Clean Energy Hackathon -->
+      <a href="assets/certificates/cert-4.jpg" target="_blank" rel="noopener" class="cert-card reveal delay-4 group block rounded-2xl border border-amethyst/15 bg-regal/10 overflow-hidden transition-all duration-300 hover:border-amethyst/40 hover:-translate-y-1" aria-label="View full certificate: CECECO Clean Energy Hackathon 2026">
+        <div class="relative overflow-hidden" style="aspect-ratio: 4/3;">
+          <img src="assets/certificates/cert-4.jpg" alt="Certificate of participation in the CECECO Clean Energy Hackathon 2026, presented to Muhammad Azhar Shahbaz" loading="lazy" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
+        </div>
+        <div class="p-5">
+          <p class="text-lilac text-sm font-medium leading-snug">CECECO Clean Energy Hackathon 2026</p>
+          <p class="text-lilac/45 text-xs mt-1">CECECO · UNIDO · GNSEC · ADA University · 2026</p>
+          <p class="text-amethyst/70 text-xs mt-3 font-mono">Verified via on-certificate QR code</p>
+        </div>
+      </a>
 
     </div>
   </div>
