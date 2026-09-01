@@ -31,7 +31,39 @@
   animation: quote-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.star { color: var(--c-amethyst); font-size: 1rem; }
+/* Star icons are now inline SVGs (fill/stroke: currentColor) so they can
+   never fall back to a tofu box the way the raw ★ glyph could. */
+.star { color: var(--c-amethyst); flex-shrink: 0; }
+
+/* Small "Verified on Upwork / Fiverr" source badges under the section header */
+.verify-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(197,157,217,0.30);
+  background: rgba(122,63,145,0.15);
+  color: var(--c-amethyst);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.verify-badge:hover {
+  border-color: rgba(197,157,217,0.60);
+  background: rgba(122,63,145,0.28);
+  color: var(--c-lilac);
+}
+html.light-mode .verify-badge {
+  border-color: rgba(122,63,145,0.35);
+  background: rgba(122,63,145,0.08);
+  color: var(--c-regal);
+}
+html.light-mode .verify-badge:hover {
+  background: rgba(122,63,145,0.16);
+  color: var(--c-velvet);
+}
 
 /* ── LIGHT MODE ────────────────────────────────────────────── */
 html.light-mode .testimonial-card::before { color: var(--c-amethyst); opacity: 0.3; }
