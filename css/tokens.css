@@ -10,4 +10,15 @@
   --glow-sm:    0 0 20px rgba(197,157,217,0.25);
   --glow-md:    0 0 40px rgba(122,63,145,0.35);
   --glow-lg:    0 0 70px rgba(122,63,145,0.45);
+
+  /* Hero typed-role text ("Freelance Graphic Designer" …).
+     Light-mode-only token: the inherited lilac/80 was near-invisible
+     against the lavender hero background. #5E2A78 measures ≈ 8.5:1
+     against the #F2EAF7-family canvas — comfortably past WCAG AA. */
+  --c-hero-typed-light: #5E2A78;
+}
+
+/* Light mode only — dark mode keeps its original text-lilac/80 tint. */
+html.light-mode #typed-text {
+  color: var(--c-hero-typed-light);
 }

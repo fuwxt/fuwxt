@@ -1,27 +1,16 @@
 /* ============================================================
-   CONTACT FORM — email obfuscation + form handler
+   CONTACT — email obfuscation
    ────────────────────────────────────────────────────────────
-   Pattern:
-     • The email address is split into `data-user` / `data-host`
-       attributes on the visible link, so naive HTML scrapers
-       can't grab `user@host` from the static markup.
-     • At runtime, the script reassembles the address and wires
-       it into BOTH the visible link (`href="mailto:..."`) AND
-       the form's action attribute.
+   The email address is split into `data-user` / `data-host`
+   attributes on the visible link, so naive HTML scrapers can't
+   grab `user@host` from the static markup. At runtime this
+   script reassembles the address and wires it into the visible
+   link (`href="mailto:..."`).
 
-   Submission strategy:
-     • If a real form endpoint URL is set in `window.__formEndpoint`
-       (e.g. window.__formEndpoint = 'https://formspree.io/f/XXX'),
-       the form posts to it via fetch() with JSON. Keeps the user
-       on the page; shows inline success / error feedback.
-     • Otherwise falls back to `mailto:` action (unreliable on
-       desktop without a default mail client, but better than
-       nothing). We detect the failure mode and show a clear
-       "Open your email app or copy address" prompt.
-
-   To switch to a hosted endpoint later, drop one line in
-   index.html before this script:
-     <script>window.__formEndpoint = 'https://formspree.io/f/XXX';</script>
+   NOTE: form submission is no longer handled here. The contact
+   form POSTs to Web3Forms via fetch() inside the Alpine
+   `portfolioApp().submitForm()` handler in index.html, which
+   also owns the loading / success / error UI states.
    ============================================================ */
 (function() {
   function wireEmail() {
@@ -37,102 +26,10 @@
     return addr;
   }
 
-  function showStatus(form, msg, type) {
-    var slot = form.querySelector('[data-form-status]');
-    if (!slot) return;
-    slot.textContent = msg;
-    slot.dataset.state = type || 'info';
-  }
-
-  function bindContactForm() {
-    // Always wire the visible email link first — even if the form is missing.
-    var addr = wireEmail();
-
-    var form = document.getElementById('contact-form');
-    if (!form) return;
-    var btn = form.querySelector('button[type="submit"]');
-    if (!btn) return;
-
-    var endpoint = window.__formEndpoint || form.dataset.endpoint || '';
-    var hasEndpoint = !!endpoint && /^https?:\/\//.test(endpoint);
-
-    // No live endpoint → fall back to mailto: action
-    if (!hasEndpoint && addr) {
-      form.setAttribute('action', 'mailto:' + addr);
-      form.setAttribute('method', 'post');
-      // mailto submission doesn't need x-www-form-urlencoded
-      form.setAttribute('enctype', 'text/plain');
-    }
-
-    form.addEventListener('submit', function(e) {
-      // Manual validation (form has no `novalidate` attr; native UI
-      // shows :invalid styling, but we still call reportValidity()
-      // to surface the first error before our JS path runs).
-      if (!form.checkValidity()) {
-        e.preventDefault();
-        form.reportValidity();
-        return;
-      }
-
-      var original = btn.innerHTML;
-      var data = new FormData(form);
-
-      if (hasEndpoint) {
-        // POST to hosted form service (Formspree / Web3Forms / Getform).
-        e.preventDefault();
-        btn.disabled = true;
-        btn.textContent = 'Sending…';
-        showStatus(form, '', 'info');
-        fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: data
-        }).then(function(r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          form.reset();
-          btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-          btn.innerHTML = original;
-          showStatus(form,
-            "Thanks — your message is in. I'll reply within 24 hours.",
-            'success');
-        }).catch(function(err) {
-          console.error('[contact] submit failed:', err);
-          showStatus(form,
-            "Couldn't send. Please email me directly: " + (addr || 'see contact section.'),
-            'error');
-          btn.innerHTML = original;
-        }).then(function() {
-          setTimeout(function() {
-            btn.disabled = false;
-            btn.style.background = '';
-            if (window.lucide) try { lucide.createIcons(); } catch(e) {}
-          }, 600);
-        });
-        return;
-      }
-
-      // mailto: fallback path — let the action proceed natively.
-      // Show optimistic feedback. If the user has no mail client,
-      // nothing happens visibly; the inline status hint addresses that.
-      btn.disabled = true;
-      btn.textContent = 'Opening your email app…';
-      btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-      showStatus(form,
-        "If your mail app didn't open, email me directly at " + (addr || 'see above.'),
-        'info');
-      setTimeout(function() {
-        form.reset();
-        btn.disabled = false;
-        btn.innerHTML = original;
-        btn.style.background = '';
-        if (window.lucide) try { lucide.createIcons(); } catch(e) {}
-      }, 2500);
-    });
-  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindContactForm);
+    document.addEventListener('DOMContentLoaded', wireEmail);
   } else {
-    bindContactForm();
+    wireEmail();
   }
 })();
 

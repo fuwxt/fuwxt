@@ -127,10 +127,12 @@
     }
   </script>
 
-  <!-- Alpine.js v3 + Intersect + Focus Plugins (must load before Alpine) -->
-  <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
-  <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine.js v3 + Intersect + Focus Plugins (must load before Alpine).
+       Pinned to exact versions with SRI integrity hashes so a compromised
+       or drifting CDN release can never silently change the site's JS. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.17.1/dist/cdn.min.js" integrity="sha384-2xKHWSjeeiB/MQGC0Cs4HQ3mYVvbQP7a/mdjP1d6A1AKxER75HPZwrofpbWfx0b6" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.17.1/dist/cdn.min.js" integrity="sha384-ysJcnHb6oCzqAGKdoTm+IqKqmPKgxHT+ApZCawkyWOJfMq15WvzW3RRmHl7tWpEY" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.17.1/dist/cdn.min.js" integrity="sha384-x6MR287ZDHWauvRTQIBc3b1F++s/03J/rBHbpRGwBoYbrqIN+3wRx4EXbU1u9NGO" crossorigin="anonymous"></script>
 
   <!-- Alpine component functions — MUST be defined before Alpine boots -->
   <script>
@@ -142,6 +144,35 @@
         mobileMenu: false,
         modalOpen: false,
         activeProject: null,
+
+        // ── CONTACT FORM (Web3Forms) ─────────────────────────────────
+        // 'idle' | 'sending' | 'success' | 'error' — drives the submit
+        // button loading state and the inline aria-live status message.
+        formState: 'idle',
+        async submitForm(e) {
+          const form = e.target;
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+          // Honeypot: silently drop bot submissions that ticked the trap.
+          if (form.querySelector('input[name="botcheck"]')?.checked) return;
+          if (this.formState === 'sending') return;
+          this.formState = 'sending';
+          try {
+            const res = await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Accept': 'application/json' },
+              body: new FormData(form)
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok || data.success === false) {
+              throw new Error(data.message || ('HTTP ' + res.status));
+            }
+            this.formState = 'success';
+            form.reset();
+          } catch (err) {
+            console.error('[contact] submit failed:', err);
+            this.formState = 'error';
+          }
+        },
 
         // ── CREATIVE SKILLS ──────────────────────────────────────────
         // Each skill carries a brand icon ref. Format:
@@ -199,6 +230,8 @@
             category: 'Branding',
             icon: 'hexagon',
             thumbClass: 'thumb-1',
+            image: 'images/projects/nexus-brand-identity.png',
+            imageAlt: 'Nexus brand identity board with geometric hexagonal logomark, stationery mockups and typography specimens in a deep purple palette',
             shortDesc: 'A comprehensive brand identity system for a forward-thinking tech startup — from logo to full design language.',
             longDesc: 'Nexus required a brand identity that communicated innovation, precision, and forward momentum. The result was a geometric logomark built on hexagonal grids, paired with a razor-sharp typographic system and a monochromatic palette punctuated by electric accent colors. Deliverables included logo suite, brand guidelines, stationery, and social media templates.',
             tags: ['Adobe Illustrator', 'Photoshop', 'Branding', 'Logo Design', 'Identity Systems'],
@@ -215,6 +248,8 @@
             category: 'Web Dev',
             icon: 'shopping-bag',
             thumbClass: 'thumb-2',
+            image: 'images/projects/aura-ecommerce.png',
+            imageAlt: 'Aura luxury fashion e-commerce website shown on a laptop, minimal editorial product grid with serif headlines and soft lavender tones',
             shortDesc: 'A luxury e-commerce platform with seamless UX, lightning-fast performance, and a beautifully minimal aesthetic.',
             longDesc: 'Aura is a premium fashion e-commerce website built from the ground up with performance and elegance as dual priorities. The site features smooth page transitions, a custom cart system, product filtering, and full mobile responsiveness. The design language prioritizes white space, editorial imagery, and intuitive navigation.',
             tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'UX Design', 'Performance'],
@@ -231,6 +266,8 @@
             category: 'Motion',
             icon: 'circle-play',
             thumbClass: 'thumb-3',
+            image: 'images/projects/neon-motion-reel.png',
+            imageAlt: 'Still frame from the Neon Motion Reel: glowing kinetic typography and 3D particle effects streaking across a dark violet background',
             shortDesc: 'A 90-second showreel blending 2D/3D animation, kinetic typography, and post-production visual effects.',
             longDesc: 'The Neon Motion Reel 2024 is a personal creative showcase demonstrating the full spectrum of animation capabilities — from character rigs and 3D motion paths to kinetic type sequences and particle system effects. The reel was produced using a multi-software pipeline including After Effects, Cinema 4D, and Premiere Pro.',
             tags: ['After Effects', 'Cinema 4D', 'Premiere Pro', '3D Animation', 'Motion Graphics', 'VFX'],
@@ -247,6 +284,8 @@
             category: 'AI / Dev',
             icon: 'cpu',
             thumbClass: 'thumb-4',
+            image: 'images/projects/ai-prompt-studio.png',
+            imageAlt: 'AI Prompt Studio dark-mode dashboard with a prompt library sidebar, editor panel, version history and purple accent interface elements',
             shortDesc: 'A sleek AI prompt management dashboard enabling teams to organize, test, and deploy prompts at scale.',
             longDesc: 'AI Prompt Studio is a web application designed for AI practitioners who need to manage large libraries of prompts efficiently. Features include version history, tag-based filtering, live model testing via API, team collaboration, and export/import pipelines. Built with a clean, dark-first UI optimized for extended use.',
             tags: ['Web Development', 'AI', 'Prompt Engineering', 'CSS', 'JavaScript', 'API Integration'],
@@ -263,6 +302,8 @@
             category: 'Graphic Design',
             icon: 'image',
             thumbClass: 'thumb-5',
+            image: 'images/projects/pulse-social-pack.png',
+            imageAlt: 'Pulse social media pack: grid of vibrant Instagram post and story templates for a music and lifestyle brand in magenta and violet gradients',
             shortDesc: 'A 60-piece social media graphics pack for a music & lifestyle brand — Instagram, Stories, Reels covers & more.',
             longDesc: 'Pulse required a comprehensive social media toolkit to maintain visual consistency across Instagram, TikTok, and YouTube. The 60-piece pack includes post templates, story frames, reel cover art, highlight icons, and event announcement graphics — all built on a vibrant, energetic design system optimized for engagement.',
             tags: ['Adobe Photoshop', 'Illustrator', 'Graphic Design', 'Social Media', 'Branding'],
@@ -279,6 +320,8 @@
             category: 'Game Design',
             icon: 'gamepad-2',
             thumbClass: 'thumb-6',
+            image: 'images/projects/vortex-game-ui.png',
+            imageAlt: 'Vortex sci-fi game UI: holographic inventory screen and skill tree with glowing purple and cyan HUD panels over a dark space backdrop',
             shortDesc: 'A complete UI/UX design system for a sci-fi action game — HUD, menus, inventory, and character screens.',
             longDesc: 'Vortex demanded a futuristic, immersive UI that felt native to its dark-sci-fi world. The design system covers the full player experience: main menu, HUD overlays, inventory screen, skill tree, dialogue system, and settings panel. Every element was designed with diegetic integration in mind, blurring the line between interface and world.',
             tags: ['Game Design', 'UI/UX', 'Photoshop', 'Illustrator', 'Prototyping', 'Motion Design'],
@@ -491,8 +534,8 @@
     }
   </script>
 
-  <!-- Lucide Icons (pinned to a known-good version so icon names stay stable) -->
-  <script src="https://unpkg.com/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+  <!-- Lucide Icons (pinned to a known-good version so icon names stay stable; SRI-locked) -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.453.0/dist/umd/lucide.min.js" integrity="sha384-0v3Wh0ZtiQBYCYywQoeMDA5mAw5Z01p0lhorqy0BlwFrcN6u3lmN7K0U/e1uezmr" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
@@ -829,7 +872,7 @@
           headline number. No data was changed — only the order.
         -->
         <p class="text-lilac/55 leading-relaxed text-sm md:text-base mb-6">
-          Over 3 years of freelancing, I've maintained a <span class="text-amethyst font-medium">98% client retention rate</span> with premium US-based startups — delivering 25+ projects across brand identity, web applications, motion graphics, and AI-powered workflows. Flagship clients return for every release, contributing to <span class="text-amethyst font-medium">$7K+</span> in lifetime revenue and a perfect 5-star rating across every platform.
+          Over 3 years of freelancing, I've maintained a <span class="text-amethyst font-medium">98% client retention rate</span> with premium US-based startups — delivering 25+ projects across brand identity, web applications, motion graphics, and AI-powered workflows. Flagship clients return for every release, backed by a perfect <span class="text-amethyst font-medium">5-star rating</span> across every platform.
         </p>
 
         <!-- Quick stat bars -->
@@ -872,8 +915,10 @@
       </div>
     </div>
 
-    <!-- Animated Counters -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-20">
+    <!-- Animated Counters — 3-up grid. The "$7K+ Revenue Generated" card
+         was removed after audit (small absolute revenue read as a junior
+         signal); the remaining three stats carry the credibility. -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-20">
       <div class="glass counter-card reveal delay-1" x-data="counterAnim(3, '+')" x-intersect.once="start()">
         <div class="counter-number" x-text="display + suffix"></div>
         <div class="counter-label">Years Experience</div>
@@ -885,10 +930,6 @@
       <div class="glass counter-card reveal delay-3" x-data="counterAnim(30, '+')" x-intersect.once="start()">
         <div class="counter-number" x-text="display + suffix"></div>
         <div class="counter-label">Happy Clients</div>
-      </div>
-      <div class="glass counter-card reveal delay-4" x-data="counterAnim(7, 'K+')" x-intersect.once="start()">
-        <div class="counter-number" x-text="'$' + display + suffix"></div>
-        <div class="counter-label">Revenue Generated</div>
       </div>
     </div>
   </div>
@@ -1117,14 +1158,14 @@
           </div>
 
           <p class="text-lilac/60 text-sm leading-relaxed mb-6">
-            Generated <span class="text-amethyst font-medium">$7K+</span> in revenue through 25+ premium projects for US-based startups — spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
+            Delivered <span class="text-amethyst font-medium">25+ premium projects</span> for US-based startups — spanning brand identity, web applications, and animation packages. Maintained a <span class="text-amethyst font-medium">5-star rating</span> with <span class="text-amethyst font-medium">zero late deliveries</span> and 98% client retention through white-glove service and data-driven design decisions.
           </p>
 
           <!-- Highlights -->
           <div class="grid sm:grid-cols-2 gap-3">
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
-              $7K+ revenue · 25+ premium projects
+              25+ premium projects delivered end-to-end
             </div>
             <div class="flex items-start gap-2.5 text-sm text-lilac/60">
               <i data-lucide="circle-check-big" class="w-4 h-4 text-amethyst flex-shrink-0 mt-0.5"></i>
@@ -1178,28 +1219,25 @@
           :aria-label="'Open case study for ' + project.title"
         >
           <!--
-            Thumbnail.
-            TODO: each `project` in the data array can carry an `image` field
-            (e.g. add `image: 'work/nexus.jpg'` in the projects[] above) and
-            replace the gradient block below with:
-
-              <img :src="project.image" :alt="project.title + ' — ' + project.category"
-                   class="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
-
-            Until images are uploaded, the gradient + decorative SVG keeps the
-            grid visually consistent.
+            Thumbnail — real project image layered over the original
+            gradient (`project.thumbClass`), which now acts as a
+            loading/failure fallback so a missing file never leaves a
+            blank card. Images are lazy-loaded below the fold.
           -->
           <div class="project-thumb" :class="project.thumbClass">
-            <!-- SVG Pattern Decoration -->
-            <svg class="thumb-pattern absolute inset-0 w-full h-full" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice">
-              <circle cx="150" cy="90" r="60" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-              <circle cx="150" cy="90" r="100" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-              <line x1="0" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-              <line x1="150" y1="0" x2="150" y2="180" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-            </svg>
+            <img
+              :src="project.image"
+              :alt="project.imageAlt"
+              class="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+              @error="$el.remove()"
+            />
+            <!-- Soft scrim so the number / badge / icon stay legible over the photo -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-black/30 pointer-events-none"></div>
 
             <!-- Project number -->
-            <div class="absolute top-4 left-4 font-display text-5xl font-light opacity-25 text-white z-0" x-text="'0' + (index+1)"></div>
+            <div class="absolute top-4 left-4 font-display text-5xl font-light opacity-40 text-white z-0" x-text="'0' + (index+1)"></div>
 
             <!-- Category badge -->
             <div class="absolute top-4 right-4 z-10">
@@ -1484,6 +1522,19 @@
     <div class="text-center mb-16 reveal">
       <p class="section-label mb-3">Client Words</p>
       <h2 class="font-display text-5xl md:text-6xl font-light gradient-text">Testimonials</h2>
+      <p class="mt-4 text-lilac/50 text-sm">5-star rating across 30+ platform reviews — verify them yourself:</p>
+      <!-- Verified-source badges. Replace UPWORK_PROFILE_URL / FIVERR_PROFILE_URL
+           with the real profile links. -->
+      <div class="mt-4 flex items-center justify-center gap-3">
+        <a href="UPWORK_PROFILE_URL" target="_blank" rel="noopener" class="verify-badge" aria-label="View verified reviews on Upwork (opens in a new tab)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          Verified on Upwork
+        </a>
+        <a href="FIVERR_PROFILE_URL" target="_blank" rel="noopener" class="verify-badge" aria-label="View verified reviews on Fiverr (opens in a new tab)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          Verified on Fiverr
+        </a>
+      </div>
       <div class="divider-line mt-6"></div>
     </div>
 
@@ -1492,8 +1543,14 @@
       <!-- Testimonial 1 -->
       <div class="testimonial-card reveal delay-1">
         <div class="pt-10">
-          <div class="flex gap-1 mb-4">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <!-- Inline SVG stars (Lucide `star` path, filled) — Unicode ★ chars
+               could render as tofu boxes on fonts without the glyph. -->
+          <div class="flex gap-1 mb-4" role="img" aria-label="Rated 5 out of 5 stars">
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
           <p class="text-lilac/65 text-sm leading-relaxed mb-6">
             "Azhar delivered our brand identity beyond what we imagined. His creative vision and attention to detail transformed our startup's visual presence completely. Absolutely world-class work."
@@ -1511,8 +1568,14 @@
       <!-- Testimonial 2 -->
       <div class="testimonial-card reveal delay-2">
         <div class="pt-10">
-          <div class="flex gap-1 mb-4">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <!-- Inline SVG stars (Lucide `star` path, filled) — Unicode ★ chars
+               could render as tofu boxes on fonts without the glyph. -->
+          <div class="flex gap-1 mb-4" role="img" aria-label="Rated 5 out of 5 stars">
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
           <p class="text-lilac/65 text-sm leading-relaxed mb-6">
             "The e-commerce website Azhar built for us is stunning — fast, responsive, and beautifully designed. Our conversion rate improved significantly within the first month of launch. Highly recommended."
@@ -1530,8 +1593,14 @@
       <!-- Testimonial 3 -->
       <div class="testimonial-card reveal delay-3">
         <div class="pt-10">
-          <div class="flex gap-1 mb-4">
-            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          <!-- Inline SVG stars (Lucide `star` path, filled) — Unicode ★ chars
+               could render as tofu boxes on fonts without the glyph. -->
+          <div class="flex gap-1 mb-4" role="img" aria-label="Rated 5 out of 5 stars">
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg class="star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
           <p class="text-lilac/65 text-sm leading-relaxed mb-6">
             "Working with Azhar on our motion reel was a remarkable experience. His animation quality rivals top studios. He has a rare instinct for storytelling through motion. A truly gifted creative professional."
@@ -1774,26 +1843,28 @@
       <div class="md:col-span-3 glass p-8 reveal-right">
         <h3 class="font-display text-2xl font-light text-lilac mb-6">Send a Message</h3>
         <!--
-          Submission strategy:
-            • If `window.__formEndpoint` is set (e.g. Formspree URL),
-              the form posts there via fetch() and shows inline
-              status — see js/contact.js.
-            • Otherwise it falls back to `mailto:` action wired from
-              the same data-user/data-host attrs as the email link.
-          To wire a real endpoint, drop one line above this section:
-            <script>window.__formEndpoint = 'https://formspree.io/f/XXXXX';</script>
-
-          Removed `novalidate` so browsers show native :invalid styling
-          on inputs; js/contact.js still calls reportValidity() on
-          submit so users get a clear first-error message.
+          Submission strategy: POSTs to Web3Forms (https://web3forms.com)
+          via fetch() — works on GitHub Pages with no server. Replace the
+          WEB3FORMS_ACCESS_KEY placeholder below with your real access key.
+          Loading / success / error states are handled by `submitForm()`
+          in the Alpine portfolioApp() component. Native :invalid styling
+          is kept (no `novalidate`); we call reportValidity() before
+          sending so users get a clear first-error message.
         -->
         <form
           id="contact-form"
           method="post"
+          action="https://api.web3forms.com/submit"
           class="flex flex-col gap-4"
           aria-describedby="form-help"
+          @submit.prevent="submitForm($event)"
         >
-          <p id="form-help" class="sr-only">Fill name, email, subject and message; submission opens an email draft to Azhar.</p>
+          <p id="form-help" class="sr-only">Fill name, email, subject and message; your message is sent directly to Azhar.</p>
+          <!-- Web3Forms access key — replace with your real key -->
+          <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY"/>
+          <input type="hidden" name="from_name" value="Portfolio Contact Form"/>
+          <!-- Honeypot spam trap: hidden from humans, bots tick it -->
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" aria-hidden="true"/>
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
               <label for="contact-name" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Full Name</label>
@@ -1814,14 +1885,36 @@
             <label for="contact-message" class="block text-xs text-amethyst/60 uppercase tracking-wider mb-2">Message</label>
             <textarea id="contact-message" name="message" rows="5" required placeholder="Tell me about your project..." class="form-input resize-none"></textarea>
           </div>
-          <button type="submit" class="btn-primary self-start mt-2">
-            <i data-lucide="send" class="w-4 h-4"></i>
-            Send Message
+          <button
+            type="submit"
+            class="btn-primary self-start mt-2"
+            :disabled="formState === 'sending'"
+            :aria-busy="(formState === 'sending').toString()"
+          >
+            <!-- Icons wrapped in <span x-show> — Lucide replaces the <i>
+                 with a fresh <svg>, so bindings must live on the span. -->
+            <span x-show="formState !== 'sending'" class="flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              Send Message
+            </span>
+            <span x-show="formState === 'sending'" x-cloak class="flex items-center gap-2">
+              <i data-lucide="loader-circle" class="w-4 h-4 animate-spin"></i>
+              Sending…
+            </span>
           </button>
-          <!-- Inline status slot — populated by js/contact.js with
-               success / error / fallback messages. Stays empty (no
-               visual cost) until the user submits. -->
-          <p data-form-status role="status" aria-live="polite" class="form-status" data-state="info"></p>
+          <!-- Inline status — driven by Alpine formState. aria-live so
+               screen readers announce the outcome. -->
+          <p
+            role="status"
+            aria-live="polite"
+            class="form-status"
+            :data-state="formState === 'success' ? 'success' : (formState === 'error' ? 'error' : 'info')"
+            x-text="formState === 'success'
+              ? 'Thanks — your message is in. I\'ll reply within 24 hours.'
+              : (formState === 'error'
+                ? 'Something went wrong sending your message. Please try again, or email me directly using the address on the left.'
+                : '')"
+          ></p>
         </form>
       </div>
     </div>
@@ -1905,14 +1998,17 @@
     x-transition:leave-end="opacity-0 scale-95 translate-y-2"
     x-trap.noscroll="modalOpen"
   >
-    <!-- Modal Header Thumb -->
-    <div class="h-48 relative" :class="activeProject?.thumbClass" x-show="activeProject">
-      <!-- Pattern -->
-      <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice">
-        <circle cx="300" cy="100" r="80" fill="none" stroke="white" stroke-width="1"/>
-        <circle cx="300" cy="100" r="140" fill="none" stroke="white" stroke-width="0.5"/>
-        <circle cx="300" cy="100" r="200" fill="none" stroke="white" stroke-width="0.3"/>
-      </svg>
+    <!-- Modal Header Thumb — real project image over the gradient fallback -->
+    <div class="h-48 relative overflow-hidden" :class="activeProject?.thumbClass" x-show="activeProject">
+      <img
+        x-show="activeProject?.image"
+        :src="activeProject?.image || ''"
+        :alt="activeProject?.imageAlt || ''"
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
+        @error="$el.remove()"
+      />
       <!-- Project title overlay -->
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
         <div>
